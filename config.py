@@ -16,3 +16,13 @@ MAIL_PASSWORD = None
 
 # administrator list
 ADMINS = ['odile.benassy@u-psud.fr']
+
+#LDAP_PROVIDER_URL = 'ldap://ldap.u-psud.fr:389'
+LDAP_PROVIDER_URL = 'ldap://ldap.testathon.net:389/'
+LDAP_PROTOCOL_VERSION = 3
+
+# Database
+MYSQL_DATABASE_USER = 'fluser'
+MYSQL_DATABASE_PASSWORD = 'flpass'
+MYSQL_DATABASE_DB = 'flcoll'
+MYSQL_DATABASE_HOST = 'localhost'

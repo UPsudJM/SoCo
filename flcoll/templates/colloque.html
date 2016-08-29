@@ -1,0 +1,18 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<table>
+  <tr valign="top">
+    <!-- td><img src="{{ evenement.avatar(128) }}"></td -->
+    <td><h1>Colloque {{ evenement.titre }}</h1>
+      {% if evenement.sstitre %}<p>{{ evenement.sstitre }}</p>{% endif %}
+      {% if evenement.date_debut %}<p>{{ evenement.date_debut }}</p>{% endif %}
+      {% if evenement.date_fin %}<p>{{ evenement.date_fin }}</p>{% endif %}
+      {% if evenement.resume %}<p>{{ evenement.resume }}</p>{% endif %}
+      {% if colloque.id == g.user.id %}<p><a href="{{ url_for('edit') }}">Edit</a></p>{% endif %}
+    </td>
+  </tr>
+</table>
+<hr>
+{% endblock %}

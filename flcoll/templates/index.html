@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Hi!</h1>
+{% for evenement in evenements %}
+<div><p>{{ evenement.titre }} {{ evenement.date_debut }}</p></div>
+{% endfor %}
+{% endblock %}

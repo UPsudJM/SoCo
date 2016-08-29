@@ -1,3 +1,3 @@
 #!flask/bin/python
-from app import app
+from flcoll import app
 app.run(debug=False)

@@ -1,0 +1,25 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - Université Paris Saclay - Faculté Jean Monnet</title>
+    {% else %}
+    <title>Université Paris Saclay - Faculté Jean Monnet - Inscription à un colloque</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Colloques
+      <a href="{{ url_for('index') }}">Accueil</a>
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </body>
+</html>
