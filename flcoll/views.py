@@ -24,6 +24,7 @@ def index():
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', evenements=evenements)
 
+"""
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated:
@@ -38,6 +39,7 @@ def login():
         #          (form.openid.data, str(form.remember_me.data)))
         return redirect('/index')
     return render_template('login.html', title='Sign In', form=form)
+"""
 
 @app.route('/logout')
 def logout():

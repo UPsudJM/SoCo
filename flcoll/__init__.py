@@ -32,6 +32,8 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
 from flcoll import views, models
+from flcoll.auth.views import auth
+app.register_blueprint(auth)
 
 if not app.debug:
     import logging

@@ -17,8 +17,7 @@ MAIL_PASSWORD = None
 # administrator list
 ADMINS = ['odile.benassy@u-psud.fr']
 
-#LDAP_PROVIDER_URL = 'ldap://ldap.u-psud.fr:389'
-LDAP_PROVIDER_URL = 'ldap://ldap.testathon.net:389/'
+LDAP_PROVIDER_URL = 'ldap://ldap.u-psud.fr:389'
 LDAP_PROTOCOL_VERSION = 3
 
 # Database
