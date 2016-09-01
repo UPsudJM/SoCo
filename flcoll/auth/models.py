@@ -24,7 +24,7 @@ class User(Base):
         server = Server(app.config['LDAP_PROVIDER_URL']) #, use_ssl=True)
         conn = Connection(server, 'uid=%s,ou=people,dc=ldap,dc=u-psud,dc=fr'' % username', password)
         conn.bind()
-       
+
     def is_authenticated(self):
         return True
 
@@ -37,7 +37,7 @@ class User(Base):
     def get_id(self):
         return unicode(self.id)
 
-                                                                
+
 class LoginForm(Form):
     username = TextField('Username', [InputRequired()])
     password = PasswordField('Password', [InputRequired()])

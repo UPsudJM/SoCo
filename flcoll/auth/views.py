@@ -26,9 +26,9 @@ def login():
         and current_user.is_authenticated:
         flash('You are already logged in.')
         return redirect(url_for('auth.home'))
-    
+
     form = LoginForm(request.form)
-    
+
     if request.method == 'POST' and form.validate():
         username = request.form.get('username')
         password = request.form.get('password')
