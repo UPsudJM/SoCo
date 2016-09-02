@@ -17,8 +17,9 @@ MAIL_PASSWORD = None
 # administrator list
 ADMINS = ['odile.benassy@u-psud.fr']
 
-LDAP_PROVIDER_URL = 'ldap://ldap.u-psud.fr:389'
-LDAP_PROTOCOL_VERSION = 3
+#LDAP_PROVIDER_URL = 'ldap://ldaps.u-psud.fr:636'
+LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
+#LDAP_PROTOCOL_VERSION = 3
 
 # Database
 MYSQL_DATABASE_USER = 'fluser'
