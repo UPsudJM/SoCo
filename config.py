@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,3 +27,9 @@ MYSQL_DATABASE_USER = 'fluser'
 MYSQL_DATABASE_PASSWORD = 'flpass'
 MYSQL_DATABASE_DB = 'flcoll'
 MYSQL_DATABASE_HOST = 'localhost'
+
+# available languages
+LANGUAGES = {
+    'en': 'English',
+    'fr': 'Français'
+    }

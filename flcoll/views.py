@@ -1,6 +1,7 @@
 # -*- Coding: utf-8 -*-
 
 from datetime import datetime
+#from config import LANGUAGES
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
@@ -11,9 +12,8 @@ from .forms import EvenementForm
 
 @babel.localeselector
 def get_locale():
-    if request.args.get('lang'):
-        session['lang'] = request.args.get('lang')
-        return session.get('lang', 'fr')
+    return "fr"
+    #return request.accept_languages.best_match(LANGUAGES.keys())
 
 @app.errorhandler(404)
 def not_found_error(error):
