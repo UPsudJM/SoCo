@@ -3,8 +3,17 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
-from flcoll import app, db_session, lm
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flcoll import app, babel, db_session, lm
 from .models import Evenement
+from .forms import EvenementForm
+
+@babel.localeselector
+def get_locale():
+    if request.args.get('lang'):
+        session['lang'] = request.args.get('lang')
+        return session.get('lang', 'fr')
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -70,3 +79,6 @@ def edit():
         form.nickname.data = g.user.nickname
         form.about_me.data = g.user.about_me
         return render_template('edit.html', form=form)
+
+admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
+admin.add_view(ModelView(Evenement, db_session))
