@@ -1,6 +1,7 @@
 # -*- Coding: utf-8 -*-
 
 from datetime import datetime
+#import time
 #from config import LANGUAGES
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
@@ -8,7 +9,8 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flcoll import app, babel, db_session, lm
 from .models import Evenement
-from .forms import EvenementForm
+from wtforms.validators import DataRequired
+
 
 @babel.localeselector
 def get_locale():
@@ -80,5 +82,37 @@ def edit():
         form.about_me.data = g.user.about_me
         return render_template('edit.html', form=form)
 
+class EvenementView(ModelView):
+    page_size = 20  # the number of entries to display on the list view
+    action_disallowed_list = ['delete']
+    can_export = True
+    can_view_details = True
+    column_labels = dict(sstitre= 'Sous-titre', date_debut='Date', uid_organisateur='Organisateur/trice',
+                             resume='Résumé', gratuite='Gratuit', upd='Mis à jour le')
+    column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
+    column_exclude_list = ['upd', 'resume' ]
+    column_sortable_list = ['titre', 'date_debut', 'uid_organisateur']
+    column_filters = ['titre', 'lieu', 'uid_organisateur', 'gratuite']
+    column_default_sort = 'date_debut'
+    column_descriptions = dict(
+        titre='Titre de l\'événement',
+        sstitre='Sous-titre de l\'événement',
+        lieu='Lieu de l\'événement <em>(vous pouvez laisser vide s\'il s\'agit de la salle Vedel)</em>',
+        uid_organisateur='<em>L\'identifiant Paris Sud</em> de l\'organisateur/trice',
+        gratuite = 'L\'entrée est-elle libre ?'
+        )
+    column_formatters = dict(date_debut=lambda v, c, m, p: m.date_debut.date(),
+                                 date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date_debut and m.date_fin.date()) or "",
+                                 )
+    form_args = {
+        'titre': {'label': 'Titre', 'validators': [DataRequired()]},
+        'sstitre': {'label': 'Sous-titre'},
+        'date_debut': {'label': 'Date', 'validators': [DataRequired()]},
+        'date_fin': {'label': 'Date de fin (si nécessaire)'},
+        'resume' : {'label': 'Résumé'},
+        'gratuite' : {'label': 'Gratuité'}
+        }
+    form_excluded_columns = ['upd']
+
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
-admin.add_view(ModelView(Evenement, db_session))
+admin.add_view(EvenementView(Evenement, db_session))
