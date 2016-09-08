@@ -99,7 +99,7 @@ class EvenementView(ModelView):
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
         lieu='Lieu de l\'événement <em>(vous pouvez laisser vide s\'il s\'agit de la salle Vedel)</em>',
-        uid_organisateur='<em>L\'identifiant Paris Sud</em> de l\'organisateur/trice',
+        uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
     column_formatters = dict(date_debut=lambda v, c, m, p: m.date_debut.date(),

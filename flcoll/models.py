@@ -13,7 +13,7 @@ class Evenement(Base):
     lieu = Column(String(200))
     resume = Column(Text)
     uid_organisateur = Column(String(100))
-    gratuite = Column(Boolean)
+    gratuite = Column(Boolean, default=True)
     upd = Column(DateTime)
 
     def __init__(self, titre=None, date_debut=None, uid_organisateur=None):
