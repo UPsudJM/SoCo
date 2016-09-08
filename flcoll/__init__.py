@@ -19,8 +19,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from config import MYSQL_DATABASE_USER, MYSQL_DATABASE_PASSWORD, MYSQL_DATABASE_DB, MYSQL_DATABASE_HOST
+from config import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD, PGSQL_DATABASE_DB, PGSQL_DATABASE_HOST
 
-SQLALCHEMY_DATABASE_URI = 'mysql+oursql://' + MYSQL_DATABASE_USER + ":" + MYSQL_DATABASE_PASSWORD + "@" + MYSQL_DATABASE_HOST + "/" + MYSQL_DATABASE_DB
+#SQLALCHEMY_DATABASE_URI = 'mysql+oursql://' + MYSQL_DATABASE_USER + ":" + MYSQL_DATABASE_PASSWORD + "@" + MYSQL_DATABASE_HOST + "/" + MYSQL_DATABASE_DB
+SQLALCHEMY_DATABASE_URI = 'postgresql://' + PGSQL_DATABASE_USER + ":" + PGSQL_DATABASE_PASSWORD + "@" + PGSQL_DATABASE_HOST + "/" + PGSQL_DATABASE_DB
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base = declarative_base()
