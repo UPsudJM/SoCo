@@ -48,7 +48,7 @@ Evenement.formulaires = relationship("Formulaire", order_by=Formulaire.id, back_
 class Personne(Base):
     __tablename__ = 'personne'
     id = Column(Integer, primary_key = True)
-    nom = Column(String(70))
+    nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
     email = Column(String(70))
     telephone = Column(String(20))
@@ -62,15 +62,20 @@ class Personne(Base):
 class Inscription(Base):
     __tablename__ = 'inscription'
     id = Column(Integer, primary_key = True)
-    evenement = Column(ForeignKey('evenement.id'))
-    personne = Column(ForeignKey('personne.id'))
-    date_inscription = Column(DateTime)
+    id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
+    id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
+    date_inscription = Column(DateTime, nullable=False)
     type_inscription = Column(String(70))
     attestation_demandee = Column(Boolean)
     commentaire = Column(String(200))
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
-    
+
+    evenement = relationship("Evenement")
+    personne = relationship("Personne", back_populates="inscriptions")
+
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
 
+Evenement.inscriptions = relationship("Inscription", order_by=Formulaire.id, back_populates="evenement")
+Personne.inscriptions = relationship("Inscription", order_by=Formulaire.id, back_populates="personne")

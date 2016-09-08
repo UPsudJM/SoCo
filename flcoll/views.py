@@ -9,7 +9,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flcoll import app, babel, db_session, lm
-from .models import Evenement, Formulaire
+from .models import Evenement, Formulaire, Personne, Inscription
 from wtforms.validators import DataRequired
 
 
@@ -130,6 +130,14 @@ class FormulaireView(ModelView):
         }
     #ajax_update = ['date_ouverture_inscriptions']
 
+class InscriptionView(ModelView):
+    form_excluded_columns = ['date_inscription']
+    form_ajax_refs = {
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
+        'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
+        }
+
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
+admin.add_view(InscriptionView(Inscription, db_session))
