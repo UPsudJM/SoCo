@@ -131,6 +131,7 @@ class FormulaireView(ModelView):
     #ajax_update = ['date_ouverture_inscriptions']
 
 class InscriptionView(ModelView):
+    can_export = True
     form_excluded_columns = ['date_inscription']
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),

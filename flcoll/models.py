@@ -28,9 +28,9 @@ class Evenement(Base):
 class Formulaire(Base):
     __tablename__ = 'formulaire'
     id = Column(Integer, primary_key = True)
-    id_evenement = Column(Integer, ForeignKey('evenement.id'))
-    date_ouverture_inscriptions = Column(DateTime)
-    date_cloture_inscriptions = Column(DateTime)
+    id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
+    date_ouverture_inscriptions = Column(DateTime, nullable=False)
+    date_cloture_inscriptions = Column(DateTime, nullable=False)
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean)
     champ_type_inscription = Column(Boolean)
