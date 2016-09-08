@@ -34,12 +34,12 @@ def login():
         password = request.form.get('password')
 
         try:
-            User.try_login(username, password)
+            auth_ok = User.try_login(username, password)
         except:
             raise
-        #except ldap.INVALID_CREDENTIALS:
-        #    flash('Invalid username or password. Please try again.', 'danger')
-        #    return render_template('login.html', form=form)
+        if not auth_ok:
+            flash('Invalid username or password. Please try again.', 'danger')
+            return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
 

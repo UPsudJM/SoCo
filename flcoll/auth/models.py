@@ -11,7 +11,7 @@ def get_ldap_connection():
 
 
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'utilisateur'
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
 
@@ -24,8 +24,13 @@ class User(Base):
         conn = Connection(server, 'uid=%s,ou=people,dc=u-psud,dc=fr' % username, password)
         try:
             conn.bind()
+            if conn.result['result']:
+                return False
+            else:
+                return True
         except:
             print('error in bind', conn.result, repr(conn))
+            return False
 
     def is_authenticated(self):
         return True
