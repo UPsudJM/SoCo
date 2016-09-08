@@ -5,18 +5,18 @@ from wtforms import TextField, PasswordField
 from wtforms.validators import InputRequired
 from flcoll import app, Base
 
-def get_ldap_connection():
-    conn = ldap.Connection(app.config['LDAP_PROVIDER_URL'], auto_bind=True)
-    return conn
-
 
 class User(Base):
     __tablename__ = 'utilisateur'
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
+    is_authenticated = False
+    is_active = True
+    is_anonymous = False
 
-    def __init__(self, username, password):
+    def __init__(self, username):
         self.username = username
+        self.is_authenticated = False
 
     @staticmethod
     def try_login(username, password):
@@ -32,17 +32,14 @@ class User(Base):
             print('error in bind', conn.result, repr(conn))
             return False
 
-    def is_authenticated(self):
-        return True
+    def authenticate(self):
+        self.is_authenticated = True
 
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
+    def deactive(self):
+        self.is_active = False
 
     def get_id(self):
-        str(self.id)
+        return str(self.id)
 
 
 class LoginForm(Form):

@@ -1,5 +1,5 @@
 import ldap3 as ldap
-from flask import request, render_template, flash, redirect, url_for, Blueprint, g
+from flask import request, render_template, flash, redirect, url_for, Blueprint, g#, abort
 from flask_login import current_user, login_user, logout_user, login_required
 from flcoll import lm, db_session
 from flcoll.auth.models import User, LoginForm
@@ -8,8 +8,10 @@ auth = Blueprint('auth', __name__)
 
 
 @lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    user = User.query.get(int(user_id))
+    user.authenticate()
+    return user
 
 @auth.before_request
 def get_current_user():
@@ -42,13 +44,22 @@ def login():
             return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
+        print(user)
 
         if not user:
-            user = User(username, password)
+            user = User(username)
             db_session.add(user)
             db_session.commit()
+        user.authenticate()
         login_user(user)
         flash('You have successfully logged in.', 'success')
+        next = request.args.get('next')
+        # next_is_valid should check if the user has valid
+        # permission to access the `next` url
+        # FIXME
+        #if not next_is_valid(next):
+        #    return flask.abort(400)
+        #return redirect(next or url_for('index'))
         return redirect(url_for('auth.home'))
 
     if form.errors:
