@@ -83,6 +83,18 @@ def edit():
         form.about_me.data = g.user.about_me
         return render_template('edit.html', form=form)
 
+
+class FlcollModelView(ModelView):
+    form_excluded_columns = ['upd']
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('login', next=request.url))
+
+
 class EvenementView(ModelView):
     page_size = 20  # the number of entries to display on the list view
     action_disallowed_list = ['delete']
@@ -116,11 +128,6 @@ class EvenementView(ModelView):
     form_excluded_columns = ['upd']
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions']))]
 
-    #def is_accessible(self):
-    #    return lm.current_user.is_authenticated()
-    def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
-        return redirect(url_for('login', next=request.url))
 
 class FormulaireView(ModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
