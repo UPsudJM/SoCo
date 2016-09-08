@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 from flcoll import Base
 
 
@@ -27,17 +28,21 @@ class Evenement(Base):
 class Formulaire(Base):
     __tablename__ = 'formulaire'
     id = Column(Integer, primary_key = True)
-    evenement = Column(ForeignKey('evenement.id'))
+    id_evenement = Column(Integer, ForeignKey('evenement.id'))
     date_ouverture_inscriptions = Column(DateTime)
     date_cloture_inscriptions = Column(DateTime)
-    upd = Column(DateTime)
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean)
     champ_type_inscription = Column(Boolean)
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))
-    champ_restauration_1 = Column(Boolean)
+    champ_restauration_2 = Column(Boolean)
     texte_restauration_2 = Column(String(200))
+    upd = Column(DateTime)
+
+    evenement = relationship("Evenement", back_populates="formulaires")
+
+Evenement.formulaires = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
 
 class Personne(Base):

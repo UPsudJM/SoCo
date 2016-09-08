@@ -7,8 +7,9 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flcoll import app, babel, db_session, lm
-from .models import Evenement
+from .models import Evenement, Formulaire
 from wtforms.validators import DataRequired
 
 
@@ -113,6 +114,22 @@ class EvenementView(ModelView):
         'gratuite' : {'label': 'Gratuité'}
         }
     form_excluded_columns = ['upd']
+    inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions']))]
+
+    #def is_accessible(self):
+    #    return lm.current_user.is_authenticated()
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('login', next=request.url))
+
+class FormulaireView(ModelView):
+    column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
+    form_excluded_columns = ['upd']
+    form_ajax_refs = {
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10)
+        }
+    #ajax_update = ['date_ouverture_inscriptions']
 
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
+admin.add_view(FormulaireView(Formulaire, db_session))
