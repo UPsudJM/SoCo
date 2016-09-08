@@ -92,10 +92,10 @@ class FlcollModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
-        return redirect(url_for('login', next=request.url))
+        return redirect(url_for('auth.login', next=request.url))
 
 
-class EvenementView(ModelView):
+class EvenementView(FlcollModelView):
     page_size = 20  # the number of entries to display on the list view
     action_disallowed_list = ['delete']
     can_export = True
@@ -129,7 +129,7 @@ class EvenementView(ModelView):
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions']))]
 
 
-class FormulaireView(ModelView):
+class FormulaireView(FlcollModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
     form_excluded_columns = ['upd']
     form_ajax_refs = {
@@ -137,7 +137,7 @@ class FormulaireView(ModelView):
         }
     #ajax_update = ['date_ouverture_inscriptions']
 
-class InscriptionView(ModelView):
+class InscriptionView(FlcollModelView):
     can_export = True
     form_excluded_columns = ['date_inscription']
     form_ajax_refs = {

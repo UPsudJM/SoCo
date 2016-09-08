@@ -1,12 +1,14 @@
 * tests
-* procédure d'installation
+ec procédure d'installation
 ok amélioration formulaires CRUD
-* db_migrate.py (et mieux comprendre db_create)
-* page d'inscription à un colloque
+* page publique d'inscription à un colloque
+** prévoir un CAPTCHA
 ok visualiser les inscrits
-ec essayer avec Postgresql
- ** script de migration
-* revenir à LDAP/login
-
+* ajouter une inscription de l'intérieur de l'appli
+ok essayer avec Postgresql
+at script de migration
+ok revenir à LDAP/login
+* raffiner les autorisations (rôles)
+* aller chercher le nom et le prénom de la personne (LDAP)
 
    
