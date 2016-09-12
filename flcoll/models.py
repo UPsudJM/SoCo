@@ -72,11 +72,11 @@ class Inscription(Base):
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
 
-    evenement = relationship("Evenement")
+    evenement = relationship("Evenement", back_populates="inscriptions")
     personne = relationship("Personne", back_populates="inscriptions")
 
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
 
-Evenement.inscriptions = relationship("Inscription", order_by=Formulaire.id, back_populates="evenement")
-Personne.inscriptions = relationship("Inscription", order_by=Formulaire.id, back_populates="personne")
+Evenement.inscriptions = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
+Personne.inscriptions = relationship("Inscription", order_by=Personne.id, back_populates="personne")

@@ -8,6 +8,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
+from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
 from .models import Evenement, Formulaire, Personne, Inscription
 from wtforms.validators import DataRequired
@@ -125,6 +126,7 @@ class EvenementView(FlcollModelView):
         'gratuite' : {'label': 'Gratuité'}
         }
     form_excluded_columns = ['upd']
+    #form_overrides = dict(logo=ImageUploadField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
 
 
