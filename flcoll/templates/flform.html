@@ -1,0 +1,19 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}{{ current_user.username }}
+<table>
+  <tr valign="top">
+    <td><img src="{{ evenement.logo }}"></td>
+    <td><h1>Inscription Colloque {{ evenement.titre }}</h1></tr></table>
+      {% if evenement.sstitre %}<p>{{ evenement.sstitre }}</p>{% endif %}
+      {% if evenement.date_debut %}<p>{{ evenement.date_debut }}</p>{% endif %}
+      {% if evenement.date_fin %}<p>{{ evenement.date_fin }}</p>{% endif %}
+      {% if evenement.resume %}<p>{{ evenement.resume }}</p>{% endif %}
+      {{ formulaire.date_ouverture_inscriptions }}
+      {{ formulaire.date_cloture_inscriptions }}
+      {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
+    </td>
+  </tr>
+<hr/>
+{% endblock %}

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary
 from sqlalchemy.orm import relationship
 from flcoll import Base
 
@@ -6,6 +6,7 @@ from flcoll import Base
 class Evenement(Base):
     __tablename__ = 'evenement'
     id = Column(Integer, primary_key = True)
+    logo = Column(Binary)
     titre = Column(String(200))
     sstitre = Column(String(200))
     date_debut = Column(DateTime)

@@ -1,14 +1,13 @@
 * tests
 ec procédure d'installation
 ok amélioration formulaires CRUD
-* page publique d'inscription à un colloque
+ec page publique d'inscription à un colloque
 ** prévoir un CAPTCHA
 ok visualiser les inscrits
 * ajouter une inscription de l'intérieur de l'appli
 ok essayer avec Postgresql
-at script de migration
+ok script de migration
+** mais comment exporter les migrations en SQL ?
 ok revenir à LDAP/login
 * raffiner les autorisations (rôles)
 * aller chercher le nom et le prénom de la personne (LDAP)
-
-   

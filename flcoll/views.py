@@ -26,7 +26,7 @@ def not_found_error(error):
 def internal_error(error):
     db_session.rollback()
     return render_template('500.html'), 500
-            
+
 @app.route('/')
 @app.route('/index')
 #@login_required
@@ -58,14 +58,13 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/colloque/<evt>')
-#@login_required
-def colloque(evt):
-    evenement = Evenement.query.filter_by(id=evt).first()
-    if evenement == None:
-        flash('Évenement %s non trouvé' % evt)
-        return internal_error('Évenement %s non trouvé')
-    return render_template('colloque.html', evenement=evenement)
+@app.route('/flcoll/<int:flform>')
+def flcoll(flform):
+    formulaire = Formulaire.query.filter_by(id=flform).first()
+    if formulaire == None:
+        flash('Formulaire %d non trouvé' % flform)
+        return internal_error('Formulaire %d non trouvé' % flform)
+    return render_template('flform.html', formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
 @app.route('/edit', methods=['GET', 'POST'])
 #@login_required
@@ -126,7 +125,7 @@ class EvenementView(FlcollModelView):
         'gratuite' : {'label': 'Gratuité'}
         }
     form_excluded_columns = ['upd']
-    inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions']))]
+    inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
 
 
 class FormulaireView(FlcollModelView):
