@@ -126,7 +126,7 @@ class EvenementView(FlcollModelView):
         'gratuite' : {'label': 'Gratuité'}
         }
     form_excluded_columns = ['upd']
-    #form_overrides = dict(logo=ImageUploadField)
+    form_overrides = dict(logo=ImageUploadField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
 
 
