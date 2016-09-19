@@ -138,6 +138,15 @@ class FormulaireView(FlcollModelView):
         }
     #ajax_update = ['date_ouverture_inscriptions']
 
+
+class PersonneView(FlcollModelView):
+    can_export = True
+    form_args = {
+        'prenom' : {'label': 'Prénom'},
+        'telephone' : {'label': 'Téléphone'}
+    }
+
+
 class InscriptionView(FlcollModelView):
     can_export = True
     form_excluded_columns = ['date_inscription']
@@ -145,8 +154,11 @@ class InscriptionView(FlcollModelView):
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
         'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
         }
+    #inline_models = [(Personne, dict(form_columns=['id', 'nom', 'prenom', 'email', 'telephone', 'organisation', 'fonction']))]
+
 
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
+admin.add_view(PersonneView(Personne, db_session))
 admin.add_view(InscriptionView(Inscription, db_session))

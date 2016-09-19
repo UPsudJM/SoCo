@@ -4,10 +4,16 @@ ok essayer avec Postgresql
 ok script de migration
   ** mais comment exporter les migrations en SQL ?
 
+ok modèle
+  ec -> revoir la relation entre Inscription et Personne
+      cf    /home/odile/prj/flcoll/flask/lib/python3.5/site-packages/flask_admin/contrib/sqla/form.py",
+   line 570, in contribute
+
 ok amélioration formulaires CRUD
   ec traitement du logo de l'événément
+  ** prévoir un petit éditeur de texte, pour le résumé
 ok visualiser les inscrits
-* pouvoir ajouter une inscription de l'intérieur de l'appli
+ec pouvoir ajouter une inscription de l'intérieur de l'appli
 
 ec page publique d'inscription à un colloque
   ** prévoir un CAPTCHA

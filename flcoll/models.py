@@ -41,9 +41,9 @@ class Formulaire(Base):
     texte_restauration_2 = Column(String(200))
     upd = Column(DateTime)
 
-    evenement = relationship("Evenement", back_populates="formulaires")
+    evenement = relationship("Evenement", back_populates="formulaire")
 
-Evenement.formulaires = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
+Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
 
 class Personne(Base):
@@ -63,8 +63,8 @@ class Personne(Base):
 class Inscription(Base):
     __tablename__ = 'inscription'
     id = Column(Integer, primary_key = True)
-    id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
-    id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
+    id_evenement = Column(Integer, ForeignKey('evenement.id'), primary_key=True)
+    id_personne = Column(Integer, ForeignKey('personne.id'), primary_key=True)
     date_inscription = Column(DateTime, nullable=False)
     type_inscription = Column(String(70))
     attestation_demandee = Column(Boolean)
@@ -79,4 +79,4 @@ class Inscription(Base):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
 
 Evenement.inscriptions = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
-Personne.inscriptions = relationship("Inscription", order_by=Personne.id, back_populates="personne")
+Personne.inscriptions = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

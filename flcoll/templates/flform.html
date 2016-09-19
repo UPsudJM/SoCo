@@ -5,14 +5,14 @@
 <table>
   <tr valign="top">
     {% if evenement.logo %}<td><img src="{{ evenement.logo }}"></td>{% endif %}
-    <td><h1>Inscription à : {{ evenement.titre }}</h1></tr></table>
-      {% if evenement.sstitre %}<p>{{ evenement.sstitre }}</p>{% endif %}
-      <p>{{ evenement.date_debut }}
-      {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</endif>
-      {% if evenement.resume %}<p>{{ evenement.resume }}</p>{% endif %}
+    <td><h1>Inscription à : {{ evenement.titre }}</h1></tr>
+      {% if evenement.sstitre %}<tr><td>{{ evenement.sstitre }}</td></tr>{% endif %}
+      <tr><td>{{ evenement.date_debut }}
+      {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</td></tr>
+      {% if evenement.resume %}<tr><td>{{ evenement.resume }}</td></tr>{% endif %}
       <p><em>(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions }} au {{ formulaire.date_cloture_inscriptions }})</em></p>
-      {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
-    </td>
-  </tr>
+      {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
+</tr>
+</table>
 <hr/>
 {% endblock %}
