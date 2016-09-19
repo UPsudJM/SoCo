@@ -145,6 +145,7 @@ class PersonneView(FlcollModelView):
         'prenom' : {'label': 'Prénom'},
         'telephone' : {'label': 'Téléphone'}
     }
+    inline_models = [(Inscription, dict(form_columns=['id', 'evenement', 'attestation_demandee']))]
 
 
 class InscriptionView(FlcollModelView):
@@ -154,7 +155,6 @@ class InscriptionView(FlcollModelView):
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
         'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
         }
-    #inline_models = [(Personne, dict(form_columns=['id', 'nom', 'prenom', 'email', 'telephone', 'organisation', 'fonction']))]
 
 
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')

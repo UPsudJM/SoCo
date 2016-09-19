@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary
 from sqlalchemy.orm import relationship
 from flcoll import Base
@@ -63,9 +64,9 @@ class Personne(Base):
 class Inscription(Base):
     __tablename__ = 'inscription'
     id = Column(Integer, primary_key = True)
-    id_evenement = Column(Integer, ForeignKey('evenement.id'), primary_key=True)
-    id_personne = Column(Integer, ForeignKey('personne.id'), primary_key=True)
-    date_inscription = Column(DateTime, nullable=False)
+    id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
+    id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
+    date_inscription = Column(DateTime, nullable=False, default=datetime.now)
     type_inscription = Column(String(70))
     attestation_demandee = Column(Boolean)
     commentaire = Column(String(200))
