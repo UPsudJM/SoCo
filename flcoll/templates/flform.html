@@ -15,4 +15,15 @@
 </tr>
 </table>
 <hr/>
+
+{% from "_formhelpers.html" import render_field %}
+<form action="" method="post" name="inscr">
+  {{form.hidden_tag()}}
+  <fieldset><legend accesskey="p">Vos coordonnées</legend>
+    {{ render_field(form.nom, size=26) }}
+    {{ render_field(form.prenom, size=26) }}
+    {{ render_field(form.email, size=40) }}
+    {{ render_field(form.telephone, size=20) }}
+  </fieldset>
+  <input type="submit" value="Envoyer">
 {% endblock %}

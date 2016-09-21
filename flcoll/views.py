@@ -11,6 +11,7 @@ from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
 from .models import Evenement, Formulaire, Personne, Inscription
+from .forms import InscriptionForm
 from wtforms.validators import DataRequired
 
 
@@ -59,13 +60,19 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/flcoll/<int:flform>')
+@app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 def flcoll(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
         return internal_error('Formulaire %d non trouvé' % flform)
-    return render_template('flform.html', formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
+    form = InscriptionForm(formulaire)
+    if form.validate_on_submit():
+        inscription = Inscription(form.nom.data, form.prenom.data, form.email.data, form.telephone.data)
+        db.session.add(inscription)
+        db.session.commit()
+        flash('Votre inscription a bien été effectuée.')
+    return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
 @app.route('/edit', methods=['GET', 'POST'])
 #@login_required
