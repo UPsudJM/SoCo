@@ -18,12 +18,11 @@ ec page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
   ** présentation de la page
   ok éviter les doublons d'inscription (et de personne)
+  -> raffiner l'information de l'utilisateur
   ** prévoir un CAPTCHA
   ok redirection en fin de page
+  ** envois de mail
 
 ok revenir à LDAP/login
 * raffiner les autorisations (rôles)
-
 * aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
-
-* envois de mail

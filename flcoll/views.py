@@ -10,9 +10,10 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
+from wtforms.validators import DataRequired
 from .models import Evenement, Formulaire, Personne, Inscription
 from .forms import InscriptionForm
-from wtforms.validators import DataRequired
+from .emails import confirmer_inscription
 
 
 @babel.localeselector
@@ -91,6 +92,7 @@ def flcoll(flform):
             if "uc_3" in str(err.orig):
                 flash("Vous êtes déjà inscrit-e à cet événement !")
         else:
+            confirmer_inscription(personne, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)

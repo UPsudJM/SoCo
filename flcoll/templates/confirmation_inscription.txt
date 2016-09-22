@@ -1,0 +1,15 @@
+Madame/Monsieur,
+
+Nous vous confirmons votre inscription à
+
+   {{ evenement.titre }}
+
+qui aura lieu le {{ evenement.date_debut }}
+
+{{ evenement.lieu }}
+
+Cordialement,
+--
+Service de la recherche
+Faculté Jean Monnet
+Université Paris Saclay

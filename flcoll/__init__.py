@@ -15,6 +15,9 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 
+from flask_mail import Mail
+mail = Mail(app)
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
