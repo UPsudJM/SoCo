@@ -1,5 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, BooleanField, TextAreaField, DateTimeField, RadioField
+from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from flcoll.models import Evenement, Formulaire, Personne, Inscription
 
@@ -24,11 +25,11 @@ class InscriptionForm(Form):
         if not formulaire.champ_type_inscription:
             self.__delitem__('type_inscription')
         if formulaire.champ_restauration_1:
-            self.__getitem__('inscription_repas_1').label = formulaire.texte_restauration_1
+            self.__getitem__('inscription_repas_1').label = Label('inscription_repas_1', formulaire.texte_restauration_1)
         else:
             self.__delitem__('inscription_repas_1')
         if formulaire.champ_restauration_2:
-            self.__getitem__('inscription_repas_2').label = formulaire.texte_restauration_2
+            self.__getitem__('inscription_repas_2').label = Label('inscription_repas_1', formulaire.texte_restauration_2)
         else:
             self.__delitem__('inscription_repas_2')
 
