@@ -1,7 +1,7 @@
 # -*- Coding: utf-8 -*-
 
 from datetime import datetime
-#import time
+from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
@@ -68,14 +68,31 @@ def flcoll(flform):
         return internal_error('Formulaire %d non trouvé' % flform)
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
-        personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
+        personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
+                                                organisation=form.organisation.data).first()
+        if personne == None:
+                personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
+                                                    email=form.email.data).first()
+        if personne == None:
+            personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data, telephone=form.telephone.data,
                                 organisation=form.organisation.data, fonction=form.fonction.data)
-        #inscription = Inscription(form.nom.data, form.prenom.data, form.email.data, form.telephone.data)
         inscription = Inscription(formulaire.evenement, personne)
         db_session.add(inscription)
-        db_session.commit()
-        flash('Votre inscription a bien été effectuée.')
+        try:
+            db_session.commit()
+        except IntegrityError as err:
+            flash("Erreur d'intégrité")
+            db_session.rollback()
+            if "uc_1" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !")
+            if "uc_2" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !")
+            if "uc_3" in str(err.orig):
+                flash("Vous êtes déjà inscrit-e à cet événement !")
+        else:
+            flash('Votre inscription a bien été effectuée.')
+            return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
 @app.route('/edit', methods=['GET', 'POST'])

@@ -20,14 +20,14 @@
 <form action="" method="post" name="inscr">
   {{form.hidden_tag()}}
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
-    {{ render_field(form.nom, size=26) }}
-    {{ render_field(form.prenom, size=26) }}
+    {{ render_field(form.nom, size=20, maxlength=26) }}
+    {{ render_field(form.prenom, size=20, maxlength=26) }}
     {{ render_field(form.email, size=40) }}
     {{ render_field(form.telephone, size=20) }}
   </fieldset>
   <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
-    {{ render_field(form.organisation, size=40) }}
-    {{ render_field(form.fonction, size=40) }}
+    {{ render_field(form.organisation, size=30, maxlength=40) }}
+    {{ render_field(form.fonction, size=30, maxlength=40) }}
   </fieldset>
   <fieldset><legend accesskey="p">Votre participation</legend>
   {% if formulaire.champ_attestation %}{{ render_field(form.attestation_demandee) }}{% endif %}

@@ -3,6 +3,7 @@ ec procédure d'installation
 ok essayer avec Postgresql
 ok script de migration
   ** mais comment exporter les migrations en SQL ?
+  ** essayer Flask-Migrate
 
 ok modèle
   ok revoir la relation entre Inscription et Personne
@@ -16,12 +17,13 @@ ok pouvoir ajouter une inscription de l'intérieur de l'appli
 ec page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
   ** présentation de la page
-  ** éviter les doublons d'inscription
+  ok éviter les doublons d'inscription (et de personne)
   ** prévoir un CAPTCHA
+  ok redirection en fin de page
 
 ok revenir à LDAP/login
 * raffiner les autorisations (rôles)
 
-* aller chercher le nom et le prénom de la personne (LDAP)
+* aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 * envois de mail

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flcoll import Base
@@ -49,6 +49,8 @@ Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_p
 
 class Personne(Base):
     __tablename__ = 'personne'
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'organisation', name='uc_1'),
+                          UniqueConstraint('nom', 'prenom', 'email', name='uc_2'))
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
@@ -69,6 +71,7 @@ class Personne(Base):
 
 class Inscription(Base):
     __tablename__ = 'inscription'
+    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_3'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
