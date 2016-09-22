@@ -14,7 +14,7 @@ ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
 
 ec page publique d'inscription à un colloque
-  at champs -> pb des libellés variables et de l'affichage variable
+  ok champs -> pb des libellés variables, avec le style
   ** présentation de la page
   ** éviter les doublons d'inscription
   ** prévoir un CAPTCHA

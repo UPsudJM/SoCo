@@ -35,7 +35,7 @@ class Formulaire(Base):
     date_cloture_inscriptions = Column(DateTime, nullable=False)
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean)
-    champ_type_inscription = Column(String(70))
+    champ_type_inscription = Column(Boolean)
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
