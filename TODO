@@ -21,7 +21,7 @@ ec page publique d'inscription à un colloque
   -> raffiner l'information de l'utilisateur
   ** prévoir un CAPTCHA
   ok redirection en fin de page
-  ** envois de mail
+  ok envois de mail -> evt ajouter threading (mega tutorial miguel)
 
 ok revenir à LDAP/login
 * raffiner les autorisations (rôles)
