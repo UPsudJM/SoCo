@@ -1,8 +1,5 @@
 {% macro render_field(field) %}
-<p>{% if field.name is equalto 'inscription_repas_1' %}{{formulaire.texte_restauration_1}}
-{% elif field.name is equalto 'inscription_repas_2' %}{{formulaire.texte_restauration_2}}
-{% else %}{{ field.label }}{% endif %}
-{{ field(**kwargs)|safe }}
+<p>{{ field.label }} {{ field(**kwargs)|safe }}
 {% if field.errors %}
 <ul class=errors>
   {% for error in field.errors %}

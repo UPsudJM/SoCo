@@ -19,7 +19,17 @@ class InscriptionForm(Form):
     def __init__(self, formulaire, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
         self.formulaire = formulaire
-        if not formulaire.champ_restauration_2:
+        if not formulaire.champ_attestation:
+            self.__delitem__('attestation_demandee')
+        if not formulaire.champ_type_inscription:
+            self.__delitem__('type_inscription')
+        if formulaire.champ_restauration_1:
+            self.__getitem__('inscription_repas_1').label = formulaire.texte_restauration_1
+        else:
+            self.__delitem__('inscription_repas_1')
+        if formulaire.champ_restauration_2:
+            self.__getitem__('inscription_repas_2').label = formulaire.texte_restauration_2
+        else:
             self.__delitem__('inscription_repas_2')
 
     def validate(self):
