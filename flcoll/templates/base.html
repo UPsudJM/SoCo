@@ -32,6 +32,7 @@
       <li>{{ message }} </li>
       {% endfor %}
     </ul>
+    <p><a href="{{ url_for('index') }}">Retour à l'accueil</a></p>
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}

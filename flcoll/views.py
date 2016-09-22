@@ -82,7 +82,7 @@ def flcoll(flform):
         try:
             db_session.commit()
         except IntegrityError as err:
-            flash("Erreur d'intégrité")
+            #flash("Erreur d'intégrité")
             db_session.rollback()
             if "uc_1" in str(err.orig):
                 flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !")
@@ -91,7 +91,7 @@ def flcoll(flform):
             if "uc_3" in str(err.orig):
                 flash("Vous êtes déjà inscrit-e à cet événement !")
         else:
-            flash('Votre inscription a bien été effectuée.')
+            flash("Votre inscription a bien été effectuée.")
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
