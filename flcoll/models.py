@@ -1,6 +1,6 @@
-from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from flcoll import Base
 
 
@@ -35,7 +35,7 @@ class Formulaire(Base):
     date_cloture_inscriptions = Column(DateTime, nullable=False)
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean)
-    champ_type_inscription = Column(Boolean)
+    champ_type_inscription = Column(String(70))
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
@@ -57,6 +57,12 @@ class Personne(Base):
     organisation = Column(String(70))
     fonction = Column(String(70))
 
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['nom', 'prenom', 'email', 'telephone', 'organisation', 'fonction']:
+            if kwargs[attrname]:
+                setattr(self, attrname, kwargs[attrname])
+
     def __str__(self):
         return "%s %s, %s (%s)" % (self.prenom, self.nom, self.organisation, self.fonction)
 
@@ -66,7 +72,7 @@ class Inscription(Base):
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
-    date_inscription = Column(DateTime, nullable=False, default=datetime.now)
+    date_inscription = Column(DateTime, default=func.now(), server_default=func.now())
     type_inscription = Column(String(70))
     attestation_demandee = Column(Boolean)
     commentaire = Column(String(200))
@@ -75,6 +81,11 @@ class Inscription(Base):
 
     evenement = relationship("Evenement", back_populates="inscriptions")
     personne = relationship("Personne", back_populates="inscriptions")
+
+    def __init__(self, evenement, personne):
+        Base.__init__(self)
+        self.evenement = evenement
+        self.personne = personne
 
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)

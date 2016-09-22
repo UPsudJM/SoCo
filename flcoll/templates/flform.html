@@ -10,20 +10,31 @@
       <tr><td>{{ evenement.date_debut }}
       {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</td></tr>
       {% if evenement.resume %}<tr><td>{{ evenement.resume }}</td></tr>{% endif %}
-      <p><em>(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions }} au {{ formulaire.date_cloture_inscriptions }})</em></p>
-      {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
+      <tr><td><em>(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions }} au {{ formulaire.date_cloture_inscriptions }})</em></td></tr>
+      {% if evenement.uid_organisateur == current_user.username %}<tr><td><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></td></tr>{% endif %}
 </tr>
 </table>
 <hr/>
 
-{% from "_formhelpers.html" import render_field %}
+{% from "_formhelpers.html" import render_field with context %}
 <form action="" method="post" name="inscr">
   {{form.hidden_tag()}}
-  <fieldset><legend accesskey="p">Vos coordonnées</legend>
+  <fieldset><legend accesskey="c">Vos coordonnées</legend>
     {{ render_field(form.nom, size=26) }}
     {{ render_field(form.prenom, size=26) }}
     {{ render_field(form.email, size=40) }}
     {{ render_field(form.telephone, size=20) }}
   </fieldset>
+  <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
+    {{ render_field(form.organisation, size=40) }}
+    {{ render_field(form.fonction, size=40) }}
+  </fieldset>
+  <fieldset><legend accesskey="p">Votre participation</legend>
+  {% if formulaire.champ_attestation %}{{ render_field(form.attestation_demandee) }}{% endif %}
+  {% if formulaire.champ_type_inscription %}{{ render_field(form.type_inscription) }}{% endif %}
+  {% if formulaire.champ_restauration_1 %}{{ render_field(form.inscription_repas_1) }}{% endif %}
+  {% if formulaire.champ_restauration_1 %}{{ render_field(form.inscription_repas_2) }}{% endif %}
+  </fieldset>
+
   <input type="submit" value="Envoyer">
 {% endblock %}

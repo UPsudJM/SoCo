@@ -68,9 +68,13 @@ def flcoll(flform):
         return internal_error('Formulaire %d non trouvé' % flform)
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
-        inscription = Inscription(form.nom.data, form.prenom.data, form.email.data, form.telephone.data)
-        db.session.add(inscription)
-        db.session.commit()
+        personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
+                                email=form.email.data, telephone=form.telephone.data,
+                                organisation=form.organisation.data, fonction=form.fonction.data)
+        #inscription = Inscription(form.nom.data, form.prenom.data, form.email.data, form.telephone.data)
+        inscription = Inscription(formulaire.evenement, personne)
+        db_session.add(inscription)
+        db_session.commit()
         flash('Votre inscription a bien été effectuée.')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
