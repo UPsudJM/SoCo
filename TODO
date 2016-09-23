@@ -1,15 +1,14 @@
-* tests
 ec procédure d'installation
 ok essayer avec Postgresql
 ok script de migration
   ** mais comment exporter les migrations en SQL ?
-  ** essayer Flask-Migrate
+  ec essayer Flask-Migrate
 
 ok modèle
   ok revoir la relation entre Inscription et Personne
 
 ok amélioration formulaires CRUD
-  ec traitement du logo de l'événément
+  -> ec traitement du logo de l'événément
   ** prévoir un petit éditeur de texte, pour le résumé
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
@@ -18,11 +17,15 @@ ec page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
   ** présentation de la page
   ok éviter les doublons d'inscription (et de personne)
-  -> raffiner l'information de l'utilisateur
+  ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
-  ok envois de mail -> evt ajouter threading (mega tutorial miguel)
+
+at envois de mail -> evt ajouter threading (mega tutorial miguel)
+  ** encoding latin-1 pour + de sûreté
 
 ok revenir à LDAP/login
 * raffiner les autorisations (rôles)
 * aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+
+* tests unitaires
