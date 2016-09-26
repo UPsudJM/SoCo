@@ -16,7 +16,7 @@ class Evenement(Base):
     resume = Column(Text)
     uid_organisateur = Column(String(100))
     gratuite = Column(Boolean, default=True)
-    upd = Column(DateTime)
+    upd = Column(DateTime, default=func.now(), server_default=func.now())
 
     def __init__(self, titre=None, date_debut=None, uid_organisateur=None):
         self.titre = titre
@@ -40,7 +40,7 @@ class Formulaire(Base):
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
     texte_restauration_2 = Column(String(200))
-    upd = Column(DateTime)
+    upd = Column(DateTime, default=func.now(), server_default=func.now())
 
     evenement = relationship("Evenement", back_populates="formulaire")
 
