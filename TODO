@@ -1,8 +1,8 @@
 ec procédure d'installation
 ok essayer avec Postgresql
 ok script de migration
-  ** mais comment exporter les migrations en SQL ?
-  ec essayer Flask-Migrate
+  ok mais comment exporter les migrations en SQL ?
+  ok essayer (Flask-Migrate) -> alembic
 
 ok modèle
   ok revoir la relation entre Inscription et Personne

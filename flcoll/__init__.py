@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_babelex import Babel
 from flask_login import LoginManager
