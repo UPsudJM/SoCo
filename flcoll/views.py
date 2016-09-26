@@ -118,7 +118,10 @@ class FlcollModelView(ModelView):
     form_excluded_columns = ['upd']
 
     def is_accessible(self):
-        return current_user.is_authenticated
+        try:
+            return current_user.is_authenticated
+        except:
+            return False
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access

@@ -9,9 +9,12 @@ auth = Blueprint('auth', __name__)
 
 @lm.user_loader
 def load_user(user_id):
-    user = User.query.get(int(user_id))
-    user.authenticate()
-    return user
+    if user_id:
+        user = User.query.get(int(user_id))
+        if user:
+            user.authenticate()
+            return user
+    return None
 
 @auth.before_request
 def get_current_user():
