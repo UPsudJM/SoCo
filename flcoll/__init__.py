@@ -36,8 +36,7 @@ from flcoll import views, models
 from flcoll.auth.views import auth
 app.register_blueprint(auth)
 
-import __main__ as main
-if "test" not in main.basedir and not app.debug:
+if "test" not in __file__ and not app.debug:
     import logging
     from logging.handlers import SMTPHandler
     credentials = None
