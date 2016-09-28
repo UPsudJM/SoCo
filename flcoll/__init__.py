@@ -4,8 +4,8 @@ from flask_login import LoginManager
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 
 app = Flask(__name__)
-babel = Babel(app)
 app.config.from_object('config')
+babel = Babel(app)
 
 lm = LoginManager()
 lm.init_app(app)

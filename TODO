@@ -29,3 +29,7 @@ ok revenir à LDAP/login
 * aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 ec tests unitaires
+
+* interface utilisateur responsive
+
+* interface de gestion adaptée, plus conviviale

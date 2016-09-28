@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Binary, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flcoll import Base
@@ -10,8 +10,8 @@ class Evenement(Base):
     logo = Column(Binary)
     titre = Column(String(200))
     sstitre = Column(String(200))
-    date_debut = Column(DateTime)
-    date_fin = Column(DateTime)
+    date = Column(Date)
+    date_fin = Column(Date)
     lieu = Column(String(200))
     resume = Column(Text)
     uid_organisateur = Column(String(100))
@@ -31,10 +31,10 @@ class Formulaire(Base):
     __tablename__ = 'formulaire'
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
-    date_ouverture_inscriptions = Column(DateTime, nullable=False)
-    date_cloture_inscriptions = Column(DateTime, nullable=False)
+    date_ouverture_inscriptions = Column(Date, nullable=False)
+    date_cloture_inscriptions = Column(Date, nullable=False)
     organisateur_en_copie = Column(Boolean)
-    champ_attestation = Column(Boolean)
+    champ_attestation = Column(Boolean, default=True)
     champ_type_inscription = Column(Boolean)
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))

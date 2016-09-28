@@ -1,19 +1,21 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
-{% block content %}{{ current_user.username }}
+{% block content %}
+{{ current_user.username }}
+<div class="entete">
 <table>
-  <tr valign="top">
-    {% if evenement.logo %}<td><img src="{{ evenement.logo }}"></td>{% endif %}
-    <td><h1>Inscription à : {{ evenement.titre }}</h1></tr>
-      {% if evenement.sstitre %}<tr><td>{{ evenement.sstitre }}</td></tr>{% endif %}
-      <tr><td>{{ evenement.date_debut }}
-      {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</td></tr>
-      {% if evenement.resume %}<tr><td>{{ evenement.resume }}</td></tr>{% endif %}
-      <tr><td><em>(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions }} au {{ formulaire.date_cloture_inscriptions }})</em></td></tr>
-      {% if evenement.uid_organisateur == current_user.username %}<tr><td><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></td></tr>{% endif %}
-</tr>
-</table>
+<tr>{% if evenement.logo %}<td><img src="{{ evenement.logo }}" /></td>{% endif %}
+    <td><h1>Inscription à : {{ evenement.titre }}, {{ evenement.date | datefr("d MMMM") }}</h1></td></tr></table>
+      {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
+      <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
+      {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</h3>
+<br/>
+      {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
+      <p class="dateinscr">(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }})</p>
+      {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
+</div>
+
 <hr/>
 
 {% from "_formhelpers.html" import render_field with context %}
@@ -36,5 +38,16 @@
   {% if formulaire.champ_restauration_2 %}{{ render_field(form.inscription_repas_2) }}{% endif %}
   </fieldset>
 
-  <input type="submit" value="Envoyer">
+  <div class="buttonbar">
+    <input type="submit" name="submit" accesskey="z" tabindex="14" value="Envoyer" />
+  </div>
+
+</form>
+
+<div class="footnotes">
+<p><span class="mandatory">*</span> Champ obligatoire</p>
+<p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
+<p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
+</div>
+
 {% endblock %}

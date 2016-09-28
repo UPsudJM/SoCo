@@ -14,6 +14,7 @@ from wtforms.validators import DataRequired
 from .models import Evenement, Formulaire, Personne, Inscription
 from .forms import InscriptionForm
 from .emails import confirmer_inscription
+from .filters import datefr_filter
 
 
 @babel.localeselector
@@ -133,13 +134,13 @@ class EvenementView(FlcollModelView):
     action_disallowed_list = ['delete']
     can_export = True
     can_view_details = True
-    column_labels = dict(sstitre= 'Sous-titre', date_debut='Date', uid_organisateur='Organisateur/trice',
+    column_labels = dict(sstitre= 'Sous-titre', date='Date', uid_organisateur='Organisateur/trice',
                              resume='Résumé', gratuite='Gratuit', upd='Mis à jour le')
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
     column_exclude_list = ['upd', 'resume' ]
-    column_sortable_list = ['titre', 'date_debut', 'uid_organisateur']
+    column_sortable_list = ['titre', 'date', 'uid_organisateur']
     column_filters = ['titre', 'lieu', 'uid_organisateur', 'gratuite']
-    column_default_sort = 'date_debut'
+    column_default_sort = 'date'
     column_descriptions = dict(
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
@@ -147,13 +148,13 @@ class EvenementView(FlcollModelView):
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
-    column_formatters = dict(date_debut=lambda v, c, m, p: m.date_debut.date(),
-                                 date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date_debut and m.date_fin.date()) or "",
+    column_formatters = dict(date=lambda v, c, m, p: m.date.date(),
+                                 date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date and m.date_fin.date()) or "",
                                  )
     form_args = {
         'titre': {'label': 'Titre', 'validators': [DataRequired()]},
         'sstitre': {'label': 'Sous-titre'},
-        'date_debut': {'label': 'Date', 'validators': [DataRequired()]},
+        'date': {'label': 'Date', 'validators': [DataRequired()]},
         'date_fin': {'label': 'Date de fin (si nécessaire)'},
         'resume' : {'label': 'Résumé'},
         'gratuite' : {'label': 'Gratuité'}
@@ -165,6 +166,14 @@ class EvenementView(FlcollModelView):
 
 class FormulaireView(FlcollModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
+    column_descriptions = dict(
+        organisateur_en_copie = "Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?",
+        champ_attestation = "Les personnes qui s'inscrivent peuvent demander une attestation de présence",
+        champ_restauration_1 = "Pour pouvoir s'inscrire à un repas",
+        texte_restauration_1 = "Le texte de la question correspondante",
+        champ_restauration_2 = "2ème possibilité pour pouvoir s'inscrire à un repas",
+        texte_restauration_2 = "Le texte de la question correspondante"
+        )
     form_excluded_columns = ['upd']
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10)

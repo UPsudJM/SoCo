@@ -1,5 +1,6 @@
 {% macro render_field(field) %}
-<p>{{ field.label }} {{ field(**kwargs)|safe }}
+<p>{{ field.label }}{% if field.flags.required %}<span class="mandatory">*</span>{% endif %} {{ field(**kwargs)|safe }}
+<span class="descriptionchamp">{{ field.description }}</span>
 {% if field.errors %}
 <ul class=errors>
   {% for error in field.errors %}

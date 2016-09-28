@@ -32,3 +32,4 @@ LANGUAGES = {
     'en': 'English',
     'fr': 'Français'
     }
+BABEL_DEFAULT_LOCALE = 'fr'
