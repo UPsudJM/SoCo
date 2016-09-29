@@ -8,7 +8,7 @@ from flcoll.models import Evenement, Formulaire, Personne, Inscription
 class InscriptionForm(Form):
     nom = StringField('Nom', validators=[DataRequired(), Length(min=2, max=30)])
     prenom = StringField('Prénom', validators=[DataRequired(), Length(min=2, max=30)], description="Attention, pour le badge : prénom + nom = 26 caractères max.")
-    email = StringField('Adresse électronique', validators=[Email(), Length(min=0, max=70)])
+    email = StringField('Adresse électronique', validators=[DataRequired(), Email(), Length(min=0, max=70)])
     telephone = StringField('Téléphone', validators=[Optional(), Length(min=0, max=20)])
     organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)])
     fonction = StringField('Fonction', validators=[DataRequired(), Length(min=0, max=40)])

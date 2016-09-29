@@ -4,13 +4,14 @@
 {% block content %}
 {{ current_user.username }}
 <div class="entete">
-<table>
+<table class="titre">
 <tr>{% if evenement.logo %}<td><img src="{{ evenement.logo }}" /></td>{% endif %}
-    <td><h1>Inscription à : {{ evenement.titre }}, {{ evenement.date | datefr("d MMMM") }}</h1></td></tr></table>
+    <td><h1>Inscription à : {{ evenement.titre }}</h1></td></tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
       {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</h3>
-<br/>
+      <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
+      <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
       <p class="dateinscr">(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }})</p>
       {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}

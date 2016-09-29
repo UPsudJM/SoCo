@@ -101,12 +101,28 @@ def flcoll(flform):
 @app.route('/suivi/<int:evt>', methods=['GET', 'POST'])
 @login_required
 def suivi(evt):
-    evenement = Evenement.query.filter_by(id=evt).first()
+    evenement = Evenement.query.get(evt)
     inscrits = Inscription.query.filter_by(id_evenement=evt)
+    formulaires = Formulaire.query.filter_by(id_evenement=evt).order_by(Formulaire.id)
+    repas_1_existant = False
+    texte_repas_1 = None
+    for f in formulaires:
+        if f.champ_restauration_1 == True:
+            repas_1_existant = True
+            texte_repas_1 = f.texte_restauration_1
+            break
+    repas_2_existant = False
+    texte_repas_2 = None
+    for f in formulaires:
+        if f.champ_restauration_2 == True:
+            repas_2_existant = True
+            texte_repas_2 = f.texte_restauration_2
+            break
     if evenement == None:
         flash('Événement %d non trouvé' % evt)
         return internal_error('Evenement %d non trouvé' % evt)
-    return render_template('suivi.html', evenement=evenement, inscrits=inscrits)
+    return render_template('suivi.html', evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
+                               texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
 
 
 class FlcollModelView(ModelView):

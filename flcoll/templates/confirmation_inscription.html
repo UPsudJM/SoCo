@@ -4,9 +4,9 @@
 
 <p><strong>{{ evenement.titre }}</strong></p>
 
-<p>qui aura lieu le <em>{{ evenement.date_debut }}</em></p>
+<p>qui aura lieu le <em>{{ evenement.date | datefr("d MMMM YYYY") }}</em></p>
 
-<p><em>{{ evenement.lieu }}</p>
+<p><em>{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</em></p>
 
 <p>Cordialement,</p>
 <pre>--

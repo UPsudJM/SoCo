@@ -4,9 +4,9 @@ Nous vous confirmons votre inscription à
 
    {{ evenement.titre }}
 
-qui aura lieu le {{ evenement.date_debut }}
+qui aura lieu le {{ evenement.date | datefr("d MMMM YYYY") }}
 
-{{ evenement.lieu }}
+{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}
 
 Cordialement,
 --

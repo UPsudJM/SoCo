@@ -12,7 +12,7 @@ class Evenement(Base):
     sstitre = Column(String(200))
     date = Column(Date)
     date_fin = Column(Date)
-    lieu = Column(String(200))
+    lieu = Column(String(400)) #, default="Faculté Jean Monnet, Salle Vedel, Université Paris Sud/Paris-Saclay")
     resume = Column(Text)
     uid_organisateur = Column(String(100))
     gratuite = Column(Boolean, default=True)
@@ -82,8 +82,8 @@ class Inscription(Base):
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
 
-    evenement = relationship("Evenement", back_populates="inscriptions")
-    personne = relationship("Personne", back_populates="inscriptions")
+    evenement = relationship("Evenement", back_populates="inscription")
+    personne = relationship("Personne", back_populates="inscription")
 
     def __init__(self, evenement, personne):
         Base.__init__(self)
@@ -93,5 +93,5 @@ class Inscription(Base):
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
 
-Evenement.inscriptions = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
-Personne.inscriptions = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
+Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
+Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

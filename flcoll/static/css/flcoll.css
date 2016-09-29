@@ -8,7 +8,8 @@ DIV.entete {
     margin: 30px;
     text-align: justify;
 }
-H3.date, H3.sstitre { display: table; margin: auto; }
+TABLE.titre, H3.date, H3.sstitre, P.lieu { display: table; margin: auto; }
+P.lieu { font-size: 120% ; }
 P.dateinscr { font-style: italic; }
 FIELDSET {
     margin-left: 20px;
@@ -60,51 +61,22 @@ TABLE {
     margin-left : 10px;
 }
 
-TR.candidat > TD {
+TR > TH {
+    padding: 5px;
+    text-align: center;
+}
+TR > TD {
     border: 1px solid black;
-    border: inset 1px;
-    padding: 3px;
-    color: purple;
+    border-collapse: collapse;
+    /* border: inset 1px; */
+    padding: 5px;
+    /* color: purple; */
     background-color: #f4f4f4;
 }
 
 TD.statut { font-style: italic; }
 
 TD.check { background-color: #ffff66; }
-
-SPAN.refus {
-   background-color: #ff0000;
-   border: 1px solid #ff0000;
-}
-
-SPAN.la {
-   background-color: #ffcc33;
-   border: 1px solid #ffcc33;
-   margin-left: 1px;
-}
-
-SPAN.admis {
-   background-color: #33cc66;
-   border: 1px solid #33cc66;
-   margin-left: 1px;
-}
-
-TD.check2 {
-   background-color: #bbcccc;
-   padding-left: 5px;
-   padding-right: 5px;
-   padding-bottom: 8px;
-}
-
-TR.candidat > TD.nostyle {
-    border: 0px;
-    background-color: #ffffff;
-}
-
-DIV.button {
-    text-align: right;
-    margin-right: 50px;
-}
 
 SPAN.comment {
 	/* color:#009999; */
@@ -118,23 +90,6 @@ UL.checkbox {
     display: inline;
 }
 
-SPAN.select, SPAN.checkbox, SPAN.diplome {
-    padding-right: 12px;
-    white-space: nowrap;
-}
-
-SPAN.diplome { font-size: 85%; }
-
-DIV.part { margin-bottom: 30px; }
-
-OL > LI { margin: 20px; }
-UL > LI { margin-top: 5px; }
-
-DIV#colgauche { width: 20%; float: left; margin: 10px ; }
-DIV.menu P { margin-left: 5px; }
-
 /* Ajouts 2012 */
 H3 {color: #696968; }
 A, LEGEND, .h2g A, .h2g A:visited, A:link, A:hover, H1 { color: #003A64; }
-DIV.gauche, DIV.gauche2 { border: 2px solid #003A64;}
-DIV.tete-g { background-color: #003A64; border: 1px solid #003A64; }
