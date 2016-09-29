@@ -98,21 +98,15 @@ def flcoll(flform):
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
-@app.route('/edit', methods=['GET', 'POST'])
-#@login_required
-def edit():
-    form = EditForm(g.user.nickname)
-    if form.validate_on_submit():
-        g.user.nickname = form.nickname.data
-        g.user.about_me = form.about_me.data
-        db_session.add(g.user)
-        db_session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('index'))
-    else:
-        form.nickname.data = g.user.nickname
-        form.about_me.data = g.user.about_me
-        return render_template('edit.html', form=form)
+@app.route('/suivi/<int:evt>', methods=['GET', 'POST'])
+@login_required
+def suivi(evt):
+    evenement = Evenement.query.filter_by(id=evt).first()
+    inscrits = Inscription.query.filter_by(id_evenement=evt)
+    if evenement == None:
+        flash('Événement %d non trouvé' % evt)
+        return internal_error('Evenement %d non trouvé' % evt)
+    return render_template('suivi.html', evenement=evenement, inscrits=inscrits)
 
 
 class FlcollModelView(ModelView):
