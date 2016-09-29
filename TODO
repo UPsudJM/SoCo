@@ -20,15 +20,18 @@ ok page publique d'inscription à un colloque
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
+  ** tenir compte des dates d'inscription (ouverture et clôture)
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
-  ** tableau CSV
-  ** liste de mails [ uniquement secrétariat ]
+  at tableau CSV -> encodage
+  at liste de mails [ uniquement secrétariat ]
   ** badges [ uniquement secrétariat ]
+  ** émargement
+  ** présents
 
 * interface de gestion (du formulaire) plus diversifiée
   ** page unique pour les organisateurs
@@ -37,7 +40,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ok revenir à LDAP/login
   ** routes et redirections
-  ** raffiner les autorisations (rôles)
+  ** raffiner les autorisations (rôles) (Flask-User)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 ec tests unitaires

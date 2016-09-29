@@ -1,0 +1,8 @@
+{{ evenement.titre }} - LISTE DES INSCRITS
+
+Nom;Prénom;Email;Téléphone;Attestation;{% if repas_1_existant %}{{ texte_repas_1 }}{% endif %};{% if repas_2_existant %}{{ texte_repas_2 }}{% endif %};\r
+{% for inscrit in inscrits %}
+{{ inscrit.personne.nom }}{{ inscrit.personne.prenom }}{{ inscrit.personne.email }}{% if inscrit.personne.telephone %}{{ inscrit.personne.telephone }}{% endif %}{{ inscrit.attestation_demandee | ouinon("-") }}{% if repas_1_existant %}{{ inscrit.inscription_repas_1 | ouinon("-") }}{% endif %}{% if repas_2_existant %}{{ inscrit.inscription_repas_2 | ouinon("-") }}{% endif %}\r
+{% endfor %}
+
+(fichier produit par l'application flcoll développée en 2016 par O. Bénassy - service des systèmes d'information de la Faculté Jean Monnet)

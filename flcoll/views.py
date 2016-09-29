@@ -3,7 +3,7 @@
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, make_response, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -99,11 +99,12 @@ def flcoll(flform):
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
 @app.route('/suivi/<int:evt>', methods=['GET', 'POST'])
+@app.route('/suivi/<int:evt>/<action>', methods=['GET', 'POST'])
 @login_required
-def suivi(evt):
+def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
-    inscrits = Inscription.query.filter_by(id_evenement=evt)
-    formulaires = Formulaire.query.filter_by(id_evenement=evt).order_by(Formulaire.id)
+    inscrits = Inscription.query.filter_by(id_evenement=evt).all()
+    formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
     repas_1_existant = False
     texte_repas_1 = None
     for f in formulaires:
@@ -121,8 +122,38 @@ def suivi(evt):
     if evenement == None:
         flash('Événement %d non trouvé' % evt)
         return internal_error('Evenement %d non trouvé' % evt)
-    return render_template('suivi.html', evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
-                               texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
+    if action == "csv":
+        response = make_response(render_template(
+            'inscrits.csv',
+            evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
+            texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2))
+        response.headers["Content-Disposition"] = "attachment; filename=inscrits-colloque-%d-%s.csv" % (
+            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
+        return response
+    if action == "mails":
+        return render_template('mails_inscrits.txt', inscrits = inscrits)
+    if action == "listepdf":
+        texcode = render_template('liste_presents.tex', inscrits=inscrits)
+        response = make_response(genere_emargement(texcode))
+        response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
+            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+        return response
+    if action == "emargement":
+        texcode = render_template('liste_emargement.tex', inscrits=inscrits)
+        response = make_response(genere_emargement(texcode))
+        response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
+            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+        return response
+    if action == "badges":
+        texcode = render_template('badges.tex', inscrits=inscrits)
+        response = make_response(genere_badges(texcode))
+        response.headers["Content-Disposition"] = "attachment; filename=badges-colloque-%d-%s.pdf" % (
+            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+        return response
+    return render_template(
+        'suivi.html',
+        evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
+        texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
 
 
 class FlcollModelView(ModelView):
@@ -158,9 +189,9 @@ class EvenementView(FlcollModelView):
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
-    column_formatters = dict(date=lambda v, c, m, p: m.date.date(),
-                                 date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date and m.date_fin.date()) or "",
-                                 )
+    #column_formatters = dict(date=lambda v, c, m, p: m.date.date(),
+    #                             date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date and m.date_fin.date()) or "",
+    #                             )
     form_args = {
         'titre': {'label': 'Titre', 'validators': [DataRequired()]},
         'sstitre': {'label': 'Sous-titre'},

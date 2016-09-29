@@ -1,0 +1,1 @@
+{% for inscrit in inscrits %}{{ inscrit.personne.email }},{% endfor %}
