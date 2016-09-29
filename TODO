@@ -13,9 +13,9 @@ ok amélioration formulaires CRUD
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
 
-ec page publique d'inscription à un colloque
+ok page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
-  ec présentation de la page
+  ok présentation de la page
   ok éviter les doublons d'inscription (et de personne)
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
@@ -24,12 +24,22 @@ ec page publique d'inscription à un colloque
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
+ok affichage de la page de suivi (complète pour le secrétariat)
+  ok tableau web
+  ** tableau CSV
+  ** liste de mails [ uniquement secrétariat ]
+  ** badges [ uniquement secrétariat ]
+
+* interface de gestion (du formulaire) plus diversifiée
+  ** page unique pour les organisateurs
+  ** changement de la date de clôture
+  ** changement titre, sous-titre, lieu, date de fin
+
 ok revenir à LDAP/login
-* raffiner les autorisations (rôles)
-* aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  ** routes et redirections
+  ** raffiner les autorisations (rôles)
+  ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 ec tests unitaires
 
 * interface utilisateur responsive
-
-* interface de gestion adaptée, plus conviviale

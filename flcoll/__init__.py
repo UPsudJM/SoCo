@@ -9,7 +9,7 @@ babel = Babel(app)
 
 lm = LoginManager()
 lm.init_app(app)
-lm.login_view = 'login'
+lm.login_view = 'auth.login'
 
 from flask_mail import Mail
 mail = Mail(app)

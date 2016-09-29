@@ -62,8 +62,8 @@ def login():
         # FIXME
         #if not next_is_valid(next):
         #    return flask.abort(400)
-        #return redirect(next or url_for('index'))
-        return redirect(url_for('auth.home'))
+        return redirect(next or url_for('index'))
+        #return redirect(url_for('auth.home'))
 
     if form.errors:
         flash(form.errors, 'danger')
