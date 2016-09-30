@@ -2,7 +2,6 @@ from re import compile as rcompile
 from os import chdir, remove
 from subprocess import run, TimeoutExpired, CalledProcessError
 from tempfile import mkstemp
-#from flask import flash
 from flcoll import app
 
 PDFCMD = "/usr/bin/pdflatex"
@@ -23,9 +22,12 @@ def escape_tex(value):
         return newval
 
 def genere_pdf(texcode, prefix="", timeout=10, check=True):
-    chdir("./tex")
+    chdir("./pdf")
     fd, texfilename = mkstemp(prefix=prefix, suffix=".tex", dir=".")
-    open(texfilename, 'w').write(texcode)
+    try:
+        open(texfilename, 'wb').write(texcode.encode("latin-1"))
+    except:
+        print("erreur d'écriture ou de recodage")
     try:
         r = run([PDFCMD, texfilename], timeout=timeout)
     except TimeoutExpired as err:
@@ -36,8 +38,8 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         return err
     pdffilename = texfilename[:-4] + ".pdf"
     remove(texfilename)
-    remove(texfilename[:-4] + ".log")
-    remove(texfilename[:-4] + ".aux")
+    remove(texfilename[:-4] + ".log") # fichier log généré par pdflatex
+    remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex
     chdir("..")
     return pdffilename
 

@@ -3,7 +3,7 @@
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from flask import render_template, flash, redirect, make_response, session, url_for, request, g
+from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -144,14 +144,12 @@ def suivi(evt, action=None):
     if action == "emargement":
         texcode = texenv.get_template('liste_emargement.tex')
         texcode = texenv.get_template('liste_emargement.tex').render(evenement=evenement, inscrits=inscrits)
-        pdffilename = genere_pdf(texcode)
-        flash(str(pdffilename))
-        return render_template('500.html')
-        response = make_response(genere_pdf(texcode))
-        response.headers["Content-Type"] = "application/pdf"
-        response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
-        return response
+        resultat = genere_pdf(texcode)
+        if type(resultat) != type(""):
+            flash(str(resultat))
+            return render_template('500.html')
+        return send_file(resultat, as_attachment=True, attachment_filename="emargement-colloque-%d-%s.pdf" % (
+            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M")))
     if action == "badges":
         texcode = render_template('badges.tex', inscrits=inscrits)
         response = make_response(genere_badges(texcode))
