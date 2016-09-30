@@ -62,7 +62,7 @@ class Personne(Base):
     def __init__(self, **kwargs):
         Base.__init__(self)
         for attrname in ['nom', 'prenom', 'email', 'telephone', 'organisation', 'fonction']:
-            if kwargs[attrname]:
+            if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
     def __str__(self):
@@ -84,11 +84,6 @@ class Inscription(Base):
 
     evenement = relationship("Evenement", back_populates="inscription")
     personne = relationship("Personne", back_populates="inscription")
-
-    def __init__(self, evenement, personne):
-        Base.__init__(self)
-        self.evenement = evenement
-        self.personne = personne
 
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
