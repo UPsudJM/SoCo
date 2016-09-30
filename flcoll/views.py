@@ -13,8 +13,9 @@ from flcoll import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from .models import Evenement, Formulaire, Personne, Inscription
 from .forms import InscriptionForm
-from .emails import confirmer_inscription
 from .filters import datefr_filter
+from .emails import confirmer_inscription
+from .texenv import texenv, genere_pdf
 
 
 @babel.localeselector
@@ -84,7 +85,6 @@ def flcoll(flform):
         try:
             db_session.commit()
         except IntegrityError as err:
-            #flash("Erreur d'intégrité")
             db_session.rollback()
             if "uc_1" in str(err.orig):
                 flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !")
@@ -123,10 +123,13 @@ def suivi(evt, action=None):
         flash('Événement %d non trouvé' % evt)
         return internal_error('Evenement %d non trouvé' % evt)
     if action == "csv":
-        response = make_response(render_template(
+        csv = render_template(
             'inscrits.csv',
             evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
-            texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2))
+            texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
+        csv_latin1 = csv.encode("latin-1")
+        response = make_response(csv_latin1)
+        response.headers["Content-Type"] = "application/csv; charset=iso-8859-15"
         response.headers["Content-Disposition"] = "attachment; filename=inscrits-colloque-%d-%s.csv" % (
             evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
         return response
@@ -134,21 +137,26 @@ def suivi(evt, action=None):
         return render_template('mails_inscrits.txt', inscrits = inscrits)
     if action == "listepdf":
         texcode = render_template('liste_presents.tex', inscrits=inscrits)
-        response = make_response(genere_emargement(texcode))
+        response = make_response(genere_pdf(texcode))
         response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
         return response
     if action == "emargement":
-        texcode = render_template('liste_emargement.tex', inscrits=inscrits)
-        response = make_response(genere_emargement(texcode))
+        texcode = texenv.get_template('liste_emargement.tex')
+        texcode = texenv.get_template('liste_emargement.tex').render(evenement=evenement, inscrits=inscrits)
+        pdffilename = genere_pdf(texcode)
+        flash(str(pdffilename))
+        return render_template('500.html')
+        response = make_response(genere_pdf(texcode))
+        response.headers["Content-Type"] = "application/pdf"
         response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
         return response
     if action == "badges":
         texcode = render_template('badges.tex', inscrits=inscrits)
         response = make_response(genere_badges(texcode))
         response.headers["Content-Disposition"] = "attachment; filename=badges-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now()), "%Y%m%d%H%M")
+            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
         return response
     return render_template(
         'suivi.html',

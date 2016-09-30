@@ -40,9 +40,10 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ok revenir à LDAP/login
   ** routes et redirections
-  ** raffiner les autorisations (rôles) (Flask-User)
+  ** raffiner les autorisations (rôles) (Flask-User ?)
+     (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 ec tests unitaires
 
-* interface utilisateur responsive
+* interface utilisateur responsive (AngularJS ?)

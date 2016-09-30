@@ -1,0 +1,8 @@
+python3
+flask
+
+see requirements.txt
+
+texlive-extra-recommended
+texlive-lang-french
+texlive-fonts-recommended
