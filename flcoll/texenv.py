@@ -1,6 +1,6 @@
 from re import compile as rcompile
 from os import chdir, remove
-from subprocess import run, TimeoutExpired, CalledProcessError
+from subprocess import run, TimeoutExpired
 from tempfile import mkstemp
 from flcoll import app
 
@@ -25,16 +25,26 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
     chdir("./pdf")
     fd, texfilename = mkstemp(prefix=prefix, suffix=".tex", dir=".")
     try:
-        open(texfilename, 'wb').write(texcode.encode("latin-1"))
-    except:
-        print("erreur d'écriture ou de recodage")
+        t = texcode.encode("latin-1")
+    except ValueError as err:
+        print("erreur d'encodage : ", err.__doc__)
+        chdir("..")
+        return err
+    try:
+        open(texfilename, 'wb').write(t)
+    except OSError as err:
+        print("erreur d'écriture : ", err.__doc__)
+        chdir("..")
+        return err
     try:
         r = run([PDFCMD, texfilename], timeout=timeout)
     except TimeoutExpired as err:
         chdir("..")
+        print("Timeout sur processus LaTeX %s" % texfilename, err.__doc__)
         return err
-    except CalledProcessError as err:
+    except err:
         chdir("..")
+        print("Erreur sur processus LaTeX %s" % texfilename, err.__doc__)
         return err
     pdffilename = texfilename[:-4] + ".pdf"
     remove(texfilename)
