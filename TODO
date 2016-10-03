@@ -20,18 +20,21 @@ ok page publique d'inscription à un colloque
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
-  ** tenir compte des dates d'inscription (ouverture et clôture)
+  ** gérer les dates d'inscription (ouverture et clôture)
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
+ec page d'index générale pour les pages de suivi
+
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
-  at tableau CSV -> encodage
+  at tableau CSV
+  ** tableau Excel ou Calc
   at liste de mails [ uniquement secrétariat ]
   ** badges [ uniquement secrétariat ]
   at émargement
-  ** présents
+  at présents -> améliorer la gestion des erreurs d'encodage (texenv L30)
 
 * interface de gestion (du formulaire) plus diversifiée
   ** page unique pour les organisateurs
@@ -44,6 +47,6 @@ ok revenir à LDAP/login
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
-ec tests unitaires
+-> ec tests unitaires
 
 * interface utilisateur responsive (AngularJS ?)

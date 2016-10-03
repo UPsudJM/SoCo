@@ -1,6 +1,6 @@
 # -*- Coding: utf-8 -*-
 
-from datetime import datetime
+import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
@@ -98,6 +98,15 @@ def flcoll(flform):
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
+@app.route('/suivi/')
+@login_required
+def suivi_index():
+    evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+    nb_inscrits = {}
+    for e in evenements:
+        nb_inscrits[e.id] = len(e.inscription)
+    return render_template("suivi_index.html", evenements=evenements, today=datetime.date.today(), nb_inscrits=nb_inscrits)
+
 @app.route('/suivi/<int:evt>', methods=['GET', 'POST'])
 @app.route('/suivi/<int:evt>/<action>', methods=['GET', 'POST'])
 @login_required
@@ -131,30 +140,35 @@ def suivi(evt, action=None):
         response = make_response(csv_latin1)
         response.headers["Content-Type"] = "application/csv; charset=iso-8859-15"
         response.headers["Content-Disposition"] = "attachment; filename=inscrits-colloque-%d-%s.csv" % (
-            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M"))
         return response
     if action == "mails":
         return render_template('mails_inscrits.txt', inscrits = inscrits)
     if action == "listepdf":
-        texcode = render_template('liste_presents.tex', inscrits=inscrits)
-        response = make_response(genere_pdf(texcode))
-        response.headers["Content-Disposition"] = "attachment; filename=emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
-        return response
+        texcode = texenv.get_template('liste_presents.tex').render(evenement=evenement, inscrits=inscrits)
+        try:
+            resultat = genere_pdf(texcode)
+        except:
+            flash("Erreur dans la génération du document. Le plus souvent, c'est une erreur d'encodage due à un caractère inhabituel dans un nom propre")
+            return internal_error('Impossible de générer le PDF listepdf pour %d' % evt)
+        if type(resultat) != type(""):
+            flash(str(resultat))
+            return render_template('500.html')
+        return send_file(resultat, as_attachment=True, attachment_filename="presents-colloque-%d-%s.pdf" % (
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")))
     if action == "emargement":
-        texcode = texenv.get_template('liste_emargement.tex')
         texcode = texenv.get_template('liste_emargement.tex').render(evenement=evenement, inscrits=inscrits)
         resultat = genere_pdf(texcode)
         if type(resultat) != type(""):
             flash(str(resultat))
             return render_template('500.html')
         return send_file(resultat, as_attachment=True, attachment_filename="emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M")))
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")))
     if action == "badges":
         texcode = render_template('badges.tex', inscrits=inscrits)
         response = make_response(genere_badges(texcode))
         response.headers["Content-Disposition"] = "attachment; filename=badges-colloque-%d-%s.pdf" % (
-            evt, datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M"))
         return response
     return render_template(
         'suivi.html',

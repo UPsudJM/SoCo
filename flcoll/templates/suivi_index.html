@@ -1,0 +1,29 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+{{ current_user.username }}
+
+<h1>Liste des colloques en cours</h1>
+
+<ul>
+  {% for e in evenements %}
+  <li><a href="{{ url_for('suivi', evt=e.id) }}">{{ e.titre }} &mdash; {{ e.date | datefr }}</a> &mdash; {{ nb_inscrits[e.id] }} inscription{% if nb_inscrits[e.id] > 1 %}s{% endif %}
+  {% if e.formulaire %}<ul>{% for f in e.formulaire %}
+  <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
+  {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href="">modifier ce formulaire</a>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href="">modifier la date de clôture</a>
+  {% else %}<strong>inscriptions terminées</strong> <a href="">prolonger</a>
+  {% endif %}</li>
+  {% endfor %}</ul>{% endif %}
+  <table><tr><td><a href="{{ url_for('suivi', evt=e.id) }}">voir les inscrits</td><td><a href="{{url_for('suivi', evt=e.id, action='badges') }}">imprimer les étiquettes</a></td></tr></table>
+  </li>
+{% endfor %}
+</ul>
+
+<div class="footnotes">
+<p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
+<p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
+</div>
+
+{% endblock %}
