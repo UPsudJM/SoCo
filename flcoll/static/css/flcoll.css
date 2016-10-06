@@ -73,6 +73,7 @@ TR > TD {
     /* color: purple; */
     background-color: #f4f4f4;
 }
+TABLE.titre TD { border: 0; }
 
 TD.statut { font-style: italic; }
 

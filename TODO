@@ -25,7 +25,7 @@ ok page publique d'inscription à un colloque
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
-ec page d'index générale pour les pages de suivi
+ok page d'index générale pour les pages de suivi
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
@@ -34,12 +34,14 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   at liste de mails [ uniquement secrétariat ]
   ** badges [ uniquement secrétariat ]
   at émargement
-  at présents -> améliorer la gestion des erreurs d'encodage (texenv L30)
+  at présents
+    ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
 
 * interface de gestion (du formulaire) plus diversifiée
   ** page unique pour les organisateurs
   ** changement de la date de clôture
   ** changement titre, sous-titre, lieu, date de fin
+  ** ce qui amène à revoir l'accès à l'issue du login
 
 ok revenir à LDAP/login
   ** routes et redirections
@@ -47,6 +49,6 @@ ok revenir à LDAP/login
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
--> ec tests unitaires
+ec tests unitaires
 
-* interface utilisateur responsive (AngularJS ?)
+* interface utilisateur responsive (AngularJS ? HTML5 ?)

@@ -7,4 +7,8 @@ texlive-extra-recommended
 texlive-lang-french
 texlive-fonts-recommended
 
+openpyxl si on veut des documents tableur (ou XlsxWriter)
+et pyoo pour LibreOffice !
+
 créer dossier ./pdf
+./alembic pour les migrations
