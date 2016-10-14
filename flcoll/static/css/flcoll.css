@@ -36,6 +36,8 @@ INPUT {
     margin-top: 10px;
     margin-left: 10px;
 }
+INPUT.ng-invalid.ng-touched { background-color: #FA787E; }
+INPUT.ng-valid.ng-touched { background-color: #78FA89; }
 DIV.buttonbar {
     text-align: center;
     display: table;
