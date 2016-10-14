@@ -22,6 +22,13 @@ ok page publique d'inscription à un colloque
   ok redirection en fin de page
   ** gérer les dates d'inscription (ouverture et clôture)
 
+ec page publique d'inscription à un colloque (version AngularJS)
+  ok champs ordinaires
+    ** changer les couleurs de fond
+  ** affichage dynamique des derniers champs
+  ec affichage dynamique du badge
+  ** éviter les doublons
+
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
