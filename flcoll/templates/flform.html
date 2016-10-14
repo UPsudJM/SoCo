@@ -45,6 +45,21 @@
 
 </form>
 
+<section ng-controller="flformCtrl">
+<form novalidate id="flform" ng-submit="addInscription()">
+  <fieldset><legend accesskey="c">Vos coordonnées</legend>
+    Nom <input type="text" ng-model="personne.nom" /><br />
+    Prénom <input type="text" ng-model="personne.prenom" /><br />
+    Email <input type="text" ng-model="personne.email" /><br />
+    Téléphone <input type="text" ng-model="personne.telephone" /><br />
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(personne)" value="Save" />
+  </fieldset>
+</form>
+<pre>personne = [[personne | json]]</pre>
+<pre>master = [[master | json]]</pre>
+</section>
+
 <div class="footnotes">
 <p><span class="mandatory">*</span> Champ obligatoire</p>
 <p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>

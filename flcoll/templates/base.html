@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="WordcountApp">
+<html lang="fr" ng-app="flcollApp">
   <head>
     <meta charset="utf-8">
     <!-- meta http-equiv="X-UA-Compatible" content="IE=edge" -->
@@ -12,9 +12,10 @@
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ url_for('static', filename='css/flcoll.css') }}" rel="stylesheet"/>
     <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flcoll.js') }}"></script>
  </head>
-  <body ng-controller="WordcountController">
+  <body>
     <div>Colloques
       <a href="{{ url_for('index') }}">Accueil</a>
     </div>
