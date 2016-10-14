@@ -12,7 +12,11 @@ flform.controller('flformCtrl', ['$scope', function ($scope) {
     $scope.update = function(personne) {
         $scope.master = angular.copy(personne);
     };
-    $scope.reset = function() {
+    $scope.reset = function(form) {
+        if (form) {
+            form.$setPristine();
+            form.$setUntouched();
+        }
         $scope.personne = angular.copy($scope.master);
     };
     $scope.reset();

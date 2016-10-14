@@ -46,17 +46,27 @@
 </form>
 
 <section ng-controller="flformCtrl">
-<form novalidate id="flform" ng-submit="addInscription()">
+<form id="flform" name="flform" novalidate ng-submit="addInscription()">
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
-    Nom <input type="text" ng-model="personne.nom" /><br />
-    Prénom <input type="text" ng-model="personne.prenom" /><br />
-    Email <input type="email" ng-model="personne.email" /><br />
-    Téléphone <input type="text" ng-model="personne.telephone" /><br />
+  Nom <input type="text" name="nom" ng-model="personne.nom" required="" /><br />
+  <div ng-show="flform.$submitted || flform.nom.$touched">
+    <span ng-show="flform.nom.$error.required">Merci d'indiquer votre nom</span>
+  </div>
+    Prénom <input type="text" name="prenom" ng-model="personne.prenom" /><br />
+    Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
+    <div ng-show="flform.$submitted || flform.email.$touched">
+      <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
+      <span ng-show="flform.email.$error.email">Cette adresse n'est pas valide</span>
+    </div>
+    Téléphone <input type="text" name="telephone" ng-model="personne.telephone" /><br />
     <input type="button" ng-click="reset()" value="Reset" />
     <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
 </form>
 <pre>personne = [[personne | json]]</pre>
+<pre>prenom + nom = [[personne.prenom]] + [[personne.nom]]</pre>
+<pre>Votre badge : [[personne.prenom + " " + personne.nom]]
+Fonction, Institution</pre>
 <pre>master = [[master | json]]</pre>
 </section>
 
