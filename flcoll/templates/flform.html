@@ -52,7 +52,8 @@
   <div ng-show="flform.$submitted || flform.nom.$touched">
     <span ng-show="flform.nom.$error.required">Merci d'indiquer votre nom</span>
   </div>
-    Prénom <input type="text" name="prenom" ng-model="personne.prenom" /><br />
+  Prénom <input type="text" name="prenom" ng-model="personne.prenom" /><br />
+  <pre>Votre badge : [[personne.prenom + " " + personne.nom]]</pre>
     Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
@@ -62,11 +63,25 @@
     <input type="button" ng-click="reset()" value="Reset" />
     <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
+
+  <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
+  Organisation <input type="text" name="organisation" ng-model="personne.organisation" required="" /><br />
+  <div ng-show="flform.$submitted || flform.organisation.$touched">
+    <span ng-show="flform.organisation.$error.required">Merci d'indiquer votre organisation</span>
+  </div>
+  Fonction <input type="text" name="fonction" ng-model="personne.fonction" required="" /><br />
+  <div ng-show="flform.$submitted || flform.fonction.$touched">
+    <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
+  </div>
+  <pre>Votre badge : [[personne.fonction + " - " + personne.organisation]]</pre>
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(personne)" value="Save" />
+  </fieldset>
+  <fieldset><legend accesskey="p">Votre participation</legend>
+  À générer par le JS
+  </fieldset>
 </form>
 <pre>personne = [[personne | json]]</pre>
-<pre>prenom + nom = [[personne.prenom]] + [[personne.nom]]</pre>
-<pre>Votre badge : [[personne.prenom + " " + personne.nom]]
-Fonction, Institution</pre>
 <pre>master = [[master | json]]</pre>
 </section>
 
