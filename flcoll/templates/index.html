@@ -5,6 +5,15 @@
 <div><p>{{ evenement.titre }} {{ evenement.date_debut }}</p></div>
 {% endfor %}
 
+<section ng-controller="flformCtrl">
+<p>  [[ 424955830796 | date : 'medium' ]]</p>
+<p>{% raw %}  [[ 424955830796 | date : 'medium' ]] {% endraw %}</p>
+  <form novalidate id="flform" ng-submit="addTodo()">
+    <input id="new-todo" placeholder="Que devez-vous faire ?" ng-model="newTodo" />
+  </form>
+</section>
+
+<div ng-view>
 <form role="form" ng-submit="getResults()">
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
