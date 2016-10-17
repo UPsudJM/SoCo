@@ -24,6 +24,9 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
+# pour l'interface AngularJS
+from flask_restless import APIManager
+apiman = APIManager(app, session = db_session)
 
 def init_db():
     # import all modules here that might define models so that

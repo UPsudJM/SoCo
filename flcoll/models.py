@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from flcoll import Base
+from flcoll import Base, apiman
 
 
 class Evenement(Base):
@@ -90,3 +90,6 @@ class Inscription(Base):
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
+
+# pour URLs http://127.0.0.1:5000/api/inscription et http://127.0.0.1:5000/api/inscription/%d
+api_inscription = apiman.create_api(Inscription, methods = ['GET', 'POST', 'DELETE'])
