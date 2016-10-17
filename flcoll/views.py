@@ -12,7 +12,7 @@ from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from .models import Evenement, Formulaire, Personne, Inscription
-from .forms import InscriptionForm
+from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter
 from .emails import confirmer_inscription
 from .texenv import texenv, genere_pdf
@@ -36,8 +36,6 @@ def internal_error(error):
 @app.route('/index')
 #@login_required
 def index():
-#        return "Hello, World!"
-    #user = {'nickname': 'Miguel'}  # fake user
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', evenements=evenements)
 
@@ -97,6 +95,13 @@ def flcoll(flform):
             flash("Votre inscription a bien été effectuée.")
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
+
+
+@app.route('/new/')
+@login_required
+def new():
+    form = NcollForm()
+    return render_template('new.html', form=form, current_user=current_user)
 
 @app.route('/suivi/')
 @login_required

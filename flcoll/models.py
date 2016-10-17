@@ -92,5 +92,6 @@ Evenement.inscription = relationship("Inscription", order_by=Inscription.id, bac
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
 # pour URLs http://127.0.0.1:5000/api/inscription et http://127.0.0.1:5000/api/inscription/%d
+# et aussi http://127.0.0.1:5000/api/evenement/%d/inscription etc...
 api_evenement = apiman.create_api(Evenement, methods = ['GET', 'POST'])
 api_inscription = apiman.create_api(Inscription, methods = ['GET', 'POST'])

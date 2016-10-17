@@ -1,6 +1,10 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 {{ current_user.username }}
 <div class="entete">

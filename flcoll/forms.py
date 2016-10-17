@@ -1,8 +1,33 @@
 from flask_wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, RadioField
+from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from flcoll.models import Evenement, Formulaire, Personne, Inscription
+import datetime
+
+
+class NcollForm(Form):
+    titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
+    sstitre = StringField('Sous-titre')
+    date = DateField('Date', validators=[DataRequired()])
+    date_fin = DateField('Date de fin', description="cas où l'événement dure plusieurs jours")
+    lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
+    date_ouverture_inscriptions = DateField("Date d'ouverture des inscriptions", validators=[DataRequired()])
+    date_cloture_inscriptions = DateField("Date de clôture des inscriptions", validators=[DataRequired()])
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        if self.date_ouverture_inscriptions > self.date_cloture_inscriptions:
+            self.date_ouverture_inscriptions.errors.append("La date d'ouverture ne peut pas être antérieur à la date de clôture")
+            return False
+        if self.date_cloture_inscriptions > self.date:
+            self.date_ouverture_inscriptions.errors.append("La date de clôture ne peut pas être postérieure à la date de l'événement")
+            return False
+        now = datetime.date.now()
+        if not self.date_ouverture_inscriptions or self.date_ouverture_inscriptions < now:
+            self.date_ouverture_inscriptions = now
+        return True
 
 
 class InscriptionForm(Form):

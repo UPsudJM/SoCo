@@ -13,6 +13,7 @@
     <link href="{{ url_for('static', filename='css/flcoll.css') }}" rel="stylesheet"/>
     <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
+    {% block javascript %}{% endblock %}
     <script src="{{ url_for('static', filename='js/flcoll.js') }}"></script>
  </head>
   <body>

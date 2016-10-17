@@ -1,0 +1,78 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+{{ current_user.username }}
+<div class="entete">
+<table class="titre">
+<tr>{% if logo %}<td><img src="{{ logo }}" /></td>{% endif %}
+    <td><h1>Créer une nouvelle page d'inscription</h1></td></tr></table>
+</div>
+
+<hr/>
+
+{% from "_formhelpers.html" import render_field with context %}
+<form action="" method="post" name="ncoll">
+  {{form.hidden_tag()}}
+  <fieldset><legend accesskey="c">Votre colloque</legend>
+    {{ render_field(form.titre, size=20, maxlength=26) }}
+    {{ render_field(form.sstitre, size=20, maxlength=26) }}
+    {{ render_field(form.date) }}
+    {{ render_field(form.date_fin) }}
+    {{ render_field(form.lieu, size=40) }}
+  </fieldset>
+  <fieldset><legend accesskey="e">Votre formulaire</legend>
+    {{ render_field(form.date_ouverture_inscriptions) }}
+    {{ render_field(form.date_cloture_inscriptions) }}
+  </fieldset>
+
+  <div class="buttonbar">
+    <input type="submit" name="submit" accesskey="z" tabindex="14" value="Envoyer" />
+  </div>
+
+</form>
+
+<section ng-controller="newevtCtrl">
+<form id="ncollform" name="ncollform" novalidate ng-submit="addEvenement()">
+  <fieldset><legend accesskey="c">Votre colloque</legend>
+  Titre <input type="text" name="titre" ng-model="evenement.titre" required="" /><br />
+  <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
+    <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
+  </div>
+  Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
+  Date <input type="text" uib-datepicker-popup name="date" ng-model="evenement.date" /><br />
+  <div ng-show="ncollform.$submitted || ncollform.date.$touched">
+    <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
+  </div>
+  Date de fin <input type="date_fin" name="date_fin" ng-model="evenement.date_fin" /><br />
+  Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(evenement)" value="Save" />
+  </fieldset>
+
+  <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
+  Date d'ouverture des inscriptions <input type="text" uib-datepicker-popup name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" /><br />
+  <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
+    <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
+  </div>
+  Date de clôture des inscriptions <input type="text" uib-datepicker-popup name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" /><br />
+  <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
+    <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
+  </div>
+  </fieldset>
+</form>
+<pre>evenement = [[evenement | json]]</pre>
+<pre>master = [[master | json]]</pre>
+</section>
+
+<div class="footnotes">
+<p><span class="mandatory">*</span> Champ obligatoire</p>
+<p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
+<p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
+</div>
+
+{% endblock %}
