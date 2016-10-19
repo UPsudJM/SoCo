@@ -1,5 +1,14 @@
 'use strict';
-var flcollApp = angular.module('flcollApp', ['ui.bootstrap', 'flform', 'suivi', 'newevt']);
+var path = window.location.pathname;
+//alert(path);
+var a = path.split("/");
+var i = a.pop();
+//alert(i);
+//alert("OK");
+
+/*$log.log($location.path());
+$log.log("OK"); */
+var flcollApp = angular.module('flcollApp', ['ngRoute', 'ui.bootstrap', 'flform', 'suivi', 'newevt']);
 
 flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
@@ -78,26 +87,16 @@ var suivi = angular.module('suivi',[])
 }]);
 
 var flform = angular.module('flform',['ngRoute'])
-    .config(['$routeProvider', '$locationProvider',
-             function($routeProvider, $locationProvider) {
-               $routeProvider
-                     .when('/colloque/:collId', {
-                         controller: 'flformCtrl',
-                         templateUrl: 'book.html',
-                     })
-                     .when('/Book/:bookId/ch/:chapterId', {
-                         templateUrl: 'chapter.html',
-                         controller: 'ChapterCtrl',
-                         controllerAs: 'chapter'
-                     });
-
-                 $locationProvider.html5Mode(true);
+    .config(['$locationProvider',
+             function($locationProvider) {
+                 $locationProvider.html5Mode({
+                     enabled: true,
+                     requireBase: false
+                 });
              }])
-    .controller('flformCtrl', ['$scope', '$log', '$http', '$location', '$routeParams', function ($scope, $log, $http, $location, $routeParams) {
+    .controller('flformCtrl', ['$scope', '$log', '$http', '$location', '$route', '$routeParams', function ($scope, $log, $http, $location) {
         $log.log("in flform");
         $log.log($location.path());
-        $log.log($routeParams);
-        /* $log.log(main.$route.current.params); */
         $http.get('/api/evenement/1').then(function(resp) {
             console.log(resp.data);
         });
