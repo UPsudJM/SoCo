@@ -2,6 +2,7 @@
 {% extends "base.html" %}
 
 {% block javascript %}
+    <script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
 {% endblock %}
 
