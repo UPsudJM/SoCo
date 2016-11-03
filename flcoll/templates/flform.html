@@ -22,43 +22,16 @@
       {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
 </div>
 
-<hr/>
-
-{% from "_formhelpers.html" import render_field with context %}
-<form action="" method="post" name="inscr">
-  {{form.hidden_tag()}}
-  <fieldset><legend accesskey="c">Vos coordonnées</legend>
-    {{ render_field(form.nom, size=20, maxlength=26) }}
-    {{ render_field(form.prenom, size=20, maxlength=26) }}
-    {{ render_field(form.email, size=40) }}
-    {{ render_field(form.telephone, size=20) }}
-  </fieldset>
-  <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
-    {{ render_field(form.organisation, size=30, maxlength=40) }}
-    {{ render_field(form.fonction, size=30, maxlength=40) }}
-  </fieldset>
-  <fieldset><legend accesskey="p">Votre participation</legend>
-  {% if formulaire.champ_attestation %}{{ render_field(form.attestation_demandee) }}{% endif %}
-  {% if formulaire.champ_type_inscription %}{{ render_field(form.type_inscription) }}{% endif %}
-  {% if formulaire.champ_restauration_1 %}{{ render_field(form.inscription_repas_1) }}{% endif %}
-  {% if formulaire.champ_restauration_2 %}{{ render_field(form.inscription_repas_2) }}{% endif %}
-  </fieldset>
-
-  <div class="buttonbar">
-    <input type="submit" name="submit" accesskey="z" tabindex="14" value="Envoyer" />
-  </div>
-
-</form>
-
 <section ng-controller="flformCtrl">
 <form id="flform" name="flform" novalidate ng-submit="addInscription()">
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
-  Nom <input type="text" name="nom" ng-model="personne.nom" required="" /><br />
+  Nom <input type="text" name="nom" ng-model="personne.nom" required="" ng-change="cbadge1()" /><br />
   <div ng-show="flform.$submitted || flform.nom.$touched">
     <span ng-show="flform.nom.$error.required">Merci d'indiquer votre nom</span>
   </div>
-  Prénom <input type="text" name="prenom" ng-model="personne.prenom" /><br />
-  <pre><em>Sur votre badge : [[personne.prenom + " " + personne.nom]]</em></pre>
+  Prénom <input type="text" name="prenom" ng-model="personne.prenom" ng-change="cbadge1()" /><br /><br />
+  <span ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 26 caractères max.</span>
+  <pre><em>Sur votre badge : <input type="text" size="27" maxlength="27" name="badge1" ng-model="badge1" /></em></pre>
     Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>

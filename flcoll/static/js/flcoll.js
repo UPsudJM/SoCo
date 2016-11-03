@@ -1,13 +1,4 @@
 'use strict';
-var path = window.location.pathname;
-//alert(path);
-var a = path.split("/");
-var i = a.pop();
-//alert(i);
-//alert("OK");
-
-/*$log.log($location.path());
-$log.log("OK"); */
 var flcollApp = angular.module('flcollApp', ['ngRoute', 'ui.bootstrap', 'flform', 'suivi', 'newevt']);
 
 flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
@@ -87,7 +78,7 @@ var suivi = angular.module('suivi',[])
 }]);
 
 var flform = angular.module('flform',['ngRoute'])
-    .config(['$locationProvider',
+     .config(['$locationProvider',
              function($locationProvider) {
                  $locationProvider.html5Mode({
                      enabled: true,
@@ -97,10 +88,26 @@ var flform = angular.module('flform',['ngRoute'])
     .controller('flformCtrl', ['$scope', '$log', '$http', '$location', '$route', '$routeParams', function ($scope, $log, $http, $location) {
         $log.log("in flform");
         $log.log($location.path());
-        $http.get('/api/evenement/1').then(function(resp) {
+        var $coll = $location.path().split("/").pop();
+        $log.log($coll);
+        $http.get('/api/evenement/' + $coll).then(function(resp) {
             console.log(resp.data);
         });
         $scope.master = {};
+        $scope.cbadge1 = function(personne) {
+            $log.log("in cbadge1");
+            var $badge1 = ($scope.personne.prenom || "") + " " + ($scope.personne.nom || "");
+            if ($badge1.length > 27) {
+                var $l1 = $badge1.length;
+                if ($scope.personne.prenom) $badge1 = $scope.personne.prenom.substr(
+                    0, $scope.personne.prenom.length - $l1 + 27) + " " + ($scope.personne.nom || "");
+                else $badge1 = $scope.personne.nom.substr(0, $scope.personne.nom.length - $l1 + 27);
+            }
+            $scope.badge1 = $badge1;
+        };
+        $scope.cbadge2 = function(personne) {
+            $log.log("in cbadge2");
+        };
         $scope.update = function(personne) {
             $log.log("in update");
             $scope.master = angular.copy(personne);
