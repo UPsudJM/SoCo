@@ -51,7 +51,7 @@
   <div ng-show="flform.$submitted || flform.fonction.$touched">
     <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
   </div>
-  <span ng-show="(personne.fonction && personne.fonction.length > 32) || (personne.fonction && personne.organisation && ((personne.fonction + personne.organisation).length > 32))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 32 caractères max.</span>
+  <span ng-show="(personne.fonction && personne.fonction.length > 32) || (personne.organisation && personne.organisation.length > 32) ||(personne.fonction && personne.organisation && ((personne.fonction + personne.organisation).length > 32))" class="descriptionchamp">Attention, pour le badge, fonction + organisation = 32 caractères max.</span>
   <pre><em>Sur votre badge :</em> <input type="text" size="33" maxlength="33" name="badge2" ng-model="badge2" /></pre>
     <input type="button" ng-click="reset()" value="Reset" />
     <input type="submit" ng-click="update(personne)" value="Save" />

@@ -97,25 +97,37 @@ var flform = angular.module('flform',['ngRoute'])
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
             var $max1 = 27;
-            var $badge1 = ($scope.personne.prenom || "") + " " + ($scope.personne.nom || "");
+            var $p = ($scope.personne.prenom || "");
+            var $n = ($scope.personne.nom || "");
+            var $badge1 = "";
+            if ($p && $n) $badge1 = $p + " " + $n;
+            else $badge1 = $p + $n;
             if ($badge1.length > $max1) {
                 var $l1 = $badge1.length;
-                if ($scope.personne.prenom) $badge1 = $scope.personne.prenom.substr(
-                    0, $scope.personne.prenom.length - $l1 + $max1) + " " + ($scope.personne.nom || "");
-                else $badge1 = $scope.personne.nom.substr(0, $scope.personne.nom.length - $l1 + $max1);
+                if ($p) $p = $p.substr(0, $p.length - $l1 + $max1);
+                else $n = $n.substr(0, $n.length - $l1 + $max1);
+                if ($p && $n) $badge1 = $p + " " + $n;
+                else $badge1 = $p + $n;
             }
             $scope.badge1 = $badge1;
         };
         $scope.cbadge2 = function(personne) {
             $log.log("in cbadge2");
             var $max2 = 33;
-            var $badge2 = ($scope.personne.fonction || "") + " - " + ($scope.personne.organisation || "");
-            if ($badge2.length > $max2) $badge2 = ($scope.personne.fonction || "") + "-" + ($scope.personne.organisation || "");
+            var $f = ($scope.personne.fonction || "");
+            var $o = ($scope.personne.organisation || "");
+            var $badge2 = "";
+            if ($f && $o) {
+                $badge2 = $f + " - " + $o;
+                if ($badge2.length > $max2) $badge2 = $f + "-" + $o;
+            }
+            else $badge2 = $f + $o;
             if ($badge2.length > $max2) {
                 var $l2 = $badge2.length;
-                if ($scope.personne.fonction) $badge2 = $scope.personne.fonction.substr(
-                    0, $scope.personne.fonction.length - $l2 + $max2) + " " + ($scope.personne.organisation || "");
-                else $badge2 = $scope.personne.organisation.substr(0, $scope.personne.organisation.length - $l2 + $max2);
+                if ($f) $f = $f.substr(0, $f.length - $l2 + $max2);
+                else $o = $o.substr(0, $o.length - $l2 + $max2);
+                if ($f && $o) $badge2 = $f + "-" + $o;
+                else $badge2 = $f + $o;
             }
             $scope.badge2 = $badge2;
         };
