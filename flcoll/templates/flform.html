@@ -31,7 +31,7 @@
   </div>
   Prénom <input type="text" name="prenom" ng-model="personne.prenom" ng-change="cbadge1()" /><br /><br />
   <span ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 26 caractères max.</span>
-  <pre><em>Sur votre badge : <input type="text" size="27" maxlength="27" name="badge1" ng-model="badge1" /></em></pre>
+  <pre><em>Sur votre badge :</em> <input type="text" size="27" maxlength="27" name="badge1" ng-model="badge1" /></pre>
     Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
@@ -43,15 +43,16 @@
   </fieldset>
 
   <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
-  Organisation <input type="text" name="organisation" ng-model="personne.organisation" required="" /><br />
+  Organisation <input type="text" name="organisation" ng-model="personne.organisation" required="" ng-change="cbadge2()" /><br />
   <div ng-show="flform.$submitted || flform.organisation.$touched">
     <span ng-show="flform.organisation.$error.required">Merci d'indiquer votre organisation</span>
   </div>
-  Fonction <input type="text" name="fonction" ng-model="personne.fonction" required="" /><br />
+  Fonction <input type="text" name="fonction" ng-model="personne.fonction" required="" ng-change="cbadge2()"/><br />
   <div ng-show="flform.$submitted || flform.fonction.$touched">
     <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
   </div>
-  <pre><em>Sur votre badge : [[personne.fonction + " - " + personne.organisation]]</em></pre>
+  <span ng-show="(personne.fonction && personne.fonction.length > 32) || (personne.fonction && personne.organisation && ((personne.fonction + personne.organisation).length > 32))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 32 caractères max.</span>
+  <pre><em>Sur votre badge :</em> <input type="text" size="33" maxlength="33" name="badge2" ng-model="badge2" /></pre>
     <input type="button" ng-click="reset()" value="Reset" />
     <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
