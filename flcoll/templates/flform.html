@@ -58,7 +58,7 @@
     <span ng-show="flform.nom.$error.required">Merci d'indiquer votre nom</span>
   </div>
   Prénom <input type="text" name="prenom" ng-model="personne.prenom" /><br />
-  <pre>Votre badge : [[personne.prenom + " " + personne.nom]]</pre>
+  <pre><em>Sur votre badge : [[personne.prenom + " " + personne.nom]]</em></pre>
     Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
@@ -78,7 +78,7 @@
   <div ng-show="flform.$submitted || flform.fonction.$touched">
     <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
   </div>
-  <pre>Votre badge : [[personne.fonction + " - " + personne.organisation]]</pre>
+  <pre><em>Sur votre badge : [[personne.fonction + " - " + personne.organisation]]</em></pre>
     <input type="button" ng-click="reset()" value="Reset" />
     <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
