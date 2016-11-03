@@ -8,7 +8,7 @@ ok modèle
   ok revoir la relation entre Inscription et Personne
 
 ok amélioration formulaires CRUD
-  -> ec traitement du logo de l'événément
+  ec traitement du logo de l'événément
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
@@ -20,14 +20,15 @@ ok page publique d'inscription à un colloque
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
+  -> ** affichage dynamique des derniers champs
   ** gérer les dates d'inscription (ouverture et clôture)
 
 ec page publique d'inscription à un colloque (version AngularJS)
   ok champs ordinaires
     ** changer les couleurs de fond
-  ** affichage dynamique des derniers champs
-  ec affichage dynamique du badge
-  ** éviter les doublons
+  ok affichage dynamique du badge
+  -> ** éviter les doublons (Ajax)
+  ec enregistrement du badge
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
