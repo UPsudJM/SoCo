@@ -23,7 +23,7 @@
 </div>
 
 <section ng-controller="flformCtrl">
-<form id="flform" name="flform" novalidate ng-submit="addInscription()">
+<form action="" id="flform" name="flform" novalidate> <!-- ng-submit="addInscription()" -->
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
   Nom <input type="text" name="nom" ng-model="personne.nom" required="" ng-change="cbadge1()" /><br />
   <div ng-show="flform.$submitted || flform.nom.$touched">
@@ -32,7 +32,7 @@
   Prénom <input type="text" name="prenom" ng-model="personne.prenom" ng-change="cbadge1()" /><br /><br />
   <span ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 26 caractères max.</span>
   <pre><em>Sur votre badge :</em> <input type="text" size="27" maxlength="27" name="badge1" ng-model="badge1" /></pre>
-    Email <input type="email" name="email" ng-model="personne.email" required="" /><br />
+    Email <input type="email" name="email" ng-model="personne.email" required="" ng-blur="chkemail()" /><br />
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
       <span ng-show="flform.email.$error.email">Cette adresse n'est pas valide</span>
@@ -64,8 +64,12 @@
 <pre>master = [[master | json]]</pre>
 </section>
 
+<div class="buttonbar">
+  <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
+</div>
+
 <div class="footnotes">
-<p><span class="mandatory">*</span> Champ obligatoire</p>
+<!-- p><span class="mandatory">*</span> Champ obligatoire</p -->
 <p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
 <p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
 </div>

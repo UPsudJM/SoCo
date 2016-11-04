@@ -27,7 +27,7 @@ ec page publique d'inscription à un colloque (version AngularJS)
   ok champs ordinaires
     ** changer les couleurs de fond
   ok affichage dynamique du badge
-  -> ** éviter les doublons (Ajax)
+  ec éviter les doublons (Ajax)
   ec enregistrement du badge
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)

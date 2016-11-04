@@ -90,9 +90,6 @@ var flform = angular.module('flform',['ngRoute'])
         $log.log($location.path());
         var $coll = $location.path().split("/").pop();
         $log.log($coll);
-        $http.get('/api/evenement/' + $coll).then(function(resp) {
-            console.log(resp.data);
-        });
         $scope.master = {};
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
@@ -131,6 +128,33 @@ var flform = angular.module('flform',['ngRoute'])
             }
             $scope.badge2 = $badge2;
         };
+        $scope.chkemail = function(personne) {
+            $log.log("in chkemail");
+            var $email_a_verifier = ($scope.personne.email || "");
+            $log.log($email_a_verifier);
+            //var $data = angular.toJson({'id_evenement': $coll});
+            //$log.log($data);
+            /* var $data = {'id_evenement': 1};
+            $log.log($data);
+            $http.get('/api/inscription', {'data':$data}).then(function(resp) {
+                console.log(resp.data);
+            });*/
+            var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
+            $log.log($filters);
+            $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                console.log(resp.data);
+                console.log(resp.data.num_results);
+                //console.log(resp.data.objects[0].id);
+                var $id_personne;
+                if (resp.data.num_results) $id_personne = resp.data.objects[0].id;
+                $log.log($id_personne);
+                if ($id_personne) {
+                    $http.get('/api/inscription/' + $coll + '/personne/' + $id_personne).then(function(resp) {
+                        console.log(resp.data);
+                    });
+                }
+            });
+        }
         $scope.update = function(personne) {
             $log.log("in update");
             $scope.master = angular.copy(personne);
