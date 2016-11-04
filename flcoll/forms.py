@@ -37,6 +37,8 @@ class InscriptionForm(Form):
     telephone = StringField('Téléphone', validators=[Optional(), Length(min=0, max=20)])
     organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)])
     fonction = StringField('Fonction', validators=[DataRequired(), Length(min=0, max=40)])
+    badge1 = StringField('Badge1')
+    badge2 = StringField('Badge2')
     attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
     inscription_repas_1 = BooleanField('Repas 1')
