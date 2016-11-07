@@ -20,15 +20,20 @@ ok page publique d'inscription à un colloque
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
-  -> ** affichage dynamique des derniers champs
+  -> ** affichage dynamique des derniers champs (ce n'était pas déjà fait ?)
   ** gérer les dates d'inscription (ouverture et clôture)
 
-ec page publique d'inscription à un colloque (version AngularJS)
+ec page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
     ** changer les couleurs de fond
   ok affichage dynamique du badge
-  ec éviter les doublons (Ajax)
-  ec enregistrement du badge
+  ok création des 2 champs pour le badge
+  -> ec éviter les doublons (Ajax)
+    ** penser à vérifier aussi le nom et le prénom,
+       le téléphone, la fonction et l'organisation peuvent être surchargées
+       (?) ou déplacés dans Inscription (?)
+  ec soumission du formulaire
+  * que faire si l'utilisateur n'a pas JS
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
