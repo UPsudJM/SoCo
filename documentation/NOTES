@@ -21,7 +21,7 @@ le mail est vérifié
 s'il existe déjà dans la base, un message est affiché
 si l'utilisateur persiste, et que le nom ou le prénom est différent,
 on envoie un mail avec un token (cookie) pour vérifier l'adresse mail,
-si le test est positif -> URL ouverte ave le token,
+si le test est positif -> URL ouverte avec le token,
 alors on continue le process d'inscription, en créant une nouvelle Personne
 (on n'efface rien, l'ancienne Personne continue de courir pour couvrir
 d'éventuelles inscriptions précédentes)
@@ -35,9 +35,10 @@ Soumission
 2) Interface de création de formulaire d'inscription
 ''destinée aux organisatrices du colloque''
 ''accès à l'aide du login U-PSud (LDAP)''
-''accès direct à l'interface personalisée''
+''accès direct à l'interface personnalisée''
 
-* possibilité de créer un formulaire
+* création d'un formulaire
+* configuration des champs supplémentaires
 * possibilité de changer la date de clôture
 * visualisation des inscrits
 * export en CSV, éventuellement aussi en Calc et XLS

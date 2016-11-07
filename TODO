@@ -32,6 +32,7 @@ ec page publique d'inscription à un colloque (partie AngularJS)
     ** penser à vérifier aussi le nom et le prénom,
        le téléphone, la fonction et l'organisation peuvent être surchargées
        (?) ou déplacés dans Inscription (?)
+    ** requête REST sur Inscription (id_evenement, id_personne)
   ec soumission du formulaire
   * que faire si l'utilisateur n'a pas JS
 

@@ -23,7 +23,7 @@
 </div>
 
 <section ng-controller="flformCtrl">
-<form action="" id="flform" name="flform" novalidate> <!-- ng-submit="addInscription()" -->
+<form action="" method="post" id="flform" name="flform">
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
   Nom <input type="text" name="nom" ng-model="personne.nom" required="" ng-change="cbadge1()" /><br />
   <div ng-show="flform.$submitted || flform.nom.$touched">
@@ -36,6 +36,10 @@
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
       <span ng-show="flform.email.$error.email">Cette adresse n'est pas valide</span>
+      <span ng-show="personne.duplicateemail">Cette adresse est déjà utilisée par une autre personne. Est-ce vous malgré tout ? Dans ce cas, nous allons vous envoyer un mail pour vérifier. Veuillez cliquer <input type="button" ng-click="envoi_email_verification()" value="ici" /> <input type="button" ng-click="envoi_email_verification()" value="Envoyez-moi un email pour vérifier mon adresse, merci !" /></span>
+      <span ng-show="personne.emailsent">Veuillez fournir ici le code que vous venez de recevoir par mail (4 caractères) : <input type="text" name="codeverif" ng-model="personne.codeverif" /> <input type="button" ng-click="verifier_code()" value="Vérifier le code"/></span>
+      <span ng-show="personne.codeok">Merci !</span>
+      <span ng-show="personne.codeko">Nous sommes désolés, le code ne correspond pas. Veuillez utiliser une autre adresse email.</span>
     </div>
     Téléphone <input type="text" name="telephone" ng-model="personne.telephone" /><br />
     <input type="button" ng-click="reset()" value="Reset" />
@@ -47,7 +51,7 @@
   <div ng-show="flform.$submitted || flform.organisation.$touched">
     <span ng-show="flform.organisation.$error.required">Merci d'indiquer votre organisation</span>
   </div>
-  Fonction <input type="text" name="fonction" ng-model="personne.fonction" required="" ng-change="cbadge2()"/><br />
+  Fonction <input type="text" name="fonction" ng-model="personne.fonction" ng-change="cbadge2()"/><br />
   <div ng-show="flform.$submitted || flform.fonction.$touched">
     <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
   </div>
@@ -59,14 +63,13 @@
   <fieldset><legend accesskey="p">Votre participation</legend>
   À générer par le JS
   </fieldset>
+<div class="buttonbar">
+  <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
+</div>
 </form>
 <pre>personne = [[personne | json]]</pre>
 <pre>master = [[master | json]]</pre>
 </section>
-
-<div class="buttonbar">
-  <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
-</div>
 
 <div class="footnotes">
 <!-- p><span class="mandatory">*</span> Champ obligatoire</p -->

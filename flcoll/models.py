@@ -97,4 +97,4 @@ Personne.inscription = relationship("Inscription", order_by=Inscription.id, back
 api_evenement = apiman.create_api(Evenement, methods = ['GET'])
 api_inscription = apiman.create_api(Inscription, methods = ['GET'])
 #api_inscrits = apiman.create_api(Evenement, methods = ['GET'], collection_name='inscrits')
-api_chkemail = apiman.create_api(Personne, methods=['GET'], collection_name='chkemail', include_columns=['id'])
+api_chkemail = apiman.create_api(Personne, methods=['GET'], collection_name='chkemail')
