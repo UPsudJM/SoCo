@@ -1,6 +1,7 @@
 en 3 parties, suivant les rôles :
 
 1) Formulaire d'inscription
+---------------------------
 ''principe : aucun rechargement de la page''
 
 Logo personnalisé, à défaut logo de l'université
@@ -10,29 +11,30 @@ Champs fixes : nom, prénom, email, téléphone, fonction, organisation
 Champs supplémentaires (suivant configuration du formulaire) :
   attestation de présence, repas ou cocktails...
 
-les lignes du badge sont composées automatiquement sous les yeux de
-l'utilisateur, avec restriction à 26 caractères pour la première ligne
-(prénom + espace + nom) et 32 pour la deuxième (fonction + tiret +
+Les lignes du badge sont composées automatiquement sous les yeux de
+l'utilisateur, avec restriction à 27 caractères pour la première ligne (prénom
++ espace + nom en majuscules) et 33 pour la deuxième (fonction + tiret +
 organisation) ; la coupure éventuelle se fait sur la fin du prénom
-(première ligne) et de la fonction (deuxième ligne) ; l'utilisatrice
-peut corriger directement chaque ligne du badge avant soumission
+(première ligne) ou de la fonction (deuxième ligne) ; l'utilisatrice
+peut corriger directement chaque ligne du badge avant soumission.
 
-le mail est vérifié
-s'il existe déjà dans la base, un message est affiché
-si l'utilisateur persiste, et que le nom ou le prénom est différent,
-on envoie un mail avec un token (cookie) pour vérifier l'adresse mail,
-si le test est positif -> URL ouverte avec le token,
-alors on continue le process d'inscription, en créant une nouvelle Personne
-(on n'efface rien, l'ancienne Personne continue de courir pour couvrir
-d'éventuelles inscriptions précédentes)
+Le mail est vérifié
+* s'il existe déjà dans la base, un message est affiché
+* si l'utilisateur persiste, et que le nom ou le prénom est différent,
+on envoie un mail avec un code pour vérifier l'adresse mail,
+* si le test est positif, alors on continue le process d'inscription, en
+créant une nouvelle Personne (on n'efface rien, l'ancienne Personne continue
+de courir pour couvrir d'éventuelles inscriptions précédentes).
 
-les champs configurables, s'il y en a, sont affichés
+Les champs configurables, s'il y en a, sont affichés
 
 CAPTCHA
 
 Soumission
 
+
 2) Interface de création de formulaire d'inscription
+----------------------------------------------------
 ''destinée aux organisatrices du colloque''
 ''accès à l'aide du login U-PSud (LDAP)''
 ''accès direct à l'interface personnalisée''
@@ -45,16 +47,19 @@ Soumission
 * impressions : feuille d'émargement et liste des présents
 
 3) Interface de suivi
+---------------------
 ''destinée au secrétariat''
 
 * possibilité de créer un formulaire
 * modification de certaines informations
 * visualisation des inscrits
 * export de la liste des inscrits (CSV, évt Calc et XLS)
+* export de listes d'adresses mail
 * impressions : feuille d'émargement et liste des présents
 * impression : badges
 
 4) Interface d'administration
+-----------------------------
 ''destinée aux informaticien-ne-s, évt au secrétariat''
 ''visualisation et édition générale de la base de données''
 

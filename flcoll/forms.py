@@ -1,4 +1,5 @@
 from flask_wtf import Form
+from flask import flash
 from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
@@ -6,7 +7,14 @@ from flcoll.models import Evenement, Formulaire, Personne, Inscription
 import datetime
 
 
-class NcollForm(Form):
+class FlcollForm(Form):
+    def flash_errors(self):
+        for field, errors in self.errors.items():
+            for error in errors:
+                flash(u"Error in the %s field - %s" % (getattr(self, field).label.text, error))
+
+
+class NcollForm(FlcollForm):
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
     date = DateField('Date', validators=[DataRequired()])
@@ -30,15 +38,15 @@ class NcollForm(Form):
         return True
 
 
-class InscriptionForm(Form):
+class InscriptionForm(FlcollForm):
     nom = StringField('Nom', validators=[DataRequired(), Length(min=2, max=30)])
-    prenom = StringField('Prénom', validators=[DataRequired(), Length(min=2, max=30)], description="Attention, pour le badge : prénom + nom = 26 caractères max.")
+    prenom = StringField('Prénom', validators=[Optional(), Length(min=2, max=30)], description="Attention, pour le badge : prénom + nom = 26 caractères max.")
     email = StringField('Adresse électronique', validators=[DataRequired(), Email(), Length(min=0, max=70)])
     telephone = StringField('Téléphone', validators=[Optional(), Length(min=0, max=20)])
-    organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)])
-    fonction = StringField('Fonction', validators=[DataRequired(), Length(min=0, max=40)])
-    badge1 = StringField('Badge1')
-    badge2 = StringField('Badge2')
+    organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)], description="Attention, pour le badge : fonction + organisation = 32 caractères max.")
+    fonction = StringField('Fonction', validators=[Optional(), Length(min=0, max=40)])
+    badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
+    badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
     attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
     inscription_repas_1 = BooleanField('Repas 1')
@@ -62,9 +70,6 @@ class InscriptionForm(Form):
 
     def validate(self):
         if not Form.validate(self):
-            return False
-        if len(self.nom.data) + len(self.prenom.data) > 26:
-            self.nom.errors.append("Attention, pour le badge, nom + prénom = 26 caractères maximum")
-            self.prenom.errors.append("Attention, pour le badge, nom + prénom = 26 caractères maximum")
+            self.flash_errors()
             return False
         return True
