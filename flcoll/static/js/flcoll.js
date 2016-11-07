@@ -95,7 +95,9 @@ var flform = angular.module('flform',['ngRoute'])
             $log.log("in cbadge1");
             var $max1 = 27;
             var $p = ($scope.personne.prenom || "");
+            $p = $p.charAt(0).toUpperCase() + $p.slice(1);
             var $n = ($scope.personne.nom || "");
+            $n = $n.toUpperCase();
             var $badge1 = "";
             if ($p && $n) $badge1 = $p + " " + $n;
             else $badge1 = $p + $n;

@@ -25,12 +25,11 @@ ok page publique d'inscription à un colloque
 ec page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
   ok affichage dynamique du badge
-    ** mettre le nom en majuscules
   ok création des 2 champs pour le badge
   ec éviter les doublons (Ajax)
     ** réduire/améliorer les messages sur la page
     ** envoi du mail de vérification : POST sur URL REST allant vers une
-   fonction située dans views ou dans models
+       fonction située dans views ou dans models
     ** raffiner la comparaison du nom et du prénom
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
