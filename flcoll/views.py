@@ -70,15 +70,16 @@ def flcoll(flform):
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
-                                                organisation=form.organisation.data).first()
-        if personne == None:
-                personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()
+        #personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
+        #                                        organisation=form.organisation.data).first()
         if personne == None:
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
-                                email=form.email.data, telephone=form.telephone.data,
-                                organisation=form.organisation.data, fonction=form.fonction.data)
+                                email=form.email.data)
         inscription = Inscription(formulaire.evenement, personne)
+        if form.telephone.data: inscription.telephone = form.telephone.data
+        if form.fonction.data: inscription.fonction = form.fonction.data
+        if form.organisation.data: inscription.organisation = form.organisation.data
         db_session.add(inscription)
         try:
             db_session.commit()
@@ -250,14 +251,16 @@ class FormulaireView(FlcollModelView):
 class PersonneView(FlcollModelView):
     can_export = True
     form_args = {
-        'prenom' : {'label': 'Prénom'},
-        'telephone' : {'label': 'Téléphone'}
+        'prenom' : {'label': 'Prénom'}
     }
     inline_models = [(Inscription, dict(form_columns=['id', 'evenement', 'attestation_demandee']))]
 
 
 class InscriptionView(FlcollModelView):
     can_export = True
+    form_args = {
+        'telephone' : {'label': 'Téléphone'}
+    }
     form_excluded_columns = ['date_inscription']
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
