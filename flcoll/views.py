@@ -80,10 +80,11 @@ def flcoll(flform):
         if personne == None:
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data)
-        inscription = Inscription(formulaire.evenement, personne)
+        inscription = Inscription(evenement=formulaire.evenement, personne=personne)
         if form.telephone.data: inscription.telephone = form.telephone.data
         if form.fonction.data: inscription.fonction = form.fonction.data
         if form.organisation.data: inscription.organisation = form.organisation.data
+        inscription.date_inscription = datetime.datetime.now()
         db_session.add(inscription)
         try:
             db_session.commit()

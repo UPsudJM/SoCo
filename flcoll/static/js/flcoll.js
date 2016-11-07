@@ -130,44 +130,46 @@ var flform = angular.module('flform',['ngRoute'])
         };
         $scope.chkemail = function(personne) {
             $log.log("in chkemail");
-            // FIXME initialiser toutes les variables auxiliaires
-            // (en profiter pour réduire leur nombre)
-            var $email_a_verifier = ($scope.personne.email || "");
-            $log.log($email_a_verifier);
-            /* var $data = angular.toJson({'id_evenement': $coll});
-            $http.get('/api/inscription', {'data':$data}).then(function(resp) {
-                console.log(resp.data);
-            });*/
-            var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
-            $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
-                $log.log(resp.data);
-                //$log.log(resp.data.num_results);
-                //var $id_personne;
-                if (resp.data.num_results) {
-                    $log.log(resp.data.objects[0]);
-                    var $id_personne = resp.data.objects[0].id;
-                    var $nom_bdd = resp.data.objects[0].nom;
-                    var $prenom_bdd = resp.data.objects[0].prenom;
-                    if ($scope.personne.nom != $nom_bdd || $scope.personne.prenom != $prenom_bdd) {
-                        $log.log("nom ou prenom diff.");
-                        $scope.personne.duplicateemail = "y";
-                        $log.log($scope.personne.duplicateemail);
-                    }
-                    else {
-                        var $filters = [{"name": "id_evenement", "op": "eq", "val": $coll},
-                                        {"name": "id_personne", "op": "eq", "val": $id_personne}];
-                        $log.log($filters);
-                        $http.get('/api/inscription', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
-                            $log.log(resp.data);
-                            if (resp.data.num_results) {
-                                $log.log("personne déjà inscrite");
-                                $scope.msg_duplicateemail = "Vous êtes déjà inscrit-e à cet événement !";
-                            }
-                            else delete $scope.msg_duplicateemail;
+            if ($scope.personne.nom && $scope.personne.email) {
+                // FIXME initialiser toutes les variables auxiliaires
+                // (en profiter pour réduire leur nombre)
+                var $email_a_verifier = ($scope.personne.email || "");
+                $log.log($email_a_verifier);
+                /* var $data = angular.toJson({'id_evenement': $coll});
+                   $http.get('/api/inscription', {'data':$data}).then(function(resp) {
+                   console.log(resp.data);
+                   });*/
+                var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
+                $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                    $log.log(resp.data);
+                    //$log.log(resp.data.num_results);
+                    //var $id_personne;
+                    if (resp.data.num_results) {
+                        $log.log(resp.data.objects[0]);
+                        var $id_personne = resp.data.objects[0].id;
+                        var $nom_bdd = resp.data.objects[0].nom;
+                        var $prenom_bdd = resp.data.objects[0].prenom;
+                        if ($scope.personne.nom != $nom_bdd || $scope.personne.prenom != $prenom_bdd) {
+                            $log.log("nom ou prenom diff.");
+                            $scope.personne.duplicateemail = "y";
+                            $log.log($scope.personne.duplicateemail);
                         }
-                                                                                                                    )};
-                }
-            });
+                        else {
+                            var $filters = [{"name": "id_evenement", "op": "eq", "val": $coll},
+                                        {"name": "id_personne", "op": "eq", "val": $id_personne}];
+                            $log.log($filters);
+                            $http.get('/api/inscription', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                                $log.log(resp.data);
+                                if (resp.data.num_results) {
+                                    $log.log("personne déjà inscrite");
+                                    $scope.msg_duplicateemail = "Vous êtes déjà inscrit-e à cet événement !";
+                                }
+                                else delete $scope.msg_duplicateemail;
+                            }
+                                                                                                                        )};
+                    }
+                });
+            }
         }
         $scope.envoi_email_verification = function(personne) {
             $log.log("in envoi_email_verification");

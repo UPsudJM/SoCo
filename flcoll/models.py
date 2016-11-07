@@ -86,6 +86,14 @@ class Inscription(Base):
     evenement = relationship("Evenement", back_populates="inscription")
     personne = relationship("Personne", back_populates="inscription")
 
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['id_evenement', 'evenement', 'id_personne', 'personne', 'telephone', 'fonction', 'organisation',
+                             'date_inscription', 'badge1', 'badge2', 'type_inscription', 'attestation_demandee',
+                             'commentaire', 'inscription_repas_1', 'inscription_repas_2']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
     def __str__(self):
         return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
 

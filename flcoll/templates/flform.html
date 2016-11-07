@@ -23,13 +23,14 @@
 </div>
 
 <section ng-controller="flformCtrl">
-<form action="" method="post" id="flform" name="flform">
+  <form action="" method="post" id="flform" name="flform">
+    {{ form.csrf_token }}
   <fieldset><legend accesskey="c">Vos coordonnées</legend>
-  Nom <input type="text" name="nom" ng-model="personne.nom" required="" ng-change="cbadge1()" /><br />
+  Nom <input type="text" name="nom" ng-model="personne.nom" required="" ng-change="cbadge1()" ng-blur="chkemail()" /><br />
   <div ng-show="flform.$submitted || flform.nom.$touched">
     <span ng-show="flform.nom.$error.required">Merci d'indiquer votre nom</span>
   </div>
-  Prénom <input type="text" name="prenom" ng-model="personne.prenom" ng-change="cbadge1()" /><br /><br />
+  Prénom <input type="text" name="prenom" ng-model="personne.prenom" ng-change="cbadge1()" ng-blur="chkemail()" /><br /><br />
   <span ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">Attention, pour le badge, prénom + nom = 26 caractères max.</span>
   <pre><em>Sur votre badge :</em> <input type="text" size="27" maxlength="27" name="badge1" ng-model="badge1" /></pre>
     Email <input type="email" name="email" ng-model="personne.email" required="" ng-blur="chkemail()" /><br />
