@@ -17,11 +17,10 @@ ok page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
   ok présentation de la page
   ok éviter les doublons d'inscription (et de personne)
-  ** raffiner l'information de l'utilisateur, notamment cas doublon
+  ec raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
-  -> ** affichage dynamique des derniers champs (ce n'était pas déjà fait ?)
-  ** gérer les dates d'inscription (ouverture et clôture)
+  ok gérer les dates d'inscription (ouverture et clôture)
 
 ec page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
@@ -30,6 +29,7 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   ec éviter les doublons (Ajax)
     ** réduire/améliorer les messages sur la page
     ** envoi du mail de vérification
+  * CAPTCHA (visualcaptcha)
   * soumission du formulaire
   * que faire si l'utilisateur n'a pas JS
   * vérifier le viewport et autres (smartphones)

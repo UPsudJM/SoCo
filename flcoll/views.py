@@ -67,6 +67,10 @@ def flcoll(flform):
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
         return internal_error('Formulaire %d non trouvé' % flform)
+    if formulaire.date_ouverture_inscriptions > datetime.date.today():
+        return render_template('erreur.html', msg='Les inscriptions pour cet événement ne sont pas encore ouvertes !')
+    elif formulaire.date_cloture_inscriptions < datetime.date.today():
+        return render_template('erreur.html', msg='Les inscriptions pour cet événement sont closes !')
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
