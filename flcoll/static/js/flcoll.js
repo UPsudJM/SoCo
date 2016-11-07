@@ -173,17 +173,12 @@ var flform = angular.module('flform',['ngRoute'])
             if ($scope.personne.codeverif == $scope.codeverif) { $scope.personne.codeok = "y"; delete $scope.personne.codeko; }
             else { $scope.personne.codeko = "y"; delete $scope.personne.codeok; }
         }
-        $scope.update = function(personne) {
-            $log.log("in update");
-            $scope.master = angular.copy(personne);
-        };
         $scope.reset = function(form) {
             $log.log("in reset");
             if (form) {
                 form.$setPristine();
                 form.$setUntouched();
             }
-            $scope.personne = angular.copy($scope.master);
         };
         $scope.reset();
     }]);

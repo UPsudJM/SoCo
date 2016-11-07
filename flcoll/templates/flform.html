@@ -42,8 +42,6 @@
       <span ng-show="personne.codeko">Nous sommes désolés, le code ne correspond pas. Veuillez utiliser une autre adresse email.</span>
     </div>
     Téléphone <input type="text" name="telephone" ng-model="personne.telephone" /><br />
-    <input type="button" ng-click="reset()" value="Reset" />
-    <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
 
   <fieldset><legend accesskey="e">Votre entreprise / Institution</legend>
@@ -57,13 +55,12 @@
   </div>
   <span ng-show="(personne.fonction && personne.fonction.length > 32) || (personne.organisation && personne.organisation.length > 32) ||(personne.fonction && personne.organisation && ((personne.fonction + personne.organisation).length > 32))" class="descriptionchamp">Attention, pour le badge, fonction + organisation = 32 caractères max.</span>
   <pre><em>Sur votre badge :</em> <input type="text" size="33" maxlength="33" name="badge2" ng-model="badge2" /></pre>
-    <input type="button" ng-click="reset()" value="Reset" />
-    <input type="submit" ng-click="update(personne)" value="Save" />
   </fieldset>
   <fieldset><legend accesskey="p">Votre participation</legend>
   À générer par le JS
   </fieldset>
 <div class="buttonbar">
+  <input type="button" ng-click="reset()" value="Réinitialiser" />
   <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
 </div>
 </form>
