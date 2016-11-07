@@ -49,19 +49,15 @@ Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_p
 
 class Personne(Base):
     __tablename__ = 'personne'
-    __table_args__ = (UniqueConstraint('nom', 'prenom', 'organisation', name='uc_1'),
-                          UniqueConstraint('nom', 'prenom', 'email', name='uc_2'))
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_1'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
     email = Column(String(70))
-    telephone = Column(String(20))
-    organisation = Column(String(70))
-    fonction = Column(String(70))
 
     def __init__(self, **kwargs):
         Base.__init__(self)
-        for attrname in ['nom', 'prenom', 'email', 'telephone', 'organisation', 'fonction']:
+        for attrname in ['nom', 'prenom', 'email']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
@@ -71,12 +67,15 @@ class Personne(Base):
 
 class Inscription(Base):
     __tablename__ = 'inscription'
-    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_3'),)
+    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_2'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
     date_inscription = Column(DateTime) #, default=func.now(), server_default=func.now())
     type_inscription = Column(String(70))
+    telephone = Column(String(20))
+    organisation = Column(String(70))
+    fonction = Column(String(70))
     badge1 = Column(String(70))
     badge2 = Column(String(70))
     attestation_demandee = Column(Boolean)
