@@ -36,6 +36,7 @@
     <div ng-show="flform.$submitted || flform.email.$touched">
       <span ng-show="flform.email.$error.required">Merci d'indiquer votre adresse électronique</span>
       <span ng-show="flform.email.$error.email">Cette adresse n'est pas valide</span>
+      <span ng-show="msg_duplicateemail">[[ msg_duplicateemail ]]</span>
       <span ng-show="personne.duplicateemail">Cette adresse est déjà utilisée par une autre personne. Est-ce vous malgré tout ? Dans ce cas, nous allons vous envoyer un mail pour vérifier. Veuillez cliquer <input type="button" ng-click="envoi_email_verification()" value="ici" /> <input type="button" ng-click="envoi_email_verification()" value="Envoyez-moi un email pour vérifier mon adresse, merci !" /></span>
       <span ng-show="personne.emailsent">Veuillez fournir ici le code que vous venez de recevoir par mail (4 caractères) : <input type="text" name="codeverif" ng-model="personne.codeverif" /> <input type="button" ng-click="verifier_code()" value="Vérifier le code"/></span>
       <span ng-show="personne.codeok">Merci !</span>
@@ -49,7 +50,7 @@
   <div ng-show="flform.$submitted || flform.organisation.$touched">
     <span ng-show="flform.organisation.$error.required">Merci d'indiquer votre organisation</span>
   </div>
-  Fonction <input type="text" name="fonction" ng-model="personne.fonction" ng-change="cbadge2()"/><br />
+  Fonction <input type="text" name="fonction" ng-model="personne.fonction" ng-change="cbadge2()"/><br /><br />
   <div ng-show="flform.$submitted || flform.fonction.$touched">
     <span ng-show="flform.fonction.$error.required">Merci d'indiquer votre fonction</span>
   </div>

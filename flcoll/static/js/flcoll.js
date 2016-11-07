@@ -130,6 +130,8 @@ var flform = angular.module('flform',['ngRoute'])
         };
         $scope.chkemail = function(personne) {
             $log.log("in chkemail");
+            // FIXME initialiser toutes les variables auxiliaires
+            // (en profiter pour réduire leur nombre)
             var $email_a_verifier = ($scope.personne.email || "");
             $log.log($email_a_verifier);
             /* var $data = angular.toJson({'id_evenement': $coll});
@@ -137,7 +139,6 @@ var flform = angular.module('flform',['ngRoute'])
                 console.log(resp.data);
             });*/
             var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
-            //$log.log($filters);
             $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
                 $log.log(resp.data);
                 //$log.log(resp.data.num_results);
@@ -152,9 +153,19 @@ var flform = angular.module('flform',['ngRoute'])
                         $scope.personne.duplicateemail = "y";
                         $log.log($scope.personne.duplicateemail);
                     }
-                    //else
-                    // else FIXME : on peut vérifier déjà ici si la personne est déjà inscrite
-                    // à l'aide d'une requête sur l'objet Inscription (id_evenement, id_personne)
+                    else {
+                        var $filters = [{"name": "id_evenement", "op": "eq", "val": $coll},
+                                        {"name": "id_personne", "op": "eq", "val": $id_personne}];
+                        $log.log($filters);
+                        $http.get('/api/inscription', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                            $log.log(resp.data);
+                            if (resp.data.num_results) {
+                                $log.log("personne déjà inscrite");
+                                $scope.msg_duplicateemail = "Vous êtes déjà inscrit-e à cet événement !";
+                            }
+                            else delete $scope.msg_duplicateemail;
+                        }
+                                                                                                                    )};
                 }
             });
         }

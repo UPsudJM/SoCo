@@ -25,16 +25,14 @@ ok page publique d'inscription à un colloque
 
 ec page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
-    ** changer les couleurs de fond
   ok affichage dynamique du badge
   ok création des 2 champs pour le badge
-  -> ec éviter les doublons (Ajax)
-    ** penser à vérifier aussi le nom et le prénom,
-       le téléphone, la fonction et l'organisation peuvent être surchargées
-       (?) ou déplacés dans Inscription (?)
-    ** requête REST sur Inscription (id_evenement, id_personne)
-  ec soumission du formulaire
+  ec éviter les doublons (Ajax)
+    ** réduire/améliorer les messages sur la page
+    ** envoi du mail de vérification
+  * soumission du formulaire
   * que faire si l'utilisateur n'a pas JS
+  * vérifier le viewport et autres (smartphones)
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
