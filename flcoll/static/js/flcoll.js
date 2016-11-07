@@ -6,6 +6,20 @@ flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 }]);
 
+function desaccentue ($s) {
+    $s = $s.replace(/[àáâä]/g,"a");
+    $s = $s.replace(/[ç]/g,"c");
+    $s = $s.replace(/[èéêë]/g,"e");
+    $s = $s.replace(/[íîï]/g,"i");
+    $s = $s.replace(/[ñ]/g,"n");
+    $s = $s.replace(/[óôö]/g,"o");
+    $s = $s.replace(/[ùûü]/g,"u");
+    return $s;
+}
+function normalise_pour_comp($s) {
+    return desaccentue($s.toLowerCase())
+}
+
 var newevt = angular.module('newevt',['ui.bootstrap'])
     .controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
         $log.log("in newevt");
@@ -144,14 +158,13 @@ var flform = angular.module('flform',['ngRoute'])
                 var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
                 $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
                     $log.log(resp.data);
-                    //$log.log(resp.data.num_results);
                     //var $id_personne;
                     if (resp.data.num_results) {
                         $log.log(resp.data.objects[0]);
                         var $id_personne = resp.data.objects[0].id;
                         var $nom_bdd = resp.data.objects[0].nom;
                         var $prenom_bdd = resp.data.objects[0].prenom;
-                        if ($scope.personne.nom != $nom_bdd || $scope.personne.prenom != $prenom_bdd) {
+                        if (normalise_pour_comp($scope.personne.nom) != normalise_pour_comp($nom_bdd) || normalise_pour_comp($scope.personne.prenom) != normalise_pour_comp($prenom_bdd)) {
                             $log.log("nom ou prenom diff.");
                             $scope.personne.duplicateemail = "y";
                             $log.log($scope.personne.duplicateemail);
