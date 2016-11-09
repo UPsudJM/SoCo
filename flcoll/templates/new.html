@@ -6,7 +6,7 @@
 {% endblock %}
 {% block javascript %}
     <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/angular-pickadate.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/angular-pickadate.js') }}" ></script>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +48,7 @@
     <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
   </div>
   Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
-  Date <input pickadate type="date" name="date" ng-model="evenement.date" required="" />
+  Date <input type="date" name="date" ng-model="evenement.date" required="" pickadate multiple not-blank format="dd/mm/yyyy" week-starts-on="1" select-other-months="next" />
   <br/>
   Date <input type="date" name="date" ng-model="evenement.date" required="" uib-datepicker-popup="{{format}}" is-open="popup1.opened" datepicker-options="dateOptions" show-button-bar="false" ng-required="true"  placeholder="aaaa-mm-jj" /><button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
   <br />

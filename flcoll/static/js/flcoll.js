@@ -23,6 +23,14 @@ function normalise_pour_comp($s) {
 }
 
 var newevt = angular.module('newevt',['pickadate'])
+.config(function(pickadateI18nProvider) {
+    pickadateI18nProvider.translations = {
+        prev: '<em>&lt;&lt; prec</em>',
+        next: '<em>suiv &gt;&gt;</em>',
+        varDelimStart: '[[',
+        varDelimEnd: ']]'
+    }
+})
 .controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
     $log.log("in newevt");
 }]);

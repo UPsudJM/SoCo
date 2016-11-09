@@ -103,12 +103,14 @@ def flcoll(flform):
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
 
 
+@app.route('/new')
 @app.route('/new/')
-@login_required
+#@login_required
 def new():
     form = NcollForm()
     return render_template('new.html', form=form, current_user=current_user)
 
+@app.route('/suivi')
 @app.route('/suivi/')
 @login_required
 def suivi_index():
