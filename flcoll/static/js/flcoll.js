@@ -8,12 +8,14 @@ flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
 
 function desaccentue ($s) {
     $s = $s.replace(/[àáâä]/g,"a");
-    $s = $s.replace(/[ç]/g,"c");
+    $s = $s.replace(/ç/g,"c");
     $s = $s.replace(/[èéêë]/g,"e");
     $s = $s.replace(/[íîï]/g,"i");
     $s = $s.replace(/[ñ]/g,"n");
     $s = $s.replace(/[óôö]/g,"o");
     $s = $s.replace(/[ùûü]/g,"u");
+    $s = $s.replace(/-/g," ");
+    $s = $s.replace(/  /g," ");
     return $s;
 }
 function normalise_pour_comp($s) {

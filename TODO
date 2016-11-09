@@ -35,6 +35,7 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
+    ** interdire la soumission si erreur détectée par le JS : doublon email
   * que faire si l'utilisateur n'a pas JS
   * vérifier le viewport et autres (smartphones)
 
