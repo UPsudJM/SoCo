@@ -11,9 +11,11 @@
     <title>Université Paris Saclay - Faculté Jean Monnet - Inscription à un colloque</title>
     {% endif %}
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+    {% block CSS %}{% endblock %}
     <link href="{{ url_for('static', filename='css/flcoll.css') }}" rel="stylesheet"/>
     <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
+    <!-- script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script -->
     {% block javascript %}{% endblock %}
     <script src="{{ url_for('static', filename='js/flcoll.js') }}"></script>
  </head>

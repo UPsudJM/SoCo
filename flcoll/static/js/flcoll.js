@@ -1,5 +1,5 @@
 'use strict';
-var flcollApp = angular.module('flcollApp', ['ngRoute', 'ui.bootstrap', 'flform', 'suivi', 'newevt']);
+var flcollApp = angular.module('flcollApp', ['flform', 'newevt', 'suivi']);
 
 flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
@@ -22,78 +22,17 @@ function normalise_pour_comp($s) {
     return desaccentue($s.toLowerCase())
 }
 
-var newevt = angular.module('newevt',['ui.bootstrap'])
-    .controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
-        $log.log("in newevt");
-        $scope.master = {};
-        $scope.update = function(evenement) {
-            $log.log("in update");
-            $scope.master = angular.copy(evenement);
-        };
-        $scope.reset = function(form) {
-            $log.log("in reset");
-            if (form) {
-                form.$setPristine();
-                form.$setUntouched();
-            }
-            $scope.evenement = angular.copy($scope.master);
-        };
-        $scope.reset();
-        $scope.popup1 = { opened: false };
-        $scope.popup2 = { opened: false };
-        $scope.popup3 = { opened: false };
-        $scope.popup4 = { opened: false };
-        /* $scope.today = function() {
-            $scope.dt = new Date();
-        };
-        $scope.today(); */
-        $scope.dateOptions = {
-            /* dateDisabled: disabled,
-            formatYear: 'yy', */
-            minDate: new Date(),
-            maxDate: new Date(2020, 5, 22)
-            /* startingDay: 1 */ /* vérifier que la $locale est utilisée */
-        };
-        $scope.dateOptionsDateFin = {
-            minDate: $scope.evenement.date,
-            maxDate: new Date(2020, 5, 22)
-        };
-        $scope.dateOptionsOuvInsc = {
-            minDate: new Date(),
-            maxDate: $scope.evenement.date
-        };
-        $scope.dateOptionsClotInsc = {
-            minDate: $scope.evenement.date_ouverture_inscriptions,
-            maxDate: $scope.evenement.date_fin ? $scope.evenement.date_fin : $scope.evenement.date
-        };
-        $scope.formats = ['dd-MMMM-yyyy', 'dd/MM/yyyy', 'shortDate'];
-        $scope.format = $scope.formats[1];
-        $log.log($scope.format);
-        $scope.altInputFormats = ['dd/MM/yyyy'];
-        $scope.open1 = function() {
-            $scope.popup1.opened = true;
-        };
-        $scope.open2 = function() {
-            $scope.popup2.opened = true;
-        };
-        $scope.open3 = function() {
-            $scope.dateOptionsOuvInsc.maxDate = $scope.evenement.date;
-            $scope.popup3.opened = true;
-        };
-        $scope.open4 = function() {
-            $scope.dateOptionsClotInsc.minDate = $scope.evenement.date_ouverture_inscriptions;
-            $scope.dateOptionsClotInsc.maxDate = $scope.evenement.date_fin ? $scope.evenement.date_fin : $scope.evenement.date;
-            $scope.popup4.opened = true;
-        };
-        $log.log("tout lu");
-    }]);
+var newevt = angular.module('newevt',['pickadate'])
+.controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
+    $log.log("in newevt");
+}]);
 
 var suivi = angular.module('suivi',[])
 .controller('suiviCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
     $log.log("in suivi");
 }]);
 
-var flform = angular.module('flform',['ngRoute'])
+var flform = angular.module('flform',[])
      .config(['$locationProvider',
              function($locationProvider) {
                  $locationProvider.html5Mode({
@@ -101,7 +40,7 @@ var flform = angular.module('flform',['ngRoute'])
                      requireBase: false
                  });
              }])
-    .controller('flformCtrl', ['$scope', '$log', '$http', '$location', '$route', '$routeParams', function ($scope, $log, $http, $location) {
+    .controller('flformCtrl', ['$scope', '$log', '$http', '$location', function ($scope, $log, $http, $location) {
         $log.log("in flform");
         $log.log($location.path());
         var $coll = $location.path().split("/").pop();
