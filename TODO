@@ -44,6 +44,13 @@ at envois de mail -> evt ajouter threading (mega tutorial miguel)
 
 ok page d'index générale pour les pages de suivi
 
+ec formulaire nouveau colloque
+  ec champs -> il en reste
+  ok mise en œuvre pickadate
+  ec calculs croisés de dates min et max
+  ** affichage récap avant soumission
+  ** soumission
+
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
   at tableau CSV
