@@ -48,17 +48,17 @@
     <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
   </div>
   Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
-  Date <input type="text" size="10" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
+  Date <input type="text" size="10" id="date" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc1()" />
   <div ng-show="ncollform.$submitted || ncollform.date.$touched">
     <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
   </div>
-  Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
+  Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
   <br />
   Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
   </fieldset>
 
   <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
-  Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
+  Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc3()" />
   <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
     <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
   </div>
