@@ -20,7 +20,7 @@
 <hr/>
 
 {% from "_formhelpers.html" import render_field with context %}
-<form action="" method="post" name="ncoll">
+<!-- form action="" method="post" name="ncoll">
   {{form.hidden_tag()}}
   <fieldset><legend accesskey="c">Votre colloque</legend>
     {{ render_field(form.titre, size=20, maxlength=26) }}
@@ -38,7 +38,7 @@
     <input type="submit" name="submit" accesskey="z" tabindex="14" value="Envoyer" />
   </div>
 
-</form>
+</form -->
 
 <section ng-controller="newevtCtrl">
 <form id="ncollform" name="ncollform" novalidate ng-submit="addEvenement()">
@@ -48,32 +48,24 @@
     <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
   </div>
   Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
-  Date <input type="date" name="date" ng-model="evenement.date" required="" pickadate multiple not-blank format="dd/mm/yyyy" week-starts-on="1" select-other-months="next" />
-  <br/>
-  Date <input type="date" name="date" ng-model="evenement.date" required="" uib-datepicker-popup="{{format}}" is-open="popup1.opened" datepicker-options="dateOptions" show-button-bar="false" ng-required="true"  placeholder="aaaa-mm-jj" /><button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-  <br />
+  Date <input type="text" size="10" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
   <div ng-show="ncollform.$submitted || ncollform.date.$touched">
     <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
   </div>
-  Date de fin (cas où l'événément dure plusieurs jours) <input type="date" name="date_fin" ng-model="evenement.date_fin" uib-datepicker-popup="{{format}}" is-open="popup2.opened" datepicker-options="dateOptions" show-button-bar="false" ng-required="false" /><button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+  Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
   <br />
   Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
-    <input type="button" ng-click="reset()" value="Reset" />
-    <input type="submit" ng-click="update(evenement)" value="Save" />
   </fieldset>
 
   <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
-  Date d'ouverture des inscriptions <input type="text" uib-datepicker-popup="{{format}}" is-open="popup3.opened" datepicker-options="dateOptionsOuvInsc" clear-text="Ré-init." current-text="Auj." close-text="OK" show-button-bar="false" ng-required="true" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" alt-input-formats="altInputFormats" /><button type="button" class="btn btn-default" ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
-  <br />
+  Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
   <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
     <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
   </div>
-  Date de clôture des inscriptions <input type="text" uib-datepicker-popup="{{format}}" is-open="popup4.opened" datepicker-options="dateOptionsClotInsc" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" /><button type="button" class="btn btn-default" ng-click="open4()"><i class="glyphicon glyphicon-calendar"></i></button>
+  Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
   <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
     <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
   </div>
-    <input type="button" ng-click="reset()" value="Reset" />
-    <input type="submit" ng-click="update(evenement)" value="Save" />
   </fieldset>
 </form>
 <pre>evenement = [[evenement | json]]</pre>
