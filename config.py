@@ -33,3 +33,7 @@ LANGUAGES = {
     'fr': 'Français'
     }
 BABEL_DEFAULT_LOCALE = 'fr'
+
+# logo upload
+LOGO_FOLDER='./logos'
+LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']

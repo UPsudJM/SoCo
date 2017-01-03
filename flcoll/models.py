@@ -62,7 +62,26 @@ class Personne(Base):
                 setattr(self, attrname, kwargs[attrname])
 
     def __str__(self):
-        return "%s %s, %s (%s)" % (self.prenom, self.nom, self.organisation, self.fonction)
+        return "%s %s" % (self.prenom, self.nom)
+
+
+class Organisation(Base):
+    __tablename__ = 'organisation'
+    __table_args__ = (UniqueConstraint('nom', name='uc_1'),)
+    id = Column(Integer, primary_key = True)
+    nom = Column(String(70), nullable=False)
+    interne = Column(Boolean, default=False)
+    email = Column(String(70))
+    logo = Column(Binary)
+
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['nom', 'interne', 'email']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
+    def __str__(self):
+        return self.nom
 
 
 class Inscription(Base):
