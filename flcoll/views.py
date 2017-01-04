@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL, LOGO_DEFAULT
+from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin

@@ -1,13 +1,14 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+from config import LOGO_DEFAULT
 from flcoll import Base, apiman
 
 
 class Evenement(Base):
     __tablename__ = 'evenement'
     id = Column(Integer, primary_key = True)
-    logo = Column(String(200))
+    logo = Column(String(200), default=LOGO_DEFAULT)
     titre = Column(String(200))
     sstitre = Column(String(200))
     date = Column(Date)
@@ -72,7 +73,7 @@ class Organisation(Base):
     nom = Column(String(70), nullable=False)
     interne = Column(Boolean, default=False)
     email = Column(String(70))
-    logo = Column(String(200))
+    logo = Column(String(200), default=LOGO_DEFAULT)
 
     def __init__(self, **kwargs):
         Base.__init__(self)
