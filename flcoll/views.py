@@ -216,7 +216,8 @@ class EvenementView(FlcollModelView):
     can_export = True
     can_view_details = True
     column_labels = dict(sstitre= 'Sous-titre', date='Date', uid_organisateur='Organisateur/trice',
-                             resume='Résumé', gratuite='Gratuit', upd='Mis à jour le')
+                             resume='Résumé', gratuite='Gratuit', entite_organisatrice='Entité organisatrice',
+                             upd='Mis à jour le')
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
     column_exclude_list = ['upd', 'resume' ]
     column_sortable_list = ['titre', 'date', 'uid_organisateur']
