@@ -270,6 +270,10 @@ class OrganisationView(FlcollModelView):
         }
     form_overrides = dict(logo=LogoField)
     #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
+    form_ajax_refs = {
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
+        'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
+        }
 
 
 class PersonneView(FlcollModelView):
@@ -278,6 +282,9 @@ class PersonneView(FlcollModelView):
         'prenom' : {'label': 'Prénom'}
     }
     inline_models = [(Inscription, dict(form_columns=['id', 'evenement', 'attestation_demandee']))]
+    form_ajax_refs = {
+        'organisation': QueryAjaxModelLoader('organisation', db_session, Organisation, fields=['nom'], page_size=10)
+        }
 
 
 class InscriptionView(FlcollModelView):
