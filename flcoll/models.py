@@ -7,7 +7,7 @@ from flcoll import Base, apiman
 class Evenement(Base):
     __tablename__ = 'evenement'
     id = Column(Integer, primary_key = True)
-    logo = Column(Binary)
+    logo = Column(String(200))
     titre = Column(String(200))
     sstitre = Column(String(200))
     date = Column(Date)
@@ -72,7 +72,7 @@ class Organisation(Base):
     nom = Column(String(70), nullable=False)
     interne = Column(Boolean, default=False)
     email = Column(String(70))
-    logo = Column(Binary)
+    logo = Column(String(200))
 
     def __init__(self, **kwargs):
         Base.__init__(self)

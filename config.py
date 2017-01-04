@@ -35,5 +35,7 @@ LANGUAGES = {
 BABEL_DEFAULT_LOCALE = 'fr'
 
 # logo upload
-LOGO_FOLDER='./logos'
+LOGO_FOLDER=basedir + '/flcoll/static/logos/'
+LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
+LOGO_DEFAULT='logo.png'

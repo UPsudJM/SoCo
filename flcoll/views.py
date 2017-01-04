@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from config import LOGO_FOLDER, LOGO_EXTENSIONS
+from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL, LOGO_DEFAULT
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
@@ -207,7 +207,7 @@ class LogoField(ImageUploadField):
                      url_relative_path=None, endpoint='static',
                      **kwargs):
         ImageUploadField.__init__(self, label, validators, LOGO_FOLDER, relative_path, namegen, LOGO_EXTENSIONS,
-                             max_size, thumbgen, thumbnail_size, permission, url_relative_path, endpoint, **kwargs)
+                             max_size, thumbgen, thumbnail_size, permission, LOGO_URL_REL, endpoint, **kwargs)
 
 
 class EvenementView(FlcollModelView):
