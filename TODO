@@ -33,15 +33,16 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   ok création des 2 champs pour le badge
   at éviter les doublons (Ajax)
     ok réduire/améliorer les messages sur la page
-    at envoi du mail de vérification : POST sur URL REST allant vers une
+    ok envoi du mail de vérification : POST sur URL REST allant vers une
        fonction située dans views ou dans models
+    ** envoi effectif du mail
     ok raffiner la comparaison du nom et du prénom
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
     ** interdire la soumission si erreur détectée par le JS : doublon email
   * que faire si l'utilisateur n'a pas JS ?
-  * vérifier le viewport et autres (smartphones)
+  at vérifier le viewport et autres (smartphones)
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
