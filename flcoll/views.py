@@ -14,7 +14,7 @@ from flcoll import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
-from .filters import datefr_filter
+from .filters import datefr_filter, afflogo_filter
 from .emails import confirmer_inscription
 from .texenv import texenv, genere_pdf
 
@@ -72,7 +72,7 @@ def flcoll(flform):
         logo = organisation.logo
         if not logo:
             logo = LOGO_DEFAULT
-    logo = 'static/' + LOGO_URL_REL + logo
+    logofilename = afflogo_filter(logo)
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
         return internal_error('Formulaire %d non trouvé' % flform)
@@ -111,7 +111,7 @@ def flcoll(flform):
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
-                               logo=logo,
+                               logofilename=logofilename,
                                current_user=current_user)
 
 

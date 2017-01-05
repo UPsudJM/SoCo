@@ -10,7 +10,7 @@
 {{ current_user.username }}
 <div class="entete">
 <table class="titre">
-  <tr><td><img src="{{ logo }}" /></td>
+  <tr><td><img src="{{ url_for('static', filename=logofilename) }}" /></td>
     <td><h1>Inscription à : {{ evenement.titre }}</h1></td></tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
@@ -18,7 +18,7 @@
       <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
       <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
-      <p class="dateinscr">(Formulaire ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }})</p>
+      <p class="dateinscr">(Ce formulaire est ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }})</p>
       {% if evenement.uid_organisateur == current_user.username %}<p><a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">Modifier ce formulaire</a></p>{% endif %}
 </div>
 
