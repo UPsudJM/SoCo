@@ -191,7 +191,16 @@ var flform = angular.module('flform',['ngRoute'])
         $scope.envoi_email_verification = function(personne) {
             $log.log("in envoi_email_verification");
             $log.log("on envoie un mail à <" + $scope.personne.email + ">");
-            $scope.codeverif = "0123";
+            var $filters = [{"name": "email", "op": "eq", "val": $scope.personne.email}];
+            $log.log(angular.toJson({"filters": $filters}));
+            $http.post('/api/envoicodeverif', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                $log.log(resp.data); // FIXME à terminer
+                if (resp.data.num_results) {
+                    $log.log(resp.data.objects[0]);
+                    $scope.codeverif = resp.data.objects[0].codeverif;
+                }
+            });
+            //$scope.codeverif = "0123";
             $log.log("codeverif=" + $scope.codeverif);
             $scope.personne.emailsent = "y";
             delete $scope.personne.duplicateemail;

@@ -106,7 +106,7 @@ def flcoll(flform):
             if "uc_3" in str(err.orig):
                 flash("Vous êtes déjà inscrit-e à cet événement !")
         else:
-            confirmer_inscription(personne, formulaire.evenement)
+            confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
             return redirect('/')
     return render_template('flform.html', form=form, formulaire=formulaire,

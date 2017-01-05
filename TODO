@@ -47,6 +47,10 @@ ec page publique d'inscription à un colloque (partie AngularJS)
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
+* API Flask-Restless ou autre REST
+  ** brider l'accès aux données personnelles
+  ** faire passer l'envoi d'un mail pour vérification de la personne
+
 ok page d'index générale pour les pages de suivi
 
 ok affichage de la page de suivi (complète pour le secrétariat)
