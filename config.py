@@ -38,4 +38,4 @@ BABEL_DEFAULT_LOCALE = 'fr'
 LOGO_FOLDER=basedir + '/flcoll/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
-LOGO_DEFAULT='logo.png'
+LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'

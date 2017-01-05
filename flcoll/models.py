@@ -35,7 +35,7 @@ class Organisation(Base):
     nom = Column(String(70), nullable=False)
     interne = Column(Boolean, default=False)
     email = Column(String(70))
-    logo = Column(String(200), default=LOGO_DEFAULT)
+    logo = Column(String(200))
     personnes = relationship("Personne", secondary=personne_organisation)
 
     def __init__(self, **kwargs):
@@ -51,7 +51,6 @@ class Organisation(Base):
 class Evenement(Base):
     __tablename__ = 'evenement'
     id = Column(Integer, primary_key = True)
-    logo = Column(String(200), default=LOGO_DEFAULT)
     titre = Column(String(200))
     sstitre = Column(String(200))
     date = Column(Date)
@@ -61,6 +60,7 @@ class Evenement(Base):
     gratuite = Column(Boolean, default=True)
     uid_organisateur = Column(String(100))
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
+    logo = Column(String(200))
     upd = Column(DateTime, default=func.now(), server_default=func.now())
     #upd = Column(DateTime)
 
@@ -72,7 +72,7 @@ class Evenement(Base):
         self.uid_organisateur = uid_organisateur
 
     def __repr__(self):
-        return "%s (%s)" % (self.titre, self.uid_organisateur)
+        return "%s (%s)" % (self.titre, self.date)
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 
@@ -119,7 +119,7 @@ class Inscription(Base):
     personne = relationship("Personne", back_populates="inscription")
 
     def __str__(self):
-        return "%s %s, le %s" % (self.personne.prenom, self.personne.nom, self.date_inscription)
+        return "%s %s" % (self.personne.prenom, self.personne.nom)
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

@@ -238,8 +238,10 @@ class EvenementView(FlcollModelView):
         'sstitre': {'label': 'Sous-titre'},
         'date': {'label': 'Date', 'validators': [DataRequired()]},
         'date_fin': {'label': 'Date de fin (si nécessaire)'},
+        'logo' : {'label': 'Logo (s\'il est différent de celui de l\'entité organisatrice)'},
         'resume' : {'label': 'Résumé'},
-        'gratuite' : {'label': 'Gratuité'}
+        'gratuite' : {'label': 'Gratuité'},
+        'inscription' : {'label': 'Personnes inscrites'}
         }
     form_excluded_columns = ['upd']
     form_overrides = dict(logo=ImageUploadField)
@@ -267,7 +269,9 @@ class OrganisationView(FlcollModelView):
     can_export = True
     form_args = {
         'nom': {'label' : 'Nom de l\'organisation'},
-        'interne' : {'label': 'Est-ce une organisation interne, susceptible d\'organiser des événements ?'}
+        'interne' : {'label': 'Est-ce une organisation interne, susceptible d\'organiser des événements ?'},
+        'email': {'label' : 'Adresse mail de contact'},
+        'evenement' : {'label' : 'Événements'}
         }
     form_overrides = dict(logo=LogoField)
     #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
