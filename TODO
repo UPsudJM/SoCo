@@ -1,4 +1,4 @@
-nom : soco ? socoll ?
+nom : soco ? socoll ? socol ?
 
 ec procédure d'installation
 ok essayer avec Postgresql
@@ -10,10 +10,8 @@ ok modèle
   ok revoir la relation entre Inscription et Personne
 
 ok amélioration formulaires CRUD
-  ec traitement du logo de l'événément
+  ok traitement du logo de l'événément
     at default en cascade
-    ok affichage sur le formulaire d'inscription
-    -> *** affichage à la bonne taille (thumbnail)
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
@@ -21,6 +19,7 @@ ok pouvoir ajouter une inscription de l'intérieur de l'appli
 ok page publique d'inscription à un colloque
   ok champs -> pb des libellés variables, avec le style
   ok présentation de la page
+  ok affichage du logo à la bonne taille (thumbnail)
   ok éviter les doublons d'inscription (et de personne)
   ec raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
@@ -32,16 +31,16 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   ok affichage dynamique du badge
     ok nom en majuscules, prénom capitalisé
   ok création des 2 champs pour le badge
-  ec éviter les doublons (Ajax)
-    ** réduire/améliorer les messages sur la page
-    ** envoi du mail de vérification : POST sur URL REST allant vers une
+  at éviter les doublons (Ajax)
+    ok réduire/améliorer les messages sur la page
+    at envoi du mail de vérification : POST sur URL REST allant vers une
        fonction située dans views ou dans models
     ok raffiner la comparaison du nom et du prénom
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
     ** interdire la soumission si erreur détectée par le JS : doublon email
-  * que faire si l'utilisateur n'a pas JS
+  * que faire si l'utilisateur n'a pas JS ?
   * vérifier le viewport et autres (smartphones)
 
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
