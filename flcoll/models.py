@@ -1,7 +1,6 @@
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from config import LOGO_DEFAULT
 from flcoll import Base, apiman
 
 

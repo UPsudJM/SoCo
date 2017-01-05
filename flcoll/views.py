@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL
+from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL, LOGO_DEFAULT
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
@@ -65,6 +65,14 @@ def logout():
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 def flcoll(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
+    evenement = formulaire.evenement
+    logo = evenement.logo
+    if not logo:
+        organisation = evenement.entite_organisatrice
+        logo = organisation.logo
+        if not logo:
+            logo = LOGO_DEFAULT
+    logo = 'static/' + LOGO_URL_REL + logo
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
         return internal_error('Formulaire %d non trouvé' % flform)
@@ -101,7 +109,10 @@ def flcoll(flform):
             confirmer_inscription(personne, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
             return redirect('/')
-    return render_template('flform.html', form=form, formulaire=formulaire, evenement=formulaire.evenement, current_user=current_user)
+    return render_template('flform.html', form=form, formulaire=formulaire,
+                               evenement=evenement,
+                               logo=logo,
+                               current_user=current_user)
 
 
 @app.route('/new/')

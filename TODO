@@ -11,8 +11,9 @@ ok modèle
 
 ok amélioration formulaires CRUD
   ec traitement du logo de l'événément
-    *** default en cascade
-    *** affichage sur le formulaire d'inscription
+    at default en cascade
+    ok affichage sur le formulaire d'inscription
+    -> *** affichage à la bonne taille (thumbnail)
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli

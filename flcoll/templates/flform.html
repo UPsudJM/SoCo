@@ -10,7 +10,7 @@
 {{ current_user.username }}
 <div class="entete">
 <table class="titre">
-<tr>{% if evenement.logo %}<td><img src="{{ evenement.logo }}" /></td>{% endif %}
+  <tr><td><img src="{{ logo }}" /></td>
     <td><h1>Inscription à : {{ evenement.titre }}</h1></td></tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
