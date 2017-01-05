@@ -3,6 +3,7 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
+from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
@@ -11,7 +12,7 @@ from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
 from wtforms.validators import DataRequired
-from .models import Evenement, Formulaire, Personne, Inscription
+from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter
 from .emails import confirmer_inscription
@@ -201,13 +202,27 @@ class FlcollModelView(ModelView):
         return redirect(url_for('auth.login', next=request.url))
 
 
+class LogoField(ImageUploadField):
+    def __init__(self, label=None, validators=None,
+                     base_path=None, relative_path=None,
+                     namegen=None, allowed_extensions=None,
+                     max_size=None,
+                     thumbgen=None, thumbnail_size=None,
+                     permission=0o666,
+                     url_relative_path=None, endpoint='static',
+                     **kwargs):
+        ImageUploadField.__init__(self, label, validators, LOGO_FOLDER, relative_path, namegen, LOGO_EXTENSIONS,
+                             max_size, thumbgen, thumbnail_size, permission, LOGO_URL_REL, endpoint, **kwargs)
+
+
 class EvenementView(FlcollModelView):
     page_size = 20  # the number of entries to display on the list view
     action_disallowed_list = ['delete']
     can_export = True
     can_view_details = True
     column_labels = dict(sstitre= 'Sous-titre', date='Date', uid_organisateur='Organisateur/trice',
-                             resume='Résumé', gratuite='Gratuit', upd='Mis à jour le')
+                             resume='Résumé', gratuite='Gratuit', entite_organisatrice='Entité organisatrice',
+                             upd='Mis à jour le')
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
     column_exclude_list = ['upd', 'resume' ]
     column_sortable_list = ['titre', 'date', 'uid_organisateur']
@@ -228,8 +243,10 @@ class EvenementView(FlcollModelView):
         'sstitre': {'label': 'Sous-titre'},
         'date': {'label': 'Date', 'validators': [DataRequired()]},
         'date_fin': {'label': 'Date de fin (si nécessaire)'},
+        'logo' : {'label': 'Logo (s\'il est différent de celui de l\'entité organisatrice)'},
         'resume' : {'label': 'Résumé'},
-        'gratuite' : {'label': 'Gratuité'}
+        'gratuite' : {'label': 'Gratuité'},
+        'inscription' : {'label': 'Personnes inscrites'}
         }
     form_excluded_columns = ['upd']
     form_overrides = dict(logo=ImageUploadField)
@@ -253,12 +270,31 @@ class FormulaireView(FlcollModelView):
     #ajax_update = ['date_ouverture_inscriptions']
 
 
+class OrganisationView(FlcollModelView):
+    can_export = True
+    form_args = {
+        'nom': {'label' : 'Nom de l\'organisation'},
+        'interne' : {'label': 'Est-ce une organisation interne, susceptible d\'organiser des événements ?'},
+        'email': {'label' : 'Adresse mail de contact'},
+        'evenement' : {'label' : 'Événements'}
+        }
+    form_overrides = dict(logo=LogoField)
+    #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
+    form_ajax_refs = {
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
+        'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
+        }
+
+
 class PersonneView(FlcollModelView):
     can_export = True
     form_args = {
         'prenom' : {'label': 'Prénom'}
     }
     inline_models = [(Inscription, dict(form_columns=['id', 'evenement', 'attestation_demandee']))]
+    form_ajax_refs = {
+        'organisation': QueryAjaxModelLoader('organisation', db_session, Organisation, fields=['nom'], page_size=10)
+        }
 
 
 class InscriptionView(FlcollModelView):
@@ -276,5 +312,6 @@ class InscriptionView(FlcollModelView):
 admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
+admin.add_view(OrganisationView(Organisation, db_session))
 admin.add_view(PersonneView(Personne, db_session))
 admin.add_view(InscriptionView(Inscription, db_session))
