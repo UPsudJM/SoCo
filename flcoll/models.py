@@ -26,9 +26,9 @@ class Personne(Base):
     def __str__(self):
         return "%s %s" % (self.prenom, self.nom)
 
-    def envoi_mail_verif(self, evenement):
+    def envoi_mail_verif(self):
         from .emails import envoyer_code_verification
-        codeverif = envoyer_code_verification(self.email, evenement)
+        codeverif = envoyer_code_verification(self.email)
         return codeverif
 
 
@@ -142,6 +142,6 @@ api_evenement = apiman.create_api(Evenement, methods = ['GET'])
 api_inscription = apiman.create_api(Inscription, methods = ['GET'])
 #api_inscrits = apiman.create_api(Evenement, methods = ['GET'], collection_name='inscrits')
 api_chkemail = apiman.create_api(Personne, methods=['GET'], collection_name='chkemail')
-api_chkemail = apiman.create_api(Personne, methods=['POST'], collection_name='envoicodeverif',
+api_envoicodeverif = apiman.create_api(Personne, methods=['GET', 'POST'], collection_name='envoicodeverif',
                                      include_methods=['envoi_mail_verif'])
 # FIXME : à brider pour raisons de sécurité

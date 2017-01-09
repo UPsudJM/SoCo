@@ -1,20 +1,18 @@
 Madame/Monsieur,
 
-Nous avons reçu une demande d'inscription à
+Nous avons reçu une demande d'inscription à un événement.
 
-     {{ evenement.titre }}
+Cette demande provient-elle bien de vous ?
 
-Cette demande provient probablement de vous. Si ce n'est pas le cas,
-
-      NE RÉPONDEZ PAS À CE MESSAGE
+Si ce n'est pas le cas, NE RÉPONDEZ PAS À CE MESSAGE
 
 Mais s'il s'agit bien de vous, voici le code de vérification qui va vous
 permettre de terminer votre inscription :
 
           {{ codeverif }}
 
-(Il vous suffit de le coller sur la page d'inscription, dans la case prévue
-à cet effet)
+Il vous suffit de le coller sur la page d'inscription, dans la case prévue
+à cet effet.
 
 Cordialement,
 --

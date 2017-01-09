@@ -23,16 +23,14 @@ def confirmer_inscription(email, evenement):
                    render_template("confirmation_inscription.txt", evenement=evenement),
                    render_template("confirmation_inscription.html", evenement=evenement))
 
-def envoyer_code_verification(email, evenement):
-    from .models import Evenement
+def envoyer_code_verification(email):
     from random import shuffle
     l = ['0','1','2','3','4','5','6','7','8','9']
     shuffle(l)
     codeverif = "".join(l[:4])
-    organisation = evenement.entite_organisatrice
-    envoyer_message('Inscription au colloque "%s" : Votre code de vérification' % evenement.titre.replace("'", "\\\'"),
+    envoyer_message('Votre code de vérification',
                         ADMINS[0],
-                        [personne.email],
-                        render_template("envoi_code_verification.txt", evenement=evenement, codeverif=codeverif),
-                        render_template("envoi_code_verification.html", evenement=evenement, codeverif=codeverif))
+                        [email],
+                        render_template("envoi_code_verification.txt", codeverif=codeverif),
+                        render_template("envoi_code_verification.html", codeverif=codeverif))
     return codeverif

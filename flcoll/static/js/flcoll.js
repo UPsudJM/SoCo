@@ -163,7 +163,7 @@ var flform = angular.module('flform',['ngRoute'])
                     //var $id_personne;
                     if (resp.data.num_results) {
                         $log.log(resp.data.objects[0]);
-                        var $id_personne = resp.data.objects[0].id;
+                        $scope.id_personne = resp.data.objects[0].id;
                         var $nom_bdd = resp.data.objects[0].nom;
                         var $prenom_bdd = resp.data.objects[0].prenom;
                         if (normalise_pour_comp($scope.personne.nom) != normalise_pour_comp($nom_bdd) || normalise_pour_comp($scope.personne.prenom) != normalise_pour_comp($prenom_bdd)) {
@@ -173,7 +173,7 @@ var flform = angular.module('flform',['ngRoute'])
                         }
                         else {
                             var $filters = [{"name": "id_evenement", "op": "eq", "val": $coll},
-                                        {"name": "id_personne", "op": "eq", "val": $id_personne}];
+                                        {"name": "id_personne", "op": "eq", "val": $scope.id_personne}];
                             $log.log($filters);
                             $http.get('/api/inscription', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
                                 $log.log(resp.data);
@@ -191,25 +191,24 @@ var flform = angular.module('flform',['ngRoute'])
         $scope.envoi_email_verification = function(personne) {
             $log.log("in envoi_email_verification");
             $log.log("on envoie un mail à <" + $scope.personne.email + ">");
-            var $filters = [{"name": "email", "op": "eq", "val": $scope.personne.email}];
+            var $filters = [{"name": "id", "op": "eq", "val": $scope.id_personne}]
             $log.log(angular.toJson({"filters": $filters}));
-            $http.post('/api/envoicodeverif', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
-                $log.log(resp.data); // FIXME à terminer
+            $http.get('/api/envoicodeverif', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                $log.log(resp.data); // FIXME POST
                 if (resp.data.num_results) {
                     $log.log(resp.data.objects[0]);
-                    $scope.codeverif = resp.data.objects[0].codeverif;
+                    $scope.codeverifsrv = resp.data.objects[0].envoi_mail_verif;
+                    $log.log("codeverif=" + $scope.codeverifsrv);
+                    $scope.personne.emailsent = "y";
+                    delete $scope.personne.duplicateemail;
                 }
             });
-            //$scope.codeverif = "0123";
-            $log.log("codeverif=" + $scope.codeverif);
-            $scope.personne.emailsent = "y";
-            delete $scope.personne.duplicateemail;
         }
         $scope.verifier_code = function(personne) {
             $log.log("in verifier_code");
             $log.log($scope.personne.codeverif);
             delete $scope.personne.emailsent;
-            if ($scope.personne.codeverif == $scope.codeverif) { $scope.personne.codeok = "y"; delete $scope.personne.codeko; }
+            if ($scope.personne.codeverif == $scope.codeverifsrv) { $scope.personne.codeok = "y"; delete $scope.personne.codeko; }
             else { $scope.personne.codeko = "y"; delete $scope.personne.codeok; }
         }
         $scope.reset = function(form) {
