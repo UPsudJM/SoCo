@@ -1,4 +1,6 @@
 nom : soco ? socoll ? socol ?
+mettre le nom de l'institution dans la config (pour mettre dans les mails et
+   sur l'interface)
 
 ec procédure d'installation
 ok essayer avec Postgresql
@@ -34,8 +36,8 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   at éviter les doublons (Ajax)
     ok réduire/améliorer les messages sur la page
     ok envoi du mail de vérification : POST sur URL REST allant vers une
-       fonction située dans views ou dans models
-    ** envoi effectif du mail
+    ok fonction située dans models
+    ok envoi effectif du mail
     ok raffiner la comparaison du nom et du prénom
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
@@ -47,9 +49,9 @@ ec page publique d'inscription à un colloque (partie AngularJS)
 at envois de mail -> evt ajouter threading (mega tutorial miguel)
   ** encoding latin-1 pour + de sûreté
 
-* API Flask-Restless ou autre REST
-  ** brider l'accès aux données personnelles
-  ** faire passer l'envoi d'un mail pour vérification de la personne
+ok API Flask-Restful
+  ok brider l'accès aux données personnelles
+  ok faire passer l'envoi d'un mail pour vérification de la personne
 
 ok page d'index générale pour les pages de suivi
 

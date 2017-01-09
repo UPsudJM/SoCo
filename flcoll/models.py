@@ -1,7 +1,8 @@
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from flcoll import Base, apiman
+from flask_restful import Resource, Api, reqparse
+from flcoll import Base, api
 
 
 personne_organisation = Table('personne_organisation', Base.metadata,
@@ -26,10 +27,20 @@ class Personne(Base):
     def __str__(self):
         return "%s %s" % (self.prenom, self.nom)
 
-    def envoi_mail_verif(self):
-        from .emails import envoyer_code_verification
-        codeverif = envoyer_code_verification(self.email)
-        return codeverif
+    @classmethod
+    def chkemail(self, evt, email_a_verifier, nom_a_verifier, prenom_a_verifier):
+        p_trouvees = self.query.filter_by(email=email_a_verifier).all()
+        if not p_trouvees:
+            return [-1, "non"]
+        id_personne = 0
+        for p in p_trouvees:
+            if p.nom.lower() == nom_a_verifier.lower() and p.prenom.lower() == prenom_a_verifier.lower():
+                id_personne = p.id
+                for i in p.inscription:
+                    print(i.id_evenement)
+                    if i.id_evenement == int(evt):
+                        return [id_personne, "oui"]
+        return [id_personne, "non"]
 
 
 class Organisation(Base):
@@ -136,12 +147,27 @@ class Inscription(Base):
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
-# pour URLs http://127.0.0.1:5000/api/inscription et http://127.0.0.1:5000/api/inscription/%d
-# et aussi http://127.0.0.1:5000/api/evenement/%d/inscription etc...
-api_evenement = apiman.create_api(Evenement, methods = ['GET'])
-api_inscription = apiman.create_api(Inscription, methods = ['GET'])
-#api_inscrits = apiman.create_api(Evenement, methods = ['GET'], collection_name='inscrits')
-api_chkemail = apiman.create_api(Personne, methods=['GET'], collection_name='chkemail')
-api_envoicodeverif = apiman.create_api(Personne, methods=['GET', 'POST'], collection_name='envoicodeverif',
-                                     include_methods=['envoi_mail_verif'])
-# FIXME : à brider pour raisons de sécurité
+# API RESTful
+parser = reqparse.RequestParser()
+@api.resource('/api/chkemail/')
+class ChkEmail(Resource):
+    def get(self):
+        parser.add_argument('evt', required=True, help="Evenement cannot be blank!")
+        parser.add_argument('email', required=True, help="Email cannot be blank!")
+        parser.add_argument('nom', required=True, help="Nom cannot be blank!")
+        parser.add_argument('prenom', required=True, help="Prenom cannot be blank!")
+        args = parser.parse_args()
+        try:
+            evt = int(args['evt'])
+        except:
+            raise ValueError("'%s' is not a valid event id" % args['evt'])
+        return Personne.chkemail(evt, args['email'], args['nom'], args['prenom'])
+
+@api.resource('/api/codeverif/')
+class CodeVerif(Resource):
+    def get(self):
+        parser.add_argument('email', required=True, help="Email cannot be blank!")
+        args = parser.parse_args()
+        from .emails import envoyer_code_verification
+        codeverif = envoyer_code_verification(args['email'])
+        return codeverif

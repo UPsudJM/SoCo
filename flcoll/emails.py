@@ -17,7 +17,7 @@ def envoyer_message(subj, src, dest, text_body, html_body):
 
 def confirmer_inscription(email, evenement):
     from .models import Evenement
-    envoyer_message('Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
+    envoyer_message('Soco : Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
                    ADMINS[0],
                    [personne.email],
                    render_template("confirmation_inscription.txt", evenement=evenement),
@@ -28,7 +28,7 @@ def envoyer_code_verification(email):
     l = ['0','1','2','3','4','5','6','7','8','9']
     shuffle(l)
     codeverif = "".join(l[:4])
-    envoyer_message('Votre code de vérification',
+    envoyer_message('Soco : Votre code de vérification',
                         ADMINS[0],
                         [email],
                         render_template("envoi_code_verification.txt", codeverif=codeverif),
