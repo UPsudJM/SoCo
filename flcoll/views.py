@@ -12,6 +12,7 @@ from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
 from flcoll import app, babel, db_session, lm
 from wtforms.validators import DataRequired
+from functools import wraps
 from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, afflogo_filter
@@ -23,6 +24,21 @@ from .texenv import texenv, genere_pdf
 def get_locale():
     return "fr"
     #return request.accept_languages.best_match(LANGUAGES.keys())
+
+def required_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if get_current_user_role() not in roles:
+                flash('Authentication error, please check your details and try again','error')
+                return redirect(url_for('index'))
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
+
+def get_current_user_role():
+    return g.user.role
+
 
 @app.errorhandler(404)
 def not_found_error(error):

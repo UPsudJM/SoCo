@@ -4,9 +4,9 @@ mettre le nom de l'institution dans la config (pour mettre dans les mails et
 
 ec procédure d'installation
 ok essayer avec Postgresql
-ok script de migration
-  ok mais comment exporter les migrations en SQL ?
-  ok essayer (Flask-Migrate) -> alembic
+* nouveau script de migration
+  ec toujours avec SQLAlchemy-Migrate
+  ** mais comment exporter les migrations en SQL ?
 
 ok modèle
   ok revoir la relation entre Inscription et Personne
@@ -43,7 +43,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
   ok soumission du formulaire
     ok bug token CSRF
     ok interdire la soumission si erreur détectée par le JS : doublon email
-    ok* enregistrer les réponses aux questions supplémentaires
+    ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
@@ -73,10 +73,8 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ok revenir à LDAP/login
   ** routes et redirections
-  ** raffiner les autorisations (rôles) (Flask-User ?)
+  ec raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
 ec tests unitaires
-
-* interface utilisateur responsive (AngularJS ? HTML5 ?)

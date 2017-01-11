@@ -10,6 +10,7 @@ class User(Base):
     __tablename__ = 'utilisateur'
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
+    role = Column(String(10))
     is_authenticated = False
     is_active = True
     is_anonymous = False
