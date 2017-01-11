@@ -161,15 +161,18 @@ var flform = angular.module('flform',['ngRoute'])
                         $log.log(resp.data);
                         $log.log(resp.data[0]);
                         $log.log(resp.data[1]);
-                        if (resp.data[0] && resp.data[0] != -1) $scope.id_personne = resp.data[0];
+                        if (resp.data[0] && resp.data[0] != -1) $scope.personne.id = resp.data[0];
                         if (resp.data[1] && resp.data[1] == "oui") $scope.deja_inscrit = 1;
                         else $scope.deja_inscrit = 0;
-
                         if ($scope.deja_inscrit) {
                             $log.log("personne déjà inscrite");
-                            $scope.msg_duplicateemail = "Vous êtes déjà inscrit-e à cet événement !";
+                            $scope.msg_dejainscrit = "Vous êtes déjà inscrit-e à cet événement !";
                         }
-                        else delete $scope.msg_duplicateemail;
+                        else {
+                            $log.log("email déjà dans la base mais personne pas encore inscrite");
+                            delete $scope.msg_dejainscrit;
+                            $scope.duplicateemail = "y";
+                        }
                     }
                 });
             }
@@ -177,16 +180,19 @@ var flform = angular.module('flform',['ngRoute'])
         $scope.envoi_email_verification = function(personne) {
             $log.log("in envoi_email_verification");
             $log.log("on envoie un mail à <" + $scope.personne.email + ">");
-            var $filters = [{"name": "id", "op": "eq", "val": $scope.id_personne}]
-            $log.log(angular.toJson({"filters": $filters}));
-            $http.get('/api/envoicodeverif', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+            var $params = {"email" : $scope.personne.email}
+            $log.log(angular.toJson({"params": $params}));
+            $http.get('/api/envoicodeverif', {'params': $params}).then(function(resp) {
                 $log.log(resp.data); // FIXME POST
-                if (resp.data.num_results) {
-                    $log.log(resp.data.objects[0]);
-                    $scope.codeverifsrv = resp.data.objects[0].envoi_mail_verif;
-                    $log.log("codeverif=" + $scope.codeverifsrv);
+                if (resp.data) {
                     $scope.personne.emailsent = "y";
-                    delete $scope.personne.duplicateemail;
+                    $scope.codeverifsrv = resp.data;
+                    $log.log("codeverif=" + $scope.codeverifsrv);
+                    delete $scope.duplicateemail;
+                }
+                else {
+                    $scope.personne.id = null;
+                    $scope.msg_duplicateemail = "erreur d'envoi du code de vérification";
                 }
             });
         }

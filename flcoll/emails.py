@@ -19,7 +19,7 @@ def confirmer_inscription(email, evenement):
     from .models import Evenement
     envoyer_message('Soco : Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
                    ADMINS[0],
-                   [personne.email],
+                   [email],
                    render_template("confirmation_inscription.txt", evenement=evenement),
                    render_template("confirmation_inscription.html", evenement=evenement))
 

@@ -148,10 +148,10 @@ Evenement.inscription = relationship("Inscription", order_by=Inscription.id, bac
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
 # API RESTful
-parser = reqparse.RequestParser()
 @api.resource('/api/chkemail/')
 class ChkEmail(Resource):
     def get(self):
+        parser = reqparse.RequestParser()
         parser.add_argument('evt', required=True, help="Evenement cannot be blank!")
         parser.add_argument('email', required=True, help="Email cannot be blank!")
         parser.add_argument('nom', required=True, help="Nom cannot be blank!")
@@ -163,9 +163,10 @@ class ChkEmail(Resource):
             raise ValueError("'%s' is not a valid event id" % args['evt'])
         return Personne.chkemail(evt, args['email'], args['nom'], args['prenom'])
 
-@api.resource('/api/codeverif/')
+@api.resource('/api/envoicodeverif/')
 class CodeVerif(Resource):
     def get(self):
+        parser = reqparse.RequestParser()
         parser.add_argument('email', required=True, help="Email cannot be blank!")
         args = parser.parse_args()
         from .emails import envoyer_code_verification
