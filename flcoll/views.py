@@ -197,8 +197,10 @@ def suivi(evt, action=None):
         if type(resultat) != type(""):
             flash(str(resultat))
             return render_template('500.html')
-        return send_file(resultat, as_attachment=True, attachment_filename="emargement-colloque-%d-%s.pdf" % (
-            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")))
+        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="emargement-colloque-%d-%s.pdf" % (
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
+        response.headers['Content-Type'] = 'application/pdf'
+        return response
     if action == "badges":
         texcode = render_template('badges.tex', inscrits=inscrits)
         response = make_response(genere_badges(texcode))

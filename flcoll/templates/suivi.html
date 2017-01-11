@@ -8,6 +8,16 @@
 
 <hr/>
 
+<table><tr>
+  <td><a href="{{ url_for('suivi', evt=evenement.id) }}">voir les inscrits</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">adresses mail</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes</a></td>
+  <td><a href="{{ url_for('suivi_index') }}">retour àl'index</a></td>
+</tr></table>
+
 <table><legend>Liste des inscrits</legend>
 <tr>
   <th>Nom</th>
@@ -34,7 +44,7 @@
 <hr/>
 
 <section ng-controller="suiviCtrl">
- <p>OK</p>
+ <p><em>section pour AngularJS</em></p>
 </section>
 
 <div class="footnotes">
