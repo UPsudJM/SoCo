@@ -90,10 +90,22 @@ def flcoll(flform):
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data)
         inscription = Inscription(evenement=formulaire.evenement, personne=personne)
-        if form.telephone.data: inscription.telephone = form.telephone.data
-        if form.fonction.data: inscription.fonction = form.fonction.data
-        if form.organisation.data: inscription.organisation = form.organisation.data
+        if form.telephone.data:
+            inscription.telephone = form.telephone.data
+        if form.fonction.data:
+            inscription.fonction = form.fonction.data
+        if form.organisation.data:
+            inscription.organisation = form.organisation.data
         inscription.date_inscription = datetime.datetime.now()
+        # Champs facultatifs
+        if formulaire.champ_attestation and form.attestation_demandee.data:
+            inscription.attestation_demandee = form.attestation_demandee.data
+        if formulaire.champ_type_inscription and form.type_inscription.data:
+            inscription.type_inscription = form.type_inscription.data
+        if formulaire.champ_restauration_1 and form.inscription_repas_1.data:
+            inscription.inscription_repas_1 = form.inscription_repas_1.data
+        if formulaire.champ_restauration_2 and form.inscription_repas_2.data:
+            inscription.inscription_repas_2 = form.inscription_repas_2.data
         db_session.add(inscription)
         try:
             db_session.commit()

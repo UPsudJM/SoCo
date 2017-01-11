@@ -18,22 +18,22 @@ ok amélioration formulaires CRUD
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
 
-ok page publique d'inscription à un colloque
+at page publique d'inscription à un colloque (sans JS)
   ok champs -> pb des libellés variables, avec le style
   ok présentation de la page
   ok affichage du logo à la bonne taille (thumbnail)
   ok éviter les doublons d'inscription (et de personne)
-  ec raffiner l'information de l'utilisateur, notamment cas doublon
+  ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
-ec page publique d'inscription à un colloque (partie AngularJS)
+at page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
   ok affichage dynamique du badge
     ok nom en majuscules, prénom capitalisé
   ok création des 2 champs pour le badge
-  at éviter les doublons (Ajax)
+  ok éviter les doublons (Ajax)
     ok réduire/améliorer les messages sur la page
     ok envoi du mail de vérification : POST sur URL REST allant vers une
     ok fonction située dans models
@@ -42,12 +42,12 @@ ec page publique d'inscription à un colloque (partie AngularJS)
   -> * CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
-    ** interdire la soumission si erreur détectée par le JS : doublon email
-  * que faire si l'utilisateur n'a pas JS ?
-  at vérifier le viewport et autres (smartphones)
+    ok interdire la soumission si erreur détectée par le JS : doublon email
+    ok* enregistrer les réponses aux questions supplémentaires
+    at vérifier le viewport et autres (smartphones)
 
-at envois de mail -> evt ajouter threading (mega tutorial miguel)
-  ** encoding latin-1 pour + de sûreté
+ok envois de mail -> evt ajouter threading (mega tutorial miguel)
+  at encoding latin-1 pour + de sûreté ?
 
 ok API Flask-Restful
   ok brider l'accès aux données personnelles
