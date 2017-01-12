@@ -4,6 +4,7 @@ from migrate.versioning import api
 from config import SQLALCHEMY_MIGRATE_REPO
 from flcoll import db_session, Base
 from flcoll import SQLALCHEMY_DATABASE_URI
+
 v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 migration = SQLALCHEMY_MIGRATE_REPO + ('/versions/%03d_migration.py' % (v+1))
 tmp_module = imp.new_module('old_model')
