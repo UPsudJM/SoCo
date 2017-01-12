@@ -1,5 +1,5 @@
 'use strict';
-var flcollApp = angular.module('flcollApp', ['ngRoute', 'ui.bootstrap', 'flform', 'suivi', 'newevt']);
+var flcollApp = angular.module('flcollApp', ['ngRoute', 'flform', 'suivi', 'newevt']);
 
 flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
@@ -22,7 +22,7 @@ function normalise_pour_comp($s) {
     return desaccentue($s.toLowerCase())
 }
 
-var newevt = angular.module('newevt',['ui.bootstrap'])
+var newevt = angular.module('newevt',[]) // ['ui.bootstrap']
     .controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
         $log.log("in newevt");
         $scope.master = {};
