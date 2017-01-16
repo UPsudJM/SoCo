@@ -29,10 +29,12 @@ def home():
 def login():
     if current_user is not None \
         and current_user.is_authenticated:
-        flash('Vous êtes déjà identifié.')
-        return redirect(url_for('auth.home'))
+        flash('Vous êtes déjà identifié-e.')
+        return redirect(url_for('suivi'))
 
-    form = LoginForm(request.form)
+    form = LoginForm(request.form) #, nexturl=request.args['next'])
+    if request.args and request.args.get('next'):
+        form.nexturl.data = request.args['next']
 
     if request.method == 'POST' and form.validate():
         username = request.form.get('username')
@@ -56,15 +58,14 @@ def login():
         user.authenticate()
         login_user(user)
         flash('Identification réussie.', 'success')
-        next = request.args.get('next')
+        nexturl = request.form.get('nexturl')
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
         # FIXME
-        #if not next_is_valid(next):
+        #if not next_is_valid(nexturl):
         #    return flask.abort(400)
-        return redirect(next or url_for('index'))
+        return redirect(nexturl or url_for('suivi_index'))
         #return redirect(url_for('auth.home'))
-
     if form.errors:
         flash(form.errors, 'danger')
 

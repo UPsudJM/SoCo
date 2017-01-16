@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from ldap3 import Server, Connection
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, HiddenField
 from wtforms.validators import InputRequired
 from flcoll import app, Base
 
@@ -46,3 +46,4 @@ class User(Base):
 class LoginForm(FlaskForm):
     username = TextField('Nom d\'utilisateur', [InputRequired()])
     password = PasswordField('Mot de passe', [InputRequired()])
+    nexturl = HiddenField()

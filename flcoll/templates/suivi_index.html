@@ -2,7 +2,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ current_user.username }}
+{% if current_user.is_authenticated %}
+<h3>Vous êtes identifié {{ current_user.username }}</h3>
+<a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a>
+{% else %}
+Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
+{% endif %}
 
 <section ng-controller="suiviCtrl">
 <p>[[ 424955830796 | date : 'medium' ]]</p>
