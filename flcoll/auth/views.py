@@ -56,7 +56,7 @@ def login():
             db_session.add(user)
             db_session.commit()
         user.authenticate()
-        login_user(user)
+        login_user(user, remember=True)
         flash('Identification réussie.', 'success')
         nexturl = request.form.get('nexturl')
         # next_is_valid should check if the user has valid

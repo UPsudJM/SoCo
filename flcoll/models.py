@@ -154,7 +154,7 @@ class Inscription(Base):
             police2 = "\\normalsize"
         else:
             police2 = "\\small"
-        return TPL_ETIQUETTE % (police1, escape_tex(ligne1), police2, escape_tex(ligne2))
+        return TPL_ETIQUETTE % (police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

@@ -41,4 +41,5 @@ LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
 
 # Flask_login
+COOKIE_DURATION_DAYS = 30
 LOGIN_MESSAGE = u'Merci de vous identifier'

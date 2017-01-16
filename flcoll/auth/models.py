@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String
 from ldap3 import Server, Connection
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField, HiddenField
+from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from flcoll import app, Base
+from config import COOKIE_DURATION_DAYS
 
 
 class User(Base):
@@ -53,3 +54,4 @@ class LoginForm(FlaskForm):
     username = TextField('Nom d\'utilisateur', [InputRequired()])
     password = PasswordField('Mot de passe', [InputRequired()])
     nexturl = HiddenField()
+    rememberme = BooleanField('Se souvenir de moi <small>(pendant %d jours)</small>' % COOKIE_DURATION_DAYS)

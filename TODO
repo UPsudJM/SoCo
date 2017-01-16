@@ -78,5 +78,6 @@ ok revenir à LDAP/login
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  -> ec logout automatique (timeout)
 
 ec tests unitaires
