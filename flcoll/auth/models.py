@@ -14,6 +14,8 @@ class User(Base):
     is_authenticated = False
     is_active = True
     is_anonymous = False
+    is_admin = False
+    is_superadmin = False
 
     def __init__(self, username):
         self.username = username
@@ -35,6 +37,10 @@ class User(Base):
 
     def authenticate(self):
         self.is_authenticated = True
+        if 'admin' in self.role:
+            self.is_admin = True
+        if 'super' in self.role:
+            self.is_superadmin = True
 
     def deactive(self):
         self.is_active = False

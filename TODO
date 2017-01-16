@@ -62,7 +62,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   ** tableau Excel ou Calc
   ok liste de mails
   ec badges -> calculs de coordonnées
-  ** restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
+  at restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
   ok émargement
   ok présents
   ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
