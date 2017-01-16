@@ -15,6 +15,10 @@ LATEX_SUBS = (
     (rcompile(r'\.\.\.+'), r'\\ldots'),
     )
 
+TPL_ETIQUETTE="\put(-10,320){\crophrule \cropvrule}\
+\put(000,270){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}\
+\put(083,320){\crophrule \cropvrule}"
+
 def escape_tex(value):
     newval = value
     for pattern, replacement in LATEX_SUBS:
@@ -52,6 +56,7 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
     remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex
     chdir("..")
     return pdffilename
+
 
 texenv = app.create_jinja_environment()
 texenv.block_start_string = '((*'

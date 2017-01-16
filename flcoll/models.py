@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
 from flcoll import Base, api
+from .texenv import escape_tex, TPL_ETIQUETTE
 
 
 personne_organisation = Table('personne_organisation', Base.metadata,
@@ -143,6 +144,17 @@ class Inscription(Base):
 
     def __str__(self):
         return "%s %s" % (self.personne.prenom, self.personne.nom)
+
+    def genere_etiquette(self, base_x, base_y):
+        if len(self.badge1) < 22:
+            police1 = "\\normalsize"
+        else:
+            police1 = "\\small"
+        if len(self.badge2) < 30:
+            police2 = "\\normalsize"
+        else:
+            police2 = "\\small"
+        return TPL_ETIQUETTE % (police1, escape_tex(ligne1), police2, escape_tex(ligne2))
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

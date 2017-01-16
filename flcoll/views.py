@@ -226,10 +226,11 @@ def suivi(evt, action=None):
         response.headers['Content-Type'] = 'application/pdf'
         return response
     if action == "badges":
-        texcode = render_template('badges.tex', inscrits=inscrits)
-        response = make_response(genere_badges(texcode))
-        response.headers["Content-Disposition"] = "attachment; filename=badges-colloque-%d-%s.pdf" % (
-            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M"))
+        texcode = texenv.get_template('etiquettes.tex').render(inscrits=inscrits)
+        resultat = genere_pdf(texcode)
+        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-colloque-%d-%s.pdf" % (
+            evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
+        response.headers['Content-Type'] = 'application/pdf'
         return response
     return render_template(
         'suivi.html',
