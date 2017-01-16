@@ -25,6 +25,7 @@ at page publique d'inscription à un colloque (sans JS)
   ok éviter les doublons d'inscription (et de personne)
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
+  -> ** enregistrement des lignes du badge dans la table
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 

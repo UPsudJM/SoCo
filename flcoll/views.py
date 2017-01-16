@@ -17,7 +17,7 @@ from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
-from .texenv import texenv, genere_pdf
+from .texenv import texenv, genere_pdf, fabrique_page_etiquettes
 
 
 @babel.localeselector
@@ -226,7 +226,17 @@ def suivi(evt, action=None):
         response.headers['Content-Type'] = 'application/pdf'
         return response
     if action == "badges":
-        texcode = texenv.get_template('etiquettes.tex').render(inscrits=inscrits)
+        etiquettes = []
+        pages_etiquettes = []
+        count = 0
+        for inscrit in inscrits:
+            count += 1
+            if count > 9:
+                pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
+                count = 0
+                continue
+            etiquettes.append(inscrit.genere_etiquette())
+        texcode = texenv.get_template('etiquettes.tex').render(pages='\\\\n'.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
         response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-colloque-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))

@@ -19,6 +19,27 @@ TPL_ETIQUETTE="\put(-10,320){\crophrule \cropvrule}\
 \put(000,270){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}\
 \put(083,320){\crophrule \cropvrule}"
 
+TPL_PAGE_ETIQUETTES="begin{picture}(210, 270)(0,0)\
+\color{light-gray}\
+%s\
+\
+\color{light-gray}\
+\put(-10,156){\crophrule}\
+\put(083,156){\crophrule}\
+\put(173,156){\crophrule}\
+\
+\put(-03,149){\cropvrule}\
+\put(090,149){\cropvrule}\
+\put(180,149){\cropvrule}\
+\put(270,149){\cropvrule}\
+\
+\put(090,156){\crophrule}\
+\put(180,156){\crophrule}\
+\put(270,156){\crophrule}\
+\
+\end{picture}\
+"
+
 def escape_tex(value):
     newval = value
     for pattern, replacement in LATEX_SUBS:
@@ -57,6 +78,16 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
     chdir("..")
     return pdffilename
 
+def fabrique_page_etiquettes(etiquettes):
+    l = len(etiquettes)
+    try:
+        assert l <= 9
+    except AssertionError:
+        flash("Erreur dans la fabrication des étiquettes")
+        return render_template('500.html')
+    for i in range(l,9):
+        etiquettes[i] = ""
+    return TPL_PAGE_ETIQUETTES % "\\\\n".join(etiquettes)
 
 texenv = app.create_jinja_environment()
 texenv.block_start_string = '((*'
