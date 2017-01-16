@@ -106,6 +106,8 @@ def flcoll(flform):
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data)
         inscription = Inscription(evenement=formulaire.evenement, personne=personne)
+        inscription.badge1 = form.badge1.data
+        inscription.badge2 = form.badge2.data
         if form.telephone.data:
             inscription.telephone = form.telephone.data
         if form.fonction.data:

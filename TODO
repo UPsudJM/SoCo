@@ -1,5 +1,5 @@
-nom : soco ? socoll ? socol ?
-mettre le nom de l'institution dans la config (pour mettre dans les mails et
+-> nom : soco ? socoll ? socol ?
+** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
 ec procédure d'installation
@@ -25,7 +25,7 @@ at page publique d'inscription à un colloque (sans JS)
   ok éviter les doublons d'inscription (et de personne)
   ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
-  -> ** enregistrement des lignes du badge dans la table
+  -> at enregistrement des lignes du badge dans la table
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
@@ -40,7 +40,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
     ok fonction située dans models
     ok envoi effectif du mail
     ok raffiner la comparaison du nom et du prénom
-  -> * CAPTCHA (visualcaptcha)
+    ** CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
     ok interdire la soumission si erreur détectée par le JS : doublon email
@@ -61,7 +61,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   at tableau CSV
   ** tableau Excel ou Calc
   ok liste de mails
-  ec badges -> calculs de coordonnées
+  -> ec badges -> calculs de coordonnées
   at restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
   ok émargement
   ok présents
