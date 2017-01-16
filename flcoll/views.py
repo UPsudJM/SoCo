@@ -151,7 +151,9 @@ def new():
 
 @app.route('/suivi/')
 @login_required
+@required_roles('admin', 'user')
 def suivi_index():
+    print(current_user.role)
     evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     nb_inscrits = {}
     for e in evenements:
@@ -161,6 +163,7 @@ def suivi_index():
 @app.route('/suivi/<int:evt>', methods=['GET', 'POST'])
 @app.route('/suivi/<int:evt>/<action>', methods=['GET', 'POST'])
 @login_required
+@required_roles('admin', 'user')
 def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
     inscrits = Inscription.query.filter_by(id_evenement=evt).all()

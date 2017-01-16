@@ -3,7 +3,7 @@
 
 {% block content %}
 {% if current_user.is_authenticated %}
-<h3>Vous êtes identifié {{ current_user.username }}</h3>
+<h3>Vous êtes <code>{{ current_user.username }}</code></h3>
 <a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a>
 {% else %}
 Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
