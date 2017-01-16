@@ -1,5 +1,5 @@
 import datetime
-from flask_babel import gettext, format_date
+from flask_babel import gettext, format_date, format_datetime
 from PIL import Image
 from config import LOGO_FOLDER, LOGO_URL_REL
 from flcoll import app
@@ -10,6 +10,12 @@ def datefr_filter(d, fmt=None):
     if fmt:
         return format_date(d, fmt)
     return format_date(d, "medium")
+
+@app.template_filter('datetimefr')
+def datetimefr_filter(d, fmt=None):
+    if fmt:
+        return format_datetime(d, fmt)
+    return format_datetime(d, "dd/MM H:mm")
 
 @app.template_filter('ouinon')
 def ouinon_filter(b, non="non"):

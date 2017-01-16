@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired
 from functools import wraps
 from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
-from .filters import datefr_filter, afflogo_filter
+from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
 from .texenv import texenv, genere_pdf
 
@@ -30,14 +30,14 @@ def required_roles(*roles):
         @wraps(f)
         def wrapped(*args, **kwargs):
             if get_current_user_role() not in roles:
-                flash('Authentication error, please check your details and try again','error')
+                flash('Erreur d\'authentication, veuillez ré-essayer','error')
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
         return wrapped
     return wrapper
 
 def get_current_user_role():
-    return g.user.role
+    return current_user.role
 
 
 @app.errorhandler(404)
@@ -51,7 +51,7 @@ def internal_error(error):
 
 @app.route('/')
 @app.route('/index')
-#@login_required
+# ECRIRE LES RESTRICTIONS DANS LA FONCTION
 def index():
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', evenements=evenements)

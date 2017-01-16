@@ -26,8 +26,7 @@ LABEL { margin-left: 10px; }
 LEGEND {
     color: #6893c4;
     font-weight: bold;
-    padding-left: 10px;
-    padding-right: 3px;
+    padding: 2px 4px 2px 4px;
     border: 1px solid #696968;
     margin-bottom: 0;
     background-color:#F2F2F2;

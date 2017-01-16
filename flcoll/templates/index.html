@@ -7,12 +7,11 @@
   </tr></table>
 </div>
 
-<a href="{{ url_for('auth.login') }}">Espace réservé</a>
+<a href="{{ url_for('suivi_index') }}">Espace réservé</a>
 
 {% for evenement in evenements %}
-<p>{{ evenement.titre }} {{ evenement.date }}</p>
 {% for f in evenement.formulaire %}
-<p><a href="{{ url_for('flcoll', flform=f.id) }}">Formulaire ouvert du {{ f.date_ouverture_inscriptions }} au {{ f.date_cloture_inscriptions}}, mis à jour le {{ f.upd }}</a></p>
+<p><a href="{{ url_for('flcoll', flform=f.id) }}">Formulaire pour <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> ouvert du {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, mis à jour le {{ f.upd | datetimefr}}</a></p>
 {% endfor %}{% endfor %}
 
 {% endblock %}
