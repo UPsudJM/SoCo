@@ -2,7 +2,7 @@ from flask import Flask
 from flask_babelex import Babel
 from flask_login import LoginManager
 from flask_restful import Api
-from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
+from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOGIN_MESSAGE
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -12,6 +12,7 @@ api = Api(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'auth.login'
+lm.login_message = LOGIN_MESSAGE
 
 from flask_mail import Mail
 mail = Mail(app)

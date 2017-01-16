@@ -29,7 +29,7 @@ def home():
 def login():
     if current_user is not None \
         and current_user.is_authenticated:
-        flash('You are already logged in.')
+        flash('Vous êtes déjà identifié.')
         return redirect(url_for('auth.home'))
 
     form = LoginForm(request.form)
@@ -43,7 +43,7 @@ def login():
         except:
             raise
         if not auth_ok:
-            flash('Invalid username or password. Please try again.', 'danger')
+            flash('Login ou mot de passe invalide. Veuillez ré-essayer', 'danger')
             return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
@@ -55,7 +55,7 @@ def login():
             db_session.commit()
         user.authenticate()
         login_user(user)
-        flash('You have successfully logged in.', 'success')
+        flash('Identification réussie.', 'success')
         next = request.args.get('next')
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
