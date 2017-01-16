@@ -30,7 +30,7 @@ def required_roles(*roles):
         @wraps(f)
         def wrapped(*args, **kwargs):
             if get_current_user_role() not in roles:
-                flash('Erreur d\'authentication, veuillez ré-essayer','error')
+                flash('Vous n\'avez pas les droits d\'accès à cette page','error')
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
         return wrapped
@@ -153,8 +153,10 @@ def new():
 @login_required
 @required_roles('admin', 'user')
 def suivi_index():
-    print(current_user.role)
-    evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+    if current_user.role == 'admin':
+        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+    else:
+        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     nb_inscrits = {}
     for e in evenements:
         nb_inscrits[e.id] = len(e.inscription)
@@ -166,6 +168,9 @@ def suivi_index():
 @required_roles('admin', 'user')
 def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
+    if current_user.role != 'admin' and evenement.uid_organisateur != current_user.username:
+        flash('Vous n\'avez pas les droits d\'accès à cette page','danger')
+        return redirect(url_for('index'))
     inscrits = Inscription.query.filter_by(id_evenement=evt).all()
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
     repas_1_existant = False

@@ -60,20 +60,20 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   at tableau CSV
   ** tableau Excel ou Calc
   at liste de mails [ uniquement secrétariat ]
-  ** badges [ uniquement secrétariat ]
+  -> ** badges [ uniquement secrétariat ]
   at émargement
   at présents
     ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
 
-* interface de gestion (du formulaire) plus diversifiée
-  ** page unique pour les organisateurs
+ec interface de gestion (du formulaire) plus diversifiée
+  ok page unique pour les organisateurs
   ** changement de la date de clôture
   ** changement titre, sous-titre, lieu, date de fin
-  ** ce qui amène à revoir l'accès à l'issue du login
+  ok ce qui amène à revoir l'accès à l'issue du login
 
 ok revenir à LDAP/login
-  ** routes et redirections
-  ec raffiner les autorisations (rôles)
+  ec routes et redirections
+  ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
 
