@@ -1,7 +1,17 @@
 python3
 flask
+postgresql
+postgresql-server-dev-9.3 (à désinstaller une fois que psycopg2 est compilé)
+npm ? (angular-route, angular-ui-bootstrap, angular-pickadate)
+
+Si venv :
+apt-get install python3-venv
+source flask/bin/activate
+(deactivate)
 
 see requirements.txt
+$ pip install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF SQLAlchemy
+$ pip install Pillow sqlalchemy-migrate psycopg2 python3-ldap
 
 texlive-extra-recommended
 texlive-lang-french
@@ -11,7 +21,6 @@ openpyxl si on veut des documents tableur (ou XlsxWriter)
 et pyoo pour LibreOffice !
 
 créer dossier ./pdf
-./alembic pour les migrations
 
 + modules JS :
 
