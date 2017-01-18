@@ -231,15 +231,19 @@ def suivi(evt, action=None):
         etiquettes = []
         pages_etiquettes = []
         count = 0
+        base_x0, base_y0 = (0, 270)
+        delta_x, delta_y = (90, -54)
         for inscrit in inscrits:
-            count += 1
-            if count > 9:
+            base_x = base_x0 + 90*(count%3)
+            base_y = base_y0 - 54 * int(count/3)
+            if count > 8:
                 pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
                 count = 0
-                continue
-            etiquettes.append(inscrit.genere_etiquette(0,0)) # FIXME
-        #texcode = texenv.get_template('etiquettes.tex').render(pages='\\\\n'.join(pages_etiquettes))
-        texcode = texenv.get_template('etiquettes.tex').render(pages='OUI')
+            #print(base_x,base_y)
+            etiquettes.append(inscrit.genere_etiquette(base_x,base_y))
+            count += 1
+        pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
+        texcode = texenv.get_template('etiquettes.tex').render(pages=''.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
         response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-colloque-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
