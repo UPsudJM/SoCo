@@ -61,7 +61,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   at tableau CSV
   ** tableau Excel ou Calc
   ok liste de mails
-  -> ec badges -> calculs de coordonnées
+  ok badges -> trais de coupe, evt fabriquer étiquette vide
   at restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
   ok émargement
   ok présents
