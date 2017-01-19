@@ -6,36 +6,6 @@ socoApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 }]);
 
-function listProperties(obj) {
-    var propList = "";
-    for(var propName in obj) {
-        if(typeof(obj[propName]) != "undefined") {
-            propList += (propName + ", ");
-        }
-    }
-    return propList;
-}
-var findProperties = function(obj) {
-    var aPropertiesAndMethods = [];
-    do {
-        aPropertiesAndMethods = aPropertiesAndMethods.concat(Object.getOwnPropertyNames(obj));
-    } while (obj = Object.getPrototypeOf(obj));
-    for ( var a = 0; a < aPropertiesAndMethods.length; ++a) {
-        for ( var b = a + 1; b < aPropertiesAndMethods.length; ++b) {
-            if (aPropertiesAndMethods[a] === aPropertiesAndMethods[b]) {
-                aPropertiesAndMethods.splice(a--, 1);
-            }
-        }
-    }
-    return aPropertiesAndMethods;
-}
-
-function reload(){ // FIXME
-    var container = document.getElementById("datefin");
-    var content = container.innerHTML;
-    container.innerHTML= content;
-}
-
 var suivi = angular.module('suivi',[])
 .controller('suiviCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
     $log.log("in suivi");
@@ -73,24 +43,10 @@ var newevt = angular.module('newevt',['pickadate'])
     $scope.calc1 = function() {
         $log.log("in calc1");
         $log.log("date = " + $scope.evenement.date);
-        ncollform.date_fin.minDate=$scope.evenement.date;
-        var $minDate = $scope.evenement.date;
-        $log.log("$minDate = " + $minDate);
-        //ncollform.date_cloture_inscriptions.maxDate=$scope.evenement.date;
-        $log.log("min=" + ncollform.date_fin.min);
-        ncollform.date_fin.min = $minDate;
-        $log.log("min=" + ncollform.date_fin.min);
-        ncollform.date_fin.selectionStart = $minDate;
-        var $cont = document.getElementById("datefin");
-        var $inp = $cont.innerHTML;
-        $log.log($inp); // introspection
-        //ncollform.date_fin.focus();
-        //$log.log(listProperties(ncollform.date_fin));
-        //$log.log("ok");
+        //ncollform.date_fin.focus(); // FIXME timeout https://docs.angularjs.org/error/$rootScope/inprog?p0=$apply
         };
     $scope.calc2 = function() {
         $log.log("in calc2");
-        $log.log("min = " + ncollform.date_fin.min);
         $log.log("date_fin = " + $scope.evenement.date_fin);
         $log.log("ok ?" + ($scope.evenement.date_fin >= ncollform.date_fin.min));
         if ($scope.evenement.date_fin < $scope.evenement.date) {
@@ -103,6 +59,13 @@ var newevt = angular.module('newevt',['pickadate'])
         $log.log("in calc3");
         $log.log("date_ouverture_inscriptions = " + $scope.evenement.date_ouverture_inscriptions);
         ncollform.date_cloture_inscriptions.minDate=$scope.evenement.date_ouverture_inscriptions;
+        };
+    $scope.calc4 = function() {
+        $log.log("in calc4");
+        $log.log("date_cloture_inscriptions = " + $scope.evenement.date_cloture_inscriptions);
+        $log.log("ok ?" + ($scope.evenement.date_cloture_inscriptions >= $scope.evenement.date_ouverture_inscriptions));
+        $log.log("ok ok ?" + ($scope.evenement.date_cloture_inscriptions <= $scope.evenement.date_fin));
+        // FIXME terminer
         };
         $log.log("tout lu");
 }]);
