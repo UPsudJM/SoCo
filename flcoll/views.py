@@ -17,7 +17,7 @@ from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
-from .texenv import texenv, genere_pdf, fabrique_page_etiquettes
+from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
 
 
 @babel.localeselector
@@ -232,16 +232,20 @@ def suivi(evt, action=None):
         pages_etiquettes = []
         count = 0
         base_x0, base_y0 = (0, 270)
-        delta_x, delta_y = (90, -54)
+        delta_x, delta_y = (92, 54)
         for inscrit in inscrits:
-            base_x = base_x0 + 90*(count%3)
-            base_y = base_y0 - 54 * int(count/3)
+            base_x = base_x0 + delta_x * (count%3)
+            base_y = base_y0 - delta_y * int(count/3)
             if count > 8:
                 pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
                 count = 0
-            #print(base_x,base_y)
             etiquettes.append(inscrit.genere_etiquette(base_x,base_y))
             count += 1
+        # Dernière page
+        for i in range(count,9):
+            base_x = base_x0 + delta_x * (i%3)
+            base_y = base_y0 - delta_y * int(i/3)
+            etiquettes.append(TPL_ETIQUETTE_VIDE % (base_x - 10, base_y + 50, base_x, base_y))
         pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
         texcode = texenv.get_template('etiquettes.tex').render(pages=''.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
