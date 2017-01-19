@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from flcoll import Base, apiman
+from flask_restful import Resource, Api, reqparse
+from flcoll import Base, api
 
 
 class Evenement(Base):
@@ -100,10 +101,28 @@ class Inscription(Base):
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
-# pour URLs http://127.0.0.1:5000/api/inscription et http://127.0.0.1:5000/api/inscription/%d
-# et aussi http://127.0.0.1:5000/api/evenement/%d/inscription etc...
-api_evenement = apiman.create_api(Evenement, methods = ['GET'])
-api_inscription = apiman.create_api(Inscription, methods = ['GET'])
-#api_inscrits = apiman.create_api(Evenement, methods = ['GET'], collection_name='inscrits')
-api_chkemail = apiman.create_api(Personne, methods=['GET'], collection_name='chkemail')
-# FIXME : à brider pour raisons de sécurité
+# API RESTful
+@api.resource('/api/chkemail/')
+class ChkEmail(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('evt', required=True, help="Evenement cannot be blank!")
+        parser.add_argument('email', required=True, help="Email cannot be blank!")
+        parser.add_argument('nom', required=True, help="Nom cannot be blank!")
+        parser.add_argument('prenom', required=True, help="Prenom cannot be blank!")
+        args = parser.parse_args()
+        try:
+            evt = int(args['evt'])
+        except:
+            raise ValueError("'%s' is not a valid event id" % args['evt'])
+        return Personne.chkemail(evt, args['email'], args['nom'], args['prenom'])
+
+@api.resource('/api/envoicodeverif/')
+class CodeVerif(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('email', required=True, help="Email cannot be blank!")
+        args = parser.parse_args()
+        from .emails import envoyer_code_verification
+        codeverif = envoyer_code_verification(args['email'])
+        return codeverif
