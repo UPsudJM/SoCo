@@ -12,3 +12,16 @@ et pyoo pour LibreOffice !
 
 créer dossier ./pdf
 ./alembic pour les migrations
+
++ modules JS :
+
+odile@pythie:~/prj/flcoll/flcoll/static/js$ ls -l
+total 1356
+-rw-r--r-- 1 odile odile 1187559 janv.  3 12:20 angular.js
+-rw-r--r-- 1 odile odile    2459 janv.  3 12:20 angular-locale_fr-fr.js
+-rw-r--r-- 1 odile odile  160048 janv.  3 12:20 angular.min.js
+lrwxrwxrwx 1 odile odile      56 janv.  3 12:20 angular-route.min.js -> ../../../node_modules/angular-route/angular-route.min.js
+lrwxrwxrwx 1 odile odile      71 janv.  3 12:20 datepickerPopup.js -> ../../../node_modules/angular-ui-bootstrap/src/datepickerPopup/popup.js
+lrwxrwxrwx 1 odile odile      68 janv.  5 17:47 ui-bootstrap-tpls.js -> ../../../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js
+
+-rw-r--r-- 1 odile odile    9361 janv.  5 12:01 flcoll.js

@@ -1,5 +1,5 @@
 'use strict';
-var flcollApp = angular.module('flcollApp', ['flform', 'newevt', 'suivi']);
+var flcollApp = angular.module('flcollApp', ['ngRoute', 'flform', 'suivi', 'newevt']);
 
 flcollApp.config(['$interpolateProvider', function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
@@ -131,41 +131,30 @@ var flform = angular.module('flform',[])
         $scope.chkemail = function(personne) {
             $log.log("in chkemail");
             if ($scope.personne.nom && $scope.personne.email) {
-                // FIXME initialiser toutes les variables auxiliaires
-                // (en profiter pour réduire leur nombre)
                 var $email_a_verifier = ($scope.personne.email || "");
                 $log.log($email_a_verifier);
-                /* var $data = angular.toJson({'id_evenement': $coll});
-                   $http.get('/api/inscription', {'data':$data}).then(function(resp) {
-                   console.log(resp.data);
-                   });*/
-                var $filters = [{"name": "email", "op": "eq", "val": $email_a_verifier}];
-                $http.get('/api/chkemail', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
+                /*var $params = {"email" : window.encodeURIComponent($email_a_verifier),
+                               "nom" : window.encodeURIComponent($scope.personne.nom),
+                               "prenom" : window.encodeURIComponent($scope.personne.prenom)}; */
+                var $params = {"evt" : $coll, "email" : $email_a_verifier, "nom" : $scope.personne.nom, "prenom" : $scope.personne.prenom};
+                $http.get('/api/chkemail', {'params': $params}).then(function(resp) {
                     $log.log(resp.data);
-                    //var $id_personne;
-                    if (resp.data.num_results) {
-                        $log.log(resp.data.objects[0]);
-                        var $id_personne = resp.data.objects[0].id;
-                        var $nom_bdd = resp.data.objects[0].nom;
-                        var $prenom_bdd = resp.data.objects[0].prenom;
-                        if (normalise_pour_comp($scope.personne.nom) != normalise_pour_comp($nom_bdd) || normalise_pour_comp($scope.personne.prenom) != normalise_pour_comp($prenom_bdd)) {
-                            $log.log("nom ou prenom diff.");
-                            $scope.personne.duplicateemail = "y";
-                            $log.log($scope.personne.duplicateemail);
+                    if (resp.data) {
+                        $log.log(resp.data);
+                        $log.log(resp.data[0]);
+                        $log.log(resp.data[1]);
+                        if (resp.data[0] && resp.data[0] != -1) $scope.personne.id = resp.data[0];
+                        if (resp.data[1] && resp.data[1] == "oui") $scope.deja_inscrit = 1;
+                        else $scope.deja_inscrit = 0;
+                        if ($scope.deja_inscrit) {
+                            $log.log("personne déjà inscrite");
+                            $scope.msg_dejainscrit = "Vous êtes déjà inscrit-e à cet événement !";
                         }
                         else {
-                            var $filters = [{"name": "id_evenement", "op": "eq", "val": $coll},
-                                        {"name": "id_personne", "op": "eq", "val": $id_personne}];
-                            $log.log($filters);
-                            $http.get('/api/inscription', {'params': {"q": angular.toJson({"filters": $filters})}}).then(function(resp) {
-                                $log.log(resp.data);
-                                if (resp.data.num_results) {
-                                    $log.log("personne déjà inscrite");
-                                    $scope.msg_duplicateemail = "Vous êtes déjà inscrit-e à cet événement !";
-                                }
-                                else delete $scope.msg_duplicateemail;
-                            }
-                                                                                                                        )};
+                            $log.log("email déjà dans la base mais personne pas encore inscrite");
+                            delete $scope.msg_dejainscrit;
+                            $scope.duplicateemail = "y";
+                        }
                     }
                 });
             }
@@ -173,16 +162,27 @@ var flform = angular.module('flform',[])
         $scope.envoi_email_verification = function(personne) {
             $log.log("in envoi_email_verification");
             $log.log("on envoie un mail à <" + $scope.personne.email + ">");
-            $scope.codeverif = "0123";
-            $log.log("codeverif=" + $scope.codeverif);
-            $scope.personne.emailsent = "y";
-            delete $scope.personne.duplicateemail;
+            var $params = {"email" : $scope.personne.email}
+            $log.log(angular.toJson({"params": $params}));
+            $http.get('/api/envoicodeverif', {'params': $params}).then(function(resp) {
+                $log.log(resp.data); // FIXME POST
+                if (resp.data) {
+                    $scope.personne.emailsent = "y";
+                    $scope.codeverifsrv = resp.data;
+                    $log.log("codeverif=" + $scope.codeverifsrv);
+                    delete $scope.duplicateemail;
+                }
+                else {
+                    $scope.personne.id = null;
+                    $scope.msg_duplicateemail = "erreur d'envoi du code de vérification";
+                }
+            });
         }
         $scope.verifier_code = function(personne) {
             $log.log("in verifier_code");
             $log.log($scope.personne.codeverif);
             delete $scope.personne.emailsent;
-            if ($scope.personne.codeverif == $scope.codeverif) { $scope.personne.codeok = "y"; delete $scope.personne.codeko; }
+            if ($scope.personne.codeverif == $scope.codeverifsrv) { $scope.personne.codeok = "y"; delete $scope.personne.codeko; }
             else { $scope.personne.codeko = "y"; delete $scope.personne.codeok; }
         }
         $scope.reset = function(form) {

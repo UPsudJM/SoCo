@@ -1,0 +1,3 @@
+* quand on est sur une page d'inscription, il est impossible de revenir
+  à l'accueil
+* le cookie remember_me dure un an alors qu'il devrait durer 30 jours

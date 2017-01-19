@@ -1,46 +1,58 @@
+-> nom : soco ? socoll ? socol ?
+** mettre le nom de l'institution dans la config (pour mettre dans les mails et
+   sur l'interface)
+
 ec procédure d'installation
 ok essayer avec Postgresql
-ok script de migration
-  ok mais comment exporter les migrations en SQL ?
-  ok essayer (Flask-Migrate) -> alembic
+* nouveau script de migration
+  ec toujours avec SQLAlchemy-Migrate
+  ** mais comment exporter les migrations en SQL ?
 
 ok modèle
   ok revoir la relation entre Inscription et Personne
 
 ok amélioration formulaires CRUD
-  ec traitement du logo de l'événément
+  ok traitement du logo de l'événément
+    at default en cascade
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
 
-ok page publique d'inscription à un colloque
+at page publique d'inscription à un colloque (sans JS)
   ok champs -> pb des libellés variables, avec le style
   ok présentation de la page
+  ok affichage du logo à la bonne taille (thumbnail)
   ok éviter les doublons d'inscription (et de personne)
-  ec raffiner l'information de l'utilisateur, notamment cas doublon
+  ** raffiner l'information de l'utilisateur, notamment cas doublon
   ** prévoir un CAPTCHA
+  -> at enregistrement des lignes du badge dans la table
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
-ec page publique d'inscription à un colloque (partie AngularJS)
+at page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
   ok affichage dynamique du badge
     ok nom en majuscules, prénom capitalisé
   ok création des 2 champs pour le badge
-  ec éviter les doublons (Ajax)
-    ** réduire/améliorer les messages sur la page
-    ** envoi du mail de vérification : POST sur URL REST allant vers une
-       fonction située dans views ou dans models
+  ok éviter les doublons (Ajax)
+    ok réduire/améliorer les messages sur la page
+    ok envoi du mail de vérification : POST sur URL REST allant vers une
+    ok fonction située dans models
+    ok envoi effectif du mail
     ok raffiner la comparaison du nom et du prénom
-  -> * CAPTCHA (visualcaptcha)
+    ** CAPTCHA (visualcaptcha)
   ok soumission du formulaire
     ok bug token CSRF
-    ** interdire la soumission si erreur détectée par le JS : doublon email
-  * que faire si l'utilisateur n'a pas JS
-  * vérifier le viewport et autres (smartphones)
+    ok interdire la soumission si erreur détectée par le JS : doublon email
+    ok enregistrer les réponses aux questions supplémentaires
+    at vérifier le viewport et autres (smartphones)
 
-at envois de mail -> evt ajouter threading (mega tutorial miguel)
-  ** encoding latin-1 pour + de sûreté
+ok envois de mail -> evt ajouter threading (mega tutorial miguel)
+  at encoding latin-1 pour + de sûreté ?
+
+ok API Flask-Restful
+  ok brider l'accès aux données personnelles
+  ok faire passer l'envoi d'un mail pour vérification de la personne
 
 ok page d'index générale pour les pages de suivi
 
@@ -55,24 +67,24 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
   at tableau CSV
   ** tableau Excel ou Calc
-  at liste de mails [ uniquement secrétariat ]
-  ** badges [ uniquement secrétariat ]
-  at émargement
-  at présents
-    ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
+  ok liste de mails
+  ok badges
+  at restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
+  ok émargement
+  ok présents
+  ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
 
-* interface de gestion (du formulaire) plus diversifiée
-  ** page unique pour les organisateurs
-  ** changement de la date de clôture
+ec interface de gestion (du formulaire) plus diversifiée
+  ok page unique pour les organisateurs
+  -> ** changement de la date de clôture
   ** changement titre, sous-titre, lieu, date de fin
-  ** ce qui amène à revoir l'accès à l'issue du login
+  ok ce qui amène à revoir l'accès à l'issue du login
 
 ok revenir à LDAP/login
-  ** routes et redirections
-  ** raffiner les autorisations (rôles) (Flask-User ?)
+  ec routes et redirections
+  ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
   ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  -> ec logout automatique (timeout)
 
 ec tests unitaires
-
-* interface utilisateur responsive (AngularJS ? HTML5 ?)

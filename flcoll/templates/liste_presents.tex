@@ -1,11 +1,10 @@
-\documentclass[a4paper,11pt]{extreport}
+\documentclass[a4paper,10pt]{extreport}
 \usepackage{times}
 \usepackage[latin1]{inputenc}
 \usepackage[francais]{babel}
 \usepackage[pdftex]{graphicx}
 \usepackage{longtable}
 \usepackage[top=0.43in,bottom=0.43in,left=-0.43in,right=-0.43in]{geometry}
-\usepackage[usenames, dvipsnames]{color}
 
 
 \itemindent 0.00in
@@ -21,14 +20,12 @@
 
 \begin{longtable}{|p{6cm}|p{5.5cm}|p{4cm}|}
   \multicolumn{3}{c}{\large\textbf{((( evenement.titre )))}} \\
-  \multicolumn{3}{c}{\large\emph{date :} \color{white}{une date}} \\
-  \multicolumn{3}{c}{\hspace{3 cm}} \\
       \hline
-      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endfirsthead
+      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Fonction} \endfirsthead
       \hline
-      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endhead
+      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Fonction} \endhead
       \hline
-      ((* for inscrit in inscrits *))\textsc{(((inscrit.personne.nom)))} (((inscrit.personne.prenom))) & (((inscrit.personne.organisation))) & \\
+      ((* for inscrit in inscrits *))\textsc{(((inscrit.personne.nom)))} (((inscrit.personne.prenom))) & (((inscrit.personne.organisation))) & (((inscrit.personne.fonction))) \\
       \hline ((* endfor *))
 \end{longtable}
 

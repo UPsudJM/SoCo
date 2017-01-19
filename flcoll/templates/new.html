@@ -10,7 +10,13 @@
 {% endblock %}
 
 {% block content %}
-{{ current_user.username }}
+
+{% if current_user.is_authenticated %}
+<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a> <a href="{{ url_for('suivi_index') }}">Retour à la liste</a></p>
+{% else %}
+<a href="{{ url_for('auth.login') }}">Espace réservé</a>
+{% endif %}
+
 <div class="entete">
 <table class="titre">
 <tr>{% if logo %}<td><img src="{{ logo }}" /></td>{% endif %}

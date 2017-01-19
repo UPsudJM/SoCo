@@ -2,11 +2,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ current_user.username }}
+
+{% if current_user.is_authenticated %}
+<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a> <a href="{{ url_for('suivi_index') }}">Retour à la liste</a></p>
+{% else %}
+<a href="{{ url_for('auth.login') }}">Espace réservé</a>
+{% endif %}
 
 <h1>{{ evenement.titre }}</h1>
 
 <hr/>
+
+<table><tr>
+  <td><a href="{{ url_for('suivi', evt=evenement.id) }}">voir les inscrits</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
+  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">adresses mail</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes</a></td>{% endif %}
+</tr></table>
 
 <table><legend>Liste des inscrits</legend>
 <tr>
@@ -33,8 +47,10 @@
 
 <hr/>
 
-<section ng-controller="suiviCtrl">
- <p>OK</p>
+<section ng-controller="suiviCtrl"><a name="modifs" />
+  <h3>Modifications</h3>
+  <p>Date de clôture <input type="date" name="date_cloture_inscriptions" /> <input type="button" value="Modifier" /></p>
+
 </section>
 
 <div class="footnotes">

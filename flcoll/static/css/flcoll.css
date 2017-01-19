@@ -1,7 +1,7 @@
 /* Style pour facule Jean Monnet, service recherche */
 
 BODY { font-size: 100%; }
-#centre { width: 80%; margin-left:80px; }
+/* #centre { width: 80%; margin-left:80px; } */
 H1, H2 { display: table; margin: auto; color:#138f69; }
 
 DIV.entete {
@@ -9,21 +9,27 @@ DIV.entete {
     text-align: justify;
 }
 TABLE.titre, H3.date, H3.sstitre, P.lieu { display: table; margin: auto; }
-P.lieu { font-size: 120% ; }
+TABLE.titre { margin-bottom: 20px; }
+TABLE.titre TD { padding: 20px; }
+P.lieu, P.dateinscr { font-size: 120%; }
 P.dateinscr { font-style: italic; }
 FIELDSET {
     margin-left: 20px;
     margin-bottom: 20px;
     margin-top: 40px;
     background-color:#F8F8F8;
-    width: 740px;
+    width: 85%;
+    padding: 20px;
+    border: 1px solid #F2F2F2;
 }
 LABEL { margin-left: 10px; }
 LEGEND {
     color: #6893c4;
     font-weight: bold;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding: 2px 4px 2px 4px;
+    border: 1px solid #696968;
+    margin-bottom: 0;
+    background-color:#F2F2F2;
 }
 
 SPAN.forminput {
@@ -46,7 +52,7 @@ DIV.buttonbar {
 
 DIV.footnotes {
     font-style: italic;
-    font-size: 70%;
+    font-size: 90%;
     text-align: right;
     margin: 20px;
 }
@@ -93,6 +99,6 @@ UL.checkbox {
     display: inline;
 }
 
-/* Ajouts 2012 */
+/* Ajouts 2012+2017 */
 H3 {color: #696968; }
 A, LEGEND, .h2g A, .h2g A:visited, A:link, A:hover, H1 { color: #003A64; }

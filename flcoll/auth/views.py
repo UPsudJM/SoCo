@@ -29,10 +29,12 @@ def home():
 def login():
     if current_user is not None \
         and current_user.is_authenticated:
-        flash('You are already logged in.')
-        return redirect(url_for('auth.home'))
+        flash('Vous êtes déjà identifié-e.')
+        return redirect(url_for('suivi'))
 
-    form = LoginForm(request.form)
+    form = LoginForm(request.form) #, nexturl=request.args['next'])
+    if request.args and request.args.get('next'):
+        form.nexturl.data = request.args['next']
 
     if request.method == 'POST' and form.validate():
         username = request.form.get('username')
@@ -43,7 +45,7 @@ def login():
         except:
             raise
         if not auth_ok:
-            flash('Invalid username or password. Please try again.', 'danger')
+            flash('Login ou mot de passe invalide. Veuillez ré-essayer', 'danger')
             return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
@@ -54,17 +56,15 @@ def login():
             db_session.add(user)
             db_session.commit()
         user.authenticate()
-        login_user(user)
-        flash('You have successfully logged in.', 'success')
-        next = request.args.get('next')
+        login_user(user, remember=True)
+        flash('Identification réussie.', 'success')
+        nexturl = request.form.get('nexturl')
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
         # FIXME
-        #if not next_is_valid(next):
+        #if not next_is_valid(nexturl):
         #    return flask.abort(400)
-        return redirect(next or url_for('index'))
-        #return redirect(url_for('auth.home'))
-
+        return redirect(nexturl or url_for('suivi_index'))
     if form.errors:
         flash(form.errors, 'danger')
 

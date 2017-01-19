@@ -2,7 +2,6 @@ from config import ADMINS
 from flcoll import mail
 from flask_mail import Message
 from flask import render_template
-from .models import Personne, Evenement
 
 
 def envoyer_message(subj, src, dest, text_body, html_body):
@@ -10,11 +9,28 @@ def envoyer_message(subj, src, dest, text_body, html_body):
     msg.bcc = ADMINS
     msg.body = text_body
     msg.html = html_body
-    mail.send(msg)
+    try:
+        mail.send(msg)
+    except SMTPError:
+        print("Erreur: impossible d'envoyer le mail")
 
-def confirmer_inscription(personne, evenement):
-    envoyer_message('Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
+
+def confirmer_inscription(email, evenement):
+    from .models import Evenement
+    envoyer_message('Soco : Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
                    ADMINS[0],
-                   [personne.email],
-                   render_template("confirmation_inscription.txt", personne=personne, evenement=evenement),
-                   render_template("confirmation_inscription.html", personne=personne, evenement=evenement))
+                   [email],
+                   render_template("confirmation_inscription.txt", evenement=evenement),
+                   render_template("confirmation_inscription.html", evenement=evenement))
+
+def envoyer_code_verification(email):
+    from random import shuffle
+    l = ['0','1','2','3','4','5','6','7','8','9']
+    shuffle(l)
+    codeverif = "".join(l[:4])
+    envoyer_message('Soco : Votre code de vérification',
+                        ADMINS[0],
+                        [email],
+                        render_template("envoi_code_verification.txt", codeverif=codeverif),
+                        render_template("envoi_code_verification.html", codeverif=codeverif))
+    return codeverif

@@ -2,7 +2,9 @@ from flask import Flask
 from flask_babelex import Babel
 from flask_login import LoginManager
 from flask_restful import Api
+from datetime import timedelta
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
+from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -12,6 +14,8 @@ api = Api(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'auth.login'
+lm.cookie_duration = timedelta(COOKIE_DURATION_DAYS)
+lm.login_message = LOGIN_MESSAGE
 
 from flask_mail import Mail
 mail = Mail(app)
@@ -26,6 +30,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
+
 
 def init_db():
     # import all modules here that might define models so that

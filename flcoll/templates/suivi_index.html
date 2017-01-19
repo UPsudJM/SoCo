@@ -2,7 +2,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ current_user.username }}
+{% if current_user.is_authenticated %}
+<h3>Vous êtes <code>{{ current_user.username }}</code></h3>
+<a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a>
+{% else %}
+Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
+{% endif %}
+
+<section ng-controller="suiviCtrl">
+<p>[[ 424955830796 | date : 'medium' ]]</p>
+</section>
 
 <h1>Liste des colloques en cours</h1>
 
@@ -14,11 +23,11 @@
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
   <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
   {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier ce formulaire</em></a>
-  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a> <span ng-controller="suiviCtrl"><input type="date" name="date_cloture_inscriptions_{{f.id}}" /><input type="button" value="Modifier" /></span>
   {% else %}<strong>inscriptions terminées</strong> <a href=""><em>prolonger</em></a>
   {% endif %}</li>
   {% endfor %}</ul>{% endif %}
-  <table><tr><td><a href="{{ url_for('suivi', evt=e.id) }}">voir les inscrits</td><td><a href="{{url_for('suivi', evt=e.id, action='badges') }}">imprimer les étiquettes</a></td></tr></table>
+  <table><tr><td><a href="{{ url_for('suivi', evt=e.id) }}">voir les inscrits</td><td><a href="{{url_for('suivi', evt=e.id, action='listepdf') }}" download>liste à imprimer</a></td></tr></table>
   </li>
 {% endfor %}
 </ul>

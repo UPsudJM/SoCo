@@ -1,18 +1,22 @@
 from sqlalchemy import Column, Integer, String
 from ldap3 import Server, Connection
-from flask_wtf import Form
-from wtforms import TextField, PasswordField
+from flask_wtf import FlaskForm
+from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from flcoll import app, Base
+from config import COOKIE_DURATION_DAYS
 
 
 class User(Base):
     __tablename__ = 'utilisateur'
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
+    role = Column(String(10))
     is_authenticated = False
     is_active = True
     is_anonymous = False
+    is_admin = False
+    is_superadmin = False
 
     def __init__(self, username):
         self.username = username
@@ -34,6 +38,10 @@ class User(Base):
 
     def authenticate(self):
         self.is_authenticated = True
+        if 'admin' in self.role:
+            self.is_admin = True
+        if 'super' in self.role:
+            self.is_superadmin = True
 
     def deactive(self):
         self.is_active = False
@@ -42,6 +50,8 @@ class User(Base):
         return str(self.id)
 
 
-class LoginForm(Form):
-    username = TextField('Username', [InputRequired()])
-    password = PasswordField('Password', [InputRequired()])
+class LoginForm(FlaskForm):
+    username = TextField('Nom d\'utilisateur', [InputRequired()])
+    password = PasswordField('Mot de passe', [InputRequired()])
+    nexturl = HiddenField()
+    rememberme = BooleanField('Se souvenir de moi <small>(pendant %d jours)</small>' % COOKIE_DURATION_DAYS)

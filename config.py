@@ -33,3 +33,13 @@ LANGUAGES = {
     'fr': 'Français'
     }
 BABEL_DEFAULT_LOCALE = 'fr'
+
+# logo upload
+LOGO_FOLDER=basedir + '/flcoll/static/logos/'
+LOGO_URL_REL='logos/'
+LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
+LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
+
+# Flask_login
+COOKIE_DURATION_DAYS = 30
+LOGIN_MESSAGE = u'Merci de vous identifier'

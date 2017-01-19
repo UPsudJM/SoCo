@@ -15,6 +15,37 @@ LATEX_SUBS = (
     (rcompile(r'\.\.\.+'), r'\\ldots'),
     )
 
+TPL_ETIQUETTE="\
+\put(%d,%d){\crophrule \cropvrule}\
+\put(%d,%d){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}"
+
+TPL_ETIQUETTE_VIDE="\
+\put(%d,%d){\crophrule \cropvrule}\
+\put(%d,%d){\makebox(85,50){\hspace{1cm}}}"
+
+TPL_PAGE_ETIQUETTES="\
+\\begin{picture}(210,270)(0,0)\
+\color{light-gray}\
+%s\
+\put(271,320){\cropvrule \crophrule}\
+\put(271,266){\cropvrule \crophrule}\
+\put(271,212){\cropvrule \crophrule}\
+\put(-10,156){\crophrule}\
+\put(083,156){\crophrule}\
+\put(173,156){\crophrule}\
+\
+\put(-03,149){\cropvrule}\
+\put(090,149){\cropvrule}\
+\put(180,149){\cropvrule}\
+\put(270,149){\cropvrule}\
+\
+\put(090,156){\crophrule}\
+\put(180,156){\crophrule}\
+\put(270,156){\crophrule}\
+\
+\end{picture}\
+"
+
 def escape_tex(value):
     newval = value
     for pattern, replacement in LATEX_SUBS:
@@ -52,6 +83,15 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
     remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex
     chdir("..")
     return pdffilename
+
+def fabrique_page_etiquettes(etiquettes):
+    l = len(etiquettes)
+    try:
+        assert l <= 9
+    except AssertionError:
+        flash("Erreur dans la fabrication des étiquettes")
+        return render_template('500.html')
+    return TPL_PAGE_ETIQUETTES % "".join(etiquettes)
 
 texenv = app.create_jinja_environment()
 texenv.block_start_string = '((*'
