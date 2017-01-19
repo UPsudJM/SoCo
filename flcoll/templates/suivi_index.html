@@ -23,7 +23,7 @@ Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
   <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
   {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier ce formulaire</em></a>
-  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture <span ng-controller="suiviCtrl"><input type="date" name="date_cloture_inscriptions" ng-model="f.date_cloture_inscriptions" /><button type="button" class="btn btn-def  ault" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button></em></a></span>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a> <span ng-controller="suiviCtrl"><input type="date" name="date_cloture_inscriptions_{{f.id}}" /><input type="button" value="Modifier" /></span>
   {% else %}<strong>inscriptions terminées</strong> <a href=""><em>prolonger</em></a>
   {% endif %}</li>
   {% endfor %}</ul>{% endif %}
