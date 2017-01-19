@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask import flash
 from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
 from wtforms.fields import Label
@@ -7,7 +7,7 @@ from flcoll.models import Evenement, Formulaire, Personne, Inscription
 import datetime
 
 
-class FlcollForm(Form):
+class FlcollForm(FlaskForm):
     def flash_errors(self):
         for field, errors in self.errors.items():
             for error in errors:
@@ -24,7 +24,7 @@ class NcollForm(FlcollForm):
     date_cloture_inscriptions = DateField("Date de clôture des inscriptions", validators=[DataRequired()])
 
     def validate(self):
-        if not Form.validate(self):
+        if not FlaskForm.validate(self):
             return False
         if self.date_ouverture_inscriptions > self.date_cloture_inscriptions:
             self.date_ouverture_inscriptions.errors.append("La date d'ouverture ne peut pas être antérieur à la date de clôture")
@@ -53,7 +53,7 @@ class InscriptionForm(FlcollForm):
     inscription_repas_2 = BooleanField('Repas 2')
 
     def __init__(self, formulaire, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
         self.formulaire = formulaire
         if not formulaire.champ_attestation:
             self.__delitem__('attestation_demandee')
@@ -69,7 +69,7 @@ class InscriptionForm(FlcollForm):
             self.__delitem__('inscription_repas_2')
 
     def validate(self):
-        if not Form.validate(self):
+        if not FlaskForm.validate(self):
             self.flash_errors()
             return False
         return True
