@@ -19,9 +19,9 @@ var suivi = angular.module('suivi',['pickadate'])
         $log.log("in suivi");
         $scope.master = {};
         $scope.auj = new Date();
-        $scope.update = function(evenement) {
+        $scope.update = function(evenements) {
             $log.log("in update");
-            $scope.master = angular.copy(evenement);
+            $scope.master = angular.copy(evenements);
         };
     }]);
 
