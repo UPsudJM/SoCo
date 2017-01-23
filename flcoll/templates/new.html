@@ -13,9 +13,10 @@
 {% block content %}
 
 {% if current_user.is_authenticated %}
-<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a> <a href="{{ url_for('suivi_index') }}">Retour à la liste</a></p>
+<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
+<p><a href="{{ url_for('suivi_index') }}">Retour à la liste</a></p>
 {% else %}
-<a href="{{ url_for('auth.login') }}">Espace réservé</a>
+<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
 {% endif %}
 
 <div class="entete">
@@ -69,7 +70,7 @@
   <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
     <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
   </div>
-  Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" />
+  Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc4()" />
   <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
     <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
   </div>
