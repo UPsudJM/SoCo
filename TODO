@@ -23,9 +23,10 @@ at page publique d'inscription à un colloque (sans JS)
   ok présentation de la page
   ok affichage du logo à la bonne taille (thumbnail)
   ok éviter les doublons d'inscription (et de personne)
-  ** raffiner l'information de l'utilisateur, notamment cas doublon
+  ec raffiner l'information de l'utilisateur, notamment cas doublon
+   *** voir quand il n'y a pas javascript
   ** prévoir un CAPTCHA
-  -> at enregistrement des lignes du badge dans la table
+  ok enregistrement des lignes du badge dans la table
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
@@ -55,13 +56,20 @@ ok API Flask-Restful
   ok faire passer l'envoi d'un mail pour vérification de la personne
 
 ok page d'index générale pour les pages de suivi
+  ec formulaire nouveau colloque
+  ok scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
+  ec champs -> il en reste
+  ok mise en œuvre pickadate
+  ec calculs croisés de dates min et max
+  ** affichage récap avant soumission
+  ** soumission
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
   at tableau CSV
   ** tableau Excel ou Calc
   ok liste de mails
-  ok badges -> trais de coupe, evt fabriquer étiquette vide
+  ok badges
   at restreindre l'accès aux listes de mails et aux badges (uniquement secrétariat)
   ok émargement
   ok présents
@@ -69,7 +77,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ec interface de gestion (du formulaire) plus diversifiée
   ok page unique pour les organisateurs
-  ** changement de la date de clôture
+  ec changement de la date de clôture
   ** changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login
 
@@ -81,3 +89,11 @@ ok revenir à LDAP/login
   -> ec logout automatique (timeout)
 
 ec tests unitaires
+
+* interface pour les intervants -> voir avec Catherine
+  ** transports : horaires de trains ou avions
+  ** nuitées sur place ? nombre seulement
+  ** ordi, vidéoproj
+
+* voir le formulaire que je crée
+* modifier le formulaire que je visualise

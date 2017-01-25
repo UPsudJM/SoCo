@@ -1,17 +1,19 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
+{% block CSS %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/angular-pickadate.css') }}" />
+{% endblock %}
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-pickadate.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/soco.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-{% if current_user.is_authenticated %}
-<h3>Vous êtes <code>{{ current_user.username }}</code></h3>
-<a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a>
-{% else %}
-Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
-{% endif %}
 
 <section ng-controller="suiviCtrl">
-<p>[[ 424955830796 | date : 'medium' ]]</p>
-</section>
+<p>[[ auj | date : 'medium' ]]</p>
 
 <h1>Liste des colloques en cours</h1>
 
@@ -23,7 +25,7 @@ Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
   <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
   {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier ce formulaire</em></a>
-  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a> <span ng-controller="suiviCtrl"><input type="text" size="10" name="date_cloture_inscriptions_{{f.id}}" ng-model="evenements.date_cloture_inscriptions_{{f.id}}" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="alert('ok')" /><input type="button" value="Modifier" /></span>
   {% else %}<strong>inscriptions terminées</strong> <a href=""><em>prolonger</em></a>
   {% endif %}</li>
   {% endfor %}</ul>{% endif %}
@@ -31,6 +33,9 @@ Click here to <a href="{{ url_for('auth.login') }}">S'identifier</a>
   </li>
 {% endfor %}
 </ul>
+
+</section>
+
 
 <div class="footnotes">
 <p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>

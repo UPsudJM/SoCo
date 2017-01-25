@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="flcollApp">
+<html lang="fr" ng-app="socoApp">
   <head>
     <meta charset="utf-8">
       <!-- meta http-equiv="X-UA-Compatible" content="IE=edge" -->
@@ -10,13 +10,13 @@
     {% else %}
     <title>Université Paris Saclay - Faculté Jean Monnet - Inscription à un colloque</title>
     {% endif %}
-    <!-- link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/ -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+    {% block CSS %}{% endblock %}
     <link href="{{ url_for('static', filename='css/flcoll.css') }}" rel="stylesheet"/>
     <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
     {% block javascript %}{% endblock %}
-    <script src="{{ url_for('static', filename='js/flcoll.js') }}"></script>
  </head>
   <body>
     <div>Colloques
@@ -34,6 +34,13 @@
     {% endif %}
     {% endwith %}
     <div id="main">
+{% if current_user.is_authenticated %}
+<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
+{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des colloques</a></p>{% endif %}
+{% else %}
+<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
+{% endif %}
+
       {% block content %}{% endblock %}
     </div>
 

@@ -17,7 +17,7 @@ from .models import Organisation, Personne, Evenement, Formulaire, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
-from .texenv import texenv, genere_pdf, fabrique_page_etiquettes
+from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
 
 
 @babel.localeselector
@@ -138,19 +138,44 @@ def flcoll(flform):
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
-            return redirect('/')
+            return redirect('/end')
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
                                logofilename=logofilename,
                                current_user=current_user)
 
 
+@app.route('/end')
+def end():
+    return render_template('end.html')
+
+@app.route('/new')
 @app.route('/new/')
-@login_required
+#@login_required
 def new():
     form = NcollForm()
+    if form.validate_on_submit():
+        evenement = Evenement(titre=form.titre, sstitre=form.sstitre, date=form.date, date_fin=form.date_fin,
+                                  lieu = form.lieu, uid_organisateur = current_user.username)
+        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions,
+                                    date_cloture_inscriptions = form.date_cloture_inscriptions)
+        if form.champ_restauration_1:
+            formulaire.champ_restauration_1 = True
+            formulaire.texte_restauration_1 = form.texte_restauration_1
+        db_session.add(evenement)
+        db_session.add(formulaire)
+        try:
+            db_session.commit()
+        except IntegriryError as err:
+            db_session.rollback()
+            flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
+            # sur le formulaire : organisateur et date de clôture
+        else:
+            flash("Votre formulaire a bien été créé. Voici son URL :" + url_for('colloque', evenement.id))
+            return redirect('/index')
     return render_template('new.html', form=form, current_user=current_user)
 
+@app.route('/suivi')
 @app.route('/suivi/')
 @login_required
 @required_roles('admin', 'user')
@@ -232,16 +257,20 @@ def suivi(evt, action=None):
         pages_etiquettes = []
         count = 0
         base_x0, base_y0 = (0, 270)
-        delta_x, delta_y = (90, -54)
+        delta_x, delta_y = (92, 54)
         for inscrit in inscrits:
-            base_x = base_x0 + 90*(count%3)
-            base_y = base_y0 - 54 * int(count/3)
+            base_x = base_x0 + delta_x * (count%3)
+            base_y = base_y0 - delta_y * int(count/3)
             if count > 8:
                 pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
                 count = 0
-            #print(base_x,base_y)
             etiquettes.append(inscrit.genere_etiquette(base_x,base_y))
             count += 1
+        # Dernière page
+        for i in range(count,9):
+            base_x = base_x0 + delta_x * (i%3)
+            base_y = base_y0 - delta_y * int(i/3)
+            etiquettes.append(TPL_ETIQUETTE_VIDE % (base_x - 10, base_y + 50, base_x, base_y))
         pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
         texcode = texenv.get_template('etiquettes.tex').render(pages=''.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
