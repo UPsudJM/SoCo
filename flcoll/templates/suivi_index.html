@@ -11,11 +11,6 @@
 {% endblock %}
 
 {% block content %}
-{% if current_user.is_authenticated %}
-<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a>
-{% else %}
-<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
-{% endif %}
 
 <section ng-controller="suiviCtrl">
 <p>[[ auj | date : 'medium' ]]</p>

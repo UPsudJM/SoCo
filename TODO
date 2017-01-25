@@ -89,3 +89,11 @@ ok revenir à LDAP/login
   -> ec logout automatique (timeout)
 
 ec tests unitaires
+
+* interface pour les intervants -> voir avec Catherine
+  ** transports : horaires de trains ou avions
+  ** nuitées sur place ? nombre seulement
+  ** ordi, vidéoproj
+
+* voir le formulaire que je crée
+* modifier le formulaire que je visualise

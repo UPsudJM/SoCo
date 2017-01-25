@@ -22,6 +22,8 @@ class NcollForm(FlcollForm):
     lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
     date_ouverture_inscriptions = DateField("Date d'ouverture des inscriptions", validators=[DataRequired()])
     date_cloture_inscriptions = DateField("Date de clôture des inscriptions", validators=[DataRequired()])
+    champ_restauration_1 = BooleanField("Champ restauration 1")
+    texte_restauration_1 = StringField("Texte restauration 1")
 
     def validate(self):
         if not FlaskForm.validate(self):

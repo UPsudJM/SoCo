@@ -34,6 +34,13 @@
     {% endif %}
     {% endwith %}
     <div id="main">
+{% if current_user.is_authenticated %}
+<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
+{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des colloques</a></p>{% endif %}
+{% else %}
+<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
+{% endif %}
+
       {% block content %}{% endblock %}
     </div>
 
