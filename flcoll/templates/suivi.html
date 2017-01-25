@@ -3,12 +3,6 @@
 
 {% block content %}
 
-{% if current_user.is_authenticated %}
-<p>Vous êtes <code>{{ current_user.username }}</code> <a href="{{ url_for('auth.logout') }}">Sortir de l'espace réservé</a> <a href="{{ url_for('suivi_index') }}">Retour à la liste</a></p>
-{% else %}
-<a href="{{ url_for('auth.login') }}">Espace réservé</a>
-{% endif %}
-
 <h1>{{ evenement.titre }}</h1>
 
 <hr/>
@@ -47,8 +41,10 @@
 
 <hr/>
 
-<section ng-controller="suiviCtrl">
- <p><em>section pour AngularJS</em></p>
+<section ng-controller="suiviCtrl"><a name="modifs" />
+  <h3>Modifications</h3>
+  <p>Date de clôture <input type="date" name="date_cloture_inscriptions" /> <input type="button" value="Modifier" /></p>
+
 </section>
 
 <div class="footnotes">

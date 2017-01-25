@@ -17,15 +17,19 @@ LATEX_SUBS = (
 
 TPL_ETIQUETTE="\
 \put(%d,%d){\crophrule \cropvrule}\
-\put(%d,%d){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}\
-\put(%d,%d){\crophrule \cropvrule}"
+\put(%d,%d){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}"
+
+TPL_ETIQUETTE_VIDE="\
+\put(%d,%d){\crophrule \cropvrule}\
+\put(%d,%d){\makebox(85,50){\hspace{1cm}}}"
 
 TPL_PAGE_ETIQUETTES="\
 \\begin{picture}(210,270)(0,0)\
 \color{light-gray}\
 %s\
-\
-\color{light-gray}\
+\put(271,320){\cropvrule \crophrule}\
+\put(271,266){\cropvrule \crophrule}\
+\put(271,212){\cropvrule \crophrule}\
 \put(-10,156){\crophrule}\
 \put(083,156){\crophrule}\
 \put(173,156){\crophrule}\
@@ -87,8 +91,6 @@ def fabrique_page_etiquettes(etiquettes):
     except AssertionError:
         flash("Erreur dans la fabrication des étiquettes")
         return render_template('500.html')
-    for i in range(l,9):
-        etiquettes.append("")
     return TPL_PAGE_ETIQUETTES % "".join(etiquettes)
 
 texenv = app.create_jinja_environment()

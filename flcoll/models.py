@@ -82,9 +82,15 @@ class Evenement(Base):
 
     entite_organisatrice = relationship("Organisation", back_populates="evenement")
 
-    def __init__(self, titre=None, date_debut=None, uid_organisateur=None):
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'lieu', 'resume', 'gratuite',
+                             'uid_organisateur', 'id_entite_organisatrice']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
         self.titre = titre
-        self.date_debut = date_debut
+        self.date = date_debut
         self.uid_organisateur = uid_organisateur
 
     def __repr__(self):
@@ -109,6 +115,18 @@ class Formulaire(Base):
     upd = Column(DateTime, default=func.now(), server_default=func.now())
 
     evenement = relationship("Evenement", back_populates="formulaire")
+
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['id_evenement', 'evenement', 'date_ouverture_inscriptions', 'date_cloture_inscriptions',
+                             'organisateur_en_copie', 'champ_attestation', 'champ_type_inscription',
+                             'champ_restauration_1', 'texte_restauration_1', 'champ_restauration_2', 'texte_restauration_2']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
+    def __str__(self):
+        return "%s, %s (clôt. le %s)" % (self.evenement.titre, self.evenement.date, self.date_cloture_inscriptions)
+
 
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
@@ -155,8 +173,7 @@ class Inscription(Base):
         else:
             police2 = "\\small"
         return TPL_ETIQUETTE % (base_x - 10, base_y + 50,
-                                    base_x, base_y, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2),
-                                    base_x + 83, base_y + 50)
+                                    base_x, base_y, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

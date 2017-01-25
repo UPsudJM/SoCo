@@ -2,12 +2,11 @@
 {% extends "base.html" %}
 
 {% block javascript %}
-    <script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flform.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-{{ current_user.username }}
 <div class="entete">
   <table class="titre"><tr>
     <td><img src="{{ url_for('static', filename=logofilename) }}" /></td>
