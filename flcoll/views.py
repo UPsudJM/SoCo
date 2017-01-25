@@ -154,6 +154,25 @@ def end():
 #@login_required
 def new():
     form = NcollForm()
+    if form.validate_on_submit():
+        evenement = Evenement(titre=form.titre, sstitre=form.sstitre, date=form.date, date_fin=form.date_fin,
+                                  lieu = form.lieu, uid_organisateur = current_user.username)
+        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions,
+                                    date_cloture_inscriptions = form.date_cloture_inscriptions)
+        if form.champ_restauration_1:
+            formulaire.champ_restauration_1 = True
+            formulaire.texte_restauration_1 = form.texte_restauration_1
+        db_session.add(evenement)
+        db_session.add(formulaire)
+        try:
+            db_session.commit()
+        except IntegriryError as err:
+            db_session.rollback()
+            flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
+            # sur le formulaire : organisateur et date de clôture
+        else:
+            flash("Votre formulaire a bien été créé. Voici son URL :" + url_for('colloque', evenement.id))
+            return redirect('/index')
     return render_template('new.html', form=form, current_user=current_user)
 
 @app.route('/suivi')
