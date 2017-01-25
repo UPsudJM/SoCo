@@ -138,12 +138,16 @@ def flcoll(flform):
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
-            return redirect('/')
+            return redirect('/end')
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
                                logofilename=logofilename,
                                current_user=current_user)
 
+
+@app.route('/end')
+def end():
+    return render_template('end.html')
 
 @app.route('/new')
 @app.route('/new/')

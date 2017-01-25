@@ -23,9 +23,10 @@ at page publique d'inscription à un colloque (sans JS)
   ok présentation de la page
   ok affichage du logo à la bonne taille (thumbnail)
   ok éviter les doublons d'inscription (et de personne)
-  ** raffiner l'information de l'utilisateur, notamment cas doublon
+  ec raffiner l'information de l'utilisateur, notamment cas doublon
+   *** voir quand il n'y a pas javascript
   ** prévoir un CAPTCHA
-  -> at enregistrement des lignes du badge dans la table
+  ok enregistrement des lignes du badge dans la table
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
@@ -56,7 +57,7 @@ ok API Flask-Restful
 
 ok page d'index générale pour les pages de suivi
   ec formulaire nouveau colloque
-  at scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
+  ok scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
   ec champs -> il en reste
   ok mise en œuvre pickadate
   ec calculs croisés de dates min et max
@@ -76,7 +77,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ec interface de gestion (du formulaire) plus diversifiée
   ok page unique pour les organisateurs
-  -> ** changement de la date de clôture
+  ec changement de la date de clôture
   ** changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login
 
