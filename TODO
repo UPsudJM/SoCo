@@ -55,14 +55,15 @@ ok API Flask-Restful
   ok brider l'accès aux données personnelles
   ok faire passer l'envoi d'un mail pour vérification de la personne
 
-ok page d'index générale pour les pages de suivi
+ok page de formulaire nouveau colloque
   ec formulaire nouveau colloque
   ok scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
   ec champs -> il en reste
   ok mise en œuvre pickadate
-  ec calculs croisés de dates min et max
+  ok calculs croisés de dates min et max
   ** affichage récap avant soumission
-  ** soumission
+  ec soumission
+  ** lien depuis la suivi_index
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
