@@ -21,62 +21,49 @@
 <hr/>
 
 {% from "_formhelpers.html" import render_field with context %}
-<!-- form action="" method="post" name="ncoll">
+<form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-  <fieldset><legend accesskey="c">Votre colloque</legend>
-    {{ render_field(form.titre, size=20, maxlength=26) }}
-    {{ render_field(form.sstitre, size=20, maxlength=26) }}
-    {{ render_field(form.date) }}
-    {{ render_field(form.date_fin) }}
-    {{ render_field(form.lieu, size=40) }}
-  </fieldset>
-  <fieldset><legend accesskey="e">Votre formulaire</legend>
-    {{ render_field(form.date_ouverture_inscriptions) }}
-    {{ render_field(form.date_cloture_inscriptions) }}
+  <section ng-controller="newevtCtrl">
+    <fieldset><legend accesskey="c">Votre colloque</legend>
+    {{ render_field(form.titre, size=80, maxlength=100) }}
+    <!-- Titre <input type="text" name="titre" ng-model="evenement.titre" required="" /--><br />
+    <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
+      <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
+    </div>
+    Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
+    Date <input type="text" size="10" id="date" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc1()" />
+    <div ng-show="ncollform.$submitted || ncollform.date.$touched">
+      <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
+    </div>
+    Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
+    <br />
+    Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
+    </fieldset>
+
+    <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
+    Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc3()" />
+    <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
+      <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
+    </div>
+    Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc4()" />
+    <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
+      <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
+    </div>
+    </fieldset>
+    <!-- pre>evenement = [[evenement | json]]</pre>
+         <pre>master = [[master | json]]</pre -->
+  </section>
+
+  <fieldset><legend>Question supplémentaire</legend>
+  <p>Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? <input type="radio" name="champ_restauration_1" value="1" /> oui <input type="radio" name="champ_restauration_1" value="" /> non
+  <br/>Si c'est le cas, précisez ici la question que vous souhaiteriez poser aux participants <input type="text" size="80" name="texte_restauration_1" value="Serez-vous des nôtres à midi ?" /></p>
+  <p><em>N.B.: Pour plus d'options de configuration, veuillez vous adresser au service de la recherche</em></p>
   </fieldset>
 
   <div class="buttonbar">
-    <input type="submit" name="submit" accesskey="z" tabindex="14" value="Envoyer" />
+    <input type="button" ng-click="reset()" value="Réinitialiser" />
+    <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
   </div>
-
-</form -->
-
-<section ng-controller="newevtCtrl">
-<form id="ncollform" name="ncollform" novalidate ng-submit="addEvenement()">
-  <fieldset><legend accesskey="c">Votre colloque</legend>
-  Titre <input type="text" name="titre" ng-model="evenement.titre" required="" /><br />
-  <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
-    <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
-  </div>
-  Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
-  Date <input type="text" size="10" id="date" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc1()" />
-  <div ng-show="ncollform.$submitted || ncollform.date.$touched">
-    <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
-  </div>
-  Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
-  <br />
-  Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
-  </fieldset>
-
-  <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
-  Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc3()" />
-  <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
-    <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
-  </div>
-  Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc4()" />
-  <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
-    <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
-  </div>
-  </fieldset>
-<pre>evenement = [[evenement | json]]</pre>
-<pre>master = [[master | json]]</pre>
-</section>
-
-<fieldset><legend>Question supplémentaire</legend>
-<p>Organisez-vous un repas ou cocktail auquel vous voulez inviter les participants ? <input type="radio" name="champ_restauration_1" value="1" /> oui <input type="radio" name="champ_restauration_1" value="" /> non
-<br/>Si c'est le cas, précisez ici la question que vous souhaiteriez poser aux participants <input type="text" size="80" name="texte_restauration_1" value="Serez-vous des nôtres à midi ?" /></p>
-<p><em>N.B.: Pour plus d'options de configuration, veuillez vous adresser au service de la recherche</em></p>
-</fieldset>
 </form>
 
 <div class="footnotes">
