@@ -20,12 +20,13 @@
 
 <hr/>
 
+<section ng-controller="newevtCtrl">
+
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-  <section ng-controller="newevtCtrl">
     <fieldset><legend accesskey="c">Votre colloque</legend>
-    {{ render_field(form.titre, size=80, maxlength=100) }}
+    {{ render_field(form.titre, size=80, maxlength=120) }}
     <!-- Titre <input type="text" name="titre" ng-model="evenement.titre" required="" /--><br />
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
       <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
@@ -52,7 +53,6 @@
     </fieldset>
     <!-- pre>evenement = [[evenement | json]]</pre>
          <pre>master = [[master | json]]</pre -->
-  </section>
 
   <fieldset><legend>Question supplémentaire</legend>
   <p>Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? <input type="radio" name="champ_restauration_1" value="1" /> oui <input type="radio" name="champ_restauration_1" value="" /> non
@@ -65,6 +65,7 @@
     <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
   </div>
 </form>
+</section>
 
 <div class="footnotes">
 <p><span class="mandatory">*</span> Champ obligatoire</p>
