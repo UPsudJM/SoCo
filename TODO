@@ -63,7 +63,7 @@ ok page de formulaire nouveau colloque
   ok mise en œuvre pickadate
   ok calculs croisés de dates min et max
   ** affichage récap avant soumission
-  ec soumission
+  -> ec soumission
   ** lien depuis la page suivi_index
 
 ok affichage de la page de suivi (complète pour le secrétariat)

@@ -17,26 +17,29 @@ class FlcollForm(FlaskForm):
 class NcollForm(FlcollForm):
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
-    date = DateField('Date', validators=[DataRequired()])
-    date_fin = DateField('Date de fin', description="cas où l'événement dure plusieurs jours")
+    date = DateField('Date', format='%d/%m/%Y', validators=[DataRequired()])
+    date_fin = DateField('Date de fin', format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
     lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
-    date_ouverture_inscriptions = DateField("Date d'ouverture des inscriptions", validators=[DataRequired()])
-    date_cloture_inscriptions = DateField("Date de clôture des inscriptions", validators=[DataRequired()])
+    date_ouverture_inscriptions = DateField("Date d'ouverture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()])
+    date_cloture_inscriptions = DateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()])
     champ_restauration_1 = BooleanField("Champ restauration 1")
     texte_restauration_1 = StringField("Texte restauration 1")
 
     def validate(self):
         if not FlaskForm.validate(self):
             return False
-        if self.date_ouverture_inscriptions > self.date_cloture_inscriptions:
+        print(self.date_ouverture_inscriptions)
+        print(dir(self.date_ouverture_inscriptions))
+        if self.date_ouverture_inscriptions.data > self.date_cloture_inscriptions.data:
             self.date_ouverture_inscriptions.errors.append("La date d'ouverture ne peut pas être antérieur à la date de clôture")
             return False
-        if self.date_cloture_inscriptions > self.date:
+        if (self.date_fin.data and self.date_cloture_inscriptions.data > self.date_fin.data) \
+          or (not self.date_fin.data and self.date_cloture_inscriptions.data > self.date.data):
             self.date_ouverture_inscriptions.errors.append("La date de clôture ne peut pas être postérieure à la date de l'événement")
             return False
-        now = datetime.date.now()
-        if not self.date_ouverture_inscriptions or self.date_ouverture_inscriptions < now:
-            self.date_ouverture_inscriptions = now
+        auj = datetime.date.today()
+        if not self.date_ouverture_inscriptions.data or self.date_ouverture_inscriptions.data < auj:
+            self.date_ouverture_inscriptions.data = auj
         return True
 
 

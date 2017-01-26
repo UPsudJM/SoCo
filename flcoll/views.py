@@ -159,24 +159,6 @@ def end():
 #@login_required
 def new():
     form = NcollForm()
-    if form.titre.data and not form.validate_on_submit():
-        print(form.errors)
-        print(request.form)
-        print(dir(form))
-        if request.form['date']:
-            form.date.data = request.form['date']
-            form.errors.pop('date', None)
-        if request.form['date_fin']:
-            form.date_fin.data = request.form['date_fin']
-            form.errors.pop('date_fin', None)
-        if request.form['date_ouverture_inscriptions']:
-            form.date_ouverture_inscriptions.data = request.form['date_ouverture_inscriptions']
-            form.errors.pop('date_ouverture_inscriptions', None)
-        if request.form['date_cloture_inscriptions']:
-            form.date_cloture_inscriptions.data = request.form['date_cloture_inscriptions']
-            form.errors.pop('date_cloture_inscriptions', None)
-        print(form.errors)
-        print(form.validate())
     if form.validate_on_submit():
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
                                   date=form.date or request.form['date'], date_fin=form.date_fin,
