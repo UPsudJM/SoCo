@@ -47,6 +47,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
     ok interdire la soumission si erreur détectée par le JS : doublon email
     ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
+  -> ec sortie du formulaire
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -63,7 +64,7 @@ ok page de formulaire nouveau colloque
   ok calculs croisés de dates min et max
   ** affichage récap avant soumission
   ec soumission
-  ** lien depuis la suivi_index
+  ** lien depuis la page suivi_index
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
