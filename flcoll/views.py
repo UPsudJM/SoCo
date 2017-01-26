@@ -161,18 +161,18 @@ def new():
     form = NcollForm()
     if form.validate_on_submit():
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
-                                  date=form.date or request.form['date'], date_fin=form.date_fin,
-                                  lieu = form.lieu, uid_organisateur = current_user.username)
-        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions,
-                                    date_cloture_inscriptions = form.date_cloture_inscriptions)
+                                  date=form.date.data, date_fin=form.date_fin.data,
+                                  lieu = form.lieu.data, uid_organisateur = current_user.username)
+        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
+                                    date_cloture_inscriptions = form.date_cloture_inscriptions.data)
         if form.champ_restauration_1:
             formulaire.champ_restauration_1 = True
-            formulaire.texte_restauration_1 = form.texte_restauration_1
+            formulaire.texte_restauration_1 = form.texte_restauration_1.data
         db_session.add(evenement)
         db_session.add(formulaire)
         try:
             db_session.commit()
-        except IntegriryError as err:
+        except IntegrityError as err:
             db_session.rollback()
             flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
             # sur le formulaire : organisateur et date de clôture

@@ -89,10 +89,6 @@ class Evenement(Base):
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
-        self.titre = titre
-        self.date = date_debut
-        self.uid_organisateur = uid_organisateur
-
     def __repr__(self):
         return "%s (%s)" % (self.titre, self.date)
 
