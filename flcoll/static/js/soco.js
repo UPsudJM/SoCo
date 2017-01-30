@@ -23,16 +23,37 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log("in update");
             $scope.master = angular.copy(evenements);
         };
-        $scope.showdatemodif = function(id) {
-            $log.log("in showdatemodif");
+        $scope.reset = function(form) {
+            if (form) {
+                form.$setPristine();
+                form.$setUntouched();
+            }
+            $scope.evenements = angular.copy($scope.master);
+        };
+        $scope.reset();
+        $scope.showmodifdatecloture = function(id) {
+            $log.log("in showmodifdatecloture");
             $log.log("id=" + id);
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '1');
             eval('$scope. ' + $v + ' = ' + '1');
         };
-        $scope.datemodif = function(id) {
-            $log.log("in datemodif");
+        $scope.modifdatecloture = function(id) {
+            $log.log("in modifdatecloture");
             $log.log("id=" + id);
+            $log.log($scope);
+            var $v = "date_cloture_inscriptions_" + id;
+            $log.log('v=' + $v);
+            $log.log('$scope.evenements.' + $v);
+            $log.log($scope.evenements);
+            $log.log($scope.evenements.date_cloture_inscriptions_1);
+            var $x = eval('$scope.evenements.' + $v);
+            $log.log('x=' + $x);
+            var $params = {"id" : id, "datecloture" : eval('$scope.' + $v)};
+            $log.log($params);
+            $http.get('/api/modifformulaire', {'params': $params}).then(function(resp) {
+                $log.log(resp.data);
+            });
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '0');
             eval('$scope. ' + $v + ' = ' + '0');
@@ -69,7 +90,7 @@ var newevt = angular.module('newevt',['pickadate'])
     };
     $scope.reset();
     $scope.today = function() {
-        $scope.dt = new Date();
+        $scope.auj = new Date();
     };
     $scope.today();
     $scope.calc1 = function() {
