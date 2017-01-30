@@ -12,7 +12,7 @@ personne_organisation = Table('personne_organisation', Base.metadata,
                                   )
 class Personne(Base):
     __tablename__ = 'personne'
-    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_1'),)
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
@@ -46,7 +46,7 @@ class Personne(Base):
 
 class Organisation(Base):
     __tablename__ = 'organisation'
-    __table_args__ = (UniqueConstraint('nom', name='uc_1'),)
+    __table_args__ = (UniqueConstraint('nom', name='uc_orga'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     interne = Column(Boolean, default=False)
@@ -66,6 +66,7 @@ class Organisation(Base):
 
 class Evenement(Base):
     __tablename__ = 'evenement'
+    __table_args__ = (UniqueConstraint('uid_organisateur', 'date', 'titre', name='uc_even'),)
     id = Column(Integer, primary_key = True)
     titre = Column(String(200))
     sstitre = Column(String(200))
@@ -97,6 +98,7 @@ Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back
 
 class Formulaire(Base):
     __tablename__ = 'formulaire'
+    __table_args__ = (UniqueConstraint('id_evenement', 'date_ouverture_inscriptions', name='uc_form'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     date_ouverture_inscriptions = Column(Date, nullable=False)
@@ -129,7 +131,7 @@ Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_p
 
 class Inscription(Base):
     __tablename__ = 'inscription'
-    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_2'),)
+    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_insc'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
