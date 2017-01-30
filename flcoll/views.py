@@ -177,7 +177,10 @@ def new():
             flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
             # sur le formulaire : organisateur et date de clôture
         else:
-            flash("Votre formulaire a bien été créé. Voici son URL :" + url_for('colloque', evenement.id))
+            url_formulaire = request.url_root + url_for('flcoll', flform=formulaire.id)
+            url_parts = url_formulaire . split('//') # enlever les '//' internes
+            url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
+            flash("Votre formulaire a bien été créé. Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
             return redirect('/index')
     return render_template('new.html', form=form, current_user=current_user)
 
