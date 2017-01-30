@@ -18,8 +18,7 @@
 <h1>Liste des colloques en cours</h1>
 
 <hr/>
-
-<ul>
+<ul class="index_colloques">
   {% for e in evenements %}
   <li><a href="{{ url_for('suivi', evt=e.id) }}">{{ e.titre }} &mdash; {{ e.date | datefr }}</a> &mdash; {{ nb_inscrits[e.id] }} inscription{% if nb_inscrits[e.id] > 1 %}s{% endif %}
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
