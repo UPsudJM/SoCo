@@ -196,9 +196,9 @@ def new():
 @required_roles('admin', 'user')
 def suivi_index():
     if current_user.role == 'admin':
-        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+        evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
-        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+        evenements = Evenement.query.join("formulaire").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     nb_inscrits = {}
     for e in evenements:
         nb_inscrits[e.id] = len(e.inscription)
