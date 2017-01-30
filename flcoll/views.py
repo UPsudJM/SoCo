@@ -85,8 +85,9 @@ def flcoll(flform):
     logo = evenement.logo
     if not logo:
         organisation = evenement.entite_organisatrice
-        logo = organisation.logo
-        if not logo:
+        if organisation and organisation.logo:
+            logo = organisation.logo
+        else:
             logo = LOGO_DEFAULT
     logofilename = afflogo_filter(logo)
     if formulaire == None:
@@ -129,12 +130,13 @@ def flcoll(flform):
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            if "uc_1" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !")
-            if "uc_2" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !")
-            if "uc_3" in str(err.orig):
-                flash("Vous êtes déjà inscrit-e à cet événement !")
+            flash("Erreur d'intégrité", 'erreur')
+            if "uc_porg" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !", 'erreur')
+            if "uc_pers" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !", 'erreur')
+            if "uc_insc" in str(err.orig):
+                flash("Vous êtes déjà inscrit-e à cet événement !", 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
@@ -174,13 +176,17 @@ def new():
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
-            # sur le formulaire : organisateur et date de clôture
+            flash("Erreur d'intégrité", 'erreur') # sur l'événément : titre et date et organisation ?
+            if "uc_even" in str(err.orig):
+                flash("Vous avez déjà créé un événement à la même date, avec le même titre !", 'erreur')
+            if "uc_form" in str(err.orig):
+                flash("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !", 'erreur')
         else:
             url_formulaire = request.url_root + url_for('flcoll', flform=formulaire.id)
             url_parts = url_formulaire . split('//') # enlever les '//' internes
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
-            flash("Votre formulaire a bien été créé. Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
+            flash("Votre formulaire a bien été créé.", 'info')
+            flash("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
             return redirect('/index')
     return render_template('new.html', form=form, current_user=current_user)
 
@@ -205,7 +211,7 @@ def suivi_index():
 def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
     if current_user.role != 'admin' and evenement.uid_organisateur != current_user.username:
-        flash('Vous n\'avez pas les droits d\'accès à cette page','danger')
+        flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
     inscrits = Inscription.query.filter_by(id_evenement=evt).all()
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
