@@ -24,7 +24,7 @@
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
   <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
   {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier ce formulaire</em></a>
-  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier la date de clôture</em></a> <span ng-controller="suiviCtrl"><input type="text" size="10" name="date_cloture_inscriptions_{{f.id}}" ng-model="evenements.date_cloture_inscriptions_{{f.id}}" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="alert('ok')" /><input type="button" value="Modifier" /></span>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au {{ f.date_cloture_inscriptions | datefr }} <input ng-show="!date_modif_{{f.id}}" type="button" ng-click="showdatemodif({{f.id}})" value="modifier la date de clôture" /> <span ng-show="date_modif_{{f.id}}"><input type="text" size="10" name="date_cloture_inscriptions_{{f.id}}" ng-model="evenements.date_cloture_inscriptions_{{f.id}}" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="alert('ok')" /><input type="button" value="Modifier" ng-click="datemodif({{f.id}})" /></span>
   {% else %}<strong>inscriptions terminées</strong> <a href=""><em>prolonger</em></a>
   {% endif %}</li>
   {% endfor %}</ul>{% endif %}

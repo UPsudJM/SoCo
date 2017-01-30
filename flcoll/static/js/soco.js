@@ -23,6 +23,20 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log("in update");
             $scope.master = angular.copy(evenements);
         };
+        $scope.showdatemodif = function(id) {
+            $log.log("in showdatemodif");
+            $log.log("id=" + id);
+            var $v = "date_modif_" + id;
+            $log.log('$scope.' + $v + ' = ' + '1');
+            eval('$scope. ' + $v + ' = ' + '1');
+        };
+        $scope.datemodif = function(id) {
+            $log.log("in datemodif");
+            $log.log("id=" + id);
+            var $v = "date_modif_" + id;
+            $log.log('$scope.' + $v + ' = ' + '0');
+            eval('$scope. ' + $v + ' = ' + '0');
+        };
     }]);
 
 var newevt = angular.module('newevt',['pickadate'])
