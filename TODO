@@ -1,4 +1,4 @@
--> nom : soco ? socoll ? socol ?
+ec renommage = soco
 ** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
@@ -58,7 +58,7 @@ ok API Flask-Restful
 
 ok page de formulaire nouveau colloque
   ok formulaire nouveau colloque
-  ok scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
+  ok scinder en 2*socoApp la page JS (soco d'un côté, suivi et newevt de l'autre)
   ok champs
   ok mise en œuvre pickadate
   ok calculs croisés de dates min et max

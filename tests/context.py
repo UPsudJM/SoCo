@@ -4,7 +4,7 @@ import unittest
 basedir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, basedir + '/../')
 
-from flcoll import app, init_db#, clear_db
+from soco import app, init_db#, clear_db
 app.config['TESTING'] = True
 #app.config['DEBUG'] = True
 app.config['WTF_CSRF_ENABLED'] = False

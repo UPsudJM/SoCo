@@ -1,6 +1,6 @@
 import datetime
 from context import *
-from flcoll.models import *
+from soco.models import *
 
 class TestEvenement(TestCase):
     def test_create(self):
