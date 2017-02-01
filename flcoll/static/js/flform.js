@@ -14,7 +14,7 @@ var flform = angular.module('flform',[])
         $log.log($location.path());
         var $coll = $location.path().split("/").pop();
         $log.log($coll);
-        $scope.master = {};
+        /* $scope.master = {}; */
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
             var $max1 = 27;

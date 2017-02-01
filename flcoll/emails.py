@@ -34,3 +34,13 @@ def envoyer_code_verification(email):
                         render_template("envoi_code_verification.txt", codeverif=codeverif),
                         render_template("envoi_code_verification.html", codeverif=codeverif))
     return codeverif
+
+def envoyer_mail_modification_formulaire(email, **kwargs):
+    lignes_info = []
+    for k, v in kwargs:
+        lignes_info.append("Nouvelle valeur de %s : %s" % (k, w))
+    envoyer_message('Soco : Votre formulaire a été modifié',
+                        ADMINS[0],
+                        [email],
+                        render_template("envoi_mail_modification_formulaire.txt", lignes_info=lignes_info),
+                        render_template("envoi_mail_modification_formulaire.html", lignes_info=lignes_info))

@@ -85,8 +85,9 @@ def flcoll(flform):
     logo = evenement.logo
     if not logo:
         organisation = evenement.entite_organisatrice
-        logo = organisation.logo
-        if not logo:
+        if organisation and organisation.logo:
+            logo = organisation.logo
+        else:
             logo = LOGO_DEFAULT
     logofilename = afflogo_filter(logo)
     if formulaire == None:
@@ -129,16 +130,17 @@ def flcoll(flform):
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            if "uc_1" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !")
-            if "uc_2" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !")
-            if "uc_3" in str(err.orig):
-                flash("Vous êtes déjà inscrit-e à cet événement !")
+            flash("Erreur d'intégrité", 'erreur')
+            if "uc_porg" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !", 'erreur')
+            if "uc_pers" in str(err.orig):
+                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !", 'erreur')
+            if "uc_insc" in str(err.orig):
+                flash("Vous êtes déjà inscrit-e à cet événement !", 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
-            session.evenement = evenement
+            session.id_evenement = evenement.id
             session.logofilename = logofilename
             return redirect('/end')
     return render_template('flform.html', form=form, formulaire=formulaire,
@@ -149,31 +151,42 @@ def flcoll(flform):
 
 @app.route('/end')
 def end():
-    return render_template('end.html', evenement=session.evenement, logofilename=session.logofilename)
+    print(session)
+    id_evenement = session.id_evenement
+    evenement = Evenement.query.filter_by(id=id_evenement).first()
+    return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
-@app.route('/new')
-@app.route('/new/')
+@app.route('/new', methods=['GET', 'POST'])
+@app.route('/new/', methods=['GET', 'POST'])
 #@login_required
 def new():
     form = NcollForm()
     if form.validate_on_submit():
-        evenement = Evenement(titre=form.titre, sstitre=form.sstitre, date=form.date, date_fin=form.date_fin,
-                                  lieu = form.lieu, uid_organisateur = current_user.username)
-        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions,
-                                    date_cloture_inscriptions = form.date_cloture_inscriptions)
+        evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
+                                  date=form.date.data, date_fin=form.date_fin.data,
+                                  lieu = form.lieu.data, uid_organisateur = current_user.username)
+        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
+                                    date_cloture_inscriptions = form.date_cloture_inscriptions.data)
         if form.champ_restauration_1:
             formulaire.champ_restauration_1 = True
-            formulaire.texte_restauration_1 = form.texte_restauration_1
+            formulaire.texte_restauration_1 = form.texte_restauration_1.data
         db_session.add(evenement)
         db_session.add(formulaire)
         try:
             db_session.commit()
-        except IntegriryError as err:
+        except IntegrityError as err:
             db_session.rollback()
-            flash("Erreur d'intégrité") # sur l'événément : titre et date et organisation
-            # sur le formulaire : organisateur et date de clôture
+            flash("Erreur d'intégrité", 'erreur') # sur l'événément : titre et date et organisation ?
+            if "uc_even" in str(err.orig):
+                flash("Vous avez déjà créé un événement à la même date, avec le même titre !", 'erreur')
+            if "uc_form" in str(err.orig):
+                flash("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !", 'erreur')
         else:
-            flash("Votre formulaire a bien été créé. Voici son URL :" + url_for('colloque', evenement.id))
+            url_formulaire = request.url_root + url_for('flcoll', flform=formulaire.id)
+            url_parts = url_formulaire . split('//') # enlever les '//' internes
+            url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
+            flash("Votre formulaire a bien été créé.", 'info')
+            flash("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
             return redirect('/index')
     return render_template('new.html', form=form, current_user=current_user)
 
@@ -183,9 +196,9 @@ def new():
 @required_roles('admin', 'user')
 def suivi_index():
     if current_user.role == 'admin':
-        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+        evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
-        evenements = Evenement.query.join("formulaire").join("inscription").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+        evenements = Evenement.query.join("formulaire").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     nb_inscrits = {}
     for e in evenements:
         nb_inscrits[e.id] = len(e.inscription)
@@ -198,7 +211,7 @@ def suivi_index():
 def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
     if current_user.role != 'admin' and evenement.uid_organisateur != current_user.username:
-        flash('Vous n\'avez pas les droits d\'accès à cette page','danger')
+        flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
     inscrits = Inscription.query.filter_by(id_evenement=evt).all()
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
