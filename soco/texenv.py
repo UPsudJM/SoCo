@@ -72,6 +72,8 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         return err
     try:
         r = run([PDFCMD, texfilename], timeout=timeout)
+    except NameError:
+        r = call([PDFCMD, texfilename], *, stdin=None, stdout=None, stderr=None, shell=False, timeout=None)
     except TimeoutExpired as err:
         chdir("..")
         print("Timeout sur processus LaTeX %s" % texfilename, err.__doc__)
