@@ -4,6 +4,7 @@ python3-flask
 postgresql
 postgresql-server-dev-x.y (à désinstaller une fois que psycopg2 est compilé)
 npm ? (angular-route, angular-ui-bootstrap, angular-pickadate)
+en production : apache2 (ou autre serveur web)
 
 Si venv :
 apt-get install python3-venv
