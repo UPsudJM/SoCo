@@ -1,6 +1,9 @@
 from re import compile as rcompile
 from os import chdir, remove
-from subprocess import run, TimeoutExpired
+try:
+    from subprocess import run, TimeoutExpired
+except:
+    from subprocess import call, TimeoutExpired
 from tempfile import mkstemp
 from flcoll import app
 
