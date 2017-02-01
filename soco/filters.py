@@ -2,7 +2,7 @@ import datetime
 from flask_babel import gettext, format_date, format_datetime
 from PIL import Image
 from config import LOGO_FOLDER, LOGO_URL_REL
-from flcoll import app
+from soco import app
 
 
 @app.template_filter('datefr')

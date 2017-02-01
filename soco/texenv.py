@@ -5,7 +5,7 @@ try:
 except:
     from subprocess import call, TimeoutExpired
 from tempfile import mkstemp
-from flcoll import app
+from soco import app
 
 PDFCMD = "/usr/bin/pdflatex"
 

@@ -36,8 +36,8 @@ def init_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    import flcoll.models
-    import flcoll.auth.models
+    import soco.models
+    import soco.auth.models
     Base.metadata.create_all(bind=engine)
 
 """
@@ -45,12 +45,12 @@ def clear_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    import flcoll.models
+    import soco.models
     Base.metadata.drop_all(bind=engine)
 """
 
-from flcoll import views, models
-from flcoll.auth.views import auth
+from soco import views, models
+from soco.auth.views import auth
 app.register_blueprint(auth)
 
 if "test" not in __file__ and not app.debug:
@@ -59,7 +59,7 @@ if "test" not in __file__ and not app.debug:
     credentials = None
     if MAIL_USERNAME or MAIL_PASSWORD:
         credentials = (MAIL_USERNAME, MAIL_PASSWORD)
-    mail_handler = SMTPHandler((MAIL_SERVER, MAIL_PORT), 'no-reply@' + MAIL_SERVER, ADMINS, 'flcoll failure', credentials)
+    mail_handler = SMTPHandler((MAIL_SERVER, MAIL_PORT), 'no-reply@' + MAIL_SERVER, ADMINS, 'soco failure', credentials)
     mail_handler.setLevel(logging.ERROR)
     app.logger.addHandler(mail_handler)
 
@@ -69,4 +69,4 @@ if "test" not in __file__ and not app.debug:
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
-    app.logger.info('flcoll startup')
+    app.logger.info('soco startup')
