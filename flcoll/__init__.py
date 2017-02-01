@@ -3,7 +3,7 @@ from flask_babelex import Babel
 from flask_login import LoginManager
 from flask_restful import Api
 from datetime import timedelta
-from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
+from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOG_FILE
 from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE
 
 app = Flask(__name__)
@@ -64,7 +64,7 @@ if "test" not in __file__ and not app.debug:
     app.logger.addHandler(mail_handler)
 
     from logging.handlers import RotatingFileHandler
-    file_handler = RotatingFileHandler('tmp/flcoll.log', 'a', 1 * 1024 * 1024, 10)
+    file_handler = RotatingFileHandler(LOG_FILE, 'a', 1 * 1024 * 1024, 10)
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
