@@ -2,7 +2,11 @@ ec renommage = soco
 ** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
-ec procédure d'installation
+ok procédure d'installation
+ec installation en production
+  ** intégrer avec Apache
+  ** intégrer TLS et tester
+
 ok essayer avec Postgresql
 * nouveau script de migration
   ec toujours avec SQLAlchemy-Migrate
@@ -97,6 +101,8 @@ ec tests unitaires
   ** transports : horaires de trains ou avions
   ** nuitées sur place ? nombre seulement
   ** ordi, vidéoproj
+
+* ajouts pour la communication -> voir avec Lise
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise
