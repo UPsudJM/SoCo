@@ -8,6 +8,11 @@ DIV.entete {
     margin: 30px;
     text-align: justify;
 }
+
+DIV#main {
+    margin: 20px;
+}
+
 TABLE.titre, H3.date, H3.sstitre, P.lieu { display: table; margin: auto; }
 TABLE.titre { margin-bottom: 20px; }
 TABLE.titre TD { padding: 20px; }
@@ -44,6 +49,11 @@ INPUT {
 }
 /* INPUT.ng-invalid.ng-touched { background-color: #FA787E; }
 INPUT.ng-valid.ng-touched { background-color: #78FA89; } */
+
+UL.index_colloques > LI {
+    margin: 20px 10px;
+}
+
 DIV.buttonbar {
     text-align: center;
     display: table;

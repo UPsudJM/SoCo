@@ -47,6 +47,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
     ok interdire la soumission si erreur détectée par le JS : doublon email
     ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
+  -> ec sortie du formulaire
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -56,14 +57,14 @@ ok API Flask-Restful
   ok faire passer l'envoi d'un mail pour vérification de la personne
 
 ok page de formulaire nouveau colloque
-  ec formulaire nouveau colloque
+  ok formulaire nouveau colloque
   ok scinder en 2*socoApp la page JS (flcoll d'un côté, suivi et newevt de l'autre)
-  ec champs -> il en reste
+  ok champs
   ok mise en œuvre pickadate
   ok calculs croisés de dates min et max
   ** affichage récap avant soumission
-  ec soumission
-  ** lien depuis la suivi_index
+  ok soumission (y compris redirection et prévoir les erreurs d'intégrité)
+  ok lien depuis la page suivi_index
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
@@ -78,8 +79,9 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 
 ec interface de gestion (du formulaire) plus diversifiée
   ok page unique pour les organisateurs
-  ec changement de la date de clôture
-  ** changement titre, sous-titre, lieu, date de fin
+    ok inclure les événements sans inscriptions
+  -> ec changement de la date de clôture
+  ec changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login
 
 ok revenir à LDAP/login

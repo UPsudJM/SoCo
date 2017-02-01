@@ -23,11 +23,11 @@
       <a href="{{ url_for('index') }}">Accueil</a>
     </div>
     <hr>
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <ul>
-      {% for message in messages %}
-      <li>{{ message }} </li>
+      {% for category, message in messages %}
+      <li class="{{ category }}">{% if category=='url' %}{{ message | safe}}{% else %}{{ message }}{% endif %}</li>
       {% endfor %}
     </ul>
     <p><a href="{{ url_for('index') }}">Retour à l'accueil</a></p>

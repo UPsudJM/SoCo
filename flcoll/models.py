@@ -1,8 +1,9 @@
+import datetime
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
-from flcoll import Base, api
+from flcoll import Base, api, db_session
 from .texenv import escape_tex, TPL_ETIQUETTE
 
 
@@ -12,7 +13,7 @@ personne_organisation = Table('personne_organisation', Base.metadata,
                                   )
 class Personne(Base):
     __tablename__ = 'personne'
-    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_1'),)
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
@@ -46,7 +47,7 @@ class Personne(Base):
 
 class Organisation(Base):
     __tablename__ = 'organisation'
-    __table_args__ = (UniqueConstraint('nom', name='uc_1'),)
+    __table_args__ = (UniqueConstraint('nom', name='uc_orga'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     interne = Column(Boolean, default=False)
@@ -66,6 +67,7 @@ class Organisation(Base):
 
 class Evenement(Base):
     __tablename__ = 'evenement'
+    __table_args__ = (UniqueConstraint('uid_organisateur', 'date', 'titre', name='uc_even'),)
     id = Column(Integer, primary_key = True)
     titre = Column(String(200))
     sstitre = Column(String(200))
@@ -89,18 +91,27 @@ class Evenement(Base):
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
-        self.titre = titre
-        self.date = date_debut
-        self.uid_organisateur = uid_organisateur
-
     def __repr__(self):
         return "%s (%s)" % (self.titre, self.date)
+
+    @classmethod
+    def modif_attributs(self, evt, **kwargs):
+        e = self.query.get(evt)
+        for a in ['titre', 'sstitre', 'lieu']:
+            if kwargs.has_key(a) and kwargs[a]:
+                setattr(e, a, kwargs[a])
+        db_session.add(e)
+        try:
+            db_session.commit()
+        except:
+            raise IntegrityError("Unknown error")
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 
 
 class Formulaire(Base):
     __tablename__ = 'formulaire'
+    __table_args__ = (UniqueConstraint('id_evenement', 'date_ouverture_inscriptions', name='uc_form'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     date_ouverture_inscriptions = Column(Date, nullable=False)
@@ -127,13 +138,22 @@ class Formulaire(Base):
     def __str__(self):
         return "%s, %s (clôt. le %s)" % (self.evenement.titre, self.evenement.date, self.date_cloture_inscriptions)
 
+    @classmethod
+    def modif_date_cloture(self, form, date):
+        f = self.query.get(form)
+        f.date_cloture_inscriptions = date
+        db_session.add(f)
+        try:
+            db_session.commit()
+        except:
+            raise IntegrityError("Unknown error")
 
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
 
 class Inscription(Base):
     __tablename__ = 'inscription'
-    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_2'),)
+    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_insc'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
@@ -203,3 +223,39 @@ class CodeVerif(Resource):
         from .emails import envoyer_code_verification
         codeverif = envoyer_code_verification(args['email'])
         return codeverif
+
+@api.resource('/api/modifformulaire/')
+class ModifFormulaire(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', required=True, help="Le formulaire à modifier doit être spécifié")
+        parser.add_argument('datecloture', required=False, help="Date de clôture à modifier ?")
+        args = parser.parse_args()
+        from .emails import envoyer_mail_modification_formulaire
+        try:
+            id_formulaire = int(args['id'])
+        except:
+            raise ValueError("'%s' is not a valid form id" % args['id'])
+        try:
+            date_cloture = datetime.datetime.strptime(args['datecloture'], '%d/%m/%Y')
+        except:
+            raise ValueError("'%s' is not a valid date" % args['datecloture'])
+        Formulaire.modif_date_cloture(id_formulaire, date_cloture)
+        envoyer_mail_modification_formulaire(e.uid_organisateur, {'date_cloture_inscriptions' : date_cloture})
+
+@api.resource('/api/modifevenement/')
+class ModifEvenement(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', required=True, help="L'événement à modifier doit être spécifié")
+        parser.add_argument('titre', required=False, help="Titre à modifier ?")
+        parser.add_argument('sstitre', required=False, help="Sous-titre à modifier ?")
+        parser.add_argument('lieu', required=False, help="Lieu à modifier ?")
+        args = parser.parse_args()
+        try:
+            id_evenement = int(args['id'])
+        except:
+            raise ValueError("'%s' is not a valid form id" % args['id'])
+        from .emails import envoyer_mail_modification_formulaire
+        Evenement.modif_attributs(id_evenement, args)
+        envoyer_mail_modification_formulaire(e.uid_organisateur, **kwargs)
