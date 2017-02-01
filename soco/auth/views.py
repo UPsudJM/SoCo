@@ -1,8 +1,8 @@
 import ldap3 as ldap
 from flask import request, render_template, flash, redirect, url_for, Blueprint, g#, abort
 from flask_login import current_user, login_user, logout_user, login_required
-from flcoll import lm, db_session
-from flcoll.auth.models import User, LoginForm
+from soco import lm, db_session
+from soco.auth.models import User, LoginForm
 
 auth = Blueprint('auth', __name__)
 

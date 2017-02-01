@@ -1,3 +1,3 @@
 #!/usr/bin/python3
-from flcoll import app
+from soco import app
 app.run(debug=True)

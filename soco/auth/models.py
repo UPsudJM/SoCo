@@ -3,7 +3,7 @@ from ldap3 import Server, Connection
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
-from flcoll import app, Base
+from soco import app, Base
 from config import COOKIE_DURATION_DAYS
 
 

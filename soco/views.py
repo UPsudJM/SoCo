@@ -10,7 +10,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
-from flcoll import app, babel, db_session, lm
+from soco import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from functools import wraps
 from .models import Organisation, Personne, Evenement, Formulaire, Inscription
@@ -79,7 +79,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
-def flcoll(flform):
+def soco(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     evenement = formulaire.evenement
     logo = evenement.logo
@@ -182,7 +182,7 @@ def new():
             if "uc_form" in str(err.orig):
                 flash("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !", 'erreur')
         else:
-            url_formulaire = request.url_root + url_for('flcoll', flform=formulaire.id)
+            url_formulaire = request.url_root + url_for('soco', flform=formulaire.id)
             url_parts = url_formulaire . split('//') # enlever les '//' internes
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
             flash("Votre formulaire a bien été créé.", 'info')
@@ -299,7 +299,7 @@ def suivi(evt, action=None):
         texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
 
 
-class FlcollModelView(ModelView):
+class SocoModelView(ModelView):
     form_excluded_columns = ['upd']
 
     def is_accessible(self):
@@ -326,7 +326,7 @@ class LogoField(ImageUploadField):
                              max_size, thumbgen, thumbnail_size, permission, LOGO_URL_REL, endpoint, **kwargs)
 
 
-class EvenementView(FlcollModelView):
+class EvenementView(SocoModelView):
     page_size = 20  # the number of entries to display on the list view
     action_disallowed_list = ['delete']
     can_export = True
@@ -364,7 +364,7 @@ class EvenementView(FlcollModelView):
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
 
 
-class FormulaireView(FlcollModelView):
+class FormulaireView(SocoModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
     column_descriptions = dict(
         organisateur_en_copie = "Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?",
@@ -381,7 +381,7 @@ class FormulaireView(FlcollModelView):
     #ajax_update = ['date_ouverture_inscriptions']
 
 
-class OrganisationView(FlcollModelView):
+class OrganisationView(SocoModelView):
     can_export = True
     form_args = {
         'nom': {'label' : 'Nom de l\'organisation'},
@@ -397,7 +397,7 @@ class OrganisationView(FlcollModelView):
         }
 
 
-class PersonneView(FlcollModelView):
+class PersonneView(SocoModelView):
     can_export = True
     form_args = {
         'prenom' : {'label': 'Prénom'}
@@ -408,7 +408,7 @@ class PersonneView(FlcollModelView):
         }
 
 
-class InscriptionView(FlcollModelView):
+class InscriptionView(SocoModelView):
     can_export = True
     form_args = {
         'telephone' : {'label': 'Téléphone'}

@@ -3,18 +3,18 @@ from flask import flash
 from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
-from flcoll.models import Evenement, Formulaire, Personne, Inscription
+from soco.models import Evenement, Formulaire, Personne, Inscription
 import datetime
 
 
-class FlcollForm(FlaskForm):
+class SocoForm(FlaskForm):
     def flash_errors(self):
         for field, errors in self.errors.items():
             for error in errors:
                 flash(u"Error in the %s field - %s" % (getattr(self, field).label.text, error))
 
 
-class NcollForm(FlcollForm):
+class NcollForm(SocoForm):
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
     date = DateField('Date', format='%d/%m/%Y', validators=[DataRequired()])
@@ -43,7 +43,7 @@ class NcollForm(FlcollForm):
         return True
 
 
-class InscriptionForm(FlcollForm):
+class InscriptionForm(SocoForm):
     nom = StringField('Nom', validators=[DataRequired(), Length(min=2, max=30)])
     prenom = StringField('Prénom', validators=[Optional(), Length(min=2, max=30)], description="Attention, pour le badge : prénom + nom = 26 caractères max.")
     email = StringField('Adresse électronique', validators=[DataRequired(), Email(), Length(min=0, max=70)])

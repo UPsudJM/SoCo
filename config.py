@@ -22,9 +22,9 @@ LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
 #LDAP_PROTOCOL_VERSION = 3
 
 # Database
-PGSQL_DATABASE_USER = 'fluser'
-PGSQL_DATABASE_PASSWORD = 'flpass'
-PGSQL_DATABASE_DB = 'flcoll'
+PGSQL_DATABASE_USER = 'socouser'
+PGSQL_DATABASE_PASSWORD = 'seve'
+PGSQL_DATABASE_DB = 'soco'
 PGSQL_DATABASE_HOST = 'localhost'
 
 # available languages
@@ -35,7 +35,7 @@ LANGUAGES = {
 BABEL_DEFAULT_LOCALE = 'fr'
 
 # logo upload
-LOGO_FOLDER=basedir + '/flcoll/static/logos/'
+LOGO_FOLDER=basedir + '/soco/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
