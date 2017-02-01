@@ -3,7 +3,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boo
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
-from flcoll import Base, api, db_session
+from soco import Base, api, db_session
 from .texenv import escape_tex, TPL_ETIQUETTE
 
 

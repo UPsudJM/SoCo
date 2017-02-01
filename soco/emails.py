@@ -1,5 +1,5 @@
 from config import ADMINS
-from flcoll import mail
+from soco import mail
 from flask_mail import Message
 from flask import render_template
 
