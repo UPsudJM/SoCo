@@ -37,7 +37,7 @@ LANGUAGES = {
 BABEL_DEFAULT_LOCALE = 'fr'
 
 # logo upload
-LOGO_FOLDER=basedir + '/flcoll/static/logos/'
+LOGO_FOLDER=basedir + '/soco/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
