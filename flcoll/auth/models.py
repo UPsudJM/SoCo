@@ -4,7 +4,6 @@ from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from flcoll import app, Base
-from config import COOKIE_DURATION_DAYS
 
 
 class User(Base):
@@ -23,22 +22,25 @@ class User(Base):
         self.is_authenticated = False
 
     @staticmethod
-    def try_login(username, password):
+    def try_login(username, password, with_gecos=True):
         server = Server(app.config['LDAP_PROVIDER_URL'], use_ssl=True)
         conn = Connection(server, 'uid=%s,ou=people,dc=u-psud,dc=fr' % username, password)
         try:
             conn.bind()
-            if conn.result['result']:
-                return False
-            else:
-                try:
-                    self.get_gecos()
-                except:
-                    pass
-                return True
         except:
             print('error in bind', conn.result, repr(conn))
             return False
+        if conn.result['result']:
+            return False
+        self.username = username
+        if with_gecos:
+            try:
+                self.get_gecos(conn)
+            except:
+                pass
+        else:
+            pass
+        return True
 
     def authenticate(self):
         self.is_authenticated = True
@@ -54,14 +56,19 @@ class User(Base):
         return str(self.id)
 
     def get_gecos(self, connection):
+        search_base = app.config['LDAP_SEARCH_BASE']
         search_filter = "(mail=%s*)" % self.username
         print(search_filter)
-        connection.search(search_filter)
+        connection.search(search_base = app.config['LDAP_SEARCH_BASE'],
+                              search_filter = "(mail=%s*)" % self.username,
+                              attributes = ['cn', 'givenName', 'gecos'],)
         print(connection.entries)
-        self.gecos = gecos
+        print(connection.entries[0])
+        print(connection.entries[0].gecos.value)
+        self.gecos = connection.entries[0].gecos.value
 
 class LoginForm(FlaskForm):
     username = TextField('Nom d\'utilisateur', [InputRequired()])
     password = PasswordField('Mot de passe', [InputRequired()])
     nexturl = HiddenField()
-    rememberme = BooleanField('Se souvenir de moi <small>(pendant %d jours)</small>' % COOKIE_DURATION_DAYS)
+    rememberme = BooleanField('Se souvenir de moi <small>(pendant %d jours)</small>' % app.config['COOKIE_DURATION_DAYS'])
