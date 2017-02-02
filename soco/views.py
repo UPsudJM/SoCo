@@ -140,9 +140,7 @@ def soco(flform):
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
-            session.id_evenement = evenement.id
-            session.logofilename = logofilename
-            return redirect('/end')
+            return render_template('end.html', evenement = evenement, logofilename = logofilename)
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
                                logofilename=logofilename,

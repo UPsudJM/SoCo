@@ -59,28 +59,26 @@ var flform = angular.module('flform',[])
             if ($scope.personne.nom && $scope.personne.email) {
                 var $email_a_verifier = ($scope.personne.email || "");
                 $log.log($email_a_verifier);
-                /*var $params = {"email" : window.encodeURIComponent($email_a_verifier),
-                               "nom" : window.encodeURIComponent($scope.personne.nom),
-                               "prenom" : window.encodeURIComponent($scope.personne.prenom)}; */
                 var $params = {"evt" : $coll, "email" : $email_a_verifier, "nom" : $scope.personne.nom, "prenom" : $scope.personne.prenom};
                 $http.get('/api/chkemail', {'params': $params}).then(function(resp) {
                     $log.log(resp.data);
                     if (resp.data) {
                         $log.log(resp.data);
-                        $log.log(resp.data[0]);
-                        $log.log(resp.data[1]);
-                        if (resp.data[0] && resp.data[0] != -1) $scope.personne.id = resp.data[0];
-                        if (resp.data[1] && resp.data[1] == "oui") $scope.deja_inscrit = 1;
-                        else $scope.deja_inscrit = 0;
-                        if ($scope.deja_inscrit) {
-                            $log.log("personne déjà inscrite");
-                            $scope.msg_dejainscrit = "Vous êtes déjà inscrit-e à cet événement !";
+                        if (resp.data[0] && resp.data[0] != -1) {
+                            $scope.personne.id = resp.data[0];
+                            if (resp.data[1] && resp.data[1] == "oui") $scope.deja_inscrit = 1;
+                            else $scope.deja_inscrit = 0;
+                            if ($scope.deja_inscrit) {
+                                $log.log("personne déjà inscrite");
+                                $scope.msg_dejainscrit = "Vous êtes déjà inscrit-e à cet événement !";
+                            }
+                            else {
+                                $log.log("email déjà dans la base mais personne pas encore inscrite");
+                                delete $scope.msg_dejainscrit;
+                                $scope.duplicateemail = "y";
+                            }
                         }
-                        else {
-                            $log.log("email déjà dans la base mais personne pas encore inscrite");
-                            delete $scope.msg_dejainscrit;
-                            $scope.duplicateemail = "y";
-                        }
+                        else $log.log("l'email n'est pas dans la base");
                     }
                 });
             }
