@@ -47,7 +47,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
     ok interdire la soumission si erreur détectée par le JS : doublon email
     ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
-  -> ec sortie du formulaire
+    ok sortie du formulaire
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -88,7 +88,7 @@ ok revenir à LDAP/login
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
-  ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  -> ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
   -> ec logout automatique (timeout)
 
 ec tests unitaires

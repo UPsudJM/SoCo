@@ -49,7 +49,8 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log($scope.evenements.date_cloture_inscriptions_1);
             var $x = eval('$scope.evenements.' + $v);
             $log.log('x=' + $x);
-            var $params = {"id" : id, "datecloture" : eval('$scope.' + $v)};
+            $log.log('x=' + window.encodeURIComponent($x));
+            var $params = {"id" : id, "datecloture" : window.encodeURIComponent($x)};
             $log.log($params);
             $http.get('/api/modifformulaire', {'params': $params}).then(function(resp) {
                 $log.log(resp.data);

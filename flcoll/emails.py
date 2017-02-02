@@ -1,4 +1,4 @@
-from config import ADMINS
+from config import ADMINS, MAIL_DOMAIN
 from flcoll import mail
 from flask_mail import Message
 from flask import render_template
@@ -35,12 +35,17 @@ def envoyer_code_verification(email):
                         render_template("envoi_code_verification.html", codeverif=codeverif))
     return codeverif
 
-def envoyer_mail_modification_formulaire(email, **kwargs):
+def envoyer_mail_modification_formulaire(email, evenement, **kwargs):
+    print(kwargs)
+    if not '@' in email:
+        email = email + '@' + MAIL_DOMAIN
     lignes_info = []
-    for k, v in kwargs:
-        lignes_info.append("Nouvelle valeur de %s : %s" % (k, w))
+    for k, v in kwargs.items():
+        lignes_info.append("Nouvelle valeur de %s : %s" % (k, v))
     envoyer_message('Soco : Votre formulaire a été modifié',
                         ADMINS[0],
                         [email],
-                        render_template("envoi_mail_modification_formulaire.txt", lignes_info=lignes_info),
-                        render_template("envoi_mail_modification_formulaire.html", lignes_info=lignes_info))
+                        render_template("envoi_mail_modification_formulaire.txt",
+                                            evenement = evenement, lignes_info=lignes_info),
+                        render_template("envoi_mail_modification_formulaire.html",
+                                            evenement = evenement, lignes_info=lignes_info))
