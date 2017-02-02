@@ -1,11 +1,12 @@
 Madame/Monsieur,
 
-Quelqu'un, probablement vous, a demandé la modification de l'événement
+Quelqu'un, probablement vous, a demandé la modification de la page
+d'inscription à l'évenement
 
            {{ evenement.titre }}
 
-Si ce n'est pas vous, il s'agirait d'une anomalie, veuillez nous avertir par
-retour de mail.
+Si ce n'est pas vous, il s'agirait d'une anomalie, veuillez nous en avertir
+par retour de mail.
 
 Voici les modifications effectuées :
 
@@ -14,7 +15,7 @@ Voici les modifications effectuées :
 {% endfor %}
 
 Cordialement,
-PS : ceci est un mail automatique
+PS : ceci est un mail automatique, généré par le logiciel _Soco_
 --
 Service de la recherche
 Faculté Jean Monnet

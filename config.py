@@ -13,6 +13,7 @@ MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
+MAIL_DOMAIN = 'u-psud.fr'
 
 # administrator list
 ADMINS = ['odile.benassy@u-psud.fr']
@@ -20,6 +21,7 @@ ADMINS = ['odile.benassy@u-psud.fr']
 #LDAP_PROVIDER_URL = 'ldap://ldaps.u-psud.fr:636'
 LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
 #LDAP_PROTOCOL_VERSION = 3
+LDAP_SEARCH_BASE = 'dc=u-psud, dc=fr'
 
 # Database
 PGSQL_DATABASE_USER = 'socouser'
