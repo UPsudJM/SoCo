@@ -1,7 +1,6 @@
 import datetime
 from flask_babel import gettext, format_date, format_datetime
 from PIL import Image
-from config import LOGO_FOLDER, LOGO_URL_REL
 from flcoll import app
 
 
@@ -26,9 +25,9 @@ def ouinon_filter(b, non="non"):
 
 @app.template_filter('afflogo')
 def afflogo_filter(f, size=(64,64)):
-    infile = LOGO_FOLDER + f
+    infile = app.config['LOGO_FOLDER'] + f
     thumbnail = "petit-" + f
-    outfile = LOGO_FOLDER + thumbnail
+    outfile = app.config['LOGO_FOLDER'] + thumbnail
     try:
         im = Image.open(outfile)
     except IOError:
