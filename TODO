@@ -1,4 +1,5 @@
--> nom : soco ? socoll ? socol ?
+-> renommage en soco
+at réécrire les appels à la config
 ** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
@@ -47,7 +48,7 @@ at page publique d'inscription à un colloque (partie AngularJS)
     ok interdire la soumission si erreur détectée par le JS : doublon email
     ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
-  -> ec sortie du formulaire
+    ok sortie du formulaire
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -80,7 +81,9 @@ ok affichage de la page de suivi (complète pour le secrétariat)
 ec interface de gestion (du formulaire) plus diversifiée
   ok page unique pour les organisateurs
     ok inclure les événements sans inscriptions
-  -> ec changement de la date de clôture
+  ok changement de la date de clôture
+    ok répercuter la nouvelle date sur la page suivi_index
+    ok améliorer le texte du mail envoyé
   ec changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login
 
@@ -88,7 +91,7 @@ ok revenir à LDAP/login
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
-  ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  -> ec aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
   -> ec logout automatique (timeout)
 
 ec tests unitaires
