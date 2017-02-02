@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/flform.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="entete">
   <table class="titre"><tr>

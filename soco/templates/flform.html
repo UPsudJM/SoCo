@@ -18,7 +18,7 @@
       <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
       <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
-      <p class="dateinscr">(Ce formulaire est ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }})</p>
+      <p class="dateinscr">Ce formulaire est ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }}</p>
       {% if evenement.uid_organisateur == current_user.username %}<p>
       {% if current_user.role == 'admin' %}<a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">
       {% else %}<a href="{{ url_for('suivi', evt=evenement.id)}}">{% endif %}
