@@ -31,6 +31,10 @@ class User(Base):
             if conn.result['result']:
                 return False
             else:
+                try:
+                    self.get_gecos()
+                except:
+                    pass
                 return True
         except:
             print('error in bind', conn.result, repr(conn))
@@ -49,6 +53,12 @@ class User(Base):
     def get_id(self):
         return str(self.id)
 
+    def get_gecos(self, connection):
+        search_filter = "(mail=%s*)" % self.username
+        print(search_filter)
+        connection.search(search_filter)
+        print(connection.entries)
+        self.gecos = gecos
 
 class LoginForm(FlaskForm):
     username = TextField('Nom d\'utilisateur', [InputRequired()])

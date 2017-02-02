@@ -1,4 +1,3 @@
-import ldap3 as ldap
 from flask import request, render_template, flash, redirect, url_for, Blueprint, g#, abort
 from flask_login import current_user, login_user, logout_user, login_required
 from flcoll import lm, db_session
@@ -75,4 +74,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.home'))
+    return redirect(url_for('index'))

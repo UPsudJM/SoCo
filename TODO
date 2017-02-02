@@ -81,7 +81,7 @@ ec interface de gestion (du formulaire) plus diversifiée
   ok page unique pour les organisateurs
     ok inclure les événements sans inscriptions
   ec changement de la date de clôture
-    ec répercuter la nouvelle date sur la page suivi_index
+    -> ec répercuter la nouvelle date sur la page suivi_index
     ok améliorer le texte du mail envoyé
   ec changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login

@@ -54,6 +54,9 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log($params);
             $http.get('/api/modifformulaire', {'params': $params}).then(function(resp) {
                 $log.log(resp.data);
+                var $v = "maj_date_cloture_" + id;
+                $log.log('$scope.' + $v + '=' + resp.data)
+                eval('$scope.' + $v + '=' + resp.data)
             });
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '0');
