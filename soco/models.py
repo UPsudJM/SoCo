@@ -148,6 +148,12 @@ class Formulaire(Base):
         except:
             raise IntegrityError("Unknown error")
 
+    @classmethod
+    def get_uid_organisateur(self, form):
+        f = self.query.get(form)
+        return f.evenement.uid_organisateur
+
+
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
 
@@ -229,7 +235,7 @@ class ModifFormulaire(Resource):
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', required=True, help="Le formulaire à modifier doit être spécifié")
-        parser.add_argument('datecloture', required=False, help="Date de clôture à modifier ?")
+        parser.add_argument('datecloture', required=True, help="Date de clôture à modifier ?")
         args = parser.parse_args()
         from .emails import envoyer_mail_modification_formulaire
         try:
@@ -237,11 +243,23 @@ class ModifFormulaire(Resource):
         except:
             raise ValueError("'%s' is not a valid form id" % args['id'])
         try:
-            date_cloture = datetime.datetime.strptime(args['datecloture'], '%d/%m/%Y')
+            date_cloture = datetime.datetime.strptime(args['datecloture'], '%Y-%m-%d').strftime('%Y-%m-%d')
         except:
             raise ValueError("'%s' is not a valid date" % args['datecloture'])
-        Formulaire.modif_date_cloture(id_formulaire, date_cloture)
-        envoyer_mail_modification_formulaire(e.uid_organisateur, {'date_cloture_inscriptions' : date_cloture})
+        f = Formulaire.query.get(id_formulaire)
+        if str(f.date_cloture_inscriptions) == date_cloture:
+            return
+        f.date_cloture_inscriptions = date_cloture
+        db_session.add(f)
+        try:
+            db_session.commit()
+        except:
+            raise IntegrityError("Unknown error")
+        uid_organisateur = f.evenement.uid_organisateur
+        envoyer_mail_modification_formulaire(uid_organisateur,
+                                                 f.evenement,
+                                                 date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))
+        return f.date_cloture_inscriptions.strftime("%d/%m/%Y")
 
 @api.resource('/api/modifevenement/')
 class ModifEvenement(Resource):
@@ -258,4 +276,5 @@ class ModifEvenement(Resource):
             raise ValueError("'%s' is not a valid form id" % args['id'])
         from .emails import envoyer_mail_modification_formulaire
         Evenement.modif_attributs(id_evenement, args)
-        envoyer_mail_modification_formulaire(e.uid_organisateur, **kwargs)
+        uid_organisateur = Evenement.get_uid_organisateur(id_evenement)
+        envoyer_mail_modification_formulaire(uid_organisateur, **kwargs)

@@ -1,11 +1,10 @@
 <p>Madame/Monsieur,</p>
 
-<p>Quelqu'un, probablement vous, a demandé la modification de l'événement</p>
+<p>Quelqu'un, probablement vous, a demandé la modification de la page d'inscription à l'événement&nbsp;:</p>
 
-           <p><strong>{{ evenement.titre }}</strong></p>
+           <p><a href="{{ url_for('suivi', evt=evenement.id) }}">{{ evenement.titre }}</a></p>
 
-<p>Si ce n'est pas vous, il s'agirait d'une anomalie, veuillez nous avertir par
-retour de mail.</p>
+<p><em>Si ce n'est pas vous, il s'agirait d'une anomalie, veuillez nous en avertir par retour de mail.</em></p>
 
 <p>Voici les modifications effectuées :</p>
 
@@ -14,7 +13,7 @@ retour de mail.</p>
 {% endfor %}</ul>
 
 <p>Cordialement,</p>
-<p>PS : ceci est un mail automatique</p>
+<p>PS : ceci est un mail automatique, généré par le logiciel <em>Soco</em></p>
 <pre>--
 Service de la recherche
 Faculté Jean Monnet
