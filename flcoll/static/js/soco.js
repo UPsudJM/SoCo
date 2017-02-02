@@ -41,22 +41,24 @@ var suivi = angular.module('suivi',['pickadate'])
         $scope.modifdatecloture = function(id) {
             $log.log("in modifdatecloture");
             $log.log("id=" + id);
-            $log.log($scope);
             var $v = "date_cloture_inscriptions_" + id;
             $log.log('v=' + $v);
             $log.log('$scope.evenements.' + $v);
-            $log.log($scope.evenements);
             $log.log($scope.evenements.date_cloture_inscriptions_1);
-            var $x = eval('$scope.evenements.' + $v);
-            $log.log('x=' + $x);
-            $log.log('x=' + window.encodeURIComponent($x));
-            var $params = {"id" : id, "datecloture" : window.encodeURIComponent($x)};
+            try {
+                var $xx = eval('$scope.evenements.' + $v).split('/');
+                $log.log('xx=' + $xx);
+            } catch(e) {
+                alert("erreur:" + e.name + "\nmessage:" + e.message);
+            }
+            var $params = {"id" : id, "datecloture" : $xx[2] + "-" + $xx[1] + "-" + $xx[0]};
             $log.log($params);
             $http.get('/api/modifformulaire', {'params': $params}).then(function(resp) {
                 $log.log(resp.data);
-                var $v = "maj_date_cloture_" + id;
-                $log.log('$scope.' + $v + '=' + resp.data)
-                eval('$scope.' + $v + '=' + resp.data)
+                var $w = "maj_date_cloture_" + id;
+                $log.log(typeof resp.data);
+                $log.log('$scope.evenements.' + $w + '="' + resp.data + '"');
+                eval('$scope.evenements.' + $w + '="' + resp.data + '"');
             });
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '0');

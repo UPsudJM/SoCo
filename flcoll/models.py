@@ -243,7 +243,7 @@ class ModifFormulaire(Resource):
         except:
             raise ValueError("'%s' is not a valid form id" % args['id'])
         try:
-            date_cloture = datetime.datetime.strptime(args['datecloture'], '%d/%m/%Y').strftime('%Y-%m-%d')
+            date_cloture = datetime.datetime.strptime(args['datecloture'], '%Y-%m-%d').strftime('%Y-%m-%d')
         except:
             raise ValueError("'%s' is not a valid date" % args['datecloture'])
         f = Formulaire.query.get(id_formulaire)
