@@ -36,12 +36,16 @@ def envoyer_code_verification(email):
     return codeverif
 
 def envoyer_mail_modification_formulaire(email, evenement, **kwargs):
-    print(kwargs)
     if not '@' in email:
         email = email + '@' + MAIL_DOMAIN
     lignes_info = []
+    from .forms import NcollForm
     for k, v in kwargs.items():
-        lignes_info.append("Nouvelle valeur de %s : %s" % (k, v))
+        try:
+            libelle = getattr(NcollForm, k).args[0]
+        except:
+            libelle = k
+        lignes_info.append("Nouvelle valeur de %s : %s" % (libelle, v))
     envoyer_message('Soco : Votre formulaire a été modifié',
                         ADMINS[0],
                         [email],

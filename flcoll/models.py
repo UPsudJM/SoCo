@@ -243,10 +243,12 @@ class ModifFormulaire(Resource):
         except:
             raise ValueError("'%s' is not a valid form id" % args['id'])
         try:
-            date_cloture = datetime.datetime.strptime(args['datecloture'], '%d/%m/%Y').strftime('%Y/%m/%d')
+            date_cloture = datetime.datetime.strptime(args['datecloture'], '%d/%m/%Y').strftime('%Y-%m-%d')
         except:
             raise ValueError("'%s' is not a valid date" % args['datecloture'])
         f = Formulaire.query.get(id_formulaire)
+        if str(f.date_cloture_inscriptions) == date_cloture:
+            return
         f.date_cloture_inscriptions = date_cloture
         db_session.add(f)
         try:
@@ -254,7 +256,10 @@ class ModifFormulaire(Resource):
         except:
             raise IntegrityError("Unknown error")
         uid_organisateur = f.evenement.uid_organisateur
-        envoyer_mail_modification_formulaire(uid_organisateur, f.evenement, date_cloture_inscriptions = date_cloture)
+        envoyer_mail_modification_formulaire(uid_organisateur,
+                                                 f.evenement,
+                                                 date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))
+        return f.date_cloture_inscriptions.strftime("%d/%m/%Y")
 
 @api.resource('/api/modifevenement/')
 class ModifEvenement(Resource):
