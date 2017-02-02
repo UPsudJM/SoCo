@@ -1,6 +1,10 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/flform.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="entete">
   <table class="titre"><tr>
@@ -10,8 +14,7 @@
   {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
   <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
   {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</h3>
-  <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Par\
-  is-Saclay{% endif %}</p>
+  <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
   <br/>
   {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
 
