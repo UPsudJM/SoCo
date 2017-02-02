@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/flform.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="entete">
   <table class="titre"><tr>
@@ -11,7 +16,7 @@
 
 {% for evenement in evenements %}
 {% for f in evenement.formulaire %}
-<p><a href="{{ url_for('flcoll', flform=f.id) }}">Formulaire pour <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> ouvert du {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, mis à jour le {{ f.upd | datetimefr}}</a></p>
+<p><a href="{{ url_for('flcoll', flform=f.id) }}">Inscription à <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> ouvert du {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, mis à jour le {{ f.upd | datetimefr}}</a></p>
 {% endfor %}{% endfor %}
 
 {% endblock %}
