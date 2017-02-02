@@ -3,8 +3,8 @@ from migrate.versioning import api
 #from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
 
-from flcoll import SQLALCHEMY_DATABASE_URI
-from flcoll import init_db
+from soco import SQLALCHEMY_DATABASE_URI
+from soco import init_db
 init_db()
 
 import os.path
