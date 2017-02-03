@@ -1,4 +1,4 @@
-from flask import request, render_template, flash, redirect, url_for, Blueprint, g#, abort
+from flask import request, render_template, flash, redirect, url_for, Blueprint, g, session
 from flask_login import current_user, login_user, logout_user, login_required
 from soco import lm, db_session
 from soco.auth.models import User, LoginForm
@@ -12,7 +12,10 @@ def load_user(user_id):
         user = User.query.get(int(user_id))
         if user:
             user.authenticate()
+            g.gecos = session.get('gecos')
+            print('gecos=', g.gecos)
             return user
+    g.gecos = None
     return None
 
 @auth.before_request
@@ -38,6 +41,7 @@ def login():
     if request.method == 'POST' and form.validate():
         username = request.form.get('username')
         password = request.form.get('password')
+        rememberme = request.form.get('rememberme')
 
         try:
             auth_ok = User.try_login(username, password)
@@ -48,14 +52,15 @@ def login():
             return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
-        print(user)
+        if type(auth_ok) == type((1,)) and len(auth_ok) > 1:
+            session.update(gecos = auth_ok[1])
 
         if not user:
             user = User(username)
             db_session.add(user)
             db_session.commit()
         user.authenticate()
-        login_user(user, remember=True)
+        login_user(user, remember = rememberme)
         flash('Identification réussie.', 'success')
         nexturl = request.form.get('nexturl')
         # next_is_valid should check if the user has valid

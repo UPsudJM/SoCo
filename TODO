@@ -1,4 +1,5 @@
 at renommage en 'SoCo'
+at réécrire les appels à la config
 ** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
@@ -95,7 +96,7 @@ ok revenir à LDAP/login
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
-  -> ** aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
+  ok aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
   -> ec logout automatique (timeout)
 
 ec tests unitaires
