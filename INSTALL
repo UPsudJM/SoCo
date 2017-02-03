@@ -37,7 +37,6 @@ lrwxrwxrwx 1 odile odile      71 janv.  3 12:20 datepickerPopup.js -> ../../../n
 lrwxrwxrwx 1 odile odile      68 janv.  5 17:47 ui-bootstrap-tpls.js -> ../../../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js
 
 -rw-r--r-- 1 odile odile    9361 janv.  5 12:01 soco.js
--rw-r--r-- 1 odile odile    9361 janv.  5 12:01 flform.js
 
 * PostGreSQL
 $ sudo su - psql
