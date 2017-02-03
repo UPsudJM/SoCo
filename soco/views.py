@@ -3,7 +3,6 @@
 import datetime
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from config import LOGO_FOLDER, LOGO_EXTENSIONS, LOGO_URL_REL, LOGO_DEFAULT
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
@@ -88,7 +87,7 @@ def soco(flform):
         if organisation and organisation.logo:
             logo = organisation.logo
         else:
-            logo = LOGO_DEFAULT
+            logo = app.config['LOGO_DEFAULT']
     logofilename = afflogo_filter(logo)
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
@@ -320,8 +319,9 @@ class LogoField(ImageUploadField):
                      permission=0o666,
                      url_relative_path=None, endpoint='static',
                      **kwargs):
-        ImageUploadField.__init__(self, label, validators, LOGO_FOLDER, relative_path, namegen, LOGO_EXTENSIONS,
-                             max_size, thumbgen, thumbnail_size, permission, LOGO_URL_REL, endpoint, **kwargs)
+        ImageUploadField.__init__(self, label, validators, app.config['LOGO_FOLDER'], relative_path, namegen,
+                                      app.config['LOGO_EXTENSIONS'], max_size, thumbgen, thumbnail_size, permission,
+                                      app.config['LOGO_URL_REL'], endpoint, **kwargs)
 
 
 class EvenementView(SocoModelView):

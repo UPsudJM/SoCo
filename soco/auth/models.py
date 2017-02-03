@@ -32,10 +32,11 @@ class User(Base):
             return False
         if conn.result['result']:
             return False
-        self.username = username
+        #self.username = username
         if with_gecos:
             try:
-                self.get_gecos(conn)
+                gecos = User.get_gecos(username, conn)
+                return (True, gecos,)
             except:
                 pass
         else:
@@ -55,17 +56,19 @@ class User(Base):
     def get_id(self):
         return str(self.id)
 
-    def get_gecos(self, connection):
+    @staticmethod
+    def get_gecos(username, connection):
         search_base = app.config['LDAP_SEARCH_BASE']
-        search_filter = "(mail=%s*)" % self.username
+        search_filter = "(mail=%s*)" % username
         print(search_filter)
         connection.search(search_base = app.config['LDAP_SEARCH_BASE'],
-                              search_filter = "(mail=%s*)" % self.username,
+                              search_filter = "(mail=%s*)" % username,
                               attributes = ['cn', 'givenName', 'gecos'],)
         print(connection.entries)
         print(connection.entries[0])
         print(connection.entries[0].gecos.value)
-        self.gecos = connection.entries[0].gecos.value
+        gecos = connection.entries[0].gecos.value
+        return gecos
 
 class LoginForm(FlaskForm):
     username = TextField('Nom d\'utilisateur', [InputRequired()])
