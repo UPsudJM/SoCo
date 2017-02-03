@@ -1,10 +1,11 @@
-ec renommage = soco
+at renommage en 'SoCo'
 ** mettre le nom de l'institution dans la config (pour mettre dans les mails et
    sur l'interface)
 
 ok procédure d'installation
 ec installation en production
-  ** intégrer avec Apache
+  ec configuration PostGreSQL
+  ok intégrer avec Apache
   ** intégrer TLS et tester
 
 ok essayer avec Postgresql
