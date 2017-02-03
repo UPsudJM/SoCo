@@ -24,10 +24,9 @@ LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
 LDAP_SEARCH_BASE = 'dc=u-psud, dc=fr'
 
 # Database
-PGSQL_DATABASE_USER = 'socouser'
-PGSQL_DATABASE_PASSWORD = 'seve'
 PGSQL_DATABASE_DB = 'soco'
 PGSQL_DATABASE_HOST = 'localhost'
+from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
 # available languages
 LANGUAGES = {
