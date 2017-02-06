@@ -4,12 +4,13 @@ from flask_login import LoginManager
 from flask_restful import Api
 from datetime import timedelta
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOG_FILE
-from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE
+from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE, SECRET_KEY
 
 app = Flask(__name__)
 app.config.from_object('config')
 babel = Babel(app)
 api = Api(app)
+app.secret_key = SECRET_KEY
 
 lm = LoginManager()
 lm.init_app(app)
@@ -69,4 +70,4 @@ if "test" not in __file__ and not app.debug:
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
-    app.logger.info('soco startup')
+    app.logger.info('SoCo startup')
