@@ -158,9 +158,15 @@ var newevt = angular.module('newevt',['pickadate'])
     };
     $scope.click_texte_restauration_1 = function() {
         $log.log("in click_texte_restauration_1");
+<<<<<<< HEAD
         if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
             $scope.evenement.texte_restauration_1 = "";
         }
     };
+=======
+        $scope.evenement.texte_restauration_1 = "";
+    };
+
+>>>>>>> ef6532e... Réaction dynamique d'un champ texte.
     /* $log.log("tout lu"); */
 }]);
