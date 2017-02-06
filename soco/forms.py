@@ -101,6 +101,7 @@ class InscriptionForm(SocoForm):
     badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
     badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
     attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
+    jours_de_presence =  [] #StringField('Jours de présence', validators=[DataRequired()],
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
     inscription_repas_1 = BooleanField('Repas 1')
     inscription_repas_2 = BooleanField('Repas 2')
@@ -110,6 +111,12 @@ class InscriptionForm(SocoForm):
         self.formulaire = formulaire
         if not formulaire.champ_attestation:
             self.__delitem__('attestation_demandee')
+        if formulaire.jour_par_jour:
+            if formulaire.evenement.date_fin == formulaire.evenement.date:
+                self.__delitem__('jours_de_presence')
+            else:
+                for j in formulaire.evenement.calcule_jours():
+                    jours_de_presence.append(BooleanField(j))
         if not formulaire.champ_type_inscription:
             self.__delitem__('type_inscription')
         if formulaire.champ_restauration_1:
