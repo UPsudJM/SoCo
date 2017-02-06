@@ -1,4 +1,25 @@
 'use strict';
+
+/*function getAttributes(obj) {
+    var res = [];
+    for(var m in obj) {
+        if(typeof obj[m] != "function") {
+            res.push(m)
+        }
+    }
+    return res;
+}
+
+function getMethods(obj) {
+    var res = [];
+    for(var m in obj) {
+        if(typeof obj[m] == "function") {
+            res.push(m)
+        }
+    }
+    return res;
+}*/
+
 var socoApp = angular.module('socoApp', ['ngRoute', 'suivi', 'newevt']);
 
 socoApp.config(['$interpolateProvider', function($interpolateProvider) {
@@ -75,7 +96,7 @@ var newevt = angular.module('newevt',['pickadate'])
         varDelimEnd: ']]'
     }
 })
-.controller('newevtCtrl', ['$scope', '$log', '$http', function ($scope, $log, $http) {
+.controller('newevtCtrl', ['$scope', '$log', function ($scope, $log) {
     $log.log("in newevt");
     var calcule_date = function(s) {
         var tab = s.split(/[- //]/);
@@ -86,14 +107,11 @@ var newevt = angular.module('newevt',['pickadate'])
         $log.log("in update");
         $scope.master = angular.copy(evenement);
     };
-    $scope.reset = function(form) {
-        /* $log.log("in reset"); */
-        if (form) {
-            form.$setPristine();
-            form.$setUntouched();
-        }
+    $scope.reset = function() {
+        $log.log("in reset");
+        ncollform.reset();
         $scope.evenement = angular.copy($scope.master);
-        $scope.evenement.texte_restauration_1 = ncollform.texte_restauration_1.value;
+        $scope.evenement.texte_restauration_1 = ncollform.texte_restauration_1.defaultValue;
     };
     $scope.reset();
     $scope.today = function() {
@@ -128,10 +146,6 @@ var newevt = angular.module('newevt',['pickadate'])
     };
     $scope.calc_date_cloture_inscriptions = function() {
         $log.log("in calc_date_cloture_inscriptions");
-        /* $log.log("date = " + $scope.evenement.date);
-        $log.log("date_fin = " + $scope.evenement.date_fin);
-        $log.log("date_ouverture_inscriptions = " + $scope.evenement.date_ouverture_inscriptions);
-        $log.log("date_cloture_inscriptions = " + $scope.evenement.date_cloture_inscriptions); */
         if ($scope.evenement.date_ouverture_inscriptions && $scope.evenement.date_cloture_inscriptions && calcule_date($scope.evenement.date_cloture_inscriptions) < calcule_date($scope.evenement.date_ouverture_inscriptions)) {
             alert("La date de clôture ne peut pas être antérieure à la date d'ouverture !");
             $scope.evenement.date_cloture_inscriptions = $scope.evenement.date_ouverture_inscriptions;
@@ -144,8 +158,9 @@ var newevt = angular.module('newevt',['pickadate'])
     };
     $scope.click_texte_restauration_1 = function() {
         $log.log("in click_texte_restauration_1");
-        $scope.evenement.texte_restauration_1 = "";
+        if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
+            $scope.evenement.texte_restauration_1 = "";
+        }
     };
-
     /* $log.log("tout lu"); */
 }]);
