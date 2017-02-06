@@ -7,6 +7,31 @@ from soco.models import Evenement, Formulaire, Personne, Inscription
 import datetime
 
 
+class PickaDateField(DateField):
+    def __init__(self, *args, objname=None, changefunc=None, **kwargs):
+        super(PickaDateField, self).__init__(*args, **kwargs)
+        self.pickadate = "pickadate"
+        #self.format = "dd/mm/yyyy"
+        self.week_starts_on = "1"
+        if objname:
+            self.ng_model = objname + '.' + self.name
+        elif self.name:
+            self.ng_model = self.name
+        if changefunc:
+            self.ng_change = changefunc
+        elif self.name:
+            self.ng_change = "calc_" + self.name
+
+    def __call__(self, **kwargs):
+        kwargs['ng-model'] = self.ng_model
+        kwargs['ng-change'] = self.ng_change + '()'
+        kwargs['pickadate'] = "on"
+        kwargs['week-starts-on'] = "1"
+        kwargs['format'] = "dd/mm/yyyy"
+        kwargs['size'] = 10
+        return super(PickaDateField, self).__call__(**kwargs)
+
+
 class SocoForm(FlaskForm):
     def flash_errors(self):
         for field, errors in self.errors.items():
@@ -15,13 +40,16 @@ class SocoForm(FlaskForm):
 
 
 class NcollForm(SocoForm):
+    objname = 'evenement'
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
-    date = DateField('Date', format='%d/%m/%Y', validators=[DataRequired()])
-    date_fin = DateField('Date de fin', format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
+    date = PickaDateField('Date', format='%d/%m/%Y', validators=[DataRequired()], objname=objname)
+    date_fin = PickaDateField('Date de fin', format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours", objname=objname)
     lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
-    date_ouverture_inscriptions = DateField("Date d'ouverture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()])
-    date_cloture_inscriptions = DateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()])
+    date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
+                                                     objname=objname)
+    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
+                                                   objname=objname)
     champ_restauration_1 = BooleanField("Champ restauration 1")
     texte_restauration_1 = StringField("Texte restauration 1")
 

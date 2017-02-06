@@ -27,7 +27,6 @@
   {{form.hidden_tag()}}
     <fieldset><legend accesskey="c">Votre colloque</legend>
     {{ render_field(form.titre, size=80, maxlength=120) }}
-    <!-- Titre <input type="text" name="titre" ng-model="evenement.titre" required="" /--><br />
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
       <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
     </div>
@@ -52,8 +51,6 @@
       <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
     </div>
     </fieldset>
-    <!-- pre>evenement = [[evenement | json]]</pre>
-         <pre>master = [[master | json]]</pre -->
 
   <fieldset><legend>Question supplémentaire</legend>
   <p>Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? <input type="radio" name="champ_restauration_1" value="1" /> oui <input type="radio" name="champ_restauration_1" value="" /> non
