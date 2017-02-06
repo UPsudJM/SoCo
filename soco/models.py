@@ -119,6 +119,7 @@ class Formulaire(Base):
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean, default=True)
     champ_type_inscription = Column(Boolean)
+    jour_par_jour = Column(Boolean)
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
