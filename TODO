@@ -92,9 +92,9 @@ ok revenir à LDAP/login
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
   ok aller chercher le nom et le prénom de la personne qui se connecte (LDAP)
-  -> ec logout automatique (timeout)
+  -> at logout automatique (timeout)
 
-ec tests unitaires
+* tests unitaires
 
 * interface pour les intervants -> voir avec Catherine
   ** transports : horaires de trains ou avions
