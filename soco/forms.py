@@ -50,8 +50,9 @@ class NcollForm(SocoForm):
                                                      objname=objname)
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
                                                    objname=objname)
-    champ_restauration_1 = BooleanField("Champ restauration 1")
-    texte_restauration_1 = StringField("Texte restauration 1")
+    champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
+    texte_restauration_1 = StringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
+                                           description="Exemple de question : 'Serez-vous des nôtres à midi ?'")
 
     def validate(self):
         if not FlaskForm.validate(self):
