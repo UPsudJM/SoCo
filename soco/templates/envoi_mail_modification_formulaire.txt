@@ -15,7 +15,7 @@ Voici les modifications effectuées :
 {% endfor %}
 
 Cordialement,
-PS : ceci est un mail automatique, généré par le logiciel _Soco_
+PS : ceci est un mail automatique, généré par le logiciel _SoCo_
 --
 Service de la recherche
 Faculté Jean Monnet
