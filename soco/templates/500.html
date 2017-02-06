@@ -1,0 +1,8 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Une erreur s'est produite :-(</h1>
+<p>Les administrateurs de l'application ont été prévenu-e-s. Toutes nos excuses pour la gêne occasionnée !</p>
+<p><a href="{{ url_for('index') }}">Retour</a></p>
+{% endblock %}

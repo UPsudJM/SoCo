@@ -1,0 +1,55 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ evenement.titre }}</h1>
+
+<hr/>
+
+<table><tr>
+  <td><a href="{{ url_for('suivi', evt=evenement.id) }}">voir les inscrits</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
+  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">adresses mail</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes</a></td>{% endif %}
+</tr></table>
+
+<table><legend>Liste des inscrits</legend>
+<tr>
+  <th>Nom</th>
+  <th>Prénom</th>
+  <th>Email</th>
+  <th>Téléphone</th>
+  <th>Attestation</th>
+  {% if repas_1_existant %}<th>{{ texte_repas_1 }}</th>{% endif %}
+  {% if repas_2_existant %}<th>{{ texte_repas_2 }}</th>{% endif %}
+</tr>
+{% for inscrit in inscrits %}
+<tr>
+  <td>{{ inscrit.personne.nom }}</td>
+  <td>{{ inscrit.personne.prenom }}</td>
+  <td>{{ inscrit.personne.email }}</td>
+  <td>{% if inscrit.personne.telephone %}{{ inscrit.personne.telephone }}{% endif %}</td>
+  <td>{{ inscrit.attestation_demandee | ouinon("-") }}</td>
+  {% if repas_1_existant %}<td>{{ inscrit.inscription_repas_1 | ouinon("-") }}</td>{% endif %}
+  {% if repas_2_existant %}<td>{{ inscrit.inscription_repas_2 | ouinon("-") }}</td>{% endif %}
+</tr>
+{% endfor %}
+</table>
+
+<hr/>
+
+<section ng-controller="suiviCtrl"><a name="modifs" />
+  <h3>Modifications</h3>
+  <p>Date de clôture <input type="date" name="date_cloture_inscriptions" /> <input type="button" value="Modifier" /></p>
+
+</section>
+
+<div class="footnotes">
+<p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
+<p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
+</div>
+
+{% endblock %}
