@@ -93,6 +93,7 @@ var newevt = angular.module('newevt',['pickadate'])
             form.$setUntouched();
         }
         $scope.evenement = angular.copy($scope.master);
+        $scope.evenement.texte_restauration_1 = ncollform.texte_restauration_1.value;
     };
     $scope.reset();
     $scope.today = function() {
@@ -141,5 +142,10 @@ var newevt = angular.module('newevt',['pickadate'])
         }
         $scope.date_cloture_inscriptions = $scope.evenement.date_cloture_inscriptions;
     };
+    $scope.click_texte_restauration_1 = function() {
+        $log.log("in click_texte_restauration_1");
+        $scope.evenement.texte_restauration_1 = "";
+    };
+
     /* $log.log("tout lu"); */
 }]);

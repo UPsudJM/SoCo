@@ -7,12 +7,27 @@ from soco.models import Evenement, Formulaire, Personne, Inscription
 import datetime
 
 
+class ClickStringField(StringField):
+    def __init__(self, *args, objname=None, clickfunc=None, **kwargs):
+        super(ClickStringField, self).__init__(*args, **kwargs)
+        if objname:
+            self.ng_model = objname + '.' + self.name
+        elif self.name:
+            self.ng_model = self.name
+        if clickfunc:
+            self.ng_click = clickfunc
+        elif self.name:
+            self.ng_click = "click_" + self.name
+
+    def __call__(self, **kwargs):
+        kwargs['ng-model'] = self.ng_model
+        kwargs['ng-click'] = self.ng_click + '()'
+        return super(ClickStringField, self).__call__(**kwargs)
+
+
 class PickaDateField(DateField):
     def __init__(self, *args, objname=None, changefunc=None, **kwargs):
         super(PickaDateField, self).__init__(*args, **kwargs)
-        self.pickadate = "pickadate"
-        #self.format = "dd/mm/yyyy"
-        self.week_starts_on = "1"
         if objname:
             self.ng_model = objname + '.' + self.name
         elif self.name:
@@ -51,8 +66,8 @@ class NcollForm(SocoForm):
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
                                                    objname=objname)
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
-    texte_restauration_1 = StringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
-                                           description="Exemple de question : 'Serez-vous des nôtres à midi ?'")
+    texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
+                                           description="Exemple de question : 'Serez-vous des nôtres à midi ?'", objname=objname)
 
     def validate(self):
         if not FlaskForm.validate(self):
