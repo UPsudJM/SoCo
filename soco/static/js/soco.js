@@ -133,6 +133,11 @@ var newevt = angular.module('newevt',['pickadate'])
             $scope.evenement.date_fin = $scope.evenement.date;
         }
         $scope.date_fin = $scope.evenement.date_fin;
+        if ($scope.evenement.date_fin != $scope.evenement.date) {
+            $log.log("2 dates différentes");
+            $scope.sur_plusieurs_jours = 1;
+        }
+        else $scope.sur_plusieurs_jours = 0;
         ncollform.lieu.focus();
     };
     $scope.calc_date_ouverture_inscriptions = function() {

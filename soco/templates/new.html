@@ -51,7 +51,7 @@
     <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
       <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
     </div>
-    <div ng-show="1">{{ render_field(form.jour_par_jour) }}</div>
+    <div ng-show="sur_plusieurs_jours">{{ render_field(form.jour_par_jour) }}</div>
     </fieldset>
 
     <fieldset><legend>Question supplémentaire</legend>
