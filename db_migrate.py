@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!/usr/bin/env python3
 import imp
 from migrate.versioning import api
 from config import SQLALCHEMY_MIGRATE_REPO
