@@ -1,0 +1,8 @@
+{{ evenement.titre }};;LISTE DES INSCRITS
+
+Nom;Prénom;Email;Téléphone;Fonction;Organisation;Attestation;{% if repas_1_existant %}{{ texte_repas_1 }}{% endif %};{% if repas_2_existant %}{{ texte_repas_2 }}{% endif %};
+{% for inscrit in inscrits %}
+{{ inscrit.personne.nom }};{{ inscrit.personne.prenom }};{{ inscrit.personne.email }};{% if inscrit.telephone %}{{ inscrit.telephone }}{% endif %};{% if inscrit.fonction %}{{ inscrit.fonction }}{% endif %};{{ inscrit.organisation }};{{ inscrit.attestation_demandee | ouinon("-") }};{% if repas_1_existant %}{{ inscrit.inscription_repas_1 | ouinon("-") }}{% endif %};{% if repas_2_existant %}{{ inscrit.inscription_repas_2 | ouinon("-") }}{% endif %}
+{% endfor %}
+
+(fichier produit par;l'application SoCo;développée en 2016;par O. Bénassy;service des systèmes;d'information de la;Faculté Jean Monnet)
