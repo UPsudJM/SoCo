@@ -19,6 +19,7 @@ class User(Base):
 
     def __init__(self, username):
         self.username = username
+        self.role = 'user'
         self.is_authenticated = False
 
     @staticmethod
