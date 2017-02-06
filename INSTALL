@@ -43,9 +43,10 @@ $ sudo su - psql
 $ createuser -e [-d] -P -s superuser
 $ createdb -e -O superuser soco
 $ createuser socouser
-$ psql [-U odile -W]
+$ psql [-W]
 > CREATE DATABASE soco WITH OWNER superuser;
 > GRANT SELECT,UPDATE,INSERT,DELETE ON ALL TABLES IN SCHEMA public TO socouser;
+> GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO socouser;
 
 create a file with name secret.py with:
 PGSQL_DATABASE_USER = 'socouser'
