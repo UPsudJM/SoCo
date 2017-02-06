@@ -8,9 +8,14 @@ import datetime
 
 
 class ClickStringField(StringField):
+<<<<<<< HEAD
     def __init__(self, *args, defaultvalue=None, objname=None, clickfunc=None, **kwargs):
         super(ClickStringField, self).__init__(*args, **kwargs)
         self.defaultvalue = defaultvalue
+=======
+    def __init__(self, *args, objname=None, clickfunc=None, **kwargs):
+        super(ClickStringField, self).__init__(*args, **kwargs)
+>>>>>>> ef6532e... Réaction dynamique d'un champ texte.
         if objname:
             self.ng_model = objname + '.' + self.name
         elif self.name:
@@ -23,7 +28,10 @@ class ClickStringField(StringField):
     def __call__(self, **kwargs):
         kwargs['ng-model'] = self.ng_model
         kwargs['ng-click'] = self.ng_click + '()'
+<<<<<<< HEAD
         kwargs['defaultvalue'] = self.defaultvalue
+=======
+>>>>>>> ef6532e... Réaction dynamique d'un champ texte.
         return super(ClickStringField, self).__call__(**kwargs)
 
 
