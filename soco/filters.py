@@ -38,4 +38,4 @@ def afflogo_filter(f, size=(64,64)):
         except IOError:
             print("cannot create thumbnail for", f)
     finally:
-        return LOGO_URL_REL + thumbnail
+        return app.config['LOGO_URL_REL'] + thumbnail
