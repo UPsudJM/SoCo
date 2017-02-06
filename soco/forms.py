@@ -67,6 +67,7 @@ class NcollForm(SocoForm):
                                                      objname=objname)
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
                                                    objname=objname)
+    jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
                                                 description="Exemple de question : 'Serez-vous des nôtres à midi ?'",
