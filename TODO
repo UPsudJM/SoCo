@@ -66,6 +66,8 @@ ok page de formulaire nouveau colloque
   ** affichage récap avant soumission
   ok soumission (y compris redirection et prévoir les erreurs d'intégrité)
   ok lien depuis la page suivi_index
+  ok intégration du code des champs pickadate
+  ok dynamisation du champ texte_restauration_1
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
