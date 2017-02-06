@@ -159,6 +159,7 @@ var newevt = angular.module('newevt',['pickadate'])
     $scope.click_texte_restauration_1 = function() {
         $log.log("in click_texte_restauration_1");
 <<<<<<< HEAD
+<<<<<<< HEAD
         if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
             $scope.evenement.texte_restauration_1 = "";
         }
@@ -168,5 +169,11 @@ var newevt = angular.module('newevt',['pickadate'])
     };
 
 >>>>>>> ef6532e... Réaction dynamique d'un champ texte.
+=======
+        if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
+            $scope.evenement.texte_restauration_1 = "";
+        }
+    };
+>>>>>>> 77acfb7... Dynamisation du champ texte_restauration_1.
     /* $log.log("tout lu"); */
 }]);
