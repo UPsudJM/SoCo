@@ -8,8 +8,9 @@ import datetime
 
 
 class ClickStringField(StringField):
-    def __init__(self, *args, objname=None, clickfunc=None, **kwargs):
+    def __init__(self, *args, defaultvalue=None, objname=None, clickfunc=None, **kwargs):
         super(ClickStringField, self).__init__(*args, **kwargs)
+        self.defaultvalue = defaultvalue
         if objname:
             self.ng_model = objname + '.' + self.name
         elif self.name:
@@ -22,6 +23,7 @@ class ClickStringField(StringField):
     def __call__(self, **kwargs):
         kwargs['ng-model'] = self.ng_model
         kwargs['ng-click'] = self.ng_click + '()'
+        kwargs['defaultvalue'] = self.defaultvalue
         return super(ClickStringField, self).__call__(**kwargs)
 
 
@@ -67,7 +69,8 @@ class NcollForm(SocoForm):
                                                    objname=objname)
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
-                                           description="Exemple de question : 'Serez-vous des nôtres à midi ?'", objname=objname)
+                                                description="Exemple de question : 'Serez-vous des nôtres à midi ?'",
+                                                defaultvalue="Serez-vous des nôtres à midi ?", objname=objname)
 
     def validate(self):
         if not FlaskForm.validate(self):
