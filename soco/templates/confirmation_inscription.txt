@@ -1,0 +1,16 @@
+Madame/Monsieur,
+
+Nous vous confirmons votre inscription à
+
+   {{ evenement.titre }}
+
+qui aura lieu le {{ evenement.date | datefr("d MMMM YYYY") }}
+
+{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet
+Université Paris Sud/Paris-Saclay{% endif %}
+
+Cordialement,
+--
+Service de la recherche
+Faculté Jean Monnet
+Université Paris Saclay

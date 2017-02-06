@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="socoApp">
+  <head>
+    <meta charset="utf-8">
+      <!-- meta http-equiv="X-UA-Compatible" content="IE=edge" -->
+      <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if title %}
+    <title>{{ title }} - Université Paris Saclay - Faculté Jean Monnet</title>
+    {% else %}
+    <title>Université Paris Saclay - Faculté Jean Monnet - Inscription à un colloque</title>
+    {% endif %}
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+    {% block CSS %}{% endblock %}
+    <link href="{{ url_for('static', filename='css/soco.css') }}" rel="stylesheet"/>
+    <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
+    {% block javascript %}{% endblock %}
+ </head>
+  <body>
+    <div>Colloques
+      <a href="{{ url_for('index') }}">Accueil</a>
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+      {% for category, message in messages %}
+      <li class="{{ category }}">{% if category=='url' %}{{ message | safe}}{% else %}{{ message }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{ url_for('index') }}">Retour à l'accueil</a></p>
+    {% endif %}
+    {% endwith %}
+    <div id="main">
+{% if current_user.is_authenticated %}
+<p>Vous êtes <code>{% if g.gecos %}{{ g.gecos }}{% else %}{{ current_user.username }}{% endif %}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
+{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des colloques</a></p>{% endif %}
+{% else %}
+<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
+{% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+  </body>
+</html>
