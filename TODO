@@ -74,6 +74,8 @@ ok page de formulaire nouveau colloque
   ok intégration du code des champs pickadate
   ok dynamisation du champ texte_restauration_1
   ec inscription jour par jour
+  at nouvelles questions libres
+  at URL du colloque
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
