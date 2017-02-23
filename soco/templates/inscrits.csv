@@ -6,4 +6,3 @@ Nom;Prénom;Email;Téléphone;Fonction;Organisation;Attestation;{% if repas_1_ex
 {% endfor %}
 
 (fichier produit par;l'application SoCo;développée en 2016;par O. Bénassy;service des systèmes;d'information de la;Faculté Jean Monnet)
-
