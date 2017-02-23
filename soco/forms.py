@@ -40,9 +40,12 @@ class ClickStringField(StringField):
             self.ng_click = None
 
     def __call__(self, **kwargs):
-        kwargs['ng-model'] = self.ng_model
-        kwargs['ng-click'] = self.ng_click + '()'
-        kwargs['defaultvalue'] = self.defaultvalue
+        if hasattr(self, 'ng_model'):
+            kwargs['ng-model'] = self.ng_model
+        if hasattr(self, 'ng_change'):
+            kwargs['ng-click'] = self.ng_click + '()'
+        if hasattr(self, 'defaultvalue'):
+            kwargs['defaultvalue'] = self.defaultvalue
         return super(ClickStringField, self).__call__(**kwargs)
 
 
@@ -71,8 +74,10 @@ class PickaDateField(DateField):
             self.ng_change = None
 
     def __call__(self, **kwargs):
-        kwargs['ng-model'] = self.ng_model
-        kwargs['ng-change'] = self.ng_change + '()'
+        if hasattr(self, 'ng_model'):
+            kwargs['ng-model'] = self.ng_model
+        if hasattr(self, 'ng_change'):
+            kwargs['ng-change'] = self.ng_change + '()'
         kwargs['pickadate'] = "on"
         kwargs['week-starts-on'] = "1"
         kwargs['format'] = "dd/mm/yyyy"
