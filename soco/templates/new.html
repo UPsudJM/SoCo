@@ -31,28 +31,30 @@
       <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
     </div>
     {{ render_field(form.sstitre, size=80, maxlength=120) }}
-<br/>
-    Date <input type="text" size="10" id="date" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc1()" />
+    <br/>
+    {{ render_field(form.date) }}
     <div ng-show="ncollform.$submitted || ncollform.date.$touched">
       <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
-    </div>
-    &nbsp;Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
+    </div><br/>
+    {{ render_field(form.date_fin) }}
     <br />
     {{ render_field(form.lieu, size=50, maxlength=120) }}
+    <br/>
     </fieldset>
 
     <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
-    Date d'ouverture des inscriptions <input type="text" size="10" name="date_ouverture_inscriptions" ng-model="evenement.date_ouverture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc3()" />
+    {{ render_field(form.date_ouverture_inscriptions) }}
     <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
       <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
     </div>
-    Date de clôture des inscriptions <input type="text" size="10" name="date_cloture_inscriptions" ng-model="evenement.date_cloture_inscriptions" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc4()" />
+    {{ render_field(form.date_cloture_inscriptions) }}
     <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
       <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
     </div>
+    <div ng-show="sur_plusieurs_jours">{{ render_field(form.jour_par_jour) }}</div>
     </fieldset>
 
-    <fieldset><legend>Question supplémentaire</legend>
+    <fieldset><legend>Questions supplémentaires</legend>
     {{ render_field(form.champ_restauration_1) }}
     <br/>
     {{ render_field(form.texte_restauration_1, size=60, maxlength=120, value="Serez-vous des nôtres à midi ?") }}

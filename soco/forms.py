@@ -24,7 +24,6 @@ class ClickStringField(StringField):
         kwargs['ng-model'] = self.ng_model
         kwargs['ng-click'] = self.ng_click + '()'
         kwargs['defaultvalue'] = self.defaultvalue
-        kwargs['defaultvalue'] = self.defaultvalue
         return super(ClickStringField, self).__call__(**kwargs)
 
 
@@ -68,6 +67,7 @@ class NcollForm(SocoForm):
                                                      objname=objname)
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
                                                    objname=objname)
+    jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
                                                 description="Exemple de question : 'Serez-vous des nôtres à midi ?'",
@@ -103,6 +103,7 @@ class InscriptionForm(SocoForm):
     badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
     badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
     attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
+    jours_de_presence =  [] #StringField('Jours de présence', validators=[DataRequired()],
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
     inscription_repas_1 = BooleanField('Repas 1')
     inscription_repas_2 = BooleanField('Repas 2')
@@ -114,6 +115,12 @@ class InscriptionForm(SocoForm):
         self.formulaire = formulaire
         if not formulaire.champ_attestation:
             self.__delitem__('attestation_demandee')
+        if formulaire.jour_par_jour:
+            if formulaire.evenement.date_fin == formulaire.evenement.date:
+                self.__delitem__('jours_de_presence')
+            else:
+                for j in formulaire.evenement.calcule_jours():
+                    jours_de_presence.append(BooleanField(j))
         if not formulaire.champ_type_inscription:
             self.__delitem__('type_inscription')
         if formulaire.champ_restauration_1:

@@ -133,6 +133,11 @@ var newevt = angular.module('newevt',['pickadate'])
             $scope.evenement.date_fin = $scope.evenement.date;
         }
         $scope.date_fin = $scope.evenement.date_fin;
+        if ($scope.evenement.date_fin != $scope.evenement.date) {
+            $log.log("2 dates différentes");
+            $scope.sur_plusieurs_jours = 1;
+        }
+        else $scope.sur_plusieurs_jours = 0;
         ncollform.lieu.focus();
     };
     $scope.calc_date_ouverture_inscriptions = function() {
@@ -158,22 +163,8 @@ var newevt = angular.module('newevt',['pickadate'])
     };
     $scope.click_texte_restauration_1 = function() {
         $log.log("in click_texte_restauration_1");
-<<<<<<< HEAD
-<<<<<<< HEAD
         if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
             $scope.evenement.texte_restauration_1 = "";
         }
-    };
-=======
-        $scope.evenement.texte_restauration_1 = "";
-    };
-
->>>>>>> ef6532e... Réaction dynamique d'un champ texte.
-=======
-        if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
-            $scope.evenement.texte_restauration_1 = "";
-        }
-    };
->>>>>>> 77acfb7... Dynamisation du champ texte_restauration_1.
     /* $log.log("tout lu"); */
 }]);
