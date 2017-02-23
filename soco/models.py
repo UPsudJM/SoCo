@@ -1,4 +1,4 @@
-import datetime
+mport datetime
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -123,6 +123,10 @@ class Formulaire(Base):
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
     texte_restauration_2 = Column(String(200))
+    champ_libre_1 = Column(Boolean)
+    texte_libre_1 = Column(String(200))
+    champ_libre_2 = Column(Boolean)
+    texte_libre_2 = Column(String(200))
     upd = Column(DateTime, default=func.now(), server_default=func.now())
 
     evenement = relationship("Evenement", back_populates="formulaire")
@@ -131,7 +135,8 @@ class Formulaire(Base):
         Base.__init__(self)
         for attrname in ['id_evenement', 'evenement', 'date_ouverture_inscriptions', 'date_cloture_inscriptions',
                              'organisateur_en_copie', 'champ_attestation', 'champ_type_inscription',
-                             'champ_restauration_1', 'texte_restauration_1', 'champ_restauration_2', 'texte_restauration_2']:
+                             'champ_restauration_1', 'texte_restauration_1', 'champ_restauration_2', 'texte_restauration_2',
+                             'champ_libre_1', 'texte_libre_1', 'champ_libre_2', 'texte_libre_2',]:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
