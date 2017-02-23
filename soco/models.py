@@ -1,4 +1,4 @@
-import datetime
+mport datetime
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -108,6 +108,15 @@ class Evenement(Base):
         except:
             raise IntegrityError("Unknown error")
 
+    def calcule_jours(self):
+        """ Retourne une liste des jours de colloque"""
+        d = self.date
+        delta = self.date_fin - self.date
+        ret = [d]
+        for i in range(delta.days):
+            ret.append(d + i + 1)
+        return ret
+
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 
 
@@ -121,6 +130,7 @@ class Formulaire(Base):
     organisateur_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean, default=True)
     champ_type_inscription = Column(Boolean)
+    jour_par_jour = Column(Boolean)
     champ_restauration_1 = Column(Boolean)
     texte_restauration_1 = Column(String(200))
     champ_restauration_2 = Column(Boolean)
@@ -178,6 +188,7 @@ class Inscription(Base):
     badge1 = Column(String(70))
     badge2 = Column(String(70))
     attestation_demandee = Column(Boolean)
+    jours_de_presence = Column(String(10))
     commentaire = Column(String(200))
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
@@ -189,7 +200,7 @@ class Inscription(Base):
         Base.__init__(self)
         for attrname in ['id_evenement', 'evenement', 'id_personne', 'personne', 'telephone', 'fonction', 'organisation',
                              'date_inscription', 'badge1', 'badge2', 'type_inscription', 'attestation_demandee',
-                             'commentaire', 'inscription_repas_1', 'inscription_repas_2']:
+                             'jours_de_presence', 'commentaire', 'inscription_repas_1', 'inscription_repas_2']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
