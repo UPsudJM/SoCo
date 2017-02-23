@@ -124,6 +124,10 @@ def soco(flform):
             inscription.inscription_repas_1 = form.inscription_repas_1.data
         if formulaire.champ_restauration_2 and form.inscription_repas_2.data:
             inscription.inscription_repas_2 = form.inscription_repas_2.data
+        if formulaire.champ_libre_1 and form.reponse_question_1.data:
+            inscription.reponse_question_1 = form.reponse_question_1.data
+        if formulaire.champ_libre_2 and form.reponse_question_2.data:
+            inscription.reponse_question_2 = form.reponse_question_2.data
         db_session.add(inscription)
         try:
             db_session.commit()
@@ -167,6 +171,9 @@ def new():
         if form.champ_restauration_1:
             formulaire.champ_restauration_1 = True
             formulaire.texte_restauration_1 = form.texte_restauration_1.data
+        if form.champ_libre_1:
+            formulaire.champ_libre_1 = True
+            formulaire.texte_libre_1 = form.texte_libre_1.data
         db_session.add(evenement)
         db_session.add(formulaire)
         try:
@@ -207,6 +214,9 @@ def suivi_index():
 @required_roles('admin', 'user')
 def suivi(evt, action=None):
     evenement = Evenement.query.get(evt)
+    if evenement == None:
+        flash('Événement %d non trouvé' % evt)
+        return internal_error('Evenement %d non trouvé' % evt)
     if current_user.role != 'admin' and evenement.uid_organisateur != current_user.username:
         flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
@@ -226,9 +236,20 @@ def suivi(evt, action=None):
             repas_2_existant = True
             texte_repas_2 = f.texte_restauration_2
             break
-    if evenement == None:
-        flash('Événement %d non trouvé' % evt)
-        return internal_error('Evenement %d non trouvé' % evt)
+    libre_1_existant = False
+    texte_libre_1 = None
+    for f in formulaires:
+        if f.champ_libre_1 == True:
+            libre_1_existant = True
+            texte_libre_1 = f.texte_libre_1
+            break
+    libre_2_existant = False
+    texte_libre_2 = None
+    for f in formulaires:
+        if f.champ_libre_2 == True:
+            libre_2_existant = True
+            texte_libre_2 = f.texte_libre_2
+            break
     if action == "csv":
         csv = render_template(
             'inscrits.csv',
@@ -363,7 +384,7 @@ class EvenementView(SocoModelView):
 
 
 class FormulaireView(SocoModelView):
-    column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2']
+    column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2', 'texte_libre_1' , 'texte_libre_2']
     column_descriptions = dict(
         organisateur_en_copie = "Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?",
         champ_attestation = "Les personnes qui s'inscrivent peuvent demander une attestation de présence",
@@ -371,6 +392,10 @@ class FormulaireView(SocoModelView):
         texte_restauration_1 = "Le texte de la question correspondante",
         champ_restauration_2 = "2ème possibilité pour pouvoir s'inscrire à un repas",
         texte_restauration_2 = "Le texte de la question correspondante"
+        champ_libre_1 = "Présence d'une question libre",
+        texte_libre_1 = "Le texte de la cette question",
+        champ_libre_2 = "Présence d'une 2ème question libre",
+        texte_libre_2 = "Le texte de cette 2ème question"
         )
     form_excluded_columns = ['upd']
     form_ajax_refs = {

@@ -72,6 +72,8 @@ class NcollForm(SocoForm):
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
                                                 description="Exemple de question : 'Serez-vous des nôtres à midi ?'",
                                                 defaultvalue="Serez-vous des nôtres à midi ?", objname=objname)
+    champ_libre_1 = BooleanField("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :")
+    texte_libre_1 = StringField("et précisez le texte de la question :", objname=objname)
 
     def validate(self):
         if not FlaskForm.validate(self):
@@ -104,6 +106,8 @@ class InscriptionForm(SocoForm):
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
     inscription_repas_1 = BooleanField('Repas 1')
     inscription_repas_2 = BooleanField('Repas 2')
+    reponse_question_1 = StringField('Libre1')
+    reponse_question_2 = StringField('Libre2')
 
     def __init__(self, formulaire, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
@@ -120,6 +124,14 @@ class InscriptionForm(SocoForm):
             self.__getitem__('inscription_repas_2').label = Label('inscription_repas_1', formulaire.texte_restauration_2)
         else:
             self.__delitem__('inscription_repas_2')
+        if formulaire.champ_libre_1:
+            self.__getitem__('reponse_question_1').label = Label('reponse_question_1', formulaire.texte_libre_1)
+        else:
+            self.__delitem__('reponse_question_1')
+        if formulaire.champ_libre_2:
+            self.__getitem__('reponse_question_2').label = Label('reponse_question_1', formulaire.texte_libre_2)
+        else:
+            self.__delitem__('reponse_question_2')
 
     def validate(self):
         if not FlaskForm.validate(self):
