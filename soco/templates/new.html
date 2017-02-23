@@ -31,14 +31,15 @@
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
       <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
     </div>
-    Sous-titre <input type="text" name="sstitre" ng-model="evenement.sstitre" /><br />
+    {{ render_field(form.sstitre, size=80, maxlength=120) }}
+<br/>
     Date <input type="text" size="10" id="date" name="date" ng-model="evenement.date" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc1()" />
     <div ng-show="ncollform.$submitted || ncollform.date.$touched">
       <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
     </div>
-    Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
+    &nbsp;Date de fin (cas où l'événément dure plusieurs jours) <input type="text" size="10" name="date_fin" ng-model="evenement.date_fin" required="" pickadate format="dd/mm/yyyy" week-starts-on="1" ng-change="calc2()" />
     <br />
-    Lieu <input type="lieu" name="lieu" ng-model="evenement.lieu" /><br />
+    {{ render_field(form.lieu, size=50, maxlength=120) }}
     </fieldset>
 
     <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
