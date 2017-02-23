@@ -8,17 +8,36 @@ import datetime
 
 
 class ClickStringField(StringField):
-    def __init__(self, *args, defaultvalue=None, objname=None, clickfunc=None, **kwargs):
+    def __init__(self, *args, **kwargs):
+        objname = None
+        if 'objname' in kwargs.keys():
+            objname = kwargs['objname']
+            del kwargs['objname']
+        defaultvalue = None
+        if 'defaultvalue' in kwargs.keys():
+            defaultvalue = kwargs['defaultvalue']
+            del kwargs['defaultvalue']
+        clickfunc = None
+        if 'clickfunc' in kwargs.keys():
+            clickfunc = kwargs['clickfunc']
+            del kwargs['clickfunc']
         super(ClickStringField, self).__init__(*args, **kwargs)
-        self.defaultvalue = defaultvalue
         if objname:
             self.ng_model = objname + '.' + self.name
         elif self.name:
             self.ng_model = self.name
+        else:
+            self.ng_model = None
+        if defaultvalue:
+            self.defaultvalue = defaultvalue
+        else:
+            self.defaultvalue = None
         if clickfunc:
             self.ng_click = clickfunc
         elif self.name:
             self.ng_click = "click_" + self.name
+        else:
+            self.ng_click = None
 
     def __call__(self, **kwargs):
         kwargs['ng-model'] = self.ng_model
@@ -28,16 +47,28 @@ class ClickStringField(StringField):
 
 
 class PickaDateField(DateField):
-    def __init__(self, *args, objname=None, changefunc=None, **kwargs):
+    def __init__(self, *args, **kwargs):
+        objname = None
+        if 'objname' in kwargs.keys():
+            objname = kwargs['objname']
+            del kwargs['objname']
+        changefunc = None
+        if 'changefunc' in kwargs.keys():
+            changefunc = args['changefunc']
+            del args['changefunc']
         super(PickaDateField, self).__init__(*args, **kwargs)
         if objname:
             self.ng_model = objname + '.' + self.name
         elif self.name:
             self.ng_model = self.name
+        else:
+            self.ng_model = None
         if changefunc:
             self.ng_change = changefunc
         elif self.name:
-            self.ng_change = "calc_" + self.name
+            ng_change = "calc_" + self.name
+        else:
+            self.ng_change = None
 
     def __call__(self, **kwargs):
         kwargs['ng-model'] = self.ng_model
@@ -60,20 +91,20 @@ class NcollForm(SocoForm):
     objname = 'evenement'
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
-    date = PickaDateField('Date', format='%d/%m/%Y', validators=[DataRequired()], objname=objname)
-    date_fin = PickaDateField('Date de fin', format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours", objname=objname)
+    date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
+    date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
     lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
-    date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
-                                                     objname=objname)
-    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", format='%d/%m/%Y', validators=[DataRequired()],
-                                                   objname=objname)
+    date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname, 
+                                                 format='%d/%m/%Y', validators=[DataRequired()])
+    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname, 
+                                               format='%d/%m/%Y', validators=[DataRequired()])
     jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
-                                                description="Exemple de question : 'Serez-vous des nôtres à midi ?'",
-                                                defaultvalue="Serez-vous des nôtres à midi ?", objname=objname)
+                                            objname=objname, defaultvalue="Serez-vous des nôtres à midi ?",
+                                                description="Exemple de question : 'Serez-vous des nôtres à midi ?'")
     champ_libre_1 = BooleanField("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :")
-    texte_libre_1 = StringField("et précisez le texte de la question :", objname=objname)
+    texte_libre_1 = StringField("et précisez le texte de la question :")
 
     def validate(self):
         if not FlaskForm.validate(self):
