@@ -391,7 +391,7 @@ class FormulaireView(SocoModelView):
         champ_restauration_1 = "Pour pouvoir s'inscrire à un repas",
         texte_restauration_1 = "Le texte de la question correspondante",
         champ_restauration_2 = "2ème possibilité pour pouvoir s'inscrire à un repas",
-        texte_restauration_2 = "Le texte de la question correspondante"
+        texte_restauration_2 = "Le texte de la question correspondante",
         champ_libre_1 = "Présence d'une question libre",
         texte_libre_1 = "Le texte de la cette question",
         champ_libre_2 = "Présence d'une 2ème question libre",

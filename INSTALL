@@ -39,7 +39,7 @@ lrwxrwxrwx 1 odile odile      68 janv.  5 17:47 ui-bootstrap-tpls.js -> ../../..
 -rw-r--r-- 1 odile odile    9361 janv.  5 12:01 soco.js
 
 * PostGreSQL
-$ sudo su - psql
+$ sudo su - postgres
 $ createuser -e [-d] -P -s superuser
 $ createdb -e -O superuser soco
 $ createuser socouser
