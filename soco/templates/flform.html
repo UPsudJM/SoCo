@@ -10,7 +10,7 @@
 <div class="entete">
   <table class="titre"><tr>
     <td><img src="{{ url_for('static', filename=logofilename) }}" /></td>
-    <td><h1>Inscription à : {{ evenement.titre }}</h1></td>
+    <td><h1>Inscription à : <a href="{{ lienevt }}">{{ evenement.titre }}</a></h1></td>
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}

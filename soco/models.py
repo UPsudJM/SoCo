@@ -53,6 +53,7 @@ class Organisation(Base):
     interne = Column(Boolean, default=False)
     email = Column(String(70))
     logo = Column(String(200))
+    url = Column(String(200))
     personnes = relationship("Personne", secondary=personne_organisation)
 
     def __init__(self, **kwargs):
@@ -79,6 +80,7 @@ class Evenement(Base):
     uid_organisateur = Column(String(100))
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
     logo = Column(String(200))
+    url = Column(String(200))
     upd = Column(DateTime, default=func.now(), server_default=func.now())
     #upd = Column(DateTime)
 

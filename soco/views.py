@@ -82,12 +82,17 @@ def soco(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     evenement = formulaire.evenement
     logo = evenement.logo
-    if not logo:
+    url = evenement.url
+    if not logo or not url:
         organisation = evenement.entite_organisatrice
-        if organisation and organisation.logo:
-            logo = organisation.logo
+        if organisation:
+            if not logo and organisation.logo:
+                logo = organisation.logo
+            if not url and organisation.url:
+                url = organisation.url
         else:
             logo = app.config['LOGO_DEFAULT']
+            url = ""
     logofilename = afflogo_filter(logo)
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
@@ -143,10 +148,11 @@ def soco(flform):
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash("Votre inscription a bien été effectuée.")
-            return render_template('end.html', evenement = evenement, logofilename = logofilename)
+            return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
                                logofilename=logofilename,
+                               lienevt = url,
                                current_user=current_user)
 
 
@@ -374,6 +380,7 @@ class EvenementView(SocoModelView):
         'date': {'label': 'Date', 'validators': [DataRequired()]},
         'date_fin': {'label': 'Date de fin (si nécessaire)'},
         'logo' : {'label': 'Logo (s\'il est différent de celui de l\'entité organisatrice)'},
+        'url' : {'label': 'Lien vers la page de l\'événement'},
         'resume' : {'label': 'Résumé'},
         'gratuite' : {'label': 'Gratuité'},
         'inscription' : {'label': 'Personnes inscrites'}
