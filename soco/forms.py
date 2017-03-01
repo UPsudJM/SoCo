@@ -69,7 +69,7 @@ class PickaDateField(DateField):
         if changefunc:
             self.ng_change = changefunc
         elif self.name:
-            ng_change = "calc_" + self.name
+            self.ng_change = "calc_" + self.name
         else:
             self.ng_change = None
 
