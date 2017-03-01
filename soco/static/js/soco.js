@@ -166,5 +166,6 @@ var newevt = angular.module('newevt',['pickadate'])
         if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
             $scope.evenement.texte_restauration_1 = "";
         }
+    };
     /* $log.log("tout lu"); */
 }]);
