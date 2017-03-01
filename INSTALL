@@ -14,7 +14,7 @@ source flask/bin/activate
 python3-pip
 see requirements.txt
 $ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF SQLAlchemy
-$ pip3 install Pillow sqlalchemy-migrate psycopg2 python3-ldap
+$ pip3 install Pillow sqlalchemy-migrate psycopg2 python3-ldap Flask-Babelex
 
 texlive-extra-recommended (? pas trouvé)
 texlive-lang-french
