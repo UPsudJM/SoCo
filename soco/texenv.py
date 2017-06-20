@@ -6,8 +6,10 @@ except:
     from subprocess import call, TimeoutExpired
 from tempfile import mkstemp
 from soco import app
+from flask import flash, render_template
 
 PDFCMD = "/usr/bin/pdflatex"
+from config import TMPDIR
 
 LATEX_SUBS = (
     (rcompile(r'\\'), r'\\textbackslash'),
@@ -15,6 +17,7 @@ LATEX_SUBS = (
     (rcompile(r'~'), r'\~{}'),
     (rcompile(r'\^'), r'\^{}'),
     (rcompile(r'"'), r"''"),
+    (rcompile(r'&'), r'\\\&'),
     (rcompile(r'\.\.\.+'), r'\\ldots'),
     )
 
@@ -56,7 +59,8 @@ def escape_tex(value):
         return newval
 
 def genere_pdf(texcode, prefix="", timeout=10, check=True):
-    chdir("./pdf")
+    #chdir("./pdf")
+    chdir(TMPDIR)
     fd, texfilename = mkstemp(prefix=prefix, suffix=".tex", dir=".")
     try:
         t = texcode.encode("latin-1")
@@ -83,6 +87,12 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         print("Erreur sur processus LaTeX %s" % texfilename, err.__doc__)
         return err
     pdffilename = texfilename[:-4] + ".pdf"
+    try:
+        open(pdffilename, 'rb')
+    except IOError as err:
+        print("erreur de lecture du PDF %s : " % pdffilename, err.__doc__)
+        chdir("..")
+        return pdffilename
     remove(texfilename)
     remove(texfilename[:-4] + ".log") # fichier log généré par pdflatex
     remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex

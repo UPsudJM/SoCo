@@ -23,7 +23,7 @@ texlive-fonts-recommended
 openpyxl si on veut des documents tableur (ou XlsxWriter)
 et pyoo pour LibreOffice !
 
-créer dossier ./pdf
+créer dossier ./pdf (ou utiliser /tmp)
 
 + modules JS :
 

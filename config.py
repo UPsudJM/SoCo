@@ -47,3 +47,6 @@ LOGIN_MESSAGE = u'Merci de vous identifier'
 
 # Logging
 LOG_FILE = '/var/log/soco.log'
+
+# Where to generate PDFs
+TMPDIR = "/tmp/"
