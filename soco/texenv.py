@@ -102,7 +102,7 @@ def fabrique_page_etiquettes(etiquettes):
     try:
         assert l <= 9
     except AssertionError:
-        flash("Erreur dans la fabrication des étiquettes")
+        flash("Erreur dans la fabrication des étiquettes (longueur=%d)" % l)
         return render_template('500.html')
     return TPL_PAGE_ETIQUETTES % "".join(etiquettes)
 
