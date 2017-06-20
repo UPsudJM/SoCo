@@ -1,5 +1,6 @@
 from re import compile as rcompile
 from os import chdir, remove
+from os.path import isfile
 try:
     from subprocess import run, TimeoutExpired
 except:
@@ -17,7 +18,6 @@ LATEX_SUBS = (
     (rcompile(r'~'), r'\~{}'),
     (rcompile(r'\^'), r'\^{}'),
     (rcompile(r'"'), r"''"),
-    (rcompile(r'&'), r'\\\&'),
     (rcompile(r'\.\.\.+'), r'\\ldots'),
     )
 
@@ -56,7 +56,8 @@ def escape_tex(value):
     newval = value
     for pattern, replacement in LATEX_SUBS:
         newval = pattern.sub(replacement, newval)
-        return newval
+        #print(pattern, newval)
+    return newval
 
 def genere_pdf(texcode, prefix="", timeout=10, check=True):
     #chdir("./pdf")
@@ -87,11 +88,8 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         print("Erreur sur processus LaTeX %s" % texfilename, err.__doc__)
         return err
     pdffilename = texfilename[:-4] + ".pdf"
-    try:
-        open(pdffilename, 'rb')
-    except IOError as err:
-        print("erreur de lecture du PDF %s : " % pdffilename, err.__doc__)
-        chdir("..")
+    if not isfile(pdffilename):
+        print("Erreur de lecture du PDF : %s" % pdffilename)
         return pdffilename
     remove(texfilename)
     remove(texfilename[:-4] + ".log") # fichier log généré par pdflatex

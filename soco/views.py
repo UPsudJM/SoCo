@@ -313,6 +313,11 @@ def suivi(evt, action=None):
         pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
         texcode = texenv.get_template('etiquettes.tex').render(pages=''.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
+        try:
+            open(resultat, 'rb').read()
+        except IOError as err:
+            flash("erreur de lecture du PDF")
+            return render_template('500.html')
         response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-colloque-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
         response.headers['Content-Type'] = 'application/pdf'
