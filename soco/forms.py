@@ -42,7 +42,7 @@ class ClickStringField(StringField):
     def __call__(self, **kwargs):
         if hasattr(self, 'ng_model'):
             kwargs['ng-model'] = self.ng_model
-        if hasattr(self, 'ng_change'): # FIXME vérifier ng-change ou ng-click ?
+        if hasattr(self, 'ng_click'):
             kwargs['ng-click'] = self.ng_click + '()'
         if hasattr(self, 'defaultvalue'):
             kwargs['defaultvalue'] = self.defaultvalue
@@ -99,9 +99,9 @@ class NcollForm(SocoForm):
     date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
     date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
     lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
-    date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname, 
+    date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
-    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname, 
+    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname,
                                                format='%d/%m/%Y', validators=[DataRequired()])
     jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
     champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
