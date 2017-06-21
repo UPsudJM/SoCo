@@ -303,6 +303,7 @@ def suivi(evt, action=None):
             if count > 8:
                 pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
                 count = 0
+                etiquettes = []
             etiquettes.append(inscrit.genere_etiquette(base_x,base_y))
             count += 1
         # Dernière page
