@@ -312,7 +312,7 @@ def suivi(evt, action=None):
             base_y = base_y0 - delta_y * int(i/3)
             etiquettes.append(TPL_ETIQUETTE_VIDE % (base_x - 10, base_y + 50, base_x, base_y))
         pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
-        texcode = texenv.get_template('etiquettes.tex').render(pages=''.join(pages_etiquettes))
+        texcode = texenv.get_template('etiquettes.tex').render(pages='\n\\newpage\n'.join(pages_etiquettes))
         resultat = genere_pdf(texcode)
         if type(resultat) != type(""):
             flash(str(resultat))
