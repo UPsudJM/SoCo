@@ -298,12 +298,12 @@ def suivi(evt, action=None):
         base_x0, base_y0 = (0, 270)
         delta_x, delta_y = (92, 54)
         for inscrit in inscrits:
-            base_x = base_x0 + delta_x * (count%3)
-            base_y = base_y0 - delta_y * int(count/3)
             if count > 8:
                 pages_etiquettes.append(fabrique_page_etiquettes(etiquettes))
                 count = 0
                 etiquettes = []
+            base_x = base_x0 + delta_x * (count%3)
+            base_y = base_y0 - delta_y * int(count/3)
             etiquettes.append(inscrit.genere_etiquette(base_x,base_y))
             count += 1
         # Dernière page
