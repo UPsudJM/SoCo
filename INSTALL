@@ -23,7 +23,10 @@ texlive-fonts-recommended
 openpyxl si on veut des documents tableur (ou XlsxWriter)
 et pyoo pour LibreOffice !
 
-créer dossier ./pdf (ou utiliser /tmp)
+créer dossier de fabrication des fichiers PDF
+ -> faire attention aux permissions et à l'emplacement des fichiers annexes (images..) dans le template des étiquettes
+créer dossier pour les fichiers PDF à mettre à disposition (ou utiliser /tmp/)
+renseigner ces chemins dans ./config.py
 
 + modules JS :
 
