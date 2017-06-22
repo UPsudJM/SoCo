@@ -65,14 +65,8 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
     fd, texfilename = mkstemp(prefix=prefix, suffix=".tex", dir=".")
     texfilename = basename(texfilename)
     try:
-        t = texcode.encode("latin-1")
-    except ValueError as err:
-        print("erreur d'encodage : ", err.__doc__)
-        chdir(PWD)
-        return err
-    try:
-        open(texfilename, 'wb').write(t)
-    except OSError as err:
+        open(texfilename, 'w', encoding="utf-8").write(texcode)
+    except err:
         print("erreur d'écriture : ", err.__doc__)
         chdir(PWD)
         return err
@@ -98,7 +92,7 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         chdir(PWD)
         print("Impossible de déplacer %s vers %s" % (pdffilename, TMPDIR), err.__doc__)
         return err
-    remove(texfilename)
+    #remove(texfilename)
     remove(texfilename[:-4] + ".log") # fichier log généré par pdflatex
     remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex
     chdir(PWD)
