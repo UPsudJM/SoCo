@@ -35,7 +35,7 @@ Soumission
 
 2) Interface de création de formulaire d'inscription
 ----------------------------------------------------
-''destinée aux organisatrices du colloque''
+''destinée aux organisat-rices du colloque''
 ''accès à l'aide du login U-PSud (LDAP)''
 ''accès direct à l'interface personnalisée''
 
@@ -56,7 +56,7 @@ Soumission
 * export de la liste des inscrits (CSV, évt Calc et XLS)
 * export de listes d'adresses mail
 * impressions : feuille d'émargement et liste des présents
-* impression : badges
+* impression badges : 9 étiquettes par page, avec logo et traits de coupe
 
 4) Interface d'administration
 -----------------------------
@@ -65,7 +65,7 @@ Soumission
 
 On peut modifier toutes informations et en particulier celles qui ne sont pas
 accessibles par ailleurs :
-* inscrire manuellement des gens
-* modifier le badge
+* inscrire des gens directement, sans passer par l'interface web
+* modifier les badges
 * supprimer des inscriptions
 * etc...

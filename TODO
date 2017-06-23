@@ -98,6 +98,7 @@ ec interface de gestion (du formulaire) plus diversifiée
 ->    ** le champ pickadate devrait être positionné sur la date de clôture actuelle
   ec changement titre, sous-titre, lieu, date de fin
   ok ce qui amène à revoir l'accès à l'issue du login
+  * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login
   ec routes et redirections
@@ -108,12 +109,13 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-ec interface pour les intervants -> voir avec Catherine
+* interface pour les intervenants -> voir avec Catherine
   ** transports : horaires de trains ou avions
   ** nuitées sur place ? nombre seulement
   ** ordi, vidéoproj
 
-* ajouts pour la communication -> voir avec Lise (fin août)
+* ajouts pour la communication -> voir avec Lise
+  ** nombre d'inscrits max avec information par mail
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise
