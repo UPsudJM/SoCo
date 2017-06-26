@@ -16,6 +16,7 @@ DIV#main {
 TABLE.titre, H3.date, H3.sstitre, P.lieu { display: table; margin: auto; }
 TABLE.titre { margin-bottom: 20px; }
 TABLE.titre TD { padding: 20px; }
+TABLE.titre TD.logo { padding: 0 ; vertical-align: middle; }
 P.lieu, P.dateinscr { font-size: 120%; }
 P.dateinscr { font-style: italic; }
 FIELDSET {
