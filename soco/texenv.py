@@ -92,7 +92,7 @@ def genere_pdf(texcode, prefix="", timeout=10, check=True):
         chdir(PWD)
         print("Impossible de déplacer %s vers %s" % (pdffilename, TMPDIR), err.__doc__)
         return err
-    #remove(texfilename)
+    remove(texfilename) # DEBUG LaTeX : commenter cette ligne
     remove(texfilename[:-4] + ".log") # fichier log généré par pdflatex
     remove(texfilename[:-4] + ".aux") # fichier aux généré par pdflatex
     chdir(PWD)
