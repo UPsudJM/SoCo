@@ -108,10 +108,21 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
+<<<<<<< HEAD
 ec interface pour les intervants
   ** transports : horaires de trains ou avions
   ** nuitées sur place ? nombre seulement
   ** ordi, vidéoproj
+=======
+* interface pour les intervenants -> voir avec Catherine
+  ** transports : horaires de trains ou avions (arrivée et départ et gare ou
+   aéroport)
+  ** prise de billets à la fac (pas le choix) -> configuration logicielle pour
+   option remboursement
+  ** nuitées sur place ? nombre seulement et de telle date à telle date
+  ** ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
+  ** déj pour les intervenants : tous les repas
+>>>>>>> Spécification de la page pour les intervenants.
 
 * ajouts pour la communication
 
