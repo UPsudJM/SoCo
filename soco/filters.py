@@ -16,6 +16,17 @@ def datetimefr_filter(d, fmt=None):
         return format_datetime(d, fmt)
     return format_datetime(d, "dd/MM H:mm")
 
+@app.template_filter('datedebut')
+def datedebut_filter(d, date_fin, fmt=None):
+    # Tester si même mois et année, ou si même année
+    if d.year == date_fin.year and d.month == date_fin.month:
+        return datefr_filter(d, "d")
+    elif d.year == date_fin.year:
+        return datefr_filter(d, "d MMMM")
+    if fmt:
+        return datefr_filter(d, fmt)
+    return datefr_filter(d, "medium")
+
 @app.template_filter('ouinon')
 def ouinon_filter(b, non="non"):
     if b==True:

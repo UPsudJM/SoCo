@@ -49,5 +49,5 @@ LOGIN_MESSAGE = u'Merci de vous identifier'
 LOG_FILE = '/var/log/soco.log'
 
 # Where to generate PDFs
-FABDIR = "./soco/tex/"
-TMPDIR = "/tmp/"
+FABDIR = basedir + '/soco/tex/'
+TMPDIR = '/tmp/'
