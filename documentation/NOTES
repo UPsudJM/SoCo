@@ -69,3 +69,26 @@ accessibles par ailleurs :
 * modifier le badge
 * supprimer des inscriptions
 * etc...
+
+5) Installation et configuration
+--------------------------------
+* dépendances : python3, Flask, PostGreSQL, AngularJS
+* plus de précisions sur les dépendances et sur l'installation : INSTALL
+* base de données : l'emploi d'autres bases de données est très possible
+(quoique non encore testé) car Flask utilise la couche d'abstraction
+universelle _SQLAlchemy_
+* le logiciel est prévu pour fonctionner avec une authentification LDAP : pour
+faire différemment, modifier le fichier ./soco/auth/models.py (méthodes
+_try_login_ et _get_gecos_)
+* configuration : tout est dans config.py
+
+6) Conception
+-------------
+* notion d'événement : titre, sous-titre, date(s), lieu, résumé, gratuité,
+uid_organisateur, id_entite_organisatrice, logo (par défaut celui de l'entité organisatrice), url
+* notion de formulaire : pour pouvoir créer plusieurs formulaires pour le même événement
+* notion de personne : nom, prénom, email (+ lien organisations) -> pour
+identifier une personne de manière unique
+* notion d'inscription : on peut vouloir par exemple un badge différent pour
+des inscriptions différentes, ou donner des coordonnées différentes...
+* notion d'organisation : pour localiser l'événement ; également les personnes
