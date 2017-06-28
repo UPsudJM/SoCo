@@ -13,8 +13,9 @@
     <td><h1>Inscription à : <a href="{{ lienevt }}">{{ evenement.titre }}</a></h1></td>
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
-      <h3 class="date">{{ evenement.date | datefr("d MMMM YYYY") }}
-      {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</h3>
+      <h3 class="date">{% if evenement.date_fin %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | datefr("d MMMM YYYY") }}{% else %}{{ evenement.date | datefr("d MMMM YYYY") }}{% endif %}
+
+</h3>
       <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
       <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
