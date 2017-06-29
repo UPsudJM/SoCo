@@ -12,7 +12,7 @@
   <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
-  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">adresses mail</a></td>
+  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">envoi groupé</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes</a></td>{% endif %}
 </tr></table>
 
