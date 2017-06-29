@@ -25,7 +25,7 @@
       \hline
       \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Fonction} \endhead
       \hline
-      ((* for inscrit in inscrits *))\textsc{(((inscrit.personne.nom)))} (((inscrit.personne.prenom))) & (((inscrit.personne.organisation))) & (((inscrit.personne.fonction))) \\
+      ((* for inscrit in inscrits *))\textsc{(((inscrit.personne.nom | escape_tex)))} (((inscrit.personne.prenom | escape_tex))) & (((inscrit.organisation | escape_tex))) & (((inscrit.fonction | escape_tex))) \\
       \hline ((* endfor *))
 \end{longtable}
 
