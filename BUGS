@@ -1,4 +1,12 @@
 at quand on est sur une page d'inscription, il est impossible de revenir
   à l'accueil
+
 * le cookie remember_me dure un an alors qu'il devrait durer 30 jours
 ok pb de javascript sur la page de création de formulaire
+
+* vérification de l'unicité du mail sur le formulaire
+
+* mettre le prénom en minuscules (badge1, flcoll.js)
+
+
+
