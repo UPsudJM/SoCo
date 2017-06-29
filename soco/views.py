@@ -397,7 +397,7 @@ class EvenementView(SocoModelView):
         'inscription' : {'label': 'Personnes inscrites'}
         }
     form_excluded_columns = ['upd']
-    form_overrides = dict(logo=ImageUploadField)
+    form_overrides = dict(logo=LogoField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
 
 
