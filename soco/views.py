@@ -258,7 +258,7 @@ def suivi(evt, action=None):
     # On va chercher les inscrits
     inscrits = Inscription.query.filter_by(id_evenement=evt).all()
     # Pour les listes PDF et les badges : dans l'ordre alpha
-    if action is not None and action <> 'csv' and action <> 'mails':
+    if action is not None and action != 'csv' and action != 'mails':
         inscrits.sort(key=lambda x: x.personne.nom)
     if action == "csv":
         csv = render_template(

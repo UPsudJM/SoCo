@@ -19,16 +19,16 @@
 
 \setlength{\unitlength}{1mm}
 
-\begin{longtable}{|p{6cm}|p{5.5cm}|p{4cm}|}
-  \multicolumn{3}{c}{\large\textbf{((( evenement.titre )))}} \\
-  \multicolumn{3}{c}{\large\emph{date :} \color{white}{une date}} \\
-  \multicolumn{3}{c}{\hspace{3 cm}} \\
+\begin{longtable}{r|p{6cm}|p{5.5cm}|p{4cm}|}
+  \multicolumn{4}{c}{\large\textbf{((( evenement.titre )))}} \\
+  \multicolumn{4}{c}{\large\emph{date :} \color{white}{une date}} \\
+  \multicolumn{4}{c}{\hspace{3 cm}} \\
       \hline
-      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endfirsthead
+        \hspace{5mm} & \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endfirsthead
       \hline
-      \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endhead
+        \hspace{5mm} & \textit{\textsc{Nom} Prénom} & \textit{Institution} & \textit{Signature} \endhead
       \hline
-      ((* for inscrit in inscrits *))\textsc{(((inscrit.personne.nom | escape_tex)))} (((inscrit.personne.prenom | escape_tex))) & (((inscrit.organisation | escape_tex))) & \\
+      ((* for inscrit in inscrits *))\textsc{(((loop.index)))} & \textsc{(((inscrit.personne.nom | escape_tex)))} (((inscrit.personne.prenom | escape_tex))) & (((inscrit.organisation | escape_tex))) & \\
       \hline ((* endfor *))
 \end{longtable}
 
