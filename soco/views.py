@@ -163,8 +163,8 @@ def end():
     evenement = Evenement.query.filter_by(id=id_evenement).first()
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
-@app.route('/new', methods=['GET', 'POST'])
-@app.route('/new/', methods=['GET', 'POST'])
+@app.route('/suivi/new', methods=['GET', 'POST'])
+@app.route('/suivi/new/', methods=['GET', 'POST'])
 #@login_required
 def new():
     form = NcollForm()
@@ -197,7 +197,7 @@ def new():
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
             flash("Votre formulaire a bien été créé.", 'info')
             flash("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
-            return redirect('/index')
+            return redirect('/suivi')
     return render_template('new.html', form=form, current_user=current_user)
 
 @app.route('/suivi')
@@ -261,9 +261,10 @@ def suivi(evt, action=None):
             'inscrits.csv',
             evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
             texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
-        csv_latin1 = csv.encode("latin-1")
+        csv_latin1 = csv#.encode("latin-1")
         response = make_response(csv_latin1)
-        response.headers["Content-Type"] = "application/csv; charset=iso-8859-15"
+        #response.headers["Content-Type"] = "application/csv; charset=iso-8859-15"
+        response.headers["Content-Type"] = "application/csv; charset=utf-8"
         response.headers["Content-Disposition"] = "attachment; filename=inscrits-colloque-%d-%s.csv" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M"))
         return response
