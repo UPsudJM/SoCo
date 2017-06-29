@@ -19,7 +19,8 @@ var flform = angular.module('flform',[])
             $log.log("in cbadge1");
             var $max1 = 27;
             var $p = ($scope.personne.prenom || "");
-            $p = $p.charAt(0).toUpperCase() + $p.slice(1);
+            $p = $p.charAt(0).toUpperCase() + $p.toLowerCase().slice(1);
+	    // FIXME faire une boucle pour repérer les ' ' et les '-'
             var $n = ($scope.personne.nom || "");
             $n = $n.toUpperCase();
             var $badge1 = "";

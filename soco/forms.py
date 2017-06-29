@@ -42,7 +42,7 @@ class ClickStringField(StringField):
     def __call__(self, **kwargs):
         if hasattr(self, 'ng_model'):
             kwargs['ng-model'] = self.ng_model
-        if hasattr(self, 'ng_change'):
+        if hasattr(self, 'ng_change'): # FIXME vérifier ng-change ou ng-click ?
             kwargs['ng-click'] = self.ng_click + '()'
         if hasattr(self, 'defaultvalue'):
             kwargs['defaultvalue'] = self.defaultvalue
