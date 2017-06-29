@@ -226,7 +226,6 @@ def suivi(evt, action=None):
     if current_user.role != 'admin' and evenement.uid_organisateur != current_user.username:
         flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
-    inscrits = Inscription.query.filter_by(id_evenement=evt).all()
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
     repas_1_existant = False
     texte_repas_1 = None
@@ -256,6 +255,11 @@ def suivi(evt, action=None):
             libre_2_existant = True
             texte_libre_2 = f.texte_libre_2
             break
+    # On va chercher les inscrits
+    inscrits = Inscription.query.filter_by(id_evenement=evt).all()
+    # Pour les listes PDF et les badges : dans l'ordre alpha
+    if action is not None and action <> 'csv' and action <> 'mails':
+        inscrits.sort(key=lambda x: x.personne.nom)
     if action == "csv":
         csv = render_template(
             'inscrits.csv',
