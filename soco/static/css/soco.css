@@ -21,7 +21,7 @@ TABLE#onglets { margin: 20px; border-spacing: 15px; border-collapse: separate; }
 TABLE#onglets TD { border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px; padding: 7px; }
 TABLE#onglets A { text-decoration: none; }
 TABLE#onglets A:hover { font-style: italic; background-color: aliceblue; }
-TABLE CAPTION { margin: 15px; padding: 15px; text-align: center; width: 80%; }
+TABLE CAPTION { margin-bottom: 20px; padding: 15px; text-align: center; width: 80%; }
 
 P.lieu, P.dateinscr { font-size: 120%; }
 P.dateinscr { font-style: italic; }
