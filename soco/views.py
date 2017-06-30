@@ -80,9 +80,13 @@ def logout():
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 def soco(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
+    if not formulaire:
+        return render_template('404.html')
     evenement = formulaire.evenement
+    logo0 = app.config['LOGO_DEFAULT']
+    url0 = app.config['URL_DEFAULT']
     logo = evenement.logo
-    url = evenement.url
+    url = evenement.url or ""
     if not logo or not url:
         organisation = evenement.entite_organisatrice
         if organisation:
@@ -90,10 +94,11 @@ def soco(flform):
                 logo = organisation.logo
             if not url and organisation.url:
                 url = organisation.url
-        else:
-            logo = app.config['LOGO_DEFAULT']
-            url = ""
-    logofilename = afflogo_filter(logo)
+    logofilename0 = afflogo_filter(logo0)
+    if logo:
+        logofilename = afflogo_filter(logo)
+    else:
+        logofilename = ""
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
         return internal_error('Formulaire %d non trouvé' % flform)
@@ -151,7 +156,9 @@ def soco(flform):
             return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
+                               logofilename0=logofilename0,
                                logofilename=logofilename,
+                               url0 = url0,
                                lienevt = url,
                                current_user=current_user)
 

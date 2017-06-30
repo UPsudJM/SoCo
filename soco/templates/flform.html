@@ -9,8 +9,9 @@
 {% block content %}
 <div class="entete">
   <table class="titre"><tr>
-    <td class="logo"><img alt="logo" src="{{ url_for('static', filename=logofilename) }}" /></td>
+    <td class="logo"><a name="URL institution" href="{{ url0 }}"><img alt="logo institution" src="{{ url_for('static', filename=logofilename0) }}" /></a></td>
     <td><h1>Inscription à : <a href="{{ lienevt }}">{{ evenement.titre }}</a></h1></td>
+    {% if logofilename %}<td class="logo"><a name="URL événement" href="{{ lienevt }}"><img alt="logo événement" src="{{ url_for('static', filename=logofilename) }}" /></a></td>{% endif %}
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{% if evenement.date_fin %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | datefr("d MMMM YYYY") }}{% else %}{{ evenement.date | datefr("d MMMM YYYY") }}{% endif %}
