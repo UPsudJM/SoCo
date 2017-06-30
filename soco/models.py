@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
 from soco import Base, api, db_session
-from .texenv import escape_tex, TPL_ETIQUETTE
+from .texenv import escape_tex, TPL_ETIQUETTE, TPL_ETIQUETTE_DOUBLELOGO
 
 
 personne_organisation = Table('personne_organisation', Base.metadata,
@@ -208,6 +208,8 @@ class Inscription(Base):
         return "%s %s" % (self.personne.prenom, self.personne.nom)
 
     def genere_etiquette(self, base_x, base_y):
+        if self.evenement.logo:
+            return self.genere_etiquette_doublelogo(base_x, base_y)
         if len(self.badge1) < 22:
             police1 = "\\normalsize"
         else:
@@ -218,6 +220,22 @@ class Inscription(Base):
             police2 = "\\small"
         return TPL_ETIQUETTE % (base_x - 10, base_y + 50,
                                     base_x, base_y, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
+
+    def genere_etiquette_doublelogo(self, base_x, base_y, logo=None):
+        if not logo:
+            logo = self.evenement.logo
+            if not logo:
+                return self.genere_etiquette(base_x, base_y)
+        if len(self.badge1) < 22:
+            police1 = "\\normalsize"
+        else:
+            police1 = "\\small"
+        if len(self.badge2) < 30:
+            police2 = "\\normalsize"
+        else:
+            police2 = "\\small"
+        return TPL_ETIQUETTE_DOUBLELOGO % (base_x - 10, base_y + 50,
+                                    base_x, base_y, logo, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
