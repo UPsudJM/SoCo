@@ -25,6 +25,10 @@ TPL_ETIQUETTE="\
 \put(%d,%d){\crophrule \cropvrule}\
 \put(%d,%d){\makebox(85,50){\card{%s}{%s}{%s}{%s}}}"
 
+TPL_ETIQUETTE_DOUBLELOGO="\
+\put(%d,%d){\crophrule \cropvrule}\
+\put(%d,%d){\makebox(85,50){\cardlogo{%s}{%s}{%s}{%s}{%s}}}"
+
 TPL_ETIQUETTE_VIDE="\
 \put(%d,%d){\crophrule \cropvrule}\
 \put(%d,%d){\makebox(85,50){\hspace{1cm}}}"
