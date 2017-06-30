@@ -40,6 +40,7 @@ LOGO_FOLDER=basedir + '/soco/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
+URL_DEFAULT='http://www.jm.u-psud.fr'
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30
