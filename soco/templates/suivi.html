@@ -7,16 +7,16 @@
 
 <hr/>
 
-<table><tr>
+<table id="onglets"><tr>
   <td><a href="{{ url_for('suivi', evt=evenement.id) }}">voir les inscrits</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
-  <td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>
-  <td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
-  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">envoi groupé</a></td>
+  {% if not current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>{% endif %}
+  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">envoi groupé</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes</a></td>{% endif %}
 </tr></table>
 
-<table><legend>Liste des inscrits</legend>
+<table><caption>Liste des inscrits</caption>
 <tr>
   <th>Nom</th>
   <th>Prénom</th>
@@ -41,11 +41,11 @@
 
 <hr/>
 
-<section ng-controller="suiviCtrl"><a name="modifs" />
+<!-- section ng-controller="suiviCtrl"><a name="modifs" />
   <h3>Modifications</h3>
   <p>Date de clôture <input type="date" name="date_cloture_inscriptions" /> <input type="button" value="Modifier" /></p>
 
-</section>
+</section -->
 
 <div class="footnotes">
 <p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
