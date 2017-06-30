@@ -14,7 +14,7 @@
     {% if logofilename %}<td class="logo"><a name="URL événement" href="{{ lienevt }}"><img alt="logo événement" src="{{ url_for('static', filename=logofilename) }}" /></a></td>{% endif %}
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
-      <h3 class="date">{% if evenement.date_fin %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | datefr("d MMMM YYYY") }}{% else %}{{ evenement.date | datefr("d MMMM YYYY") }}{% endif %}
+      <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | datefr("d MMMM YYYY") }}{% else %}{{ evenement.date | datefr("d MMMM YYYY") }}{% endif %}
 
 </h3>
       <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
