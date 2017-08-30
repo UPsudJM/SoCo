@@ -38,6 +38,9 @@ def required_roles(*roles):
 def get_current_user_role():
     return current_user.role
 
+@app.context_processor
+def nom_institution():
+    return dict(nom_institution=app.config["INSTITUTION_DEFAULT"])
 
 @app.errorhandler(404)
 def not_found_error(error):

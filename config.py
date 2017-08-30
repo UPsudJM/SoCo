@@ -41,6 +41,7 @@ LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
 URL_DEFAULT='http://www.jm.u-psud.fr'
+INSTITUTION_DEFAULT="Université Paris Saclay - Faculté Jean Monnet"
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30
