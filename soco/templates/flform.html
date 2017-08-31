@@ -17,7 +17,7 @@
       <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | datefr("d MMMM YYYY") }}{% else %}{{ evenement.date | datefr("d MMMM YYYY") }}{% endif %}
 
 </h3>
-      <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet<br/>Université Paris Sud/Paris-Saclay{% endif %}</p>
+      <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}</p>
       <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
       <p class="dateinscr">Ce formulaire est ouvert du {{ formulaire.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ formulaire.date_cloture_inscriptions | datefr("d MMMM") }}</p>
@@ -79,8 +79,8 @@
 
 <div class="footnotes">
 <!-- p><span class="mandatory">*</span> Champ obligatoire</p -->
-<p>Contact pour l'inscription&nbsp;: Secrétariat du Département de la Recherche &lt;colloques.jean-monnet@u-psud.fr&gt;</p>
-<p>Contact pour ce site&nbsp;: Odile Bénassy &lt;informatique-recherche.droit-eco-gestion@u-psud.fr&gt;</p>
+<p>Contact pour l'inscription&nbsp;: {{ email_colloques }}</p>
+<p>Contact pour ce site&nbsp;: {{ email_site }}</p>
 </div>
 
 {% endblock %}

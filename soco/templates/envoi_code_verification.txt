@@ -17,6 +17,4 @@ Il vous suffit de le coller sur la page d'inscription, dans la case prévue
 Cordialement,
 PS : ceci est un mail automatique
 --
-Service de la recherche
-Faculté Jean Monnet
-Université Paris Saclay
+{{ signature_emails }}
