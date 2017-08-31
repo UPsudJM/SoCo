@@ -91,7 +91,7 @@ var suivi = angular.module('suivi',['pickadate'])
         };
     }]);
 
-var newevt = angular.module('newevt',['pickadate'])
+var newevt = angular.module('newevt',['pickadate', '720kb.tooltips'])
 .config(function(pickadateI18nProvider) {
     pickadateI18nProvider.translations = {
         prev: '<em>&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>',
