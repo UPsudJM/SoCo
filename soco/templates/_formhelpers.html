@@ -1,6 +1,7 @@
 {% macro render_field(field) %}
-<p>{{ field.label }}{% if field.flags.required %}<span class="mandatory">*</span>{% endif %} {{ field(**kwargs)|safe }}
-<span class="descriptionchamp">{{ field.description }}</span>
+<p>{{ field.label }}{% if field.flags.required %}<span class="mandatory">*</span>{% endif %}
+{% if field.description %}<span class="descriptionchamp"><!-- {{ field.description }} --><a href="#" tooltips tooltip-template="{{ field.description }}">aide</a></span>{% endif %} 
+{{ field(**kwargs)|safe }}
 {% if field.errors %}
 <ul class=errors>
   {% for error in field.errors %}

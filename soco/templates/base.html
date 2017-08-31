@@ -11,11 +11,13 @@
     <title>{{ nom_institution }} - Inscription à un colloque</title>
     {% endif %}
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/angular-tooltips.css') }}" rel="stylesheet"/>
     {% block CSS %}{% endblock %}
     <link href="{{ url_for('static', filename='css/soco.css') }}" rel="stylesheet"/>
     <script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-route.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-locale_fr-fr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-tooltips.js') }}"></script>
     {% block javascript %}{% endblock %}
  </head>
   <body>
