@@ -75,7 +75,8 @@ ok page de formulaire nouveau colloque
   ec inscription jour par jour
   at nouvelles questions libres
   at URL du colloque
-->  ** on voudrait que le texte par défaut s'efface, sur la question supplémentaire
+  at on voudrait que le texte par défaut s'efface, sur la question supplémentaire
+  ** mettre des bulles pour la description des champs : angular-tooltips
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
