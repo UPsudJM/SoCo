@@ -39,8 +39,12 @@ def get_current_user_role():
     return current_user.role
 
 @app.context_processor
-def nom_institution():
-    return dict(nom_institution=app.config["INSTITUTION_DEFAULT"])
+def parametres_institution():
+    return dict(nom_institution = app.config["INSTITUTION_PPALE"],
+                salle_par_default = app.config["SALLE_PPALE"],
+                email_colloques = app.config['EMAIL_COLLOQUES'],
+                email_site = app.config['EMAIL_SITE'],
+                signature_emails = app.config['SIGNATURE_EMAILS'])
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -392,7 +396,7 @@ class EvenementView(SocoModelView):
     column_descriptions = dict(
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
-        lieu='Lieu de l\'événement <em>(vous pouvez laisser vide s\'il s\'agit de la salle Vedel)</em>',
+        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['SALLE_PPALE'],
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
@@ -475,7 +479,7 @@ class InscriptionView(SocoModelView):
         }
 
 
-admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
+admin = Admin(app, name=app.config['NOM_INTERFACE_ADMIN'], template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
 admin.add_view(OrganisationView(Organisation, db_session))

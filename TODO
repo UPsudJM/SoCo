@@ -109,7 +109,7 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-* interface pour les intervenants -> voir avec Catherine
+ec interface pour les intervants
   ** transports : horaires de trains ou avions (arrivée et départ et gare ou
    aéroport)
   ** prise de billets à la fac (pas le choix) -> configuration logicielle pour
@@ -118,8 +118,8 @@ ok revenir à LDAP/login
   ** ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
   ** déj pour les intervenants : tous les repas
 
-* ajouts pour la communication -> voir avec Lise
-  ** nombre d'inscrits max avec information par mail
+* ajouts pour la communication
+  ** nb d'inscrit max avec envoi de mails
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise

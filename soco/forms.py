@@ -4,6 +4,7 @@ from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateFi
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import Evenement, Formulaire, Personne, Inscription
+from soco import app
 import datetime
 
 
@@ -98,7 +99,7 @@ class NcollForm(SocoForm):
     sstitre = StringField('Sous-titre')
     date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
     date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
-    lieu = StringField('Lieu', description="si laissé vide : salle Georges Vedel à la Faculté Jean Monnet")
+    lieu = StringField('Lieu', description="si laissé vide : %s" % app.config['SALLE_PPALE'])
     date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname,
