@@ -52,16 +52,20 @@ var suivi = angular.module('suivi',['pickadate'])
             $scope.evenements = angular.copy($scope.master);
         };
         $scope.reset();
+        $scope.definedefaultdate = function(id, d) {
+            $log.log("in definedefaultdate");
+            var $v = "default_date_" + id;
+            $log.log('$scope.' + $v + ' = "' + d + '"');
+            eval("$scope. " + $v + "= new Date('" + d + "')");
+        };
         $scope.showmodifdatecloture = function(id) {
             $log.log("in showmodifdatecloture");
-            $log.log("id=" + id);
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '1');
             eval('$scope. ' + $v + ' = ' + '1');
         };
         $scope.modifdatecloture = function(id) {
             $log.log("in modifdatecloture");
-            $log.log("id=" + id);
             var $v = "date_cloture_inscriptions_" + id;
             $log.log('v=' + $v);
             $log.log('$scope.evenements.' + $v);

@@ -289,7 +289,9 @@
               selectedDates = [ngModel.$viewValue];
             }
 
-            scope.currentDate = dateHelper.parseDate(scope.defaultDate || selectedDates[0]) || new Date();
+	    if (selectedDates[0]) { scope.currentDate = dateHelper.parseDate(selectedDates[0]); }
+	    else if (scope.defaultDate) { scope.currentDate = scope.defaultDate; }
+	    else { scope.currentDate = new Date(); }
 
             dateHelper.setRestrictions(scope);
 
