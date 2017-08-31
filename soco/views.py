@@ -396,7 +396,7 @@ class EvenementView(SocoModelView):
     column_descriptions = dict(
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
-        lieu='Lieu de l\'événement <em>(vous pouvez laisser vide s\'il s\'agit de la salle Vedel)</em>',
+        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['SALLE_PPALE'],
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
