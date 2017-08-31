@@ -39,8 +39,12 @@ def get_current_user_role():
     return current_user.role
 
 @app.context_processor
-def nom_institution():
-    return dict(nom_institution=app.config["INSTITUTION_DEFAULT"])
+def parametres_institution():
+    return dict(nom_institution = app.config["INSTITUTION_PPALE"],
+                salle_par_default = app.config["SALLE_PPALE"],
+                email_colloques = app.config['EMAIL_COLLOQUES'],
+                email_site = app.config['EMAIL_SITE'],
+                signature_emails = app.config['SIGNATURE_EMAILS'])
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -475,7 +479,7 @@ class InscriptionView(SocoModelView):
         }
 
 
-admin = Admin(app, name='Colloques Jean Monnet', template_mode='bootstrap3')
+admin = Admin(app, name=app.config['NOM_INTERFACE_ADMIN'], template_mode='bootstrap3')
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
 admin.add_view(OrganisationView(Organisation, db_session))
