@@ -6,11 +6,8 @@ Nous vous confirmons votre inscription à
 
 qui aura lieu le {{ evenement.date | datefr("d MMMM YYYY") }}
 
-{% if evenement.lieu %}{{ evenement.lieu }}{% else %}Salle G. Vedel, Faculté Jean Monnet
-Université Paris Sud/Paris-Saclay{% endif %}
+{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}
 
 Cordialement,
 --
-Service de la recherche
-Faculté Jean Monnet
-Université Paris Saclay
+{{ signature_emails }}
