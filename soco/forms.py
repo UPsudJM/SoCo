@@ -98,17 +98,18 @@ class NcollForm(SocoForm):
     titre = StringField('Titre', validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField('Sous-titre')
     date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
-    date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="cas où l'événement dure plusieurs jours")
-    lieu = StringField('Lieu', description="si laissé vide : %s" % app.config['SALLE_PPALE'])
+    date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="Seulement dans le cas où l'événement dure plusieurs jours")
+    lieu = StringField('Lieu', description="Vous pouvez laisser ce champ vide si c'est %s" % app.config['SALLE_PPALE'])
     date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname,
                                                format='%d/%m/%Y', validators=[DataRequired()])
     jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
-    champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :")
+    champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :", description="Vous pouvez aussi vouloir poser une autre question, le texte est à votre discrétion")
     texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
                                             objname=objname, defaultvalue="Serez-vous des nôtres à midi ?",
-                                                description="Exemple de question : 'Serez-vous des nôtres à midi ?'")
+                                                description="Le texte de votre question (avec réponse par oui ou par non)",
+                                            clickfunc="")
     champ_libre_1 = BooleanField("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :")
     texte_libre_1 = StringField("et précisez le texte de la question :")
 

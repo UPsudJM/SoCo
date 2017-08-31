@@ -3,11 +3,13 @@
 
 {% block CSS %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/angular-pickadate.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/angular-tooltips.css') }}" />
 {% endblock %}
 {% block javascript %}
     <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls.js') }}"></script>
     <script src="{{ url_for('static', filename='js/angular-pickadate.js') }}" ></script>
     <script src="{{ url_for('static', filename='js/soco.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/angular-tooltips.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -57,7 +59,7 @@
     <fieldset><legend>Questions supplémentaires</legend>
     {{ render_field(form.champ_restauration_1) }}
     <br/>
-    {{ render_field(form.texte_restauration_1, size=60, maxlength=120, value="Serez-vous des nôtres à midi ?") }}
+    {{ render_field(form.texte_restauration_1, size=55, maxlength=120, value="Serez-vous des nôtres à midi ?") }}
 
   <p><em>N.B.: Pour plus d'options de configuration de votre page d'inscription, veuillez vous adresser au service de la recherche</em></p>
   </fieldset>
