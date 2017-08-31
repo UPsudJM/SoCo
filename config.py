@@ -41,7 +41,12 @@ LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
 URL_DEFAULT='http://www.jm.u-psud.fr'
-INSTITUTION_DEFAULT="Université Paris Saclay - Faculté Jean Monnet"
+INSTITUTION_PPALE="Université Paris Saclay - Faculté Jean Monnet"
+SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
+EMAIL_COLLOQUES="Secrétariat du Département de la Recherche <colloques.jean-monnet@u-psud.fr>"
+EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
+SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Saclay"
+NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30
