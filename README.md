@@ -1,4 +1,5 @@
 SoCo est un petit logiciel permettant de gérer les inscriptions aux colloques.
+
 _Soco is a small application for managing conference participants_
 
 Caractéristiques
