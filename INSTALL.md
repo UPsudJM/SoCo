@@ -64,6 +64,6 @@ Software configuration
 ```PGSQL_DATABASE_USER = 'my_user'
 PGSQL_DATABASE_PASSWORD = 'password_for_socouser'
 SECRET_KEY = 'your long and very secret key'
-ADMINS = ['email-admin1@your-organization.com', 'email-admin2@your-organization.com']
-```
-then uncomment corresponding lines in [./config.py]
+ADMINS = ['email-admin1@your-organization.com', 'email-admin2@your-organization.com']```
+
+* then uncomment corresponding lines in [./config.py]
