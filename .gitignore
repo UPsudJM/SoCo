@@ -1,1 +1,6 @@
-BUGS
+secret.py*
+__pycache__/
+soco/pdf
+soco/tex
+pdf
+RIEN
