@@ -15,14 +15,14 @@ Python packages
 ---------------
 * `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF SQLAlchemy`
 * `$ pip3 install Pillow sqlalchemy-migrate psycopg2 python3-ldap Flask-Babelex`
-* for more details, cf (./requirements.txt)
+* for more details, cf [./requirements.txt]
 
 LaTeX
 -----
 _required for printing documents and badges_
 * Debian packages: `texlive-latex-base` `texlive-fonts-recommended`
 * For French-speaking: `texlive-lang-french`
-* you will want to have a look at .tex templates (in (./soco/templates)) 
+* you will want to have a look at .tex templates (in [./soco/templates])
 
 
 Installation
@@ -33,9 +33,9 @@ Files
 * clone or download SoCo code into your working directory
 * create a sub-directory for compiling LaTeX files
   * permissions: SoCo needs to write in it
-  * paths: look at the paths in the LaTeX templates, esp (./soco/templates/etiquettes.tex) in order to make your static files accessible from the LaTeX files that will be compiled there
+  * paths: look at the paths in the LaTeX templates, esp [./soco/templates/etiquettes.tex] in order to make your static files accessible from the LaTeX files that will be compiled there
 * if you wish, create another subdir for PDF files (you may use /tmp)
-* feed the corresponding variables FABDIR and TMPDIR in (./config.py)
+* feed the corresponding variables FABDIR and TMPDIR in [./config.py]
 
 Javascript modules
 ------------------
@@ -46,6 +46,7 @@ Warning: If you are not in France, you might want to adapt the locale and maybe 
 Database configuration
 ----------------------
 _(shown here for PostGreSQL)_
+
 ```$ sudo su - postgres
 $ createuser -e [-d] -P -s superuser
 $ createdb -e -O superuser soco
@@ -57,11 +58,12 @@ $ psql [-W]
 
 Software configuration
 ----------------------
-* Most of the config parameters are set in (./config.py)
-* Yet for the most secret ones, you will want to create a file with name (./secret.py), like:
+* Most of the config parameters are set in [./config.py]
+* Yet for the most secret ones, you will want to create a file with name [./secret.py], like:
+
 ```PGSQL_DATABASE_USER = 'my_user'
 PGSQL_DATABASE_PASSWORD = 'password_for_socouser'
 SECRET_KEY = 'your long and very secret key'
 ADMINS = ['email-admin1@your-organization.com', 'email-admin2@your-organization.com']
 ```
-then uncomment corresponding lines in (./config.py)
+then uncomment corresponding lines in [./config.py]
