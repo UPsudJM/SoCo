@@ -1,3 +1,5 @@
+flask
+node_modules
 secret.py*
 __pycache__/
 soco/pdf
