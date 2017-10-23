@@ -17,6 +17,7 @@
 § © 2016-2017 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
+# coding: utf-8
 
 import datetime
 from sqlalchemy.exc import IntegrityError

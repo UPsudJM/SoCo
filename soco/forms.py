@@ -17,6 +17,7 @@
 § © 2016-2017 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
+# coding: utf-8
 
 from flask_wtf import FlaskForm
 from flask import flash

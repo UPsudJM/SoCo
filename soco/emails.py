@@ -17,6 +17,7 @@
 § © 2016-2017 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
+# coding: utf-8
 
 from config import ADMINS, MAIL_DOMAIN
 from soco import mail
