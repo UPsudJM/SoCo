@@ -24,6 +24,7 @@ ADMINS = []
 LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
 #LDAP_PROTOCOL_VERSION = 3
 LDAP_SEARCH_BASE = 'dc=u-psud, dc=fr'
+LDAP_USER_PATT = 'uid=%s,ou=people,dc=u-psud,dc=fr'
 
 # Database and other secrets
 PGSQL_DATABASE_DB = 'soco'

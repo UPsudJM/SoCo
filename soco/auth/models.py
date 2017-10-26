@@ -46,7 +46,7 @@ class User(Base):
     @staticmethod
     def try_login(username, password, with_gecos=True):
         server = Server(app.config['LDAP_PROVIDER_URL'], use_ssl=True)
-        conn = Connection(server, 'uid=%s,ou=people,dc=u-psud,dc=fr' % username, password)
+        conn = Connection(server, app.config['LDAP_USER_PATT'] % username, password)
         try:
             conn.bind()
         except:
