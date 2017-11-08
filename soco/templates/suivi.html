@@ -13,7 +13,7 @@
   {% if not current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>{% endif %}
   {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
   <td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">envoi groupé</a></td>
-  <td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes à imprimer</a></td>{% endif %}
+  {% if avec_etiquettes %}<td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes à imprimer</a></td>{% endif %}{% endif %}
 </tr></table>
 
 <table><caption>Liste des inscrits</caption>

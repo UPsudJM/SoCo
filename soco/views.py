@@ -368,7 +368,8 @@ def suivi(evt, action=None):
     return render_template(
         'suivi.html',
         evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
-        texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2)
+        texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2,
+        avec_etiquettes=app.config['AVEC_ETIQUETTES'])
 
 
 class SocoModelView(ModelView):

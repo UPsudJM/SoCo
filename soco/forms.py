@@ -159,8 +159,12 @@ class InscriptionForm(SocoForm):
     telephone = StringField('Téléphone', validators=[Optional(), Length(min=0, max=20)])
     organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)], description="Attention, pour le badge : fonction + organisation = 32 caractères max.")
     fonction = StringField('Fonction', validators=[Optional(), Length(min=0, max=40)])
-    badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
-    badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
+    if app.config['AVEC_ETIQUETTES']:
+        badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
+        badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
+    else:
+        badge1 = StringField('Badge1', validators=[])
+        badge2 = StringField('Badge2', validators=[])
     attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
     jours_de_presence =  [] #StringField('Jours de présence', validators=[DataRequired()],
     type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])

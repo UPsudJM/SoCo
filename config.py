@@ -45,6 +45,8 @@ LOGO_FOLDER=basedir + '/soco/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
+
+# various default values
 URL_DEFAULT='http://www.jm.u-psud.fr'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
@@ -52,6 +54,7 @@ EMAIL_COLLOQUES="Secrétariat du Département de la Recherche <colloques.jean-mo
 EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
 SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Sud"
 NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
+AVEC_ETIQUETTES=True
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30
