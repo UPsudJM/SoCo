@@ -61,7 +61,7 @@ def get_current_user_role():
 def parametres_institution():
     return dict(nom_institution = app.config["INSTITUTION_PPALE"],
                 salle_par_default = app.config["SALLE_PPALE"],
-                email_colloques = app.config['EMAIL_COLLOQUES'],
+                email_orga = app.config['EMAIL_ORGA'],
                 email_site = app.config['EMAIL_SITE'],
                 signature_emails = app.config['SIGNATURE_EMAILS'])
 
@@ -104,6 +104,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
+@app.route('/event/<int:flform>', methods=['GET', 'POST'])
 def soco(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     if not formulaire:
@@ -302,7 +303,7 @@ def suivi(evt, action=None):
         response = make_response(csv_latin1)
         #response.headers["Content-Type"] = "application/csv; charset=iso-8859-15"
         response.headers["Content-Type"] = "application/csv; charset=utf-8"
-        response.headers["Content-Disposition"] = "attachment; filename=inscrits-colloque-%d-%s.csv" % (
+        response.headers["Content-Disposition"] = "attachment; filename=inscrits-evt-%d-%s.csv" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M"))
         return response
     if action == "mails":
@@ -317,7 +318,7 @@ def suivi(evt, action=None):
         if type(resultat) != type(""):
             flash(str(resultat))
             return render_template('500.html')
-        return send_file(resultat, as_attachment=True, attachment_filename="presents-colloque-%d-%s.pdf" % (
+        return send_file(resultat, as_attachment=True, attachment_filename="presents-evt-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")))
     if action == "emargement":
         texcode = texenv.get_template('liste_emargement.tex').render(evenement=evenement, inscrits=inscrits)
@@ -325,7 +326,7 @@ def suivi(evt, action=None):
         if type(resultat) != type(""):
             flash(str(resultat))
             return render_template('500.html')
-        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="emargement-colloque-%d-%s.pdf" % (
+        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="emargement-evt-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
         response.headers['Content-Type'] = 'application/pdf'
         return response
@@ -361,7 +362,7 @@ def suivi(evt, action=None):
             print("erreur de lecture du PDF %s" % resultat)
             flash("erreur de lecture du PDF")
             return render_template('500.html')
-        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-colloque-%d-%s.pdf" % (
+        response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-evt-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
         response.headers['Content-Type'] = 'application/pdf'
         return response
