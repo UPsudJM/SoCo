@@ -9,14 +9,15 @@ Debian packages
 Database
 --------
 * postgresql postgresql-server-dev-x.y (you can uninstall it once psycopg2 is compiled)
-* or any database (flask is very flexible)
+* or MySQL
+* or any database if you tweek the configuration a little
 
 Python packages
 ---------------
 * if you use virtualenv: `$ pyvenv venv` then `source venv/bin/activate`
-* `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF SQLAlchemy`
-* `$ pip3 install Pillow sqlalchemy-migrate psycopg2 ldap3 Flask-Babelex`
-* for more details, cf [./requirements.txt]
+* `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF Pillow Flask-Babelex`
+* `$ pip3 install SQLAlchemy sqlalchemy-migrate psycopg2 (or flask-mysqldb)`
+* `$ pip3 install ldap3` (only if you want to use LDAP for user identification)
 
 LaTeX
 -----
@@ -36,6 +37,7 @@ Files
   * paths: look at the paths in the LaTeX templates, esp [./soco/templates/etiquettes.tex] in order to make your static files accessible from the LaTeX files that will be compiled there
 * if you wish, create another subdir for PDF files (you may use /tmp)
 * feed the corresponding variables FABDIR and TMPDIR in [./config.py]
+* create a `./logs` subdir, or configure LOG_FILE in [./config.py]
 
 Javascript modules
 ------------------
@@ -52,9 +54,14 @@ $ createuser -e [-d] -P -s superuser
 $ createdb -e -O superuser soco
 $ createuser my_user
 $ psql [-W]
-> GRANT SELECT,UPDATE,INSERT,DELETE ON ALL TABLES IN SCHEMA public TO my_user;
-> GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO my_user;
-> ALTER USER my_user WITH PASSWORD 'my_pwd'```
+> GRANT SELECT,UPDATE,INSERT,DELETE ON ALL TABLES IN SCHEMA public TO myuser;
+> GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO myuser;
+> ALTER USER my_user WITH PASSWORD 'mypass'```
+
+_(or for MySQL/MariaDB)_
+
+```mysql>  CREATE DATABASE soco DEFAULT CHARACTER SET 'utf8' COLLATE utf8_general_ci;
+mysql> GRANT SELECT,UPDATE,INSERT,DELETE ON soco.* TO myuser IDENTIFIED BY 'mypass';```
 
 Software configuration
 ----------------------

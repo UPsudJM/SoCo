@@ -42,12 +42,17 @@ lm.login_message = LOGIN_MESSAGE
 from flask_mail import Mail
 mail = Mail(app)
 
+# Database access
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from config import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD, PGSQL_DATABASE_DB, PGSQL_DATABASE_HOST
-
-SQLALCHEMY_DATABASE_URI = 'postgresql://' + PGSQL_DATABASE_USER + ":" + PGSQL_DATABASE_PASSWORD + "@" + PGSQL_DATABASE_HOST + "/" + PGSQL_DATABASE_DB
+from config import DB_ENGINE
+if DB_ENGINE == 'pgsql':
+    from config import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD, PGSQL_DATABASE_DB, PGSQL_DATABASE_HOST
+    SQLALCHEMY_DATABASE_URI = 'postgresql://' + PGSQL_DATABASE_USER + ":" + PGSQL_DATABASE_PASSWORD + "@" + PGSQL_DATABASE_HOST + "/" + PGSQL_DATABASE_DB
+elif DB_ENGINE == 'mysql':
+    from config import MYSQL_DATABASE_USER, MYSQL_DATABASE_PASSWORD, MYSQL_DATABASE_DB, MYSQL_DATABASE_HOST
+    SQLALCHEMY_DATABASE_URI = 'mysql://' + MYSQL_DATABASE_USER + ":" + MYSQL_DATABASE_PASSWORD + "@" + MYSQL_DATABASE_HOST + "/" + MYSQL_DATABASE_DB
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base = declarative_base()
