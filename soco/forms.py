@@ -121,7 +121,7 @@ class NcollForm(SocoForm):
     date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
     date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="Seulement dans le cas où l'événement dure plusieurs jours")
     recurrence = RadioField('Récurrence', default = 'Aucune', choices = [e.value for e in RecurrenceEnum])
-    lieu = StringField('Lieu', description="Vous pouvez laisser ce champ vide si c'est %s" % app.config['SALLE_PPALE'])
+    lieux = SelectMultipleField('Lieu', coerce=int)
     date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname,
