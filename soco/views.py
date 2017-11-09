@@ -28,11 +28,11 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
-from flask.ext.babelex import gettext, lazy_gettext
+from flask_babelex import gettext, lazy_gettext
 from soco import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from functools import wraps
-from .models import Organisation, Personne, Evenement, Formulaire, Inscription
+from .models import Organisation, Lieu, Evenement, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
@@ -61,7 +61,7 @@ def get_current_user_role():
 @app.context_processor
 def parametres_institution():
     return dict(nom_institution = app.config["INSTITUTION_PPALE"],
-                lieu_par_default = app.config["LIEU_PPALE"],
+                lieu_par_default = app.config["SALLE_PPALE"],
                 email_orga = app.config['EMAIL_ORGA'],
                 email_site = app.config['EMAIL_SITE'],
                 signature_emails = app.config['SIGNATURE_EMAILS'])
@@ -418,7 +418,7 @@ class EvenementView(SocoModelView):
     column_descriptions = dict(
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
-        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['LIEU_PPALE'],
+        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['SALLE_PPALE'],
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
@@ -475,9 +475,9 @@ class OrganisationView(SocoModelView):
     form_overrides = dict(logo=LogoField)
     #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
     form_ajax_refs = {
-        'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
+        'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10),
         'lieu': QueryAjaxModelLoader('lieu', db_session, Lieu, fields=['nom'], page_size=10),
-        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10)
         }
 
 
@@ -486,7 +486,8 @@ class LieuView(SocoModelView):
     form_args = {
         'nom': {'label' : 'Nom de la lieu'},
         'adresse' : {'label': 'Pour éviter toute ambiguïté, vous pouvez préciser l\'adresse'},
-        'capacite': {'label' : 'Capacité de la lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'}
+        'capacite': {'label' : 'Capacité de la lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'},
+        'evenement' : {'label' : 'Événements programmés dans ce lieu'}
         }
 
 
