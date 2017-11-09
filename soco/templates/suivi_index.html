@@ -18,7 +18,7 @@
 <h1>Liste des formulaires</h1>
 
 <hr/>
-<ul class="index_colloques">
+<ul class="index_events">
   {% for e in evenements %}
   <li><a href="{{ url_for('suivi', evt=e.id) }}">{{ e.titre }} &mdash; {{ e.date | datefr }}</a> &mdash; {{ nb_inscrits[e.id] }} inscription{% if nb_inscrits[e.id] > 1 %}s{% endif %}
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}

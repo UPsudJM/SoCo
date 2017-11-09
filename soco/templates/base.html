@@ -8,7 +8,7 @@
     {% if title %}
     <title>{{ title }} - {{ nom_institution }}</title>
     {% else %}
-    <title>{{ nom_institution }} - Inscription à un colloque</title>
+    <title>{{ nom_institution }} - Inscription à un événement</title>
     {% endif %}
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
     {% block CSS %}{% endblock %}
@@ -20,7 +20,7 @@
     {% block javascript %}{% endblock %}
  </head>
   <body>
-    <div>Colloques
+    <div>Évenements
       <a href="{{ url_for('index') }}">Accueil</a>
     </div>
     <hr>
@@ -37,7 +37,7 @@
     <div id="main">
 {% if current_user.is_authenticated %}
 <p>Vous êtes <code>{% if g.gecos %}{{ g.gecos }}{% else %}{{ current_user.username }}{% endif %}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
-{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des colloques</a></p>{% endif %}
+{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des événements</a></p>{% endif %}
 {% else %}
 <p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
 {% endif %}

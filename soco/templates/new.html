@@ -27,7 +27,7 @@
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-    <fieldset><legend accesskey="c">Votre colloque</legend>
+    <fieldset><legend accesskey="c">Votre événement</legend>
     {{ render_field(form.titre, size=80, maxlength=120) }}
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
       <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
