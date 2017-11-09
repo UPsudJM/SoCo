@@ -12,12 +12,12 @@
      role="form">
     {{ form.csrf_token }}
     {{ form.nexturl() }}
-    <fieldset><legend>Espace réservé</legend>
+    <fieldset><legend>{{ gettext('Espace réservé') }}</legend>
       {{ form.username.label }} {{ form.username() }}
       <br/>{{ form.password.label }} {{ form.password() }}
       <br/>{{ form.rememberme.label }} {{ form.rememberme() }}
     </fieldset>
-    <div class="buttonbar"><button type="submit" class="btn">Envoyer</button></div>
+    <div class="buttonbar"><button type="submit" class="btn">{{ gettext('Envoyer') }}</button></div>
   </form>
 </div>
 {% endblock %}

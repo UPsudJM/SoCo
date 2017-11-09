@@ -17,7 +17,7 @@
 <div class="entete">
 <table class="titre">
 <tr>{% if logo %}<td><img src="{{ logo }}" /></td>{% endif %}
-    <td><h1>Créer une nouvelle page d'inscription</h1></td></tr></table>
+    <td><h1>{{ gettext('Créer une nouvelle page d\'inscription') }}</h1></td></tr></table>
 </div>
 
 <hr/>
@@ -27,16 +27,16 @@
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-    <fieldset><legend accesskey="c">Votre événement</legend>
+    <fieldset><legend accesskey="c">{{ gettext('Votre événement') }}</legend>
     {{ render_field(form.titre, size=80, maxlength=120) }}
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
-      <span ng-show="ncollform.titre.$error.required">Merci d'indiquer le titre de l'événement</span>
+      <span ng-show="ncollform.titre.$error.required">{{ gettext('Merci d\'indiquer le titre de l\'événement') }}</span>
     </div>
     {{ render_field(form.sstitre, size=80, maxlength=120) }}
     <br/>
     {{ render_field(form.date) }}
     <div ng-show="ncollform.$submitted || ncollform.date.$touched">
-      <span ng-show="ncollform.date.$error.required">Merci d'indiquer la date de l'événement</span>
+      <span ng-show="ncollform.date.$error.required">{{ gettext(\'Merci d\'indiquer la date de l\'événement') }}</span>
     </div><br/>
     {{ render_field(form.date_fin) }}
     <br />
@@ -44,37 +44,37 @@
     <br/>
     </fieldset>
 
-    <fieldset><legend accesskey="e">Votre formulaire d'inscription</legend>
+    <fieldset><legend accesskey="e">{{ gettext('Votre formulaire d\'inscription') }}</legend>
     {{ render_field(form.date_ouverture_inscriptions) }}
     <div ng-show="ncollform.$submitted || ncollform.date_ouverture_inscriptions.$touched">
-      <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">Merci d'indiquer la date d'ouverture des inscriptions</span>
+      <span ng-show="ncollform.date_ouverture_inscriptions.$error.required">{{ gettext('Merci d\'indiquer la date d\'ouverture des inscriptions') }}</span>
     </div>
     {{ render_field(form.date_cloture_inscriptions) }}
     <div ng-show="ncollform.$submitted || ncollform.date_cloture_inscriptions.$touched">
-      <span ng-show="ncollform.date_cloture_inscriptions.$error.required">Merci d'indiquer la date de clôture des inscriptions</span>
+      <span ng-show="ncollform.date_cloture_inscriptions.$error.required">{{ gettext('Merci d\'indiquer la date de clôture des inscriptions') }}</span>
     </div>
     <div ng-show="sur_plusieurs_jours">{{ render_field(form.jour_par_jour) }}</div>
     </fieldset>
 
-    <fieldset><legend>Questions supplémentaires</legend>
+    <fieldset><legend>{{ gettext('Questions supplémentaires') }}</legend>
     {{ render_field(form.champ_restauration_1) }}
     <br/>
-    {{ render_field(form.texte_restauration_1, size=55, maxlength=120, value="Serez-vous des nôtres à midi ?") }}
+    {{ render_field(form.texte_restauration_1, size=55, maxlength=120, value=gettext("Serez-vous des nôtres à midi ?") }}
 
-  <p><em>N.B.: Pour plus d'options de configuration de votre page d'inscription, veuillez vous adresser au service de la recherche</em></p>
+  <p><em>{{ gettext('N.B.: Pour plus d\'options de configuration de votre page d\'inscription, veuillez vous adresser au service de la recherche') }}</em></p>
   </fieldset>
 
   <div class="buttonbar">
-    <input type="button" ng-click="reset()" value="Réinitialiser" />
-    <input type="submit" name="submit" accesskey="z" tabindex="20" value="Envoyer" />
+    <input type="button" ng-click="reset()" value="{{ gettext('Réinitialiser') }}" />
+    <input type="submit" name="submit" accesskey="z" tabindex="20" value="{{ gettext('Envoyer')" />
   </div>
 </form>
 </section>
 
 <div class="footnotes">
-<p><span class="mandatory">*</span> Champ obligatoire</p>
-<p>Contact pour l'inscription&nbsp;: {{ email_orga }}</p>
-<p>Contact pour ce site&nbsp;: {{ email_site }}</p>
+<p><span class="mandatory">*</span> {{ gettext('Champ obligatoire') }}</p>
+<p>{{ gettext('Contact pour l\'inscription&nbsp;:') }} {{ email_orga }}</p>
+<p>{{ gettext('Contact pour ce site&nbsp;:') }} {{ email_site }}</p>
 </div>
 
 {% endblock %}

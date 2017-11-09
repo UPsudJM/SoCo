@@ -1,0 +1,181 @@
+# Translations template for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-11-09 18:14+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.1\n"
+
+#: soco/views.py:51
+msgid "Vous n'avez pas les droits d'accès à cette page"
+msgstr ""
+
+#: soco/views.py:131
+#, python-format
+msgid "Formulaire %d non trouvé"
+msgstr ""
+
+#: soco/views.py:133
+msgid "Les inscriptions pour cet événement ne sont pas encore ouvertes !"
+msgstr ""
+
+#: soco/views.py:135
+msgid "Les inscriptions pour cet événement sont closes !"
+msgstr ""
+
+#: soco/views.py:173 soco/views.py:223
+msgid "Erreur d'intégrité"
+msgstr ""
+
+#: soco/views.py:175
+msgid "Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"
+msgstr ""
+
+#: soco/views.py:177
+msgid ""
+"Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse "
+"électronique !"
+msgstr ""
+
+#: soco/views.py:179
+msgid "Vous êtes déjà inscrit-e à cet événement !"
+msgstr ""
+
+#: soco/views.py:182
+msgid "Votre inscription a bien été effectuée."
+msgstr ""
+
+#: soco/views.py:225
+msgid "Vous avez déjà créé un événement à la même date, avec le même titre !"
+msgstr ""
+
+#: soco/views.py:227
+msgid ""
+"Un formulaire existe déjà pour cet évenement, avec la même date "
+"d'ouverture des inscriptions !"
+msgstr ""
+
+#: soco/views.py:232
+msgid "Votre formulaire a bien été créé."
+msgstr ""
+
+#: soco/views.py:233
+msgid "Voici son URL : <a href=\"\"></a>"
+msgstr ""
+
+#: soco/views.py:316
+msgid ""
+"Erreur dans la génération du document. Le plus souvent, c'est une erreur "
+"d'encodage due à un caractère inhabituel dans un nom propre"
+msgstr ""
+
+#: soco/views.py:363
+msgid "erreur de lecture du PDF"
+msgstr ""
+
+#: soco/templates/404.html:5
+msgid "Page non trouvée"
+msgstr ""
+
+#: soco/templates/404.html:6 soco/templates/end.html:30
+#: soco/templates/erreur.html:7
+msgid "Retour"
+msgstr ""
+
+#: soco/templates/base.html:11
+msgid "Inscription à un événement"
+msgstr ""
+
+#: soco/templates/base.html:23
+msgid "Évenements"
+msgstr ""
+
+#: soco/templates/base.html:24
+msgid "Accueil"
+msgstr ""
+
+#: soco/templates/base.html:34
+msgid "Retour à l'accueil"
+msgstr ""
+
+#: soco/templates/base.html:40
+msgid "Retour à la liste des événements"
+msgstr ""
+
+#: soco/templates/base.html:42 soco/templates/login.html:15
+msgid "Espace réservé"
+msgstr ""
+
+#: soco/templates/confirmation_inscription.html:1
+#: soco/templates/envoi_code_verification.html:1
+msgid "Madame/Monsieur,"
+msgstr ""
+
+#: soco/templates/confirmation_inscription.html:3
+msgid "Nous vous confirmons votre inscription à"
+msgstr ""
+
+#: soco/templates/confirmation_inscription.html:7
+msgid "qui aura lieu le"
+msgstr ""
+
+#: soco/templates/confirmation_inscription.html:11
+#: soco/templates/envoi_code_verification.html:15
+msgid "Cordialement,"
+msgstr ""
+
+#: soco/templates/end.html:12
+msgid "Inscription à "
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:3
+msgid "Nous avons reçu une demande d'inscription à un événement."
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:5
+msgid "Cette demande provient-elle bien de vous ?"
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:7
+msgid "Si ce n'est pas le cas,"
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:7
+msgid "NE RÉPONDEZ PAS À CE MESSAGE"
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:9
+msgid ""
+"Mais s'il s'agit bien de vous, voici le code de vérification qui va vous "
+"permettre de terminer votre inscription :"
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:13
+msgid ""
+"Il vous suffit de le coller sur la page d'inscription, dans la case "
+"prévue à cet effet."
+msgstr ""
+
+#: soco/templates/envoi_code_verification.html:16
+msgid "PS : ceci est un mail automatique"
+msgstr ""
+
+#: soco/templates/erreur.html:5
+msgid "Merci de votre visite"
+msgstr ""
+
+#: soco/templates/login.html:20
+msgid "Envoyer"
+msgstr ""
+

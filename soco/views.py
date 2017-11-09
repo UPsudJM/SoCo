@@ -48,7 +48,7 @@ def required_roles(*roles):
         @wraps(f)
         def wrapped(*args, **kwargs):
             if get_current_user_role() not in roles:
-                flash('Vous n\'avez pas les droits d\'accès à cette page','error')
+                flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
         return wrapped
@@ -128,11 +128,11 @@ def soco(flform):
         logofilename = ""
     if formulaire == None:
         flash('Formulaire %d non trouvé' % flform)
-        return internal_error('Formulaire %d non trouvé' % flform)
+        return internal_error(gettext('Formulaire %d non trouvé') % flform)
     if formulaire.date_ouverture_inscriptions > datetime.date.today():
-        return render_template('erreur.html', msg='Les inscriptions pour cet événement ne sont pas encore ouvertes !')
+        return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
     elif formulaire.date_cloture_inscriptions < datetime.date.today():
-        return render_template('erreur.html', msg='Les inscriptions pour cet événement sont closes !')
+        return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
@@ -170,16 +170,16 @@ def soco(flform):
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash("Erreur d'intégrité", 'erreur')
+            flash(gettext("Erreur d'intégrité"), 'erreur')
             if "uc_porg" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !", 'erreur')
+                flash(gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"), 'erreur')
             if "uc_pers" in str(err.orig):
-                flash("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !", 'erreur')
+                flash(gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !"), 'erreur')
             if "uc_insc" in str(err.orig):
-                flash("Vous êtes déjà inscrit-e à cet événement !", 'erreur')
+                flash(gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
-            flash("Votre inscription a bien été effectuée.")
+            flash(gettext("Votre inscription a bien été effectuée."))
             return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire,
                                evenement=evenement,
@@ -220,17 +220,17 @@ def new():
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash("Erreur d'intégrité", 'erreur') # sur l'événément : titre et date et organisation ?
+            flash(gettext("Erreur d'intégrité"), 'erreur') # sur l'événément : titre et date et organisation ?
             if "uc_even" in str(err.orig):
-                flash("Vous avez déjà créé un événement à la même date, avec le même titre !", 'erreur')
+                flash(gettext("Vous avez déjà créé un événement à la même date, avec le même titre !"), 'erreur')
             if "uc_form" in str(err.orig):
-                flash("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !", 'erreur')
+                flash(gettext("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !"), 'erreur')
         else:
             url_formulaire = request.url_root + url_for('soco', flform=formulaire.id)
             url_parts = url_formulaire . split('//') # enlever les '//' internes
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
-            flash("Votre formulaire a bien été créé.", 'info')
-            flash("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url')
+            flash(gettext("Votre formulaire a bien été créé."), 'info')
+            flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url'))
             return redirect('/suivi')
     return render_template('new.html', form=form, current_user=current_user)
 
@@ -313,7 +313,7 @@ def suivi(evt, action=None):
         try:
             resultat = genere_pdf(texcode)
         except:
-            flash("Erreur dans la génération du document. Le plus souvent, c'est une erreur d'encodage due à un caractère inhabituel dans un nom propre")
+            flash(gettext("Erreur dans la génération du document. Le plus souvent, c'est une erreur d'encodage due à un caractère inhabituel dans un nom propre"))
             return internal_error('Impossible de générer le PDF listepdf pour %d' % evt)
         if type(resultat) != type(""):
             flash(str(resultat))
@@ -360,7 +360,7 @@ def suivi(evt, action=None):
             open(resultat, 'rb').read()
         except IOError as err:
             print("erreur de lecture du PDF %s" % resultat)
-            flash("erreur de lecture du PDF")
+            flash(gettext("erreur de lecture du PDF"))
             return render_template('500.html')
         response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-evt-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
