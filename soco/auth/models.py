@@ -20,11 +20,12 @@
 # coding: utf-8
 
 from sqlalchemy import Column, Integer, String
-from ldap3 import Server, Connection
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from soco import app, Base
+if app.config['USE_LDAP']:
+    from ldap3 import Server, Connection
 
 
 class User(Base):
@@ -45,6 +46,7 @@ class User(Base):
 
     @staticmethod
     def try_login(username, password, with_gecos=True):
+        # FIXME other login methods
         server = Server(app.config['LDAP_PROVIDER_URL'], use_ssl=True)
         conn = Connection(server, app.config['LDAP_USER_PATT'] % username, password)
         try:
