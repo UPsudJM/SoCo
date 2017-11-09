@@ -21,7 +21,8 @@
 
 from flask_wtf import FlaskForm
 from flask import flash
-from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
+from flask_babelex import gettext
+from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField, SelectField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import RecurrenceEnum, Evenement, Formulaire, Personne, Inscription
@@ -126,16 +127,22 @@ class NcollForm(SocoForm):
     lieux = SelectMultipleField('Lieu', coerce=int)
     date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
-    date_cloture_inscriptions = PickaDateField("Date de clôture des inscriptions", objname=objname,
+    date_cloture_inscriptions = PickaDateField(gettext("Date de clôture des inscriptions"), objname=objname,
                                                format='%d/%m/%Y', validators=[DataRequired()])
-    jour_par_jour = BooleanField('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?')
-    champ_restauration_1 = BooleanField("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :", description="Vous pouvez aussi vouloir poser une autre question, le texte est à votre discrétion")
-    texte_restauration_1 = ClickStringField("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription",
-                                            objname=objname, defaultvalue="Serez-vous des nôtres à midi ?",
-                                                description="Le texte de votre question (avec réponse par oui ou par non)",
-                                            clickfunc="")
-    champ_libre_1 = BooleanField("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :")
-    texte_libre_1 = StringField("et précisez le texte de la question :")
+    jour_par_jour = BooleanField(gettext('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?'))
+    champ_restauration_1 = BooleanField(
+        gettext("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :"),
+        description=gettext("Vous pouvez aussi vouloir poser une autre question, le texte est à votre discrétion")
+        )
+    texte_restauration_1 = ClickStringField(
+        gettext("et précisez alors la question que vous souhaitez leur poser sur votre page d'inscription"),
+        objname=objname, defaultvalue=gettext("Serez-vous des nôtres à midi ?"),
+        description=gettext("Le texte de votre question (avec réponse par oui ou par non)"),
+        clickfunc=""
+        )
+    champ_libre_1 = BooleanField(
+        gettext("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :"))
+    texte_libre_1 = StringField(gettext("et précisez le texte de la question :"))
 
     def validate(self):
         if not FlaskForm.validate(self):
@@ -143,11 +150,15 @@ class NcollForm(SocoForm):
         print(self.date_ouverture_inscriptions)
         print(dir(self.date_ouverture_inscriptions))
         if self.date_ouverture_inscriptions.data > self.date_cloture_inscriptions.data:
-            self.date_ouverture_inscriptions.errors.append("La date d'ouverture ne peut pas être antérieur à la date de clôture")
+            self.date_ouverture_inscriptions.errors.append(
+                gettext("La date d'ouverture ne peut pas être antérieur à la date de clôture")
+                )
             return False
         if (self.date_fin.data and self.date_cloture_inscriptions.data > self.date_fin.data) \
           or (not self.date_fin.data and self.date_cloture_inscriptions.data > self.date.data):
-            self.date_ouverture_inscriptions.errors.append("La date de clôture ne peut pas être postérieure à la date de l'événement")
+            self.date_ouverture_inscriptions.errors.append(
+                gettext("La date de clôture ne peut pas être postérieure à la date de l'événement")
+                )
             return False
         auj = datetime.date.today()
         if not self.date_ouverture_inscriptions.data or self.date_ouverture_inscriptions.data < auj:
@@ -156,25 +167,38 @@ class NcollForm(SocoForm):
 
 
 class InscriptionForm(SocoForm):
-    nom = StringField('Nom', validators=[DataRequired(), Length(min=2, max=30)])
-    prenom = StringField('Prénom', validators=[Optional(), Length(min=2, max=30)], description="Attention, pour le badge : prénom + nom = 26 caractères max.")
-    email = StringField('Adresse électronique', validators=[DataRequired(), Email(), Length(min=0, max=70)])
-    telephone = StringField('Téléphone', validators=[Optional(), Length(min=0, max=20)])
-    organisation = StringField('Organisation', validators=[DataRequired(), Length(min=0, max=40)], description="Attention, pour le badge : fonction + organisation = 32 caractères max.")
-    fonction = StringField('Fonction', validators=[Optional(), Length(min=0, max=40)])
+    nom = StringField(gettext('Nom'), validators=[DataRequired(), Length(min=2, max=30)])
+    prenom = StringField(
+        gettext('Prénom'),
+        validators=[Optional(), Length(min=2, max=30)],
+        description=gettext("Attention, pour le badge : prénom + nom = 26 caractères max.")
+        )
+    email = StringField(gettext('Adresse électronique'), validators=[DataRequired(), Email(), Length(min=0, max=70)])
+    telephone = StringField(gettext('Téléphone'), validators=[Optional(), Length(min=0, max=20)])
+    organisation = StringField(
+        gettext('Organisation'),
+        validators=[DataRequired(), Length(min=0, max=40)],
+        description=gettext("Attention, pour le badge : fonction + organisation = 32 caractères max.")
+        )
+    fonction = StringField(gettext('Fonction'), validators=[Optional(), Length(min=0, max=40)])
     if app.config['AVEC_ETIQUETTES']:
-        badge1 = StringField('Badge1', validators=[DataRequired(), Length(min=1, max=27)])
-        badge2 = StringField('Badge2', validators=[DataRequired(), Length(min=1, max=33)])
+        badge1 = StringField(gettext('Badge1'), validators=[DataRequired(), Length(min=1, max=27)])
+        badge2 = StringField(gettext('Badge2'), validators=[DataRequired(), Length(min=1, max=33)])
     else:
-        badge1 = StringField('Badge1', validators=[])
-        badge2 = StringField('Badge2', validators=[])
-    attestation_demandee = BooleanField('Cochez cette case si vous désirez une attestation de présence&nbsp;:')
+        badge1 = StringField(gettext('Badge1'), validators=[])
+        badge2 = StringField(gettext('Badge2'), validators=[])
+    attestation_demandee = BooleanField(gettext('Cochez cette case si vous désirez une attestation de présence&nbsp;:'))
     jours_de_presence =  [] #StringField('Jours de présence', validators=[DataRequired()],
-    type_inscription = RadioField('Type d\'inscription', choices=[("presence","Vous assisterez au colloque"), ("interet","Vous n'assisterez pas au colloque, mais souhaitez établir un contact pour recevoir de l'information sur le sujet")])
-    inscription_repas_1 = BooleanField('Repas 1')
-    inscription_repas_2 = BooleanField('Repas 2')
-    reponse_question_1 = StringField('Libre1')
-    reponse_question_2 = StringField('Libre2')
+    type_inscription = RadioField(
+        'Type d\'inscription',
+        choices=[
+            ("presence", gettext("Vous assisterez à l'évenement")),
+            ("interet", gettext("Vous n'assisterez pas à l'évenement, mais souhaitez établir un contact pour recevoir de l'information sur le sujet"))
+            ])
+    inscription_repas_1 = BooleanField(gettext('Repas 1'))
+    inscription_repas_2 = BooleanField(gettext('Repas 2'))
+    reponse_question_1 = StringField(gettext('Libre1'))
+    reponse_question_2 = StringField(gettext('Libre2'))
 
     def __init__(self, formulaire, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)

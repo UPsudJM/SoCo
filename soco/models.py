@@ -81,7 +81,7 @@ class Organisation(Base):
     logo = Column(String(200))
     url = Column(String(200))
     personnes = relationship("Personne", secondary=personne_organisation)
-    lieus = relationship("Lieu", secondary=lieu_organisation)
+    lieux = relationship("Lieu", secondary=lieu_organisation)
 
     def __init__(self, **kwargs):
         Base.__init__(self)
@@ -126,6 +126,7 @@ class Evenement(Base):
     sstitre = Column(String(200))
     date = Column(Date)
     date_fin = Column(Date)
+    id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
     recurrence = Column('recurrence', Enum(RecurrenceEnum))
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
@@ -171,6 +172,7 @@ class Evenement(Base):
         return ret
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
+Lieu.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="lieu")
 
 
 class Formulaire(Base):

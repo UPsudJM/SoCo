@@ -21,7 +21,6 @@
 
 from flask import Flask
 from flask_babelex import Babel
-from flask_login import LoginManager
 from flask_restful import Api
 from datetime import timedelta
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOG_FILE
@@ -33,10 +32,12 @@ babel = Babel(app)
 api = Api(app)
 app.secret_key = SECRET_KEY
 
+from jinja2 import Environment
 jinja_env = Environment(extensions=['jinja2.ext.i18n'])
-translations = get_gettext_translations()
-jinja_env.install_gettext_translations(translations)
+#translations = jinja_env.get_gettext_translations()
+#jinja_env.install_gettext_translations(translations)
 
+from flask_login import LoginManager
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'auth.login'

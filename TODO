@@ -1,6 +1,7 @@
 at renommage en 'SoCo'
 at réécrire les appels à la config
 ok mettre le nom de l'institution dans la config (pour mettre dans les mails et sur l'interface)
+ec traduction de l'interface
 
 ok procédure d'installation
 ok installation en production
@@ -14,7 +15,7 @@ ok essayer avec Postgresql
   ec toujours avec SQLAlchemy-Migrate
   ** mais comment exporter les migrations en SQL ?
 
-ok modèle
+ok modèle de données
   ok revoir la relation entre Inscription et Personne
 
 ok amélioration formulaires CRUD
