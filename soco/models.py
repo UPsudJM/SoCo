@@ -19,8 +19,8 @@
 """
 # coding: utf-8
 
-import datetime
-from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, UniqueConstraint
+import datetime, enum
+from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, Enum, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
@@ -87,6 +87,13 @@ class Organisation(Base):
         return self.nom
 
 
+class RecurrenceEnum(enum.Enum):
+    quotidien = "quotidien"
+    hebdomadaire = "hebdomadaire"
+    mensuel = "mensuel"
+    annuel = "annuel"
+
+
 class Evenement(Base):
     __tablename__ = 'evenement'
     __table_args__ = (UniqueConstraint('uid_organisateur', 'date', 'titre', name='uc_even'),)
@@ -95,6 +102,7 @@ class Evenement(Base):
     sstitre = Column(String(200))
     date = Column(Date)
     date_fin = Column(Date)
+    recurrence = Column('recurrence', Enum(RecurrenceEnum))
     lieu = Column(String(400)) #, default="Faculté Jean Monnet, Salle Vedel, Université Paris Sud/Paris-Saclay")
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
