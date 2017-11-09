@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-09 18:14+0100\n"
+"POT-Creation-Date: 2017-11-09 19:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,71 +17,183 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: soco/views.py:51
+#: soco/forms.py:120
+msgid "Titre"
+msgstr ""
+
+#: soco/forms.py:121
+msgid "Sous-titre"
+msgstr ""
+
+#: soco/forms.py:122
+msgid "Date"
+msgstr ""
+
+#: soco/forms.py:123
+msgid "Date de fin"
+msgstr ""
+
+#: soco/forms.py:124
+msgid "Récurrence"
+msgstr ""
+
+#: soco/forms.py:125
+msgid "Lieu"
+msgstr ""
+
+#: soco/forms.py:126
+msgid "Date d'ouverture des inscriptions"
+msgstr ""
+
+#: soco/forms.py:128
+msgid "Date de clôture des inscriptions"
+msgstr ""
+
+#: soco/forms.py:130
+msgid "Voulez-vous que l'inscription se fasse jour par jour&nbsp;?"
+msgstr ""
+
+#: soco/forms.py:132
+msgid ""
+"Organisez-vous un repas/cocktail auquel vous voulez inviter les "
+"participants ? Si oui, cochez la case :"
+msgstr ""
+
+#: soco/forms.py:133
+msgid ""
+"Vous pouvez aussi vouloir poser une autre question, le texte est à votre "
+"discrétion"
+msgstr ""
+
+#: soco/forms.py:136
+msgid ""
+"et précisez alors la question que vous souhaitez leur poser sur votre "
+"page d'inscription"
+msgstr ""
+
+#: soco/forms.py:137
+msgid "Serez-vous des nôtres à midi ?"
+msgstr ""
+
+#: soco/forms.py:138
+msgid "Le texte de votre question (avec réponse par oui ou par non)"
+msgstr ""
+
+#: soco/forms.py:142
+msgid ""
+"Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si"
+" oui, cochez la case :"
+msgstr ""
+
+#: soco/forms.py:143
+msgid "et précisez le texte de la question :"
+msgstr ""
+
+#: soco/forms.py:152
+msgid "La date d'ouverture ne peut pas être antérieur à la date de clôture"
+msgstr ""
+
+#: soco/forms.py:158
+msgid "La date de clôture ne peut pas être postérieure à la date de l'événement"
+msgstr ""
+
+#: soco/forms.py:168
+msgid "Nom"
+msgstr ""
+
+#: soco/forms.py:170
+msgid "Prénom"
+msgstr ""
+
+#: soco/forms.py:172
+msgid "Attention, pour le badge : prénom + nom = 26 caractères max."
+msgstr ""
+
+#: soco/forms.py:174
+msgid "Adresse électronique"
+msgstr ""
+
+#: soco/forms.py:175
+msgid "Téléphone"
+msgstr ""
+
+#: soco/forms.py:177
+msgid "Organisation"
+msgstr ""
+
+#: soco/forms.py:179
+msgid "Attention, pour le badge : fonction + organisation = 32 caractères max."
+msgstr ""
+
+#: soco/forms.py:181
+msgid "Fonction"
+msgstr ""
+
+#: soco/forms.py:183 soco/forms.py:186
+msgid "Badge1"
+msgstr ""
+
+#: soco/forms.py:184 soco/forms.py:187
+msgid "Badge2"
+msgstr ""
+
+#: soco/forms.py:188
+msgid "Cochez cette case si vous désirez une attestation de présence&nbsp;:"
+msgstr ""
+
+#: soco/forms.py:193
+msgid "Vous assisterez à l'évenement"
+msgstr ""
+
+#: soco/forms.py:194
+msgid ""
+"Vous n'assisterez pas à l'évenement, mais souhaitez établir un contact "
+"pour recevoir de l'information sur le sujet"
+msgstr ""
+
+#: soco/forms.py:196
+msgid "Repas 1"
+msgstr ""
+
+#: soco/forms.py:197
+msgid "Repas 2"
+msgstr ""
+
+#: soco/forms.py:198
+msgid "Libre1"
+msgstr ""
+
+#: soco/forms.py:199
+msgid "Libre2"
+msgstr ""
+
+#: soco/views.py:52
 msgid "Vous n'avez pas les droits d'accès à cette page"
 msgstr ""
 
-#: soco/views.py:131
+#: soco/views.py:132
 #, python-format
 msgid "Formulaire %d non trouvé"
 msgstr ""
 
-#: soco/views.py:133
+#: soco/views.py:134
 msgid "Les inscriptions pour cet événement ne sont pas encore ouvertes !"
 msgstr ""
 
-#: soco/views.py:135
+#: soco/views.py:136
 msgid "Les inscriptions pour cet événement sont closes !"
 msgstr ""
 
-#: soco/views.py:173 soco/views.py:223
-msgid "Erreur d'intégrité"
-msgstr ""
-
-#: soco/views.py:175
-msgid "Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"
-msgstr ""
-
-#: soco/views.py:177
-msgid ""
-"Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse "
-"électronique !"
-msgstr ""
-
-#: soco/views.py:179
-msgid "Vous êtes déjà inscrit-e à cet événement !"
-msgstr ""
-
-#: soco/views.py:182
+#: soco/views.py:183
 msgid "Votre inscription a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:225
-msgid "Vous avez déjà créé un événement à la même date, avec le même titre !"
-msgstr ""
-
-#: soco/views.py:227
-msgid ""
-"Un formulaire existe déjà pour cet évenement, avec la même date "
-"d'ouverture des inscriptions !"
-msgstr ""
-
-#: soco/views.py:232
+#: soco/views.py:233
 msgid "Votre formulaire a bien été créé."
 msgstr ""
 
-#: soco/views.py:233
+#: soco/views.py:234
 msgid "Voici son URL : <a href=\"\"></a>"
-msgstr ""
-
-#: soco/views.py:316
-msgid ""
-"Erreur dans la génération du document. Le plus souvent, c'est une erreur "
-"d'encodage due à un caractère inhabituel dans un nom propre"
-msgstr ""
-
-#: soco/views.py:363
-msgid "erreur de lecture du PDF"
 msgstr ""
 
 #: soco/templates/404.html:5
