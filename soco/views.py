@@ -28,6 +28,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
+from flask.ext.babelex import gettext, lazy_gettext
 from soco import app, babel, db_session, lm
 from wtforms.validators import DataRequired
 from functools import wraps
@@ -170,13 +171,13 @@ def soco(flform):
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash(gettext("Erreur d'intégrité"), 'erreur')
+            flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
             if "uc_porg" in str(err.orig):
-                flash(gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"), 'erreur')
+                flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"), 'erreur')
             if "uc_pers" in str(err.orig):
-                flash(gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !"), 'erreur')
+                flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !"), 'erreur')
             if "uc_insc" in str(err.orig):
-                flash(gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
+                flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash(gettext("Votre inscription a bien été effectuée."))
@@ -224,11 +225,11 @@ def new():
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash(gettext("Erreur d'intégrité"), 'erreur') # sur l'événément : titre et date et organisation ?
+            flash(lazy_gettext("Erreur d'intégrité"), 'erreur') # sur l'événément : titre et date et organisation ?
             if "uc_even" in str(err.orig):
-                flash(gettext("Vous avez déjà créé un événement à la même date, avec le même titre !"), 'erreur')
+                flash(lazy_gettext("Vous avez déjà créé un événement à la même date, avec le même titre !"), 'erreur')
             if "uc_form" in str(err.orig):
-                flash(gettext("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !"), 'erreur')
+                flash(lazy_gettext("Un formulaire existe déjà pour cet évenement, avec la même date d'ouverture des inscriptions !"), 'erreur')
         else:
             url_formulaire = request.url_root + url_for('soco', flform=formulaire.id)
             url_parts = url_formulaire . split('//') # enlever les '//' internes
@@ -317,7 +318,7 @@ def suivi(evt, action=None):
         try:
             resultat = genere_pdf(texcode)
         except:
-            flash(gettext("Erreur dans la génération du document. Le plus souvent, c'est une erreur d'encodage due à un caractère inhabituel dans un nom propre"))
+            flash(lazy_gettext("Erreur dans la génération du document. Le plus souvent, c'est une erreur d'encodage due à un caractère inhabituel dans un nom propre"))
             return internal_error('Impossible de générer le PDF listepdf pour %d' % evt)
         if type(resultat) != type(""):
             flash(str(resultat))
@@ -364,7 +365,7 @@ def suivi(evt, action=None):
             open(resultat, 'rb').read()
         except IOError as err:
             print("erreur de lecture du PDF %s" % resultat)
-            flash(gettext("erreur de lecture du PDF"))
+            flash(lazy_gettext("erreur de lecture du PDF"))
             return render_template('500.html')
         response = make_response(send_file(resultat, as_attachment=True, attachment_filename="etiquettes-evt-%d-%s.pdf" % (
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))

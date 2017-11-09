@@ -33,6 +33,10 @@ babel = Babel(app)
 api = Api(app)
 app.secret_key = SECRET_KEY
 
+jinja_env = Environment(extensions=['jinja2.ext.i18n'])
+translations = get_gettext_translations()
+jinja_env.install_gettext_translations(translations)
+
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'auth.login'
