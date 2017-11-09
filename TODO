@@ -1,7 +1,7 @@
 at renommage en 'SoCo'
 at réécrire les appels à la config
 ok mettre le nom de l'institution dans la config (pour mettre dans les mails et sur l'interface)
-ec traduction de l'interface
+at traduction de l'interface
 
 ok procédure d'installation
 ok installation en production
@@ -128,8 +128,8 @@ ec ajout nb d'inscrits max avec envoi de mails
   * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
 * ajouts pour élargir l'utilisation
-  ec renommage de colloque en event
-  ** paramétrisation des titres et autres dans les templates
+  at renommage de colloque en event
+  at paramétrisation des titres et autres dans les templates
   ec ajout récurrence d'un événement
   ** ajout vue planning
 
