@@ -60,7 +60,7 @@ def get_current_user_role():
 @app.context_processor
 def parametres_institution():
     return dict(nom_institution = app.config["INSTITUTION_PPALE"],
-                salle_par_default = app.config["SALLE_PPALE"],
+                lieu_par_default = app.config["LIEU_PPALE"],
                 email_orga = app.config['EMAIL_ORGA'],
                 email_site = app.config['EMAIL_SITE'],
                 signature_emails = app.config['SIGNATURE_EMAILS'])
@@ -421,7 +421,7 @@ class EvenementView(SocoModelView):
     column_descriptions = dict(
         titre='Titre de l\'événement',
         sstitre='Sous-titre de l\'événement',
-        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['SALLE_PPALE'],
+        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['LIEU_PPALE'],
         uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
         gratuite = 'L\'entrée est-elle libre ?'
         )
@@ -472,13 +472,24 @@ class OrganisationView(SocoModelView):
         'nom': {'label' : 'Nom de l\'organisation'},
         'interne' : {'label': 'Est-ce une organisation interne, susceptible d\'organiser des événements ?'},
         'email': {'label' : 'Adresse mail de contact'},
-        'evenement' : {'label' : 'Événements'}
+        'lieu' : {'label' : 'Lieux utilisés'},
+        'evenement' : {'label' : 'Événements programmés'}
         }
     form_overrides = dict(logo=LogoField)
     #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
     form_ajax_refs = {
-        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
         'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
+        'lieu': QueryAjaxModelLoader('lieu', db_session, Lieu, fields=['nom'], page_size=10),
+        'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
+        }
+
+
+class LieuView(SocoModelView):
+    can_export = True
+    form_args = {
+        'nom': {'label' : 'Nom de la lieu'},
+        'adresse' : {'label': 'Pour éviter toute ambiguïté, vous pouvez préciser l\'adresse'},
+        'capacite': {'label' : 'Capacité de la lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'}
         }
 
 
@@ -506,8 +517,9 @@ class InscriptionView(SocoModelView):
 
 
 admin = Admin(app, name=app.config['NOM_INTERFACE_ADMIN'], template_mode='bootstrap3')
+admin.add_view(OrganisationView(Organisation, db_session))
+admin.add_view(LieuView(Lieu, db_session))
 admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
-admin.add_view(OrganisationView(Organisation, db_session))
 admin.add_view(PersonneView(Personne, db_session))
 admin.add_view(InscriptionView(Inscription, db_session))

@@ -121,13 +121,15 @@ ec ajout interface pour les intervants
   ** ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
   ** déj pour les intervenants : tous les repas
 
-* ajouts pour la communication
-  ** nb d'inscrit max avec envoi de mails
+ec ajout nb d'inscrits max avec envoi de mails
+  at ajout classe Lieu
+  at relations avec objets Organisation et Evenement
+  * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
 * ajouts pour élargir l'utilisation
   ec renommage de colloque en event
   ** paramétrisation des titres et autres dans les templates
-  ** ajout récurrence d'un événement
+  ec ajout récurrence d'un événement
   ** ajout vue planning
 
 * voir le formulaire que je crée

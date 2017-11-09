@@ -32,6 +32,11 @@ personne_organisation = Table('personne_organisation', Base.metadata,
                                   Column('id_personne', Integer, ForeignKey('personne.id')),
                                   Column('id_organisation', Integer, ForeignKey('organisation.id'))
                                   )
+lieu_organisation = Table('lieu_organisation', Base.metadata,
+                                  Column('id_lieu', Integer, ForeignKey('lieu.id')),
+                                  Column('id_organisation', Integer, ForeignKey('organisation.id'))
+                                  )
+
 class Personne(Base):
     __tablename__ = 'personne'
     __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'),)
@@ -76,10 +81,29 @@ class Organisation(Base):
     logo = Column(String(200))
     url = Column(String(200))
     personnes = relationship("Personne", secondary=personne_organisation)
+    lieus = relationship("Lieu", secondary=lieu_organisation)
 
     def __init__(self, **kwargs):
         Base.__init__(self)
         for attrname in ['nom', 'interne', 'email']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
+    def __str__(self):
+        return self.nom
+
+
+class Lieu(Base):
+    __tablename__ = 'lieu'
+    __table_args__ = (UniqueConstraint('nom', 'adresse', name='uc_lieu'),)
+    id = Column(Integer, primary_key = True)
+    nom = Column(String(20))
+    adresse = Column(String(200))
+    capacite = Column(Integer)
+
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['nom', 'adresse', 'capacite']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
@@ -103,7 +127,6 @@ class Evenement(Base):
     date = Column(Date)
     date_fin = Column(Date)
     recurrence = Column('recurrence', Enum(RecurrenceEnum))
-    lieu = Column(String(400)) #, default="Faculté Jean Monnet, Salle Vedel, Université Paris Sud/Paris-Saclay")
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
     uid_organisateur = Column(String(100))
@@ -114,6 +137,7 @@ class Evenement(Base):
     #upd = Column(DateTime)
 
     entite_organisatrice = relationship("Organisation", back_populates="evenement")
+    lieu = relationship("Lieu", back_populates="evenement")
 
     def __init__(self, **kwargs):
         Base.__init__(self)
