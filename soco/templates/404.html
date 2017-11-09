@@ -2,6 +2,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Page non trouvée</h1>
-<p><a href="{{ url_for('index') }}">Retour</a></p>
+<h1>{{ gettext('Page non trouvée') }}</h1>
+<p><a href="{{ url_for('index') }}">{{ gettext('Retour') }}</a></p>
 {% endblock %}

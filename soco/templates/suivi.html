@@ -8,21 +8,21 @@
 <hr/>
 
 <table id="onglets"><tr>
-  <td><a href="{{ url_for('suivi', evt=evenement.id) }}">voir les inscrits</a></td>
-  <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>voir les inscrits (feuille de tableur)</a></td>
-  {% if not current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>liste à imprimer</a></td>{% endif %}
-  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>feuille d'émargement</a></td>
-  <td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">envoi groupé</a></td>
-  {% if avec_etiquettes %}<td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>étiquettes à imprimer</a></td>{% endif %}{% endif %}
+  <td><a href="{{ url_for('suivi', evt=evenement.id) }}">{{ gettext('voir les inscrits') }}</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='csv') }}" download>{{ gettext('voir les inscrits (feuille de tableur)') }}</a></td>
+  {% if not current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='listepdf') }}" download>{{ gettext('liste à imprimer') }}</a></td>{% endif %}
+  {% if current_user.is_admin %}<td><a href="{{url_for('suivi', evt=evenement.id, action='emargement') }}" download>{{ gettext('feuille d'émargement') }}</a></td>
+  <td><a href="{{url_for('suivi', evt=evenement.id, action='mails') }}">{{ gettext('envoi groupé') }}</a></td>
+  {% if avec_etiquettes %}<td><a href="{{url_for('suivi', evt=evenement.id, action='badges') }}" download>{{ gettext('étiquettes à imprimer') }}</a></td>{% endif %}{% endif %}
 </tr></table>
 
-<table><caption>Liste des inscrits</caption>
+<table><caption>{{ gettext('Liste des inscrits') }}</caption>
 <tr>
-  <th>Nom</th>
-  <th>Prénom</th>
-  <th>Email</th>
-  <th>Téléphone</th>
-  <th>Attestation</th>
+  <th>{{ gettext('Nom') }}</th>
+  <th>{{ gettext('Prénom') }}</th>
+  <th>{{ gettext('Email</th>
+  <th>{{ gettext('Téléphone') }}</th>
+  <th>{{ gettext('Attestation') }}</th>
   {% if repas_1_existant %}<th>{{ texte_repas_1 }}</th>{% endif %}
   {% if repas_2_existant %}<th>{{ texte_repas_2 }}</th>{% endif %}
 </tr>

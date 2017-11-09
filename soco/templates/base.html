@@ -8,7 +8,7 @@
     {% if title %}
     <title>{{ title }} - {{ nom_institution }}</title>
     {% else %}
-    <title>{{ nom_institution }} - Inscription à un événement</title>
+    <title>{{ nom_institution }} - {{ gettext('Inscription à un événement') }}</title>
     {% endif %}
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
     {% block CSS %}{% endblock %}
@@ -20,8 +20,8 @@
     {% block javascript %}{% endblock %}
  </head>
   <body>
-    <div>Évenements
-      <a href="{{ url_for('index') }}">Accueil</a>
+    <div>{{ gettext('Évenements') }}
+      <a href="{{ url_for('index') }}">{{ gettext('Accueil') }}</a>
     </div>
     <hr>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -31,15 +31,15 @@
       <li class="{{ category }}">{% if category=='url' %}{{ message | safe}}{% else %}{{ message }}{% endif %}</li>
       {% endfor %}
     </ul>
-    <p><a href="{{ url_for('index') }}">Retour à l'accueil</a></p>
+    <p><a href="{{ url_for('index') }}">{{ gettext('Retour à l\'accueil') }}</a></p>
     {% endif %}
     {% endwith %}
     <div id="main">
 {% if current_user.is_authenticated %}
 <p>Vous êtes <code>{% if g.gecos %}{{ g.gecos }}{% else %}{{ current_user.username }}{% endif %}</code> <a href="{{ url_for('auth.logout') }}"><em>Sortir de l'espace réservé</em></a></p>
-{% if 1%}<p><a href="{{ url_for('suivi_index') }}">Retour à la liste des événements</a></p>{% endif %}
+{% if 1%}<p><a href="{{ url_for('suivi_index') }}">{{ gettext('Retour à la liste des événements') }}</a></p>{% endif %}
 {% else %}
-<p><a href="{{ url_for('auth.login') }}">Espace réservé</a></p>
+<p><a href="{{ url_for('auth.login') }}">{{ gettext('Espace réservé') }}</a></p>
 {% endif %}
 
       {% block content %}{% endblock %}

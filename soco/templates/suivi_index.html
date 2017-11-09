@@ -15,32 +15,32 @@
 <section ng-controller="suiviCtrl">
 <p>[[ auj | date : 'medium' ]]</p>
 
-<h1>Liste des formulaires</h1>
+<h1>{{ gettext('Liste des formulaires') }}</h1>
 
 <hr/>
 <ul class="index_events">
   {% for e in evenements %}
   <li><a href="{{ url_for('suivi', evt=e.id) }}">{{ e.titre }} &mdash; {{ e.date | datefr }}</a> &mdash; {{ nb_inscrits[e.id] }} inscription{% if nb_inscrits[e.id] > 1 %}s{% endif %}
   {% if e.formulaire %}<ul>{% for f in e.formulaire %}
-  <li>Formulaire {% if loop.length > 1 %}#{{ f.id }}{% endif %}
-  {% if today < f.date_ouverture_inscriptions %} ouvert du {{ f.date_ouverture_inscriptions | datefr }} au {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>modifier ce formulaire</em></a>
-  {% elif today <= f.date_cloture_inscriptions %} <strong>ouvert</strong> jusqu'au <span ng-show="evenements.maj_date_cloture_{{f.id}}">[[ evenements.maj_date_cloture_{{f.id}} ]]</span><span ng-hide="evenements.maj_date_cloture_{{f.id}}">{{ f.date_cloture_inscriptions}} {{ f.date_cloture_inscriptions | datefr }}</span> <input ng-show="!date_modif_{{f.id}}" type="button" ng-click="showmodifdatecloture({{f.id}})" value="modifier la date de clôture" /> <span ng-show="date_modif_{{f.id}}"><input type="text" size="10" name="date_cloture_inscriptions_{{f.id}}" ng-model="evenements.date_cloture_inscriptions_{{f.id}}" pickadate format="dd/mm/yyyy" week-starts-on="1" default-date="default_date_{{f.id}}" ng-init="definedefaultdate({{f.id}},'{{f.date_cloture_inscriptions}}')" /><input type="button" value="Modifier" ng-click="modifdatecloture({{f.id}})" /></span>
-  {% else %}<strong>inscriptions terminées</strong> <a href=""><em>prolonger</em></a>
+  <li>{{ gettext('Formulaire') }} {% if loop.length > 1 %}#{{ f.id }}{% endif %}
+  {% if today < f.date_ouverture_inscriptions %} {{ gettext('ouvert du') }} {{ f.date_ouverture_inscriptions | datefr }} {{ gettext('au') }} {{ f.date_cloture_inscriptions | datefr }} <a href=""><em>{{ gettext('modifier ce formulaire') }}</em></a>
+  {% elif today <= f.date_cloture_inscriptions %} <strong>{{ gettext('ouvert') }}</strong> {{ gettext('jusqu\'au') }} <span ng-show="evenements.maj_date_cloture_{{f.id}}">[[ evenements.maj_date_cloture_{{f.id}} ]]</span><span ng-hide="evenements.maj_date_cloture_{{f.id}}">{{ f.date_cloture_inscriptions}} {{ f.date_cloture_inscriptions | datefr }}</span> <input ng-show="!date_modif_{{f.id}}" type="button" ng-click="showmodifdatecloture({{f.id}})" value="{{ gettext('modifier la date de clôture') }}" /> <span ng-show="date_modif_{{f.id}}"><input type="text" size="10" name="date_cloture_inscriptions_{{f.id}}" ng-model="evenements.date_cloture_inscriptions_{{f.id}}" pickadate format="dd/mm/yyyy" week-starts-on="1" default-date="default_date_{{f.id}}" ng-init="definedefaultdate({{f.id}},'{{f.date_cloture_inscriptions}}')" /><input type="button" value="{{ gettext('Modifier') }}" ng-click="modifdatecloture({{f.id}})" /></span>
+  {% else %}<strong>{{ gettext('inscriptions terminées') }}</strong> <a href=""><em>{{ gettext('prolonger') }}</em></a>
   {% endif %}</li>
   {% endfor %}</ul>{% endif %}
-  <table><tr><td><a href="{{ url_for('suivi', evt=e.id) }}">voir les inscrits</td><td><a href="{{url_for('suivi', evt=e.id, action='listepdf') }}" download>liste à imprimer</a></td></tr></table>
+  <table><tr><td><a href="{{ url_for('suivi', evt=e.id) }}">{{ gettext('voir les inscrits') }}</td><td><a href="{{url_for('suivi', evt=e.id, action='listepdf') }}" download>{{ gettext('liste à imprimer') }}</a></td></tr></table>
   </li>
 {% endfor %}
 </ul>
 
 </section>
 
-<p>Pour créer une nouvelle page d'inscription &nbsp;: <a href="/suivi/new"><em>Créer un formulaire d'inscription</em></a></p>
+<p>{{ gettext('Pour créer une nouvelle page d\'inscription' }} &nbsp;: <a href="/suivi/new"><em>{{ gettext('Créer un formulaire d\'inscription') }}</em></a></p>
 
 
 <div class="footnotes">
-<p>Contact pour l'inscription&nbsp;: {{ email_orga }}</p>
-<p>Contact pour ce site&nbsp;: {{ email_site }}</p>
+<p>{{ gettext('Contact pour l\'inscription&nbsp;:') }} {{ email_orga }}</p>
+<p>{{ gettext('Contact pour ce site&nbsp;:') }} {{ email_site }}</p>
 </div>
 
 {% endblock %}

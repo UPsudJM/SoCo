@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Merci de votre visite</h1>
+<h1>{{ gettext('Merci de votre visite') }}</h1>
 <p>{{ msg }}</p>
-<p><a href="{{ url_for('index') }}">Retour</a></p>
+<p><a href="{{ url_for('index') }}">{{ gettext('Retour') }}</a></p>
 {% endblock %}

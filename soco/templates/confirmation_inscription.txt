@@ -1,13 +1,13 @@
-Madame/Monsieur,
+{{ gettext('Madame/Monsieur,') }}
 
-Nous vous confirmons votre inscription à
+{{ gettext('Nous vous confirmons votre inscription à') }}
 
    {{ evenement.titre }}
 
-qui aura lieu le {{ evenement.date | datefr("d MMMM YYYY") }}
+{{ gettext('qui aura lieu le') }} {{ evenement.date | datefr("d MMMM YYYY") }}
 
 {% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}
 
-Cordialement,
+{{ gettext('Cordialement,') }}
 --
 {{ signature_emails }}
