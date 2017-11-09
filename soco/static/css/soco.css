@@ -58,7 +58,7 @@ INPUT {
 /* INPUT.ng-invalid.ng-touched { background-color: #FA787E; }
 INPUT.ng-valid.ng-touched { background-color: #78FA89; } */
 
-UL.index_colloques > LI {
+UL.index_events > LI {
     margin: 20px 10px;
 }
 
