@@ -3,10 +3,11 @@ at réécrire les appels à la config
 ok mettre le nom de l'institution dans la config (pour mettre dans les mails et sur l'interface)
 
 ok procédure d'installation
-ec installation en production
-  ec configuration PostGreSQL
+ok installation en production
+  ok configuration PostGreSQL
   ok intégrer avec Apache
   ok intégrer TLS et tester
+* jeux de données d'initialisation
 
 ok essayer avec Postgresql
 * nouveau script de migration
@@ -102,6 +103,7 @@ ec interface de gestion (du formulaire) plus diversifiée
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login
+  * autres méthodes d'authentification
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
@@ -110,7 +112,7 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-ec interface pour les intervants
+ec ajout interface pour les intervants
   ** transports : horaires de trains ou avions (arrivée et départ et gare ou
    aéroport)
   ** prise de billets à la fac (pas le choix) -> configuration logicielle pour
@@ -121,6 +123,12 @@ ec interface pour les intervants
 
 * ajouts pour la communication
   ** nb d'inscrit max avec envoi de mails
+
+* ajouts pour élargir l'utilisation
+  ec renommage de colloque en event
+  ** paramétrisation des titres et autres dans les templates
+  ** ajout récurrence d'un événement
+  ** ajout vue planning
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise

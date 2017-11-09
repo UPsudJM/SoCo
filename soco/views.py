@@ -433,6 +433,7 @@ class EvenementView(SocoModelView):
         'sstitre': {'label': 'Sous-titre'},
         'date': {'label': 'Date', 'validators': [DataRequired()]},
         'date_fin': {'label': 'Date de fin (si nécessaire)'},
+        'recurrence': {'label': 'Récurrence (s\'il y a lieu)'},
         'logo' : {'label': 'Logo (s\'il est différent de celui de l\'entité organisatrice)'},
         'url' : {'label': 'Lien vers la page de l\'événement'},
         'resume' : {'label': 'Résumé'},

@@ -24,7 +24,7 @@ from flask import flash
 from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
-from soco.models import Evenement, Formulaire, Personne, Inscription
+from soco.models import RecurrenceEnum, Evenement, Formulaire, Personne, Inscription
 from soco import app
 import datetime
 
@@ -122,6 +122,7 @@ class NcollForm(SocoForm):
     sstitre = StringField('Sous-titre')
     date = PickaDateField('Date', objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
     date_fin = PickaDateField('Date de fin', objname=objname, format='%d/%m/%Y', description="Seulement dans le cas où l'événement dure plusieurs jours")
+    recurrence = RadioField('Récurrence', default = 'Aucune', choices = [e.value for e in RecurrenceEnum])
     lieu = StringField('Lieu', description="Vous pouvez laisser ce champ vide si c'est %s" % app.config['SALLE_PPALE'])
     date_ouverture_inscriptions = PickaDateField("Date d'ouverture des inscriptions", objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
