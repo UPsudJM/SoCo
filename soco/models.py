@@ -39,11 +39,12 @@ lieu_organisation = Table('lieu_organisation', Base.metadata,
 
 class Personne(Base):
     __tablename__ = 'personne'
-    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'),)
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'), UniqueConstraint('token', name='uc_tok'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
     email = Column(String(70))
+    token = Column(String(200))
     organisations = relationship("Organisation", secondary=personne_organisation)
 
     def __init__(self, **kwargs):
