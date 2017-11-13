@@ -104,7 +104,7 @@ ec interface de gestion (du formulaire) plus diversifiée
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login
-  * autres méthodes d'authentification
+  ec autres méthodes d'authentification
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)
@@ -127,15 +127,15 @@ ec ajout nb d'inscrits max avec envoi de mails
   at relations avec objets Organisation et Evenement
   * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
-* ajouts pour élargir l'utilisation
+ec ajouts pour élargir l'utilisation
   at renommage de colloque en event
   at paramétrisation des titres et autres dans les templates
   ec ajout récurrence d'un événement
-  ** ajout vue planning : pour une personne, avec un token envoyé par mail
+  ec ajout vue planning : pour une personne, avec un token envoyé par mail
 
 * ajout possibilité d'autoriser une personne à voir les inscrits
 
-* ajout billetterie/QR-Code
+ec ajout billetterie/QR-Code
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise
