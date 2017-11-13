@@ -24,7 +24,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boo
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
-from soco import Base, api, db_session
+from soco import Base, api, db_session, LOGO_DEFAULT, URL_DEFAULT
 from .texenv import escape_tex, TPL_ETIQUETTE, TPL_ETIQUETTE_DOUBLELOGO
 
 
@@ -162,8 +162,42 @@ class Evenement(Base):
         except:
             raise IntegrityError("Unknown error")
 
+    def infos_comm(self):
+        """Calcule et retourne 2 logos et une URL"""
+        logo0, url0 = LOGO_DEFAULT, URL_DEFAULT
+        logo = evenement.logo
+        url = self.url or ""
+        if not logo or not url:
+            organisation = self.entite_organisatrice
+            if organisation:
+                if not logo and organisation.logo:
+                    logo = organisation.logo
+                if not url and organisation.url:
+                    url = organisation.url
+        if not url and url0:
+            url = url0
+        return logo0, logo, url
+
     def calcule_jours(self):
         """ Retourne une liste des jours de colloque"""
+        d = self.date
+        delta = self.date_fin - self.date
+        ret = [d]
+        for i in range(delta.days):
+            ret.append(d + i + 1)
+        return ret
+
+    def calcule_nuits(self):
+        """ Retourne une liste des nuits"""
+        d = self.date
+        delta = self.date_fin - self.date
+        ret = [d]
+        for i in range(delta.days):
+            ret.append(d + i + 1)
+        return ret
+
+    def calcule_repas(self):
+        """ Retourne une liste des repas"""
         d = self.date
         delta = self.date_fin - self.date
         ret = [d]
@@ -194,6 +228,7 @@ class Formulaire(Base):
     texte_libre_1 = Column(String(200))
     champ_libre_2 = Column(Boolean)
     texte_libre_2 = Column(String(200))
+    formulaire_intervenant = Column(Boolean)
     upd = Column(DateTime, default=func.now(), server_default=func.now())
 
     evenement = relationship("Evenement", back_populates="formulaire")
@@ -243,7 +278,7 @@ class Inscription(Base):
     badge1 = Column(String(70))
     badge2 = Column(String(70))
     attestation_demandee = Column(Boolean)
-    jours_de_presence = Column(String(10))
+    jours_de_presence = Column(String(20))
     commentaire = Column(String(200))
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
@@ -294,6 +329,51 @@ class Inscription(Base):
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
+
+
+class MaterielEnum(enum.Enum):
+    ordinateur = "ordi"
+    videoprojvga = "videoprojVGA"
+    videoprojhdmi = "videoprojHDMI"
+    internet = "internet"
+
+
+class TransportEnum(enum.Enum):
+    avion = "avion"
+    train = "train"
+    autocar = "autocar"
+    voiture = "voiture"
+    covoiturage = "covoiturage"
+
+
+class Intervenant(Base):
+    __tablename__ = 'intervenant'
+    __table_args__ = (UniqueConstraint('id_inscription', name='uc_intv'),)
+    id_inscription = Column(Integer, ForeignKey('inscription.id'), nullable=False)
+    besoin_materiel = Column('besoin_materiel', Enum(MaterielEnum))
+    transport_aller = Column('transport_aller', Enum(TransportEnum))
+    ville_depart_aller = Column(String(200)) # ville ou aéroport
+    horaire_depart_aller = Column(DateTime)
+    transport_retour = Column('transport_retour', Enum(TransportEnum))
+    ville_arrivee_retour = Column(String(200))
+    horaire_depart_retour = Column(DateTime)
+    nuits = Column(String(20))
+    repas = Column(String(20))
+
+    inscription = relationship("Inscription", back_populates="intervenant")
+
+
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['id_inscription', 'inscription', 'besoin_materiel', 'transport_aller', 'ville_depart_aller',
+                             'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour',
+                             'nuits', 'repas']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
+    def __str__(self):
+        return "%s %s (%s)" % (self.inscription.personne.prenom, self.inscription.personne.nom, self.ville_depart_aller)
+
 
 # API RESTful
 @api.resource('/api/chkemail/')

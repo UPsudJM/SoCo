@@ -120,8 +120,9 @@ class NcollForm(SocoForm):
     titre = StringField(gettext('Titre'), validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField(gettext('Sous-titre'))
     date = PickaDateField(gettext('Date'), objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
-    date_fin = PickaDateField(gettext('Date de fin'), objname=objname, format='%d/%m/%Y', description="Seulement dans le cas où l'événement dure plusieurs jours")
-    recurrence = RadioField(gettext('Récurrence'), default = 'Aucune', choices = [e.value for e in RecurrenceEnum])
+    date_fin = PickaDateField(gettext('Date de fin'), objname=objname, format='%d/%m/%Y',
+                                  description = gettext("Seulement dans le cas où l'événement dure plusieurs jours"))
+    recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = [e.value for e in RecurrenceEnum])
     lieu = SelectField(gettext('Lieu'), coerce=int)
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
@@ -195,8 +196,8 @@ class InscriptionForm(SocoForm):
             ])
     inscription_repas_1 = BooleanField(gettext('Repas 1'))
     inscription_repas_2 = BooleanField(gettext('Repas 2'))
-    reponse_question_1 = StringField(gettext('Libre1'))
-    reponse_question_2 = StringField(gettext('Libre2'))
+    reponse_question_1 = StringField(gettext('Libre 1'))
+    reponse_question_2 = StringField(gettext('Libre 2'))
 
     def __init__(self, formulaire, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
@@ -233,3 +234,27 @@ class InscriptionForm(SocoForm):
             self.flash_errors()
             return False
         return True
+
+
+class IntervenantForm(IntervenantForm):
+    besoin_materiel = SelectField(gettext('Matériel à prévoir'), default = gettext('Aucun'), choices = [e.value for e in MaterielEnum],
+                                      description = gettext("Éventuellement, matériel que nous devons prévoir pour votre intervention"))
+    transport_aller = SelectField(gettext('Moyen de transport (trajet aller)'), default = gettext('Aucun'),
+                                      choices = [e.value for e in TransportEnum],
+                                      description = gettext("Devons-nous prévoir votre transport aller ?"))
+    ville_depart_aller = StringField(gettext('Votre ville de départ (trajet aller)'))
+    horaire_depart_aller = PickaDateField(gettext('Horaire de départ (trajet aller)'), objname=objname, format='%d/%m/%Y %H:%M')
+    transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'), default = gettext('Aucun'),
+                                      choices = [e.value for e in TransportEnum],
+                                      description = gettext("Devons-nous prévoir votre transport retour ?"))
+    ville_arrivee_retour = StringField(gettext('Votre ville de destination (trajet retour)'))
+    horaire_arrivee_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
+    nuits = []
+    repas = []
+
+    def __init__(self, formulaire, *args, **kwargs):
+        InscriptionForm.__init__(self, *args, **kwargs)
+        for n in formulaire.evenement.calcule_nuits():
+            nuits.append(BooleanField(n))
+        for r in formulaire.evenement.calcule_repas():
+            repas.append(BooleanField(n))
