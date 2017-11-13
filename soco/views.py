@@ -168,7 +168,10 @@ def soco(flform):
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             flash(gettext("Votre inscription a bien été effectuée."))
-            return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
+            qrstring = gettext("SoCo - Événement %s : %s %s est inscrit-e sous le numéro %d") % (
+                evenement.titre, personne.prenom, personne.nom, inscription.id)
+            return render_template('end.html', evenement = evenement, qrstring=qrstring,
+                                       logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=False,
                                logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
                                current_user=current_user)
@@ -176,10 +179,8 @@ def soco(flform):
 
 @app.route('/end')
 def end():
-    #print(session)
     id_evenement = session.id_evenement
     evenement = Evenement.query.filter_by(id=id_evenement).first()
-    # ici, fabriquer le QR-Code
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
 @app.route('/planning/<token>')
