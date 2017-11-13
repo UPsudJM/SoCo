@@ -182,8 +182,8 @@ def end():
     # ici, fabriquer le QR-Code
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
-@app.route('/planning/<str:token>')
-@app.route('/cal/<str:token>')
+@app.route('/planning/<token>')
+@app.route('/cal/<token>')
 def planning(token):
     # on vérifie d'abord que la personne existe
     # et on envoie le planning de la personne

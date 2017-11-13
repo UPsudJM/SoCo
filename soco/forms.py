@@ -125,7 +125,7 @@ class NcollForm(SocoForm):
     if app.config['AVEC_RECURRENCE']:
         recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = [e.value for e in RecurrenceEnum])
     else:
-        recurrence = HiddenField(gettext('Récurrence')
+        recurrence = HiddenField(gettext('Récurrence'))
     lieu = SelectField(gettext('Lieu'), coerce=int)
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
