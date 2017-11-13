@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-09 19:24+0100\n"
+"POT-Creation-Date: 2017-11-13 19:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,173 +34,242 @@ msgid "Date de fin"
 msgstr ""
 
 #: soco/forms.py:124
+msgid "Seulement dans le cas où l'événement dure plusieurs jours"
+msgstr ""
+
+#: soco/forms.py:126 soco/forms.py:128
 msgid "Récurrence"
 msgstr ""
 
-#: soco/forms.py:125
+#: soco/forms.py:126
+msgid "Aucune"
+msgstr ""
+
+#: soco/forms.py:129
 msgid "Lieu"
 msgstr ""
 
-#: soco/forms.py:126
+#: soco/forms.py:130
 msgid "Date d'ouverture des inscriptions"
 msgstr ""
 
-#: soco/forms.py:128
+#: soco/forms.py:132
 msgid "Date de clôture des inscriptions"
 msgstr ""
 
-#: soco/forms.py:130
+#: soco/forms.py:134
 msgid "Voulez-vous que l'inscription se fasse jour par jour&nbsp;?"
 msgstr ""
 
-#: soco/forms.py:132
+#: soco/forms.py:136
 msgid ""
 "Organisez-vous un repas/cocktail auquel vous voulez inviter les "
 "participants ? Si oui, cochez la case :"
 msgstr ""
 
-#: soco/forms.py:133
+#: soco/forms.py:137
 msgid ""
 "Vous pouvez aussi vouloir poser une autre question, le texte est à votre "
 "discrétion"
 msgstr ""
 
-#: soco/forms.py:136
+#: soco/forms.py:140
 msgid ""
 "et précisez alors la question que vous souhaitez leur poser sur votre "
 "page d'inscription"
 msgstr ""
 
-#: soco/forms.py:137
+#: soco/forms.py:141
 msgid "Serez-vous des nôtres à midi ?"
 msgstr ""
 
-#: soco/forms.py:138
+#: soco/forms.py:142
 msgid "Le texte de votre question (avec réponse par oui ou par non)"
 msgstr ""
 
-#: soco/forms.py:142
+#: soco/forms.py:146
 msgid ""
 "Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si"
 " oui, cochez la case :"
 msgstr ""
 
-#: soco/forms.py:143
+#: soco/forms.py:147
 msgid "et précisez le texte de la question :"
 msgstr ""
 
-#: soco/forms.py:152
+#: soco/forms.py:156
 msgid "La date d'ouverture ne peut pas être antérieur à la date de clôture"
 msgstr ""
 
-#: soco/forms.py:158
+#: soco/forms.py:162
 msgid "La date de clôture ne peut pas être postérieure à la date de l'événement"
 msgstr ""
 
-#: soco/forms.py:168
+#: soco/forms.py:172
 msgid "Nom"
 msgstr ""
 
-#: soco/forms.py:170
+#: soco/forms.py:174
 msgid "Prénom"
 msgstr ""
 
-#: soco/forms.py:172
+#: soco/forms.py:176
 msgid "Attention, pour le badge : prénom + nom = 26 caractères max."
 msgstr ""
 
-#: soco/forms.py:174
+#: soco/forms.py:178
 msgid "Adresse électronique"
 msgstr ""
 
-#: soco/forms.py:175
+#: soco/forms.py:179
 msgid "Téléphone"
 msgstr ""
 
-#: soco/forms.py:177
+#: soco/forms.py:181
 msgid "Organisation"
 msgstr ""
 
-#: soco/forms.py:179
+#: soco/forms.py:183
 msgid "Attention, pour le badge : fonction + organisation = 32 caractères max."
 msgstr ""
 
-#: soco/forms.py:181
+#: soco/forms.py:185
 msgid "Fonction"
 msgstr ""
 
-#: soco/forms.py:183 soco/forms.py:186
+#: soco/forms.py:187 soco/forms.py:190
 msgid "Badge1"
 msgstr ""
 
-#: soco/forms.py:184 soco/forms.py:187
+#: soco/forms.py:188 soco/forms.py:191
 msgid "Badge2"
 msgstr ""
 
-#: soco/forms.py:188
+#: soco/forms.py:192
 msgid "Cochez cette case si vous désirez une attestation de présence&nbsp;:"
 msgstr ""
 
-#: soco/forms.py:193
+#: soco/forms.py:197
 msgid "Vous assisterez à l'évenement"
 msgstr ""
 
-#: soco/forms.py:194
+#: soco/forms.py:198
 msgid ""
 "Vous n'assisterez pas à l'évenement, mais souhaitez établir un contact "
 "pour recevoir de l'information sur le sujet"
 msgstr ""
 
-#: soco/forms.py:196
+#: soco/forms.py:200
 msgid "Repas 1"
 msgstr ""
 
-#: soco/forms.py:197
+#: soco/forms.py:201
 msgid "Repas 2"
 msgstr ""
 
-#: soco/forms.py:198
-msgid "Libre1"
+#: soco/forms.py:202
+msgid "Libre 1"
 msgstr ""
 
-#: soco/forms.py:199
-msgid "Libre2"
+#: soco/forms.py:203
+msgid "Libre 2"
+msgstr ""
+
+#: soco/forms.py:244
+msgid "Matériel à prévoir"
+msgstr ""
+
+#: soco/forms.py:244 soco/forms.py:246 soco/forms.py:251
+msgid "Aucun"
+msgstr ""
+
+#: soco/forms.py:245
+msgid "Éventuellement, matériel que nous devons prévoir pour votre intervention"
+msgstr ""
+
+#: soco/forms.py:246
+msgid "Moyen de transport (trajet aller)"
+msgstr ""
+
+#: soco/forms.py:248
+msgid "Devons-nous prévoir votre transport aller ?"
+msgstr ""
+
+#: soco/forms.py:249
+msgid "Votre ville de départ (trajet aller)"
+msgstr ""
+
+#: soco/forms.py:250
+msgid "Horaire de départ (trajet aller)"
+msgstr ""
+
+#: soco/forms.py:251
+msgid "Moyen de transport (trajet retour)"
+msgstr ""
+
+#: soco/forms.py:253
+msgid "Devons-nous prévoir votre transport retour ?"
+msgstr ""
+
+#: soco/forms.py:254
+msgid "Votre ville de destination (trajet retour)"
+msgstr ""
+
+#: soco/forms.py:255
+msgid "Horaire de départ (trajet retour)"
 msgstr ""
 
 #: soco/views.py:52
 msgid "Vous n'avez pas les droits d'accès à cette page"
 msgstr ""
 
-#: soco/views.py:132
-#, python-format
-msgid "Formulaire %d non trouvé"
-msgstr ""
-
-#: soco/views.py:134
+#: soco/views.py:119
 msgid "Les inscriptions pour cet événement ne sont pas encore ouvertes !"
 msgstr ""
 
-#: soco/views.py:136
+#: soco/views.py:121
 msgid "Les inscriptions pour cet événement sont closes !"
 msgstr ""
 
-#: soco/views.py:183
+#: soco/views.py:170
 msgid "Votre inscription a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:233
+#: soco/views.py:172
+#, python-format
+msgid "SoCo - Événement %s : %s %s est inscrit-e sous le numéro %d"
+msgstr ""
+
+#: soco/views.py:258
+msgid "Votre inscription comme intervenant-e a bien été effectuée."
+msgstr ""
+
+#: soco/views.py:297
 msgid "Votre formulaire a bien été créé."
 msgstr ""
 
-#: soco/views.py:234
+#: soco/views.py:298
 msgid "Voici son URL : <a href=\"\"></a>"
+msgstr ""
+
+#: soco/auth/models.py:103
+msgid "Nom d'utilisateur"
+msgstr ""
+
+#: soco/auth/models.py:104
+msgid "Mot de passe"
+msgstr ""
+
+#: soco/auth/models.py:106
+#, python-format
+msgid "Se souvenir de moi <small>(pendant %d jours)</small>"
 msgstr ""
 
 #: soco/templates/404.html:5
 msgid "Page non trouvée"
 msgstr ""
 
-#: soco/templates/404.html:6 soco/templates/end.html:30
+#: soco/templates/404.html:6 soco/templates/end.html:32
 #: soco/templates/erreur.html:7
 msgid "Retour"
 msgstr ""

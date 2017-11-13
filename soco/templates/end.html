@@ -18,7 +18,7 @@
   <br/>
   {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
 
-  <p><img src="{{ qrcode(qrstring) }}"></p>
+  {% if qrstring %}<p><img src="{{ qrcode(qrstring) }}" /></p>{% endif %}
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}

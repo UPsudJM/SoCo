@@ -67,7 +67,10 @@ EMAIL_ORGA="Secrétariat du Département de la Recherche <colloques.jean-monnet@
 EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
 SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Sud"
 NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
+
+# Optional features
 AVEC_ETIQUETTES=True
+AVEC_QRCODE=True
 AVEC_RECURRENCE=False
 
 # Flask_login
