@@ -349,6 +349,7 @@ class TransportEnum(enum.Enum):
 class Intervenant(Base):
     __tablename__ = 'intervenant'
     __table_args__ = (UniqueConstraint('id_inscription', name='uc_intv'),)
+    id = Column(Integer, primary_key = True)
     id_inscription = Column(Integer, ForeignKey('inscription.id'), nullable=False)
     besoin_materiel = Column('besoin_materiel', Enum(MaterielEnum))
     transport_aller = Column('transport_aller', Enum(TransportEnum))
@@ -373,6 +374,8 @@ class Intervenant(Base):
 
     def __str__(self):
         return "%s %s (%s)" % (self.inscription.personne.prenom, self.inscription.personne.nom, self.ville_depart_aller)
+
+Inscription.intervenant = relationship("Intervenant", order_by=Inscription.id, back_populates="inscription")
 
 
 # API RESTful
