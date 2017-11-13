@@ -1,0 +1,10 @@
+>>> import qrcode
+>>> i = qrcode.make("non")
+>>> i.save("non".png")
+
+>>> from scipy.misc import imread
+>>> image = imread(image_filename)
+
+>>> import zbar
+>>> s = zbar.Scanner()
+>>> s.scan(image)
