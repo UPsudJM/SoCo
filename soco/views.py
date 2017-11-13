@@ -111,25 +111,10 @@ def soco(flform):
     if not formulaire:
         return render_template('404.html')
     evenement = formulaire.evenement
-    logo0 = app.config['LOGO_DEFAULT']
-    url0 = app.config['URL_DEFAULT']
-    logo = evenement.logo
-    url = evenement.url or ""
-    if not logo or not url:
-        organisation = evenement.entite_organisatrice
-        if organisation:
-            if not logo and organisation.logo:
-                logo = organisation.logo
-            if not url and organisation.url:
-                url = organisation.url
-    logofilename0 = afflogo_filter(logo0)
+    logo0, logo, url = evenement.infos_comm()
+    logofilename0, logofilename = afflogo_filter(logo0), ""
     if logo:
         logofilename = afflogo_filter(logo)
-    else:
-        logofilename = ""
-    if formulaire == None:
-        flash('Formulaire %d non trouvé' % flform)
-        return internal_error(gettext('Formulaire %d non trouvé') % flform)
     if formulaire.date_ouverture_inscriptions > datetime.date.today():
         return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
     elif formulaire.date_cloture_inscriptions < datetime.date.today():
@@ -143,7 +128,7 @@ def soco(flform):
         if personne == None:
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data)
-        inscription = Inscription(evenement=formulaire.evenement, personne=personne)
+        inscription = Inscription(evenement=evenement, personne=personne)
         inscription.badge1 = form.badge1.data
         inscription.badge2 = form.badge2.data
         if form.telephone.data:
@@ -158,6 +143,8 @@ def soco(flform):
             inscription.attestation_demandee = form.attestation_demandee.data
         if formulaire.champ_type_inscription and form.type_inscription.data:
             inscription.type_inscription = form.type_inscription.data
+        if form.jours_de_presence.data: # booléens à attraper
+            inscription.jours_de_presence = form.jours_de_presence.data
         if formulaire.champ_restauration_1 and form.inscription_repas_1.data:
             inscription.inscription_repas_1 = form.inscription_repas_1.data
         if formulaire.champ_restauration_2 and form.inscription_repas_2.data:
@@ -182,12 +169,8 @@ def soco(flform):
             confirmer_inscription(personne.email, formulaire.evenement)
             flash(gettext("Votre inscription a bien été effectuée."))
             return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
-    return render_template('flform.html', form=form, formulaire=formulaire,
-                               evenement=evenement,
-                               logofilename0=logofilename0,
-                               logofilename=logofilename,
-                               url0 = url0,
-                               lienevt = url,
+    return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=False,
+                               logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
                                current_user=current_user)
 
 
@@ -197,6 +180,72 @@ def end():
     id_evenement = session.id_evenement
     evenement = Evenement.query.filter_by(id=id_evenement).first()
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
+
+
+@app.route('/speaker/<int:flform>', methods=['GET', 'POST'])
+def speaker(flform):
+    formulaire = Formulaire.query.filter_by(id=flform).first()
+    if not formulaire or not formulaire.formulaire_intervenant:
+        return render_template('404.html')
+    evenement = formulaire.evenement
+    logo0, logo, url = evenement.infos_comm()
+    logofilename0, logofilename = afflogo_filter(logo0), ""
+    form = IntervenantForm(formulaire)
+    if form.validate_on_submit():
+        personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
+                                                    email=form.email.data).first()
+        if personne == None:
+            personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
+                                email=form.email.data)
+        inscription = Inscription.query.filter_by(personne=personne, evenement=evenement)
+        if inscription == None:
+            inscription = Inscription(evenement=evenement, personne=personne)
+        inscription.badge1 = form.badge1.data
+        inscription.badge2 = form.badge2.data
+        if form.telephone.data:
+            inscription.telephone = form.telephone.data
+        if form.fonction.data:
+            inscription.fonction = form.fonction.data
+        if form.organisation.data:
+            inscription.organisation = form.organisation.data
+        inscription.date_inscription = datetime.datetime.now()
+        # Champs spéciaux intervenant
+        intervenant = Intervenant(inscription=inscription)
+        if form.besoin_materiel.data:
+            intervenant.besoin_materiel = form.besoin_materiel.data
+        if form.transport_aller.data:
+            intervenant.transport_aller = form.transport_aller.data
+        if form.ville_depart_aller.data:
+            intervenant.ville_depart_aller = form.ville_depart_aller.data
+        if form.horaire_depart_aller.data:
+            intervenant.horaire_depart_aller = form.horaire_depart_aller.data
+        if form.transport_retour.data:
+            intervenant.transport_retour = form.transport_retour.data
+        if form.ville_arrivee_retour.data:
+            intervenant.ville_arrivee_retour = form.ville_arrivee_retour.data
+        if form.horaire_depart_retour.data:
+            intervenant.horaire_depart_retour = form.horaire_depart_retour.data
+        if form.nuits.data: # booléens à attraper
+            intervenant.nuits = form.nuits.data
+        if form.repas.data:
+            intervenant.repas = form.repas.data
+        db_session.add(inscription)
+        try:
+            db_session.commit()
+        except IntegrityError as err:
+            db_session.rollback()
+            flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
+            if "uc_intv" in str(err.orig):
+                flash(lazy_gettext("Vous êtes déjà inscrit-e, comme intervenant-e, à cet événement !"), 'erreur')
+        else:
+            confirmer_inscription(personne.email, formulaire.evenement)
+            confirmer_intervenant(personne.email, intervenant)
+            flash(gettext("Votre inscription comme intervenant-e a bien été effectuée."))
+            return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
+    return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=True,
+                               logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
+                               current_user=current_user)
+
 
 @app.route('/suivi/new', methods=['GET', 'POST'])
 @app.route('/suivi/new/', methods=['GET', 'POST'])

@@ -24,7 +24,7 @@ from flask_babelex import Babel
 from flask_restful import Api
 from datetime import timedelta
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOG_FILE
-from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE, SECRET_KEY
+from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE, SECRET_KEY, LOGO_DEFAULT, URL_DEFAULT
 
 app = Flask(__name__)
 app.config.from_object('config')
