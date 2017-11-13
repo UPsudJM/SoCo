@@ -25,7 +25,7 @@ from flask_babelex import gettext
 from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField, SelectField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
-from soco.models import RecurrenceEnum, Evenement, Formulaire, Personne, Inscription
+from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription
 from soco import app
 import datetime
 
@@ -236,7 +236,8 @@ class InscriptionForm(SocoForm):
         return True
 
 
-class IntervenantForm(IntervenantForm):
+class IntervenantForm(InscriptionForm):
+    objname = 'intervenant'
     besoin_materiel = SelectField(gettext('Matériel à prévoir'), default = gettext('Aucun'), choices = [e.value for e in MaterielEnum],
                                       description = gettext("Éventuellement, matériel que nous devons prévoir pour votre intervention"))
     transport_aller = SelectField(gettext('Moyen de transport (trajet aller)'), default = gettext('Aucun'),
