@@ -68,6 +68,7 @@ EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
 SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Sud"
 NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
 AVEC_ETIQUETTES=True
+AVEC_RECURRENCE=False
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30

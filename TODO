@@ -131,7 +131,7 @@ ec ajout nb d'inscrits max avec envoi de mails
   at renommage de colloque en event
   at paramétrisation des titres et autres dans les templates
   ec ajout récurrence d'un événement
-  ** ajout vue planning
+  ** ajout vue planning : pour une personne, avec un token envoyé par mail
 
 * ajout possibilité d'autoriser une personne à voir les inscrits
 

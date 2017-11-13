@@ -176,11 +176,22 @@ def soco(flform):
 
 @app.route('/end')
 def end():
-    print(session)
+    #print(session)
     id_evenement = session.id_evenement
     evenement = Evenement.query.filter_by(id=id_evenement).first()
+    # ici, fabriquer le QR-Code
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
+@app.route('/planning/<str:token>')
+@app.route('/cal/<str:token>')
+def planning(token):
+    # on vérifie d'abord que la personne existe
+    # et on envoie le planning de la personne
+    personne = Personne.query.filter_by(token=token).first()
+    if not personne:
+        return render_template('404.html')
+    inscriptions = Personne.inscription
+    return render_template('planning.html', personne=personne, inscriptions=inscriptions)
 
 @app.route('/speaker/<int:flform>', methods=['GET', 'POST'])
 def speaker(flform):

@@ -22,7 +22,7 @@
 from flask_wtf import FlaskForm
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField, SelectField
+from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField, DateTimeField, SelectField, HiddenField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription
@@ -245,7 +245,7 @@ class IntervenantForm(InscriptionForm):
                                       choices = [e.value for e in TransportEnum],
                                       description = gettext("Devons-nous prévoir votre transport aller ?"))
     ville_depart_aller = StringField(gettext('Votre ville de départ (trajet aller)'))
-    horaire_depart_aller = PickaDateField(gettext('Horaire de départ (trajet aller)'), objname=objname, format='%d/%m/%Y %H:%M')
+    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), objname=objname, format='%d/%m/%Y %H:%M')
     transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'), default = gettext('Aucun'),
                                       choices = [e.value for e in TransportEnum],
                                       description = gettext("Devons-nous prévoir votre transport retour ?"))
