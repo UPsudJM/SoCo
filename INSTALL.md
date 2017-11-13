@@ -17,7 +17,8 @@ Python packages
 * if you use virtualenv: `$ pyvenv venv` then `source venv/bin/activate`
 * `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF Pillow Flask-Babelex`
 * `$ pip3 install SQLAlchemy sqlalchemy-migrate psycopg2 (or flask-mysqldb)`
-* `$ pip3 install ldap3` (only if you want to use LDAP for user identification)
+* `$ pip3 install ldap3` (if you want to use LDAP for user identification) or `$ pip3 install passlib` (otherwise)
+* `$ pip3 install scipy zbar-py Flask-QRCode` (only if you want ticketing)
 
 LaTeX
 -----
