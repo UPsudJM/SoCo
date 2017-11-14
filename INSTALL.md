@@ -16,7 +16,6 @@ Python packages
 * if you use virtualenv: `$ pyvenv venv` then `source venv/bin/activate`
 * `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF SQLAlchemy`
 * `$ pip3 install Pillow sqlalchemy-migrate psycopg2 ldap3 Flask-Babelex`
-* for more details, cf [./requirements.txt]
 
 LaTeX
 -----
