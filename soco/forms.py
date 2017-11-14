@@ -117,6 +117,8 @@ class SocoForm(FlaskForm):
 
 class NcollForm(SocoForm):
     objname = 'evenement'
+    uid_organisateur = StringField(
+        'Organisateur', description="Vous pouvez indiquer ici (si nécessaire) l'identifiant de la personne qui gérera les inscriptions.")
     titre = StringField(gettext('Titre'), validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField(gettext('Sous-titre'))
     date = PickaDateField(gettext('Date'), objname=objname, format='%d/%m/%Y', validators=[DataRequired()])

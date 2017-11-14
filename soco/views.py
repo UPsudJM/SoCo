@@ -268,9 +268,13 @@ def speaker(flform):
 def new():
     form = NcollForm()
     if form.validate_on_submit():
+        if form.uid_organisateur.data:
+            uid_organisateur = form.uid_organisateur.data
+        else:
+            uid_organisateur = current_user.username
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
                                   date=form.date.data, date_fin=form.date_fin.data,
-                                  lieu = form.lieu.data, uid_organisateur = current_user.username)
+                                  lieu = form.lieu.data, uid_organisateur = uid_organisateur)
         formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
         if form.champ_restauration_1:
