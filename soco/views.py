@@ -169,8 +169,8 @@ def soco(flform):
             confirmer_inscription(personne.email, formulaire.evenement)
             flash(gettext("Votre inscription a bien été effectuée."))
             if app.config['AVEC_QRCODE']:
-                qrstring = gettext("SoCo - Événement %s : %s %s est inscrit-e sous le numéro %d") % (
-                    evenement.titre, personne.prenom, personne.nom, inscription.id)
+                qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.").format(
+                    evt = evenement.titre, prenom = personne.prenom, nom = personne.nom, num = inscription.id)
             else:
                 qrstring = ''
             return render_template('end.html', evenement = evenement, qrstring=qrstring,

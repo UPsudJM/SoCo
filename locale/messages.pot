@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-13 19:26+0100\n"
+"POT-Creation-Date: 2017-11-14 12:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,205 +17,211 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: soco/forms.py:120
+#: soco/forms.py:123
 msgid "Titre"
 msgstr ""
 
-#: soco/forms.py:121
+#: soco/forms.py:124
 msgid "Sous-titre"
 msgstr ""
 
-#: soco/forms.py:122
+#: soco/forms.py:125
 msgid "Date"
 msgstr ""
 
-#: soco/forms.py:123
+#: soco/forms.py:126
 msgid "Date de fin"
 msgstr ""
 
-#: soco/forms.py:124
+#: soco/forms.py:127
 msgid "Seulement dans le cas où l'événement dure plusieurs jours"
 msgstr ""
 
-#: soco/forms.py:126 soco/forms.py:128
+#: soco/forms.py:129 soco/forms.py:131
 msgid "Récurrence"
 msgstr ""
 
-#: soco/forms.py:126
+#: soco/forms.py:129
 msgid "Aucune"
 msgstr ""
 
-#: soco/forms.py:129
+#: soco/forms.py:132
 msgid "Lieu"
 msgstr ""
 
-#: soco/forms.py:130
-msgid "Date d'ouverture des inscriptions"
-msgstr ""
-
-#: soco/forms.py:132
-msgid "Date de clôture des inscriptions"
+#: soco/forms.py:133
+msgid ""
+"Choisissez la salle, ou le lieu, dans la liste. S'il ne figure pas, "
+"laissez vide"
 msgstr ""
 
 #: soco/forms.py:134
-msgid "Voulez-vous que l'inscription se fasse jour par jour&nbsp;?"
+msgid "Date d'ouverture des inscriptions"
 msgstr ""
 
 #: soco/forms.py:136
+msgid "Date de clôture des inscriptions"
+msgstr ""
+
+#: soco/forms.py:138
+msgid "Voulez-vous que l'inscription se fasse jour par jour&nbsp;?"
+msgstr ""
+
+#: soco/forms.py:140
 msgid ""
 "Organisez-vous un repas/cocktail auquel vous voulez inviter les "
 "participants ? Si oui, cochez la case :"
 msgstr ""
 
-#: soco/forms.py:137
+#: soco/forms.py:141
 msgid ""
 "Vous pouvez aussi vouloir poser une autre question, le texte est à votre "
 "discrétion"
 msgstr ""
 
-#: soco/forms.py:140
+#: soco/forms.py:144
 msgid ""
 "et précisez alors la question que vous souhaitez leur poser sur votre "
 "page d'inscription"
 msgstr ""
 
-#: soco/forms.py:141
+#: soco/forms.py:145 soco/templates/new.html:63
 msgid "Serez-vous des nôtres à midi ?"
 msgstr ""
 
-#: soco/forms.py:142
+#: soco/forms.py:146
 msgid "Le texte de votre question (avec réponse par oui ou par non)"
 msgstr ""
 
-#: soco/forms.py:146
+#: soco/forms.py:150
 msgid ""
 "Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si"
 " oui, cochez la case :"
 msgstr ""
 
-#: soco/forms.py:147
+#: soco/forms.py:151
 msgid "et précisez le texte de la question :"
 msgstr ""
 
-#: soco/forms.py:156
+#: soco/forms.py:160
 msgid "La date d'ouverture ne peut pas être antérieur à la date de clôture"
 msgstr ""
 
-#: soco/forms.py:162
+#: soco/forms.py:166
 msgid "La date de clôture ne peut pas être postérieure à la date de l'événement"
 msgstr ""
 
-#: soco/forms.py:172
+#: soco/forms.py:176
 msgid "Nom"
 msgstr ""
 
-#: soco/forms.py:174
+#: soco/forms.py:178
 msgid "Prénom"
 msgstr ""
 
-#: soco/forms.py:176
+#: soco/forms.py:180
 msgid "Attention, pour le badge : prénom + nom = 26 caractères max."
 msgstr ""
 
-#: soco/forms.py:178
+#: soco/forms.py:182
 msgid "Adresse électronique"
 msgstr ""
 
-#: soco/forms.py:179
+#: soco/forms.py:183
 msgid "Téléphone"
 msgstr ""
 
-#: soco/forms.py:181
+#: soco/forms.py:185
 msgid "Organisation"
 msgstr ""
 
-#: soco/forms.py:183
+#: soco/forms.py:187
 msgid "Attention, pour le badge : fonction + organisation = 32 caractères max."
 msgstr ""
 
-#: soco/forms.py:185
+#: soco/forms.py:189
 msgid "Fonction"
 msgstr ""
 
-#: soco/forms.py:187 soco/forms.py:190
+#: soco/forms.py:191 soco/forms.py:194
 msgid "Badge1"
 msgstr ""
 
-#: soco/forms.py:188 soco/forms.py:191
+#: soco/forms.py:192 soco/forms.py:195
 msgid "Badge2"
 msgstr ""
 
-#: soco/forms.py:192
+#: soco/forms.py:196
 msgid "Cochez cette case si vous désirez une attestation de présence&nbsp;:"
 msgstr ""
 
-#: soco/forms.py:197
+#: soco/forms.py:201
 msgid "Vous assisterez à l'évenement"
 msgstr ""
 
-#: soco/forms.py:198
+#: soco/forms.py:202
 msgid ""
 "Vous n'assisterez pas à l'évenement, mais souhaitez établir un contact "
 "pour recevoir de l'information sur le sujet"
 msgstr ""
 
-#: soco/forms.py:200
+#: soco/forms.py:204
 msgid "Repas 1"
 msgstr ""
 
-#: soco/forms.py:201
+#: soco/forms.py:205
 msgid "Repas 2"
 msgstr ""
 
-#: soco/forms.py:202
+#: soco/forms.py:206
 msgid "Libre 1"
 msgstr ""
 
-#: soco/forms.py:203
+#: soco/forms.py:207
 msgid "Libre 2"
 msgstr ""
 
-#: soco/forms.py:244
+#: soco/forms.py:248
 msgid "Matériel à prévoir"
 msgstr ""
 
-#: soco/forms.py:244 soco/forms.py:246 soco/forms.py:251
+#: soco/forms.py:248 soco/forms.py:250 soco/forms.py:255 soco/views.py:270
 msgid "Aucun"
 msgstr ""
 
-#: soco/forms.py:245
+#: soco/forms.py:249
 msgid "Éventuellement, matériel que nous devons prévoir pour votre intervention"
 msgstr ""
 
-#: soco/forms.py:246
+#: soco/forms.py:250
 msgid "Moyen de transport (trajet aller)"
 msgstr ""
 
-#: soco/forms.py:248
+#: soco/forms.py:252
 msgid "Devons-nous prévoir votre transport aller ?"
 msgstr ""
 
-#: soco/forms.py:249
+#: soco/forms.py:253
 msgid "Votre ville de départ (trajet aller)"
 msgstr ""
 
-#: soco/forms.py:250
+#: soco/forms.py:254
 msgid "Horaire de départ (trajet aller)"
 msgstr ""
 
-#: soco/forms.py:251
+#: soco/forms.py:255
 msgid "Moyen de transport (trajet retour)"
 msgstr ""
 
-#: soco/forms.py:253
+#: soco/forms.py:257
 msgid "Devons-nous prévoir votre transport retour ?"
 msgstr ""
 
-#: soco/forms.py:254
+#: soco/forms.py:258
 msgid "Votre ville de destination (trajet retour)"
 msgstr ""
 
-#: soco/forms.py:255
+#: soco/forms.py:259
 msgid "Horaire de départ (trajet retour)"
 msgstr ""
 
@@ -236,19 +242,20 @@ msgid "Votre inscription a bien été effectuée."
 msgstr ""
 
 #: soco/views.py:172
-#, python-format
-msgid "SoCo - Événement %s : %s %s est inscrit-e sous le numéro %d"
+msgid ""
+"SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro "
+"{num}."
 msgstr ""
 
 #: soco/views.py:258
 msgid "Votre inscription comme intervenant-e a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:297
+#: soco/views.py:302
 msgid "Votre formulaire a bien été créé."
 msgstr ""
 
-#: soco/views.py:298
+#: soco/views.py:303
 msgid "Voici son URL : <a href=\"\"></a>"
 msgstr ""
 
@@ -261,8 +268,7 @@ msgid "Mot de passe"
 msgstr ""
 
 #: soco/auth/models.py:106
-#, python-format
-msgid "Se souvenir de moi <small>(pendant %d jours)</small>"
+msgid "Se souvenir de moi <small>(pendant {duration} jours)</small>"
 msgstr ""
 
 #: soco/templates/404.html:5
@@ -356,7 +362,121 @@ msgstr ""
 msgid "Merci de votre visite"
 msgstr ""
 
-#: soco/templates/login.html:20
+#: soco/templates/login.html:20 soco/templates/new.html:70
 msgid "Envoyer"
+msgstr ""
+
+#: soco/templates/new.html:20
+msgid "Créer une nouvelle page d'inscription"
+msgstr ""
+
+#: soco/templates/new.html:31
+msgid "Votre événement"
+msgstr ""
+
+#: soco/templates/new.html:34
+msgid "Merci d'indiquer le titre de l'événement"
+msgstr ""
+
+#: soco/templates/new.html:40
+msgid "Merci d'indiquer la date de l'événement"
+msgstr ""
+
+#: soco/templates/new.html:48
+msgid "Votre formulaire d'inscription"
+msgstr ""
+
+#: soco/templates/new.html:51
+msgid "Merci d'indiquer la date d'ouverture des inscriptions"
+msgstr ""
+
+#: soco/templates/new.html:55
+msgid "Merci d'indiquer la date de clôture des inscriptions"
+msgstr ""
+
+#: soco/templates/new.html:60
+msgid "Questions supplémentaires"
+msgstr ""
+
+#: soco/templates/new.html:65
+msgid ""
+"N.B.: Pour plus d'options de configuration de votre page d'inscription, "
+"veuillez vous adresser aux gestionnaires du système"
+msgstr ""
+
+#: soco/templates/new.html:69
+msgid "Réinitialiser"
+msgstr ""
+
+#: soco/templates/new.html:76
+msgid "Champ obligatoire"
+msgstr ""
+
+#: soco/templates/new.html:77 soco/templates/suivi_index.html:42
+msgid "Contact pour l'inscription&nbsp;:"
+msgstr ""
+
+#: soco/templates/new.html:78 soco/templates/suivi_index.html:43
+msgid "Contact pour ce site&nbsp;:"
+msgstr ""
+
+#: soco/templates/suivi_index.html:18
+msgid "Liste des formulaires"
+msgstr ""
+
+#: soco/templates/suivi_index.html:25
+msgid "Formulaire"
+msgstr ""
+
+#: soco/templates/suivi_index.html:26
+msgid "ouvert du"
+msgstr ""
+
+#: soco/templates/suivi_index.html:26
+msgid "au"
+msgstr ""
+
+#: soco/templates/suivi_index.html:26
+msgid "modifier ce formulaire"
+msgstr ""
+
+#: soco/templates/suivi_index.html:27
+msgid "ouvert"
+msgstr ""
+
+#: soco/templates/suivi_index.html:27
+msgid "jusqu'au"
+msgstr ""
+
+#: soco/templates/suivi_index.html:27
+msgid "modifier la date de clôture"
+msgstr ""
+
+#: soco/templates/suivi_index.html:27
+msgid "Modifier"
+msgstr ""
+
+#: soco/templates/suivi_index.html:28
+msgid "inscriptions terminées"
+msgstr ""
+
+#: soco/templates/suivi_index.html:28
+msgid "prolonger"
+msgstr ""
+
+#: soco/templates/suivi_index.html:31
+msgid "voir les inscrits"
+msgstr ""
+
+#: soco/templates/suivi_index.html:31
+msgid "liste à imprimer"
+msgstr ""
+
+#: soco/templates/suivi_index.html:38
+msgid "Pour créer une nouvelle page d'inscription"
+msgstr ""
+
+#: soco/templates/suivi_index.html:38
+msgid "Créer un formulaire d'inscription"
 msgstr ""
 
