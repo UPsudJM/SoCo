@@ -21,7 +21,6 @@
 
 from flask import Flask
 from flask_babelex import Babel
-from flask_qrcode import QRcode
 from flask_restful import Api
 from datetime import timedelta
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, LOG_FILE
@@ -30,7 +29,6 @@ from config import COOKIE_DURATION_DAYS, LOGIN_MESSAGE, SECRET_KEY, LOGO_DEFAULT
 app = Flask(__name__)
 app.config.from_object('config')
 babel = Babel(app)
-qrcode = QRcode(app)
 api = Api(app)
 app.secret_key = SECRET_KEY
 
@@ -48,6 +46,10 @@ lm.login_message = LOGIN_MESSAGE
 
 from flask_mail import Mail
 mail = Mail(app)
+
+if app.config['AVEC_QRCODE']:
+    from flask_qrcode import QRcode
+    qrcode = QRcode(app)
 
 # Database access
 from sqlalchemy import create_engine
