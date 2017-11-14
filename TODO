@@ -1,5 +1,5 @@
 at renommage en 'SoCo'
-at réécrire les appels à la config
+ok réécrire les appels à la config
 ok mettre le nom de l'institution dans la config (pour mettre dans les mails et sur l'interface)
 at traduction de l'interface
 
@@ -77,12 +77,12 @@ ok page de formulaire nouveau colloque
   ec inscription jour par jour
   at nouvelles questions libres
   at URL du colloque
-  at on voudrait que le texte par défaut s'efface, sur la question supplémentaire
-  ** mettre des bulles pour la description des champs : angular-tooltips
+  ok on voudrait que le texte par défaut s'efface, sur la question supplémentaire
+  ok mettre des bulles pour la description des champs : angular-tooltips
 
 ok affichage de la page de suivi (complète pour le secrétariat)
   ok tableau web
-  at tableau CSV
+  ok tableau CSV
   ** tableau Excel ou Calc
   ok liste de mails
   ok badges
@@ -123,7 +123,7 @@ at ajout interface pour les intervants
   ** déj pour les intervenants : tous les repas
 
 ec ajout nb d'inscrits max avec envoi de mails
-  at ajout classe Lieu
+  ok ajout classe Lieu
   at relations avec objets Organisation et Evenement
   * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
@@ -133,7 +133,7 @@ ec ajouts pour élargir l'utilisation
   ec ajout récurrence d'un événement
   ec ajout vue planning : pour une personne, avec un token envoyé par mail
 
-* ajout possibilité d'autoriser une personne à voir les inscrits
+ec ajout possibilité d'autoriser une personne à voir les inscrits
 
 ec ajout billetterie/QR-Code
 
