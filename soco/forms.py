@@ -20,12 +20,13 @@
 # coding: utf-8
 
 from flask_wtf import FlaskForm
+from wtforms_alchemy import model_form_factory, ModelForm, ModelFormField
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, TextAreaField, RadioField, DateField, DateTimeField, SelectField, HiddenField
+from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, HiddenField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
-from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription
+from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription, Lieu
 from soco import app
 import datetime
 
@@ -128,7 +129,8 @@ class NcollForm(SocoForm):
         recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = [e.value for e in RecurrenceEnum])
     else:
         recurrence = HiddenField(gettext('Récurrence'))
-    lieu = SelectField(gettext('Lieu'), coerce=int)
+    lieu = SelectField(gettext('Lieu'), coerce=int,
+                           description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField(gettext("Date de clôture des inscriptions"), objname=objname,

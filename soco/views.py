@@ -267,6 +267,7 @@ def speaker(flform):
 #@login_required
 def new():
     form = NcollForm()
+    form.lieu.choices = [(0, gettext('Aucun'))] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all()]
     if form.validate_on_submit():
         if form.uid_organisateur.data:
             uid_organisateur = form.uid_organisateur.data
@@ -552,9 +553,9 @@ class OrganisationView(SocoModelView):
 class LieuView(SocoModelView):
     can_export = True
     form_args = {
-        'nom': {'label' : 'Nom de la lieu'},
+        'nom': {'label' : 'Nom de la salle ou du lieu'},
         'adresse' : {'label': 'Pour éviter toute ambiguïté, vous pouvez préciser l\'adresse'},
-        'capacite': {'label' : 'Capacité de la lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'},
+        'capacite': {'label' : 'Capacité de la salle ou du lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'},
         'evenement' : {'label' : 'Événements programmés dans ce lieu'}
         }
 

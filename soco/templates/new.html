@@ -37,11 +37,11 @@
     <br/>
     {{ render_field(form.date) }}
     <div ng-show="ncollform.$submitted || ncollform.date.$touched">
-      <span ng-show="ncollform.date.$error.required">{{ gettext(\'Merci d\'indiquer la date de l\'événement') }}</span>
+      <span ng-show="ncollform.date.$error.required">{{ gettext('Merci d\'indiquer la date de l\'événement') }}</span>
     </div><br/>
     {{ render_field(form.date_fin) }}
     <br />
-    {{ render_field(form.lieu, size=50, maxlength=120) }}
+    {{ render_field(form.lieu) }}
     <br/>
     </fieldset>
 
@@ -60,14 +60,14 @@
     <fieldset><legend>{{ gettext('Questions supplémentaires') }}</legend>
     {{ render_field(form.champ_restauration_1) }}
     <br/>
-    {{ render_field(form.texte_restauration_1, size=55, maxlength=120, value=gettext("Serez-vous des nôtres à midi ?") }}
+    {{ render_field(form.texte_restauration_1, size=55, maxlength=120, value=gettext("Serez-vous des nôtres à midi ?")) }}
 
-  <p><em>{{ gettext('N.B.: Pour plus d\'options de configuration de votre page d\'inscription, veuillez vous adresser au service de la recherche') }}</em></p>
+  <p><em>{{ gettext('N.B.: Pour plus d\'options de configuration de votre page d\'inscription, veuillez vous adresser aux gestionnaires du système') }}</em></p>
   </fieldset>
 
   <div class="buttonbar">
     <input type="button" ng-click="reset()" value="{{ gettext('Réinitialiser') }}" />
-    <input type="submit" name="submit" accesskey="z" tabindex="20" value="{{ gettext('Envoyer')" />
+    <input type="submit" name="submit" accesskey="z" tabindex="20" value="{{ gettext('Envoyer') }}" />
   </div>
 </form>
 </section>
