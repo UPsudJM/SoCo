@@ -48,7 +48,7 @@ def required_roles(*roles):
     def wrapper(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
-            if current_user.role not in roles:
+            if current_user.role not in roles and not current_user.is_admin:
                 flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
                 return redirect(url_for('index'))
             return f(*args, **kwargs)

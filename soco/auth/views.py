@@ -23,7 +23,7 @@ from flask import request, render_template, flash, redirect, url_for, Blueprint,
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_babelex import gettext, lazy_gettext
 from soco import app, lm, db_session
-from soco.auth.models import User, LoginForm
+from soco.auth.models import User, LoginForm, UserForm
 
 auth = Blueprint('auth', __name__)
 
@@ -43,6 +43,9 @@ def load_user(user_id):
 @auth.before_request
 def get_current_user():
     g.user = current_user
+
+def get_current_user_role():
+    return current_user.role
 
 @auth.route('/')
 @auth.route('/home')
@@ -117,3 +120,23 @@ def logout():
         session.pop('gecos')
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/createuser', methods=['GET', 'POST'])
+@login_required
+def createuser():
+    if not current_user.is_superadmin:
+        flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
+        return redirect(url_for('index'))
+    form = UserForm()
+    if form.validate_on_submit():
+        deja = User.get_user(username)
+        if deja:
+            flash(gettext('Cet utilisateur existe déjà'))
+            return render_template('createuser.html', form=form)
+        hashed = User.hash_pwd(p)
+        user = User(username=form.username.data, password=hashed, role=form.role.data, gecos=form.gecos.data)
+        db_session.add(User)
+        db_session.commit()
+        flash(gettext('Cet utilisateur \'{username}\'a bien été créé').format(username=form.username.data))
+        return redirect(url_for('index'))
+    return render_template('createuser.html', form=form)
