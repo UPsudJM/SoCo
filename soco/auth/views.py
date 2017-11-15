@@ -21,7 +21,8 @@
 
 from flask import request, render_template, flash, redirect, url_for, Blueprint, g, session
 from flask_login import current_user, login_user, logout_user, login_required
-from soco import lm, db_session
+from flask_babelex import gettext, lazy_gettext
+from soco import app, lm, db_session
 from soco.auth.models import User, LoginForm
 
 auth = Blueprint('auth', __name__)
@@ -63,26 +64,36 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         rememberme = request.form.get('rememberme')
+        user = User.get_user(username)
 
-        try:
-            auth_ok = User.try_login(username, password)
-        except:
-            raise
+        auth_ok, auth_db_ok, auth_ldap_ok = False, False, False
+        if user:
+            try:
+                auth_db_ok = User.try_db_login(username, password)
+            except:
+                raise
+        auth_ok = auth_db_ok
+        if not auth_ok and app.config['USE_LDAP']:
+            try:
+                auth_ldap_ok = User.try_ldap_login(username, password)
+            except:
+                raise
+            finally:
+                auth_ok = auth_ldap_ok
         if not auth_ok:
             flash('Login ou mot de passe invalide. Veuillez ré-essayer', 'danger')
             return render_template('login.html', form=form)
 
-        user = User.query.filter_by(username=username).first()
         if type(auth_ok) == type((1,)) and len(auth_ok) > 1:
             session.update(gecos = auth_ok[1])
 
-        if not user:
-            user = User(username)
-            db_session.add(user)
-            db_session.commit()
+        if not user and auth_ldap_ok:
+           user = User(username)
+           db_session.add(user)
+           db_session.commit()
         user.authenticate()
         login_user(user, remember = rememberme)
-        flash('Identification réussie.', 'success')
+        flash(gettext('Identification réussie.'), 'auth success')
         nexturl = request.form.get('nexturl')
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
@@ -99,5 +110,10 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    flash(session)
+    if not session.get('rememberme'):
+        session.clear()
+    if session.get('gecos'):
+        session.pop('gecos')
     logout_user()
     return redirect(url_for('index'))

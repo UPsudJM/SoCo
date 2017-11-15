@@ -20,18 +20,22 @@
 # coding: utf-8
 
 from sqlalchemy import Column, Integer, String
+from flask_babelex import gettext
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from soco import app, Base
 if app.config['USE_LDAP']:
     from ldap3 import Server, Connection
+if app.config['USE_PWHASH']:
+    from passlib.hash import pbkdf2_sha256
 
 
 class User(Base):
     __tablename__ = 'utilisateur'
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
+    password = Column(String(200))
     role = Column(String(10))
     is_authenticated = False
     is_active = True
@@ -39,14 +43,30 @@ class User(Base):
     is_admin = False
     is_superadmin = False
 
-    def __init__(self, username):
+    def __init__(self, username, password='ldap'):
         self.username = username
+        self.password = password # calculer ici le hash ?
         self.role = 'user'
         self.is_authenticated = False
 
+    @classmethod
+    def get_user(self, username):
+        user = self.query.filter_by(username=username).first()
+        return user
+
+    @classmethod
+    def try_db_login(self, username, password):
+        user = self.get_user(username)
+        if user:
+            if app.config['USE_PWHASH']:
+                #hash = pbkdf2_sha256.hash(password)
+                return pbkdf2_sha256.verify(password, user.password)
+            else:
+                return password == user.password
+        return False
+
     @staticmethod
-    def try_login(username, password, with_gecos=True):
-        # FIXME other login methods
+    def try_ldap_login(username, password, with_gecos=True):
         server = Server(app.config['LDAP_PROVIDER_URL'], use_ssl=True)
         conn = Connection(server, app.config['LDAP_USER_PATT'] % username, password)
         try:
@@ -95,7 +115,7 @@ class User(Base):
         return gecos
 
 class LoginForm(FlaskForm):
-    username = TextField('Nom d\'utilisateur', [InputRequired()])
-    password = PasswordField('Mot de passe', [InputRequired()])
+    username = TextField(gettext('Nom d\'utilisateur'), [InputRequired()])
+    password = PasswordField(gettext('Mot de passe'), [InputRequired()])
     nexturl = HiddenField()
-    rememberme = BooleanField('Se souvenir de moi <small>(pendant %d jours)</small>' % app.config['COOKIE_DURATION_DAYS'])
+    rememberme = BooleanField(gettext('Se souvenir de moi <small>(pendant {duration} jours)</small>').format(duration = app.config['COOKIE_DURATION_DAYS']))
