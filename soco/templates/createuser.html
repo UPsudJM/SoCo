@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 
-{% block javascript %}
-    <script src="{{ url_for('static', filename='js/flform.js') }}"></script>
-{% endblock %}
-
 {% block content %}
 <div>
   <form
      method="POST"
-     action="{{ url_for('auth.login') }}"
+     action="{{ url_for('createuser') }}"
      role="form">
     {{ form.csrf_token }}
-    {{ form.nexturl() }}
-    <fieldset><legend>{{ gettext('Accès à l\'espace réservé') }}</legend>
+    <fieldset><legend>{{ gettext('Nouvel utilisateur') }}</legend>
       {{ form.username.label }} {{ form.username() }}
       <br/>{{ form.password.label }} {{ form.password() }}
-      <br/>{{ form.rememberme.label }} {{ form.rememberme() }}
+      <br/>{{ form.role.label }} {{ form.role() }}
+      <br/>{{ form.gecos.label }} {{ form.gecos() }}
     </fieldset>
     <div class="buttonbar"><button type="submit" class="btn">{{ gettext('Envoyer') }}</button></div>
   </form>
