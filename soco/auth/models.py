@@ -136,6 +136,6 @@ class LoginForm(FlaskForm):
 
 class UserForm(FlaskForm):
     username = TextField(gettext('Nom d\'utilisateur'), validators = [InputRequired()])
-    password = TextField(gettext('Mot de passe'), validators = [InputRequired()], default='abcd')
+    password = TextField(gettext('Mot de passe'), validators = [InputRequired()])
     role = RadioField(gettext('Rôle'), default = 'user', choices = [(e, e.name) for e in RoleEnum])
     gecos = TextField(gettext('Nom complet'))

@@ -121,8 +121,8 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @app.route('/createuser', methods=['GET', 'POST'])
-@login_required
 def createuser():
     if not current_user.is_superadmin:
         flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
