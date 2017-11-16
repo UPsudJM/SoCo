@@ -79,23 +79,6 @@ def index():
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', evenements=evenements)
 
-"""
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if g.user is not None and g.user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        session['remember_me'] = form.remember_me.data
-        if (form.openid.data=="odile"):
-            redirect(url_for('index'))
-
-        #flash('Login requested for OpenID="%s", remember_me=%s' %
-        #          (form.openid.data, str(form.remember_me.data)))
-        return redirect('/index')
-    return render_template('login.html', title='Sign In', form=form)
-"""
-
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 @app.route('/event/<int:flform>', methods=['GET', 'POST'])
 def soco(flform):

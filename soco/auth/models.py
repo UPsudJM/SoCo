@@ -52,15 +52,19 @@ class User(Base):
     is_admin = False
     is_superadmin = False
 
-    def __init__(self, username, password='ldap'):
+    def __init__(self, username, password=None, gecos=None):
         self.username = username
         self.password = password
         self.role = 'user'
+        self.gecos = gecos
         self.is_authenticated = False
 
     @staticmethod
     def hash_pwd(p):
         return pbkdf2_sha256.hash(p)
+
+    def set_role(self, role):
+        self.role = role
 
     @classmethod
     def get_user(self, username):
@@ -137,5 +141,5 @@ class LoginForm(FlaskForm):
 class UserForm(FlaskForm):
     username = TextField(gettext('Nom d\'utilisateur'), validators = [InputRequired()])
     password = TextField(gettext('Mot de passe'), validators = [InputRequired()])
-    role = RadioField(gettext('Rôle'), default = 'user', choices = [(e, e.name) for e in RoleEnum])
+    #role = RadioField(gettext('Rôle'), default = 'user', choices = [(e, e.name) for e in RoleEnum])
     gecos = TextField(gettext('Nom complet'))

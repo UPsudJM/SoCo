@@ -104,8 +104,8 @@ ec interface de gestion (du formulaire) plus diversifiée
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login
-  at autres méthodes d'authentification
-  at page de création d'un utilisateur
+  ok autres méthodes d'authentification
+  ok page de création d'un utilisateur
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)

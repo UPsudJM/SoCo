@@ -35,7 +35,7 @@ def load_user(user_id):
         if user:
             user.authenticate()
             g.gecos = session.get('gecos')
-            print('gecos=', g.gecos)
+            #print('gecos=', g.gecos)
             return user
     g.gecos = None
     return None
@@ -52,7 +52,7 @@ def get_current_user_role():
 def home():
     return render_template('home.html')
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user is not None \
         and current_user.is_authenticated:
@@ -91,7 +91,7 @@ def login():
             session.update(gecos = auth_ok[1])
 
         if not user and auth_ldap_ok:
-           user = User(username)
+           user = User(username, password='ldap')
            db_session.add(user)
            db_session.commit()
         user.authenticate()
@@ -124,19 +124,16 @@ def logout():
 
 @app.route('/createuser', methods=['GET', 'POST'])
 def createuser():
-    if not current_user.is_superadmin:
-        flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
-        return redirect(url_for('index'))
     form = UserForm()
     if form.validate_on_submit():
-        deja = User.get_user(username)
+        deja = User.get_user(form.username.data)
         if deja:
             flash(gettext('Cet utilisateur existe déjà'))
             return render_template('createuser.html', form=form)
-        hashed = User.hash_pwd(p)
-        user = User(username=form.username.data, password=hashed, role=form.role.data, gecos=form.gecos.data)
-        db_session.add(User)
+        hashed = User.hash_pwd(form.password.data)
+        newuser = User(username=form.username.data, password=hashed, gecos=form.gecos.data)
+        db_session.add(newuser)
         db_session.commit()
-        flash(gettext('Cet utilisateur \'{username}\'a bien été créé').format(username=form.username.data))
+        flash(gettext('L\'utilisateur \'{username}\' a bien été créé').format(username=form.username.data))
         return redirect(url_for('index'))
     return render_template('createuser.html', form=form)
