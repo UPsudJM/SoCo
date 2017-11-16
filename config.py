@@ -67,10 +67,10 @@ BABEL_DEFAULT_LOCALE = 'fr'
 LOGO_FOLDER=basedir + '/soco/static/logos/'
 LOGO_URL_REL='logos/'
 LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
-LOGO_DEFAULT='Logo-JEAN-MONNET_UPSaclay-BLEU-carre.png'
+LOGO_DEFAULT='soco-boi.png'
 
 # various default values
-URL_DEFAULT='http://www.jm.u-psud.fr'
+URL_DEFAULT='https://soco.jm.u-psud.fr'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
 EMAIL_ORGA="Secrétariat du Département de la Recherche <colloques.jean-monnet@u-psud.fr>"

@@ -7,16 +7,16 @@
 {% block content %}
 <div class="entete">
   <table class="titre"><tr>
-    <td><img src="static/logos/petit-logo.png" /></td>
-    <td><h1>Interface d'inscription à des événements</h1></td>
+    <td><img alt="{{ _('Logo SoCo') }}" src="{{ url_for('static', filename=logofilename) }}" /></td>
+    <td><h1>{{ _('Interface d\'inscription à des événements') }}</h1></td>
   </tr></table>
 </div>
 
-<a href="{{ url_for('suivi_index') }}">Espace réservé</a>
+<a href="{{ url_for('suivi_index') }}">{{ _('Espace réservé') }}</a>
 
 {% for evenement in evenements %}
 {% for f in evenement.formulaire %}
-<p><a href="{{ url_for('soco', flform=f.id) }}">Inscription à <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> ouvert du {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} au {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, mis à jour le {{ f.upd | datetimefr}}</a></p>
+<p><a href="{{ url_for('soco', flform=f.id) }}">{{ _('Inscription à') }} <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> {{ _('ouvert du') }} {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} {{ _('au') }} {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, {{ _('mis à jour le') }} {{ f.upd | datetimefr}}</a></p>
 {% endfor %}{% endfor %}
 
 {% endblock %}

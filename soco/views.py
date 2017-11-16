@@ -76,8 +76,10 @@ def internal_error(error):
 @app.route('/index')
 # ECRIRE LES RESTRICTIONS DANS LA FONCTION
 def index():
+    logo = app.config['LOGO_DEFAULT']
+    logofilename = afflogo_filter(logo)
     evenements = Evenement.query.all()
-    return render_template('index.html', title='Conferences', evenements=evenements)
+    return render_template('index.html', title='Conferences', logofilename=logofilename, evenements=evenements)
 
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 @app.route('/event/<int:flform>', methods=['GET', 'POST'])
