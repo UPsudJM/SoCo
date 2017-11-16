@@ -54,7 +54,7 @@ def login():
     if current_user is not None \
         and current_user.is_authenticated:
         flash('Vous êtes déjà identifié-e.')
-        return redirect(url_for('suivi'))
+        return redirect(url_for('suivi_index'))
 
     form = LoginForm(request.form) #, nexturl=request.args['next'])
     if request.args and request.args.get('next'):

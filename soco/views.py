@@ -285,7 +285,7 @@ def new():
     return render_template('new.html', form=form, current_user=current_user)
 
 @app.route('/suivi')
-@app.route('/suivi/')
+@app.route('/suivi/index')
 @login_required
 @required_roles('admin', 'user')
 def suivi_index():
@@ -428,7 +428,7 @@ class SocoModelView(ModelView):
 
     def is_accessible(self):
         try:
-            return current_user.is_authenticated
+            return current_user.is_admin
         except:
             return False
 
