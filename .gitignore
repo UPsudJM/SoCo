@@ -7,3 +7,5 @@ soco/tex
 pdf
 RIEN
 BUGS
+soco/static/logos/petit*
+.gitignore
