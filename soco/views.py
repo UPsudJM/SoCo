@@ -44,11 +44,14 @@ def get_locale():
     return "fr"
     #return request.accept_languages.best_match(LANGUAGES.keys())
 
+def get_current_user_role():
+    return current_user.role.name
+
 def required_roles(*roles):
     def wrapper(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
-            if current_user.role not in roles and not current_user.is_admin:
+            if get_current_user_role() not in roles and not current_user.is_admin:
                 flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
@@ -286,7 +289,7 @@ def new():
 @login_required
 @required_roles('admin', 'user')
 def suivi_index():
-    if current_user.role == 'admin':
+    if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
         evenements = Evenement.query.join("formulaire").filter(Evenement.uid_organisateur == current_user.username).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))

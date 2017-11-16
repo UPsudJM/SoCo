@@ -44,9 +44,6 @@ def load_user(user_id):
 def get_current_user():
     g.user = current_user
 
-def get_current_user_role():
-    return current_user.role
-
 @auth.route('/')
 @auth.route('/home')
 def home():

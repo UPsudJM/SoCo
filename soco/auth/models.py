@@ -76,9 +76,11 @@ class User(Base):
         user = self.get_user(username)
         if user:
             if app.config['USE_PWHASH']:
-                return pbkdf2_sha256.verify(password, user.password)
+                auth_ok = pbkdf2_sha256.verify(password, user.password)
             else:
-                return password == user.password
+                auth_ok =  (password == user.password)
+            if auth_ok:
+                return (True, user.gecos,)
         return False
 
     @staticmethod
