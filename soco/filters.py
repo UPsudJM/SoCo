@@ -19,9 +19,10 @@
 """
 # coding: utf-8
 
-import datetime
-from flask_babel import gettext, format_date, format_datetime
+import datetime, string, random
+from jinja2 import contextfilter
 from PIL import Image
+from flask_babel import gettext, format_date, format_datetime
 from soco import app
 
 
@@ -71,3 +72,9 @@ def afflogo_filter(f, size=(64,64)):
             print("cannot create thumbnail for", f)
     finally:
         return app.config['LOGO_URL_REL'] + thumbnail
+
+@app.template_filter('generate_default_password')
+@contextfilter
+def generate_default_password_filter(context, s):
+    char_set = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.ascii_lowercase
+    return ''.join(random.sample(char_set*7, 7))

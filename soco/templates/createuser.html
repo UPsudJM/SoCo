@@ -9,8 +9,7 @@
     {{ form.csrf_token }}
     <fieldset><legend>{{ gettext('Nouvel utilisateur') }}</legend>
       {{ form.username.label }} {{ form.username() }}
-      <br/>{{ form.password.label }} {{ form.password() }}
-      <br/>{{ form.role.label }} {{ form.role() }}
+      <br/>{{ form.password.label }} {{ form.password() }} {{ '' | generate_default_password }}
       <br/>{{ form.gecos.label }} {{ form.gecos() }}
     </fieldset>
     <div class="buttonbar"><button type="submit" class="btn">{{ gettext('Envoyer') }}</button></div>
