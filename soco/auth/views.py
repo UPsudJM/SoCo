@@ -86,9 +86,12 @@ def login():
 
         if type(auth_ok) == type((1,)) and len(auth_ok) > 1:
             session.update(gecos = auth_ok[1])
+            user_email = auth_ok[2]
+        else:
+            user_email = None
 
         if not user and auth_ldap_ok:
-           user = User(username, password='ldap')
+           user = User(username, password='ldap', email=user_email)
            db_session.add(user)
            db_session.commit()
         user.authenticate()

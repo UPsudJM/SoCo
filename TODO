@@ -106,6 +106,8 @@ ec interface de gestion (du formulaire) plus diversifiée
 ok revenir à LDAP/login
   ok autres méthodes d'authentification
   ok page de création d'un utilisateur
+  ok ajout mail -> reste à tester l'attrapage du mail avec LDAP
+  ** procédure de perte de mot de passe (évt)
   ec routes et redirections
   ok raffiner les autorisations (rôles)
      (une organisatrice peut toucher seulement ses événements)

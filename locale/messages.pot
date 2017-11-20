@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-14 12:16+0100\n"
+"POT-Creation-Date: 2017-11-20 10:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Attention, pour le badge : prénom + nom = 26 caractères max."
 msgstr ""
 
-#: soco/forms.py:182
+#: soco/auth/models.py:156 soco/forms.py:182
 msgid "Adresse électronique"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Matériel à prévoir"
 msgstr ""
 
-#: soco/forms.py:248 soco/forms.py:250 soco/forms.py:255 soco/views.py:270
+#: soco/forms.py:248 soco/forms.py:250 soco/forms.py:255 soco/views.py:250
 msgid "Aucun"
 msgstr ""
 
@@ -225,50 +225,66 @@ msgstr ""
 msgid "Horaire de départ (trajet retour)"
 msgstr ""
 
-#: soco/views.py:52
+#: soco/views.py:55
 msgid "Vous n'avez pas les droits d'accès à cette page"
 msgstr ""
 
-#: soco/views.py:119
+#: soco/views.py:99
 msgid "Les inscriptions pour cet événement ne sont pas encore ouvertes !"
 msgstr ""
 
-#: soco/views.py:121
+#: soco/views.py:101
 msgid "Les inscriptions pour cet événement sont closes !"
 msgstr ""
 
-#: soco/views.py:170
+#: soco/views.py:150
 msgid "Votre inscription a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:172
+#: soco/views.py:152
 msgid ""
 "SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro "
 "{num}."
 msgstr ""
 
-#: soco/views.py:258
+#: soco/views.py:238
 msgid "Votre inscription comme intervenant-e a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:302
+#: soco/views.py:282
 msgid "Votre formulaire a bien été créé."
 msgstr ""
 
-#: soco/views.py:303
+#: soco/views.py:283
 msgid "Voici son URL : <a href=\"\"></a>"
 msgstr ""
 
-#: soco/auth/models.py:103
+#: soco/auth/models.py:147 soco/auth/models.py:154
 msgid "Nom d'utilisateur"
 msgstr ""
 
-#: soco/auth/models.py:104
+#: soco/auth/models.py:148 soco/auth/models.py:155
 msgid "Mot de passe"
 msgstr ""
 
-#: soco/auth/models.py:106
+#: soco/auth/models.py:150
 msgid "Se souvenir de moi <small>(pendant {duration} jours)</small>"
+msgstr ""
+
+#: soco/auth/models.py:158
+msgid "Nom complet"
+msgstr ""
+
+#: soco/auth/views.py:99
+msgid "Identification réussie."
+msgstr ""
+
+#: soco/auth/views.py:131
+msgid "Cet utilisateur existe déjà"
+msgstr ""
+
+#: soco/auth/views.py:137
+msgid "L'utilisateur '{username}' a bien été créé"
 msgstr ""
 
 #: soco/templates/404.html:5
@@ -300,7 +316,7 @@ msgstr ""
 msgid "Retour à la liste des événements"
 msgstr ""
 
-#: soco/templates/base.html:42 soco/templates/login.html:15
+#: soco/templates/base.html:42 soco/templates/index.html:15
 msgid "Espace réservé"
 msgstr ""
 
@@ -320,6 +336,15 @@ msgstr ""
 #: soco/templates/confirmation_inscription.html:11
 #: soco/templates/envoi_code_verification.html:15
 msgid "Cordialement,"
+msgstr ""
+
+#: soco/templates/createuser.html:10
+msgid "Nouvel utilisateur"
+msgstr ""
+
+#: soco/templates/createuser.html:16 soco/templates/login.html:20
+#: soco/templates/new.html:70
+msgid "Envoyer"
 msgstr ""
 
 #: soco/templates/end.html:12
@@ -362,8 +387,32 @@ msgstr ""
 msgid "Merci de votre visite"
 msgstr ""
 
-#: soco/templates/login.html:20 soco/templates/new.html:70
-msgid "Envoyer"
+#: soco/templates/index.html:10
+msgid "Logo SoCo"
+msgstr ""
+
+#: soco/templates/index.html:11
+msgid "Interface d'inscription à des événements"
+msgstr ""
+
+#: soco/templates/index.html:19
+msgid "Inscription à"
+msgstr ""
+
+#: soco/templates/index.html:19 soco/templates/suivi_index.html:26
+msgid "ouvert du"
+msgstr ""
+
+#: soco/templates/index.html:19 soco/templates/suivi_index.html:26
+msgid "au"
+msgstr ""
+
+#: soco/templates/index.html:19
+msgid "mis à jour le"
+msgstr ""
+
+#: soco/templates/login.html:15
+msgid "Accès à l'espace réservé"
 msgstr ""
 
 #: soco/templates/new.html:20
@@ -426,14 +475,6 @@ msgstr ""
 
 #: soco/templates/suivi_index.html:25
 msgid "Formulaire"
-msgstr ""
-
-#: soco/templates/suivi_index.html:26
-msgid "ouvert du"
-msgstr ""
-
-#: soco/templates/suivi_index.html:26
-msgid "au"
 msgstr ""
 
 #: soco/templates/suivi_index.html:26

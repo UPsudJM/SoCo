@@ -20,7 +20,7 @@
 # coding: utf-8
 
 import enum
-from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy import Column, Integer, String, Enum, UniqueConstraint
 from flask_babelex import gettext
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField, HiddenField, BooleanField, RadioField
@@ -41,22 +41,25 @@ class RoleEnum(enum.Enum):
 
 class User(Base):
     __tablename__ = 'utilisateur'
+    __table_args__ = (UniqueConstraint('username', name='uc_usn'), UniqueConstraint('email', name='uc_email'),)
     id = Column(Integer, primary_key=True)
     username = Column(String(100))
     password = Column(String(200))
     role = Column('role', Enum(RoleEnum))
     gecos = Column(String(100))
+    email = Column(String(200))
     is_authenticated = False
     is_active = True
     is_anonymous = False
     is_admin = False
     is_superadmin = False
 
-    def __init__(self, username, password=None, gecos=None):
+    def __init__(self, username, password=None, gecos=None, email=None):
         self.username = username
         self.password = password
         self.role = 'user'
         self.gecos = gecos
+        self.email = email
         self.is_authenticated = False
 
     @staticmethod
@@ -72,6 +75,11 @@ class User(Base):
         return user
 
     @classmethod
+    def get_user_by_email(self, email):
+        user = self.query.filter_by(email=email).first()
+        return user
+
+    @classmethod
     def try_db_login(self, username, password):
         user = self.get_user(username)
         if user:
@@ -84,7 +92,7 @@ class User(Base):
         return False
 
     @staticmethod
-    def try_ldap_login(username, password, with_gecos=True):
+    def try_ldap_login(username, password, with_gecos=True, with_email=True):
         server = Server(app.config['LDAP_PROVIDER_URL'], use_ssl=True)
         conn = Connection(server, app.config['LDAP_USER_PATT'] % username, password)
         try:
@@ -94,15 +102,13 @@ class User(Base):
             return False
         if conn.result['result']:
             return False
-        #self.username = username
-        if with_gecos:
+        if with_gecos or with_email:
             try:
-                gecos = User.get_gecos(username, conn)
-                return (True, gecos,)
+                gecos, email = User.get_gecos_and_email(username, conn)
+                return (True, gecos, email,)
             except:
-                pass
-        else:
-            pass
+                print('error retrieving gecos and email')
+                return (True, None, None)
         return True
 
     def authenticate(self):
@@ -119,18 +125,22 @@ class User(Base):
         return str(self.id)
 
     @staticmethod
-    def get_gecos(username, connection):
+    def get_gecos_and_email(username, connection):
         search_base = app.config['LDAP_SEARCH_BASE']
         search_filter = "(mail=%s*)" % username
         print(search_filter)
         connection.search(search_base = app.config['LDAP_SEARCH_BASE'],
                               search_filter = "(mail=%s*)" % username,
-                              attributes = ['cn', 'givenName', 'gecos'],)
-        print(connection.entries)
-        print(connection.entries[0])
-        print(connection.entries[0].gecos.value)
-        gecos = connection.entries[0].gecos.value
-        return gecos
+                              attributes = ['cn', 'givenName', 'gecos', 'mail'],)
+        try:
+            gecos = connection.entries[0].gecos.value
+        except:
+            print('Cannot find gecos value')
+        try:
+            email = connection.entries[0].email.value
+        except:
+            print('Cannot find email value')
+        return gecos, email
 
 
 class LoginForm(FlaskForm):
@@ -143,5 +153,6 @@ class LoginForm(FlaskForm):
 class UserForm(FlaskForm):
     username = TextField(gettext('Nom d\'utilisateur'), validators = [InputRequired()])
     password = TextField(gettext('Mot de passe'), validators = [InputRequired()])
+    email = TextField(gettext('Adresse électronique'), validators = [InputRequired()])
     #role = RadioField(gettext('Rôle'), default = 'user', choices = [(e, e.name) for e in RoleEnum])
     gecos = TextField(gettext('Nom complet'))
