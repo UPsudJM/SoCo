@@ -130,8 +130,8 @@ class Recurrent(Base):
     __table_args__ = (UniqueConstraint('id_evenement', 'date', name='uc_recur'),)
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=True)
-    date = Column(Date)
-    date_fin = Column(Date)
+    date = Column(DateTime)
+    date_fin = Column(DateTime)
     id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
 
     evenement = relationship("Evenement", back_populates="recurrent")

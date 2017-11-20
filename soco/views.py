@@ -32,7 +32,7 @@ from flask_babelex import gettext, lazy_gettext
 from soco import app, babel, db_session, lm, LOGO_DEFAULT, URL_DEFAULT
 from wtforms.validators import DataRequired
 from functools import wraps
-from .models import Organisation, Lieu, Evenement, Formulaire, Personne, Inscription
+from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import datefr_filter, datetimefr_filter, afflogo_filter
 from .emails import confirmer_inscription
@@ -485,20 +485,22 @@ class EvenementView(SocoModelView):
     #                             date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date and m.date_fin.date()) or "",
     #                             )
     form_args = {
-        'titre': {'label': 'Titre', 'validators': [DataRequired()]},
-        'sstitre': {'label': 'Sous-titre'},
-        'date': {'label': 'Date', 'validators': [DataRequired()]},
-        'date_fin': {'label': 'Date de fin (si nécessaire)'},
-        'recurrence': {'label': 'Récurrence (s\'il y a lieu)'},
-        'logo' : {'label': 'Logo (s\'il est différent de celui de l\'entité organisatrice)'},
-        'url' : {'label': 'Lien vers la page de l\'événement'},
-        'resume' : {'label': 'Résumé'},
-        'gratuite' : {'label': 'Gratuité'},
-        'inscription' : {'label': 'Personnes inscrites'}
+        'titre': {'label': gettext('Titre'), 'validators': [DataRequired()]},
+        'sstitre': {'label': gettext('Sous-titre')},
+        'date': {'label': gettext('Date'), 'validators': [DataRequired()]},
+        'date_fin': {'label': gettext('Date de fin (si nécessaire)')},
+        'recurrence': {'label': gettext('Récurrence (s\'il y a lieu)')},
+        'logo' : {'label': gettext('Logo (s\'il est différent de celui de l\'entité organisatrice)')},
+        'url' : {'label': gettext('Lien vers la page de l\'événement')},
+        'resume' : {'label': gettext('Résumé')},
+        'gratuite' : {'label': gettext('Gratuité')},
+        'inscription' : {'label': gettext('Personnes inscrites')}
         }
     form_excluded_columns = ['upd']
     form_overrides = dict(logo=LogoField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
+    if app.config['AVEC_RECURRENCE']:
+        inline_models.append((Recurrent, dict(form_columns=['id', 'date'])))
 
 
 class FormulaireView(SocoModelView):
