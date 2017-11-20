@@ -88,7 +88,7 @@ class User(Base):
             else:
                 auth_ok =  (password == user.password)
             if auth_ok:
-                return (True, user.gecos,)
+                return (True, user.gecos, user.email,)
         return False
 
     @staticmethod
