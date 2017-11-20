@@ -125,6 +125,25 @@ class RecurrenceEnum(enum.Enum):
     mensuel = "mensuel"
     annuel = "annuel"
 
+class Recurrent(Base):
+    __tablename__ = 'recurrent'
+    __table_args__ = (UniqueConstraint('id_evenement', 'date', name='uc_recur'),)
+    id = Column(Integer, primary_key = True)
+    id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=True)
+    date = Column(Date)
+    date_fin = Column(Date)
+    id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
+
+    evenement = relationship("Evenement", back_populates="recurrent")
+
+    def __init__(self, **kwargs):
+        Base.__init__(self)
+        for attrname in ['id_evenement', 'date', 'date_fin', 'lieu']:
+            if attrname in kwargs.keys():
+                setattr(self, attrname, kwargs[attrname])
+
+    def __repr__(self):
+        return "%s (%s)" % (self.evenement.titre, self.date)
 
 class Evenement(Base):
     __tablename__ = 'evenement'
@@ -147,6 +166,7 @@ class Evenement(Base):
 
     entite_organisatrice = relationship("Organisation", back_populates="evenement")
     lieu = relationship("Lieu", back_populates="evenement")
+    recurrent = relationship("Recurrent", back_populates="evenement")
 
     def __init__(self, **kwargs):
         Base.__init__(self)
