@@ -19,7 +19,7 @@
 """
 # coding: utf-8
 
-import datetime, enum
+import datetime, enum, string, random
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, Enum, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -39,7 +39,7 @@ lieu_organisation = Table('lieu_organisation', Base.metadata,
 
 class Personne(Base):
     __tablename__ = 'personne'
-    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'), UniqueConstraint('token', name='uc_tok'),)
+    __table_args__ = (UniqueConstraint('nom', 'prenom', 'email', name='uc_pers'), UniqueConstraint('token', name='uc_pers_tok'),)
     id = Column(Integer, primary_key = True)
     nom = Column(String(70), nullable=False)
     prenom = Column(String(70))
@@ -70,6 +70,9 @@ class Personne(Base):
                     if i.id_evenement == int(evt):
                         return [id_personne, "oui"]
         return [id_personne, "non"]
+
+    def genere_token(self):
+        pass
 
 
 class Organisation(Base):
@@ -294,7 +297,7 @@ Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_p
 
 class Inscription(Base):
     __tablename__ = 'inscription'
-    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_insc'),)
+    __table_args__ = (UniqueConstraint('id_evenement', 'id_personne', name='uc_insc'), UniqueConstraint('token', name='uc_insc_tok'))
     id = Column(Integer, primary_key = True)
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     id_personne = Column(Integer, ForeignKey('personne.id'), nullable=False)
@@ -310,6 +313,9 @@ class Inscription(Base):
     commentaire = Column(String(200))
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
+    token = Column(String(20))
+    upd = Column(DateTime, default=func.now(), server_default=func.now())
+    #upd = Column(DateTime)
 
     evenement = relationship("Evenement", back_populates="inscription")
     personne = relationship("Personne", back_populates="inscription")
@@ -354,6 +360,15 @@ class Inscription(Base):
             police2 = "\\small"
         return TPL_ETIQUETTE_DOUBLELOGO % (base_x - 10, base_y + 50,
                                     base_x, base_y, logo, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
+
+    def genere_token(self):
+        chaine = string.ascii_uppercase + string.digits
+        tok = ""
+        for i in range(12):
+            c = random.choice(chaine)
+            chaine = chaine.replace(c, '')
+            tok += c
+        self.token = tok
 
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")

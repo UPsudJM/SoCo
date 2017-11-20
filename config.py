@@ -19,7 +19,7 @@ MAIL_PASSWORD = None
 MAIL_DOMAIN = 'u-psud.fr'
 
 # administrator list
-ADMINS = []
+ADMINS = []         # your email here
 #from secret import ADMINS
 
 # User authentication
@@ -70,6 +70,7 @@ LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='soco-boi.png'
 
 # various default values
+URL_APPLICATION = 'https://soco.jm.u-psud.fr'
 URL_DEFAULT='https://soco.jm.u-psud.fr'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"

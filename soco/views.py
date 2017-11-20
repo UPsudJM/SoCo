@@ -119,6 +119,7 @@ def soco(flform):
         inscription = Inscription(evenement=evenement, personne=personne)
         inscription.badge1 = form.badge1.data
         inscription.badge2 = form.badge2.data
+        inscription.genere_token()
         if form.telephone.data:
             inscription.telephone = form.telephone.data
         if form.fonction.data:
@@ -131,7 +132,7 @@ def soco(flform):
             inscription.attestation_demandee = form.attestation_demandee.data
         if formulaire.champ_type_inscription and form.type_inscription.data:
             inscription.type_inscription = form.type_inscription.data
-        if form.jours_de_presence.data: # booléens à attraper
+        if formulaire.jour_par_jour and form.jours_de_presence.data: # booléens à attraper
             inscription.jours_de_presence = form.jours_de_presence.data
         if formulaire.champ_restauration_1 and form.inscription_repas_1.data:
             inscription.inscription_repas_1 = form.inscription_repas_1.data
@@ -157,8 +158,10 @@ def soco(flform):
             confirmer_inscription(personne.email, formulaire.evenement)
             flash(gettext("Votre inscription a bien été effectuée."))
             if app.config['AVEC_QRCODE']:
-                qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.").format(
-                    evt = evenement.titre, prenom = personne.prenom, nom = personne.nom, num = inscription.id)
+                url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
+                qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.\n{url}").format(
+                    evt = evenement.titre, prenom = personne.prenom, nom = personne.nom, num = inscription.id, url=url_verif)
+                print(qrstring)
             else:
                 qrstring = ''
             return render_template('end.html', evenement = evenement, qrstring=qrstring,

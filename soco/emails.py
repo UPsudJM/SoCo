@@ -32,14 +32,14 @@ def envoyer_message(subj, src, dest, text_body, html_body):
     msg.html = html_body
     try:
         mail.send(msg)
-    except SMTPError:
+    except:
         print("Erreur: impossible d'envoyer le mail")
 
 
 def confirmer_inscription(email, evenement):
     from .models import Evenement
     envoyer_message('SoCo : Confirmation d\'inscription au colloque "%s"' % evenement.titre.replace("'", "\\\'"),
-                   ADMINS[0],
+                   EMAIL_SITE,
                    [email],
                    render_template("confirmation_inscription.txt", evenement=evenement),
                    render_template("confirmation_inscription.html", evenement=evenement))

@@ -56,6 +56,8 @@ ok page publique d'inscription à un colloque (partie AngularJS)
     ok enregistrer les réponses aux questions supplémentaires
     at vérifier le viewport et autres (smartphones)
     ok sortie du formulaire
+  * ajouter l'inscription multiple cas récurrence
+  * ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -141,6 +143,8 @@ ec ajouts pour élargir l'utilisation
 ec ajout possibilité d'autoriser une personne à voir les inscrits
 
 ec ajout billetterie/QR-Code
+  ok QR Code avec token dedans
+  ** implémenter URL de vérification
 
 * voir le formulaire que je crée
 * modifier le formulaire que je visualise
