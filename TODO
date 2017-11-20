@@ -18,12 +18,13 @@ ok essayer avec Postgresql
 ok modèle de données
   ok revoir la relation entre Inscription et Personne
 
-ok amélioration formulaires CRUD
+ok amélioration formulaires CRUD (Admin)
   ok traitement du logo de l'événément
-    at default en cascade
+    ok default en cascade
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
+* BUG dans la page /evenement/edit (EvenementView), la récurrence n'apparaît pas
 
 at page publique d'inscription à un colloque (sans JS)
   ok champs -> pb des libellés variables, avec le style
@@ -37,7 +38,7 @@ at page publique d'inscription à un colloque (sans JS)
   ok redirection en fin de page
   ok gérer les dates d'inscription (ouverture et clôture)
 
-at page publique d'inscription à un colloque (partie AngularJS)
+ok page publique d'inscription à un colloque (partie AngularJS)
   ok champs ordinaires
   ok affichage dynamique du badge
     ok nom en majuscules, prénom capitalisé
@@ -76,7 +77,8 @@ ok page de formulaire nouveau colloque
   ok dynamisation du champ texte_restauration_1
   ec inscription jour par jour
   at nouvelles questions libres
-  at URL du colloque
+  ec URL et logo du colloque
+  ** calcul de l'entité organisatrice (à partir de l'uid de la personne)
   ok on voudrait que le texte par défaut s'efface, sur la question supplémentaire
   ok mettre des bulles pour la description des champs : angular-tooltips
 
@@ -116,7 +118,7 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-at ajout interface pour les intervants
+at ajout interface pour les intervenants
   ** transports : horaires de trains ou avions (arrivée et départ et gare ou
    aéroport)
   ** prise de billets à la fac (pas le choix) -> configuration logicielle pour
@@ -131,7 +133,7 @@ ec ajout nb d'inscrits max avec envoi de mails
   * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
 ec ajouts pour élargir l'utilisation
-  at renommage de colloque en event
+  ok renommage de colloque en event
   at paramétrisation des titres et autres dans les templates
   ec ajout récurrence d'un événement
   ec ajout vue planning : pour une personne, avec un token envoyé par mail

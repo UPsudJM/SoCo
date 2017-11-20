@@ -20,7 +20,6 @@
 # coding: utf-8
 
 from flask_wtf import FlaskForm
-from wtforms_alchemy import model_form_factory, ModelForm, ModelFormField
 from flask import flash
 from flask_babelex import gettext
 from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, HiddenField
@@ -129,15 +128,16 @@ class NcollForm(SocoForm):
         recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = [e.value for e in RecurrenceEnum])
     else:
         recurrence = HiddenField(gettext('Récurrence'))
-    lieu = SelectField(gettext('Lieu'), coerce=int,
-                           description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
+    lieu = SelectField(
+        gettext('Lieu'), coerce=int, choices = [(0, ' -- ')] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all()],
+        description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField(gettext("Date de clôture des inscriptions"), objname=objname,
                                                format='%d/%m/%Y', validators=[DataRequired()])
     jour_par_jour = BooleanField(gettext('Voulez-vous que l\'inscription se fasse jour par jour&nbsp;?'))
     champ_restauration_1 = BooleanField(
-        gettext("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants ? Si oui, cochez la case :"),
+        gettext("Organisez-vous un repas/cocktail auquel vous voulez inviter les participants, ou encore, avez-vous une autre question à leur poser ? Si oui, cochez la case :"),
         description=gettext("Vous pouvez aussi vouloir poser une autre question, le texte est à votre discrétion")
         )
     texte_restauration_1 = ClickStringField(

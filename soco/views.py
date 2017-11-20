@@ -29,7 +29,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
 from flask_admin.form.upload import ImageUploadField
 from flask_babelex import gettext, lazy_gettext
-from soco import app, babel, db_session, lm
+from soco import app, babel, db_session, lm, LOGO_DEFAULT, URL_DEFAULT
 from wtforms.validators import DataRequired
 from functools import wraps
 from .models import Organisation, Lieu, Evenement, Formulaire, Personne, Inscription
@@ -79,7 +79,7 @@ def internal_error(error):
 @app.route('/index')
 # ECRIRE LES RESTRICTIONS DANS LA FONCTION
 def index():
-    logo = app.config['LOGO_DEFAULT']
+    logo = LOGO_DEFAULT
     logofilename = afflogo_filter(logo)
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', logofilename=logofilename, evenements=evenements)
@@ -91,7 +91,15 @@ def soco(flform):
     if not formulaire:
         return render_template('404.html')
     evenement = formulaire.evenement
-    logo0, logo, url = evenement.infos_comm()
+    logo, url = evenement.infos_comm()
+    if evenement.entite_organisatrice:
+        logo0, url0 = evenement.entite_organisatrice.infos_comm()
+        if logo0 == logo:
+            logo0 = LOGO_DEFAULT
+        if url0 == url:
+            url0 = URL_DEFAULT
+    else:
+        logo0, url0 = LOGO_DEFAULT, URL_DEFAULT
     logofilename0, logofilename = afflogo_filter(logo0), ""
     if logo:
         logofilename = afflogo_filter(logo)
@@ -244,10 +252,11 @@ def speaker(flform):
 
 @app.route('/suivi/new', methods=['GET', 'POST'])
 @app.route('/suivi/new/', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def new():
     form = NcollForm()
-    form.lieu.choices = [(0, gettext('Aucun'))] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all()]
+    if form.lieu.data:
+        lieu = Lieu.query.get(form.lieu.data)
     if form.validate_on_submit():
         if form.uid_organisateur.data:
             uid_organisateur = form.uid_organisateur.data
@@ -255,7 +264,7 @@ def new():
             uid_organisateur = current_user.username
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
                                   date=form.date.data, date_fin=form.date_fin.data,
-                                  lieu = form.lieu.data, uid_organisateur = uid_organisateur)
+                                  lieu = lieu, uid_organisateur = uid_organisateur)
         formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
         if form.champ_restauration_1:
@@ -270,7 +279,7 @@ def new():
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash(lazy_gettext("Erreur d'intégrité"), 'erreur') # sur l'événément : titre et date et organisation ?
+            flash(lazy_gettext("Un événement a déjà été créé de même date et même titre"), 'erreur') # unicité titre + date + organisation
             if "uc_even" in str(err.orig):
                 flash(lazy_gettext("Vous avez déjà créé un événement à la même date, avec le même titre !"), 'erreur')
             if "uc_form" in str(err.orig):
@@ -280,7 +289,7 @@ def new():
             url_parts = url_formulaire . split('//') # enlever les '//' internes
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
             flash(gettext("Votre formulaire a bien été créé."), 'info')
-            flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>", 'url'))
+            flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>"), 'url')
             return redirect('/suivi')
     return render_template('new.html', form=form, current_user=current_user)
 
@@ -456,20 +465,21 @@ class EvenementView(SocoModelView):
     action_disallowed_list = ['delete']
     can_export = True
     can_view_details = True
-    column_labels = dict(sstitre= 'Sous-titre', date='Date', uid_organisateur='Organisateur/trice',
-                             resume='Résumé', gratuite='Gratuit', entite_organisatrice='Entité organisatrice',
-                             upd='Mis à jour le')
+    column_labels = dict(sstitre = gettext('Sous-titre'), date = gettext('Date'), uid_organisateur = gettext('Organisateur/trice'),
+                             resume = gettext('Résumé'), gratuite = gettext('Gratuité'), recurrence = gettext('Récurrence'),
+                             entite_organisatrice = gettext('Entité organisatrice'), upd = gettext('Mis à jour le'))
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
     column_exclude_list = ['upd', 'resume' ]
     column_sortable_list = ['titre', 'date', 'uid_organisateur']
     column_filters = ['titre', 'lieu', 'uid_organisateur', 'gratuite']
     column_default_sort = 'date'
     column_descriptions = dict(
-        titre='Titre de l\'événement',
-        sstitre='Sous-titre de l\'événement',
-        lieu="Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la %s)</em>" % app.config['SALLE_PPALE'],
-        uid_organisateur='L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice',
-        gratuite = 'L\'entrée est-elle libre ?'
+        titre = gettext('Titre de l\'événement'),
+        sstitre = gettext('Sous-titre de l\'événement'),
+        lieu = gettext("Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la {salle_ppale})</em>").format(
+            salle_ppale = app.config['SALLE_PPALE']),
+        uid_organisateur = gettext('L\'identifiant Paris Sud <code>prenom.nom</code> de l\'organisateur/trice'),
+        gratuite = gettext('L\'entrée est-elle libre ?')
         )
     #column_formatters = dict(date=lambda v, c, m, p: m.date.date(),
     #                             date_fin=lambda v, c, m, p: (m.date_fin and m.date_fin!=m.date and m.date_fin.date()) or "",
@@ -494,16 +504,16 @@ class EvenementView(SocoModelView):
 class FormulaireView(SocoModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2', 'texte_libre_1' , 'texte_libre_2']
     column_descriptions = dict(
-        organisateur_en_copie = "Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?",
-        champ_attestation = "Les personnes qui s'inscrivent peuvent demander une attestation de présence",
-        champ_restauration_1 = "Pour pouvoir s'inscrire à un repas",
-        texte_restauration_1 = "Le texte de la question correspondante",
-        champ_restauration_2 = "2ème possibilité pour pouvoir s'inscrire à un repas",
-        texte_restauration_2 = "Le texte de la question correspondante",
-        champ_libre_1 = "Présence d'une question libre",
-        texte_libre_1 = "Le texte de la cette question",
-        champ_libre_2 = "Présence d'une 2ème question libre",
-        texte_libre_2 = "Le texte de cette 2ème question"
+        organisateur_en_copie = gettext("Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?"),
+        champ_attestation = gettext("Les personnes qui s'inscrivent peuvent demander une attestation de présence"),
+        champ_restauration_1 = gettext("Pour pouvoir s'inscrire à un repas"),
+        texte_restauration_1 = gettext("Le texte de la question correspondante"),
+        champ_restauration_2 = gettext("2ème possibilité pour pouvoir s'inscrire à un repas"),
+        texte_restauration_2 = gettext("Le texte de la question correspondante"),
+        champ_libre_1 = gettext("Présence d'une question libre"),
+        texte_libre_1 = gettext("Le texte de la cette question"),
+        champ_libre_2 = gettext("Présence d'une 2ème question libre"),
+        texte_libre_2 = gettext("Le texte de cette 2ème question")
         )
     form_excluded_columns = ['upd']
     form_ajax_refs = {
@@ -515,11 +525,11 @@ class FormulaireView(SocoModelView):
 class OrganisationView(SocoModelView):
     can_export = True
     form_args = {
-        'nom': {'label' : 'Nom de l\'organisation'},
-        'interne' : {'label': 'Est-ce une organisation interne, susceptible d\'organiser des événements ?'},
-        'email': {'label' : 'Adresse mail de contact'},
-        'lieu' : {'label' : 'Lieux utilisés'},
-        'evenement' : {'label' : 'Événements programmés'}
+        'nom': {'label' : gettext('Nom de l\'organisation')},
+        'interne' : {'label': gettext('Est-ce une organisation interne, susceptible d\'organiser des événements ?')},
+        'email': {'label' : gettext('Adresse mail de contact')},
+        'lieu' : {'label' : gettext('Lieux utilisés')},
+        'evenement' : {'label' : gettext('Événements programmés')}
         }
     form_overrides = dict(logo=LogoField)
     #inline_models = [(Evenement, dict(form_columns=['id', 'titre', 'date']))]
@@ -533,17 +543,17 @@ class OrganisationView(SocoModelView):
 class LieuView(SocoModelView):
     can_export = True
     form_args = {
-        'nom': {'label' : 'Nom de la salle ou du lieu'},
-        'adresse' : {'label': 'Pour éviter toute ambiguïté, vous pouvez préciser l\'adresse'},
-        'capacite': {'label' : 'Capacité de la salle ou du lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité'},
-        'evenement' : {'label' : 'Événements programmés dans ce lieu'}
+        'nom': {'label' : gettext('Nom de la salle ou du lieu')},
+        'adresse' : {'label': gettext('Pour éviter toute ambiguïté, vous pouvez préciser l\'adresse')},
+        'capacite': {'label' : gettext('Capacité de la salle ou du lieu (en nombre de places) ; sert à vous prévenir en cas de dépassement de capacité')},
+        'evenement' : {'label' : gettext('Événements programmés dans ce lieu')}
         }
 
 
 class PersonneView(SocoModelView):
     can_export = True
     form_args = {
-        'prenom' : {'label': 'Prénom'}
+        'prenom' : {'label': gettext('Prénom')}
     }
     inline_models = [(Inscription, dict(form_columns=['id', 'evenement', 'attestation_demandee']))]
     form_ajax_refs = {
@@ -554,7 +564,7 @@ class PersonneView(SocoModelView):
 class InscriptionView(SocoModelView):
     can_export = True
     form_args = {
-        'telephone' : {'label': 'Téléphone'}
+        'telephone' : {'label': gettext('Téléphone')}
     }
     form_excluded_columns = ['date_inscription']
     form_ajax_refs = {

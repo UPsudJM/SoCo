@@ -93,6 +93,13 @@ class Organisation(Base):
     def __str__(self):
         return self.nom
 
+    def infos_comm(self):
+        """Calcule et retourne 1 logo et une URL"""
+        logo0, url0 = LOGO_DEFAULT, URL_DEFAULT
+        logo = self.logo or logo0
+        url = self.url or url0
+        return logo, url
+
 
 class Lieu(Base):
     __tablename__ = 'lieu'
@@ -164,9 +171,9 @@ class Evenement(Base):
             raise IntegrityError("Unknown error")
 
     def infos_comm(self):
-        """Calcule et retourne 2 logos et une URL"""
+        """Calcule et retourne 1 logo et une URL"""
         logo0, url0 = LOGO_DEFAULT, URL_DEFAULT
-        logo = evenement.logo
+        logo = self.logo
         url = self.url or ""
         if not logo or not url:
             organisation = self.entite_organisatrice
@@ -177,7 +184,7 @@ class Evenement(Base):
                     url = organisation.url
         if not url and url0:
             url = url0
-        return logo0, logo, url
+        return logo, url
 
     def calcule_jours(self):
         """ Retourne une liste des jours de colloque"""
