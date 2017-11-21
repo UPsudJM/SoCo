@@ -23,7 +23,7 @@ TABLE#onglets A { text-decoration: none; }
 TABLE#onglets A:hover { font-style: italic; background-color: aliceblue; }
 TABLE CAPTION { margin-bottom: 20px; padding: 15px; text-align: center; width: 80%; }
 
-P.lieu, P.dateinscr { font-size: 120%; }
+P.lieu, P.dateinscr { font-size: 150%; }
 P.dateinscr { font-style: italic; }
 FIELDSET {
     margin-left: 20px;
@@ -122,7 +122,7 @@ H3 {color: #696968; }
 A, LEGEND, .h2g A, .h2g A:visited, A:link, A:hover, H1 { color: #003A64; }
 
 /* Page de vérification */
-P.good, P.bad {font-size:300%;}
-P.good {color: green; }
-P.bad {color: red; }
-SPAN.smilie {font-size:300%; font-weight:bold;}
+P.good, P.bad { font-size:300%; }
+P.good { color:green; }
+P.bad { color:red; }
+SPAN.smilie { font-size:200%; font-weight:bold;}
