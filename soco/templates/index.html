@@ -16,7 +16,7 @@
 
 {% for evenement in evenements %}
 {% for f in evenement.formulaire %}
-<p><a href="{{ url_for('soco', flform=f.id) }}">{{ _('Inscription à') }} <strong>{{ evenement.titre }} {{ evenement.date | datefr }}</strong> {{ _('ouvert du') }} {{ f.date_ouverture_inscriptions | datefr("d MMMM") }} {{ _('au') }} {{ f.date_cloture_inscriptions | datefr("d MMMM")}}, {{ _('mis à jour le') }} {{ f.upd | datetimefr}}</a></p>
+<p><a href="{{ url_for('soco', flform=f.id) }}">{{ _('Inscription à') }} <strong>{{ evenement.titre }} {{ evenement.date | localedate }}</strong> {{ _('ouvert du') }} {{ f.date_ouverture_inscriptions | localedate("d MMMM") }} {{ _('au') }} {{ f.date_cloture_inscriptions | localedate("d MMMM")}}, {{ _('mis à jour le') }} {{ f.upd | localedatetime}}</a></p>
 {% endfor %}{% endfor %}
 
 {% endblock %}

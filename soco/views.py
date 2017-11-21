@@ -34,7 +34,7 @@ from wtforms.validators import DataRequired
 from functools import wraps
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
-from .filters import datefr_filter, datetimefr_filter, afflogo_filter
+from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
 from .emails import confirmer_inscription
 from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
 
@@ -66,6 +66,22 @@ def parametres_institution():
                 email_site = app.config['EMAIL_SITE'],
                 signature_emails = app.config['SIGNATURE_EMAILS'])
 
+def afflogo(f, size=(64,64)):
+    infile = app.config['LOGO_FOLDER'] + f
+    thumbnail = "petit-" + f
+    outfile = app.config['LOGO_FOLDER'] + thumbnail
+    try:
+        im = Image.open(outfile)
+    except IOError:
+        try:
+            im = Image.open(infile)
+            im.thumbnail(size)
+            im.save(outfile, "PNG")
+        except IOError:
+            print("cannot create thumbnail for", f)
+    finally:
+        return app.config['LOGO_URL_REL'] + thumbnail
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
@@ -80,7 +96,7 @@ def internal_error(error):
 # ECRIRE LES RESTRICTIONS DANS LA FONCTION
 def index():
     logo = LOGO_DEFAULT
-    logofilename = afflogo_filter(logo)
+    logofilename = afflogo(logo)
     evenements = Evenement.query.all()
     return render_template('index.html', title='Conferences', logofilename=logofilename, evenements=evenements)
 
@@ -100,9 +116,9 @@ def soco(flform):
             url0 = URL_DEFAULT
     else:
         logo0, url0 = LOGO_DEFAULT, URL_DEFAULT
-    logofilename0, logofilename = afflogo_filter(logo0), ""
+    logofilename0, logofilename = afflogo(logo0), ""
     if logo:
-        logofilename = afflogo_filter(logo)
+        logofilename = afflogo(logo)
     if formulaire.date_ouverture_inscriptions > datetime.date.today():
         return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
     elif formulaire.date_cloture_inscriptions < datetime.date.today():
@@ -178,6 +194,8 @@ def end():
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
 @app.route('/verif/<token>')
+@login_required
+@required_roles('admin', 'user')
 def verif(token):
     inscription = Inscription.query.filter_by(token=token).first()
     if not inscription:
@@ -202,7 +220,7 @@ def speaker(flform):
         return render_template('404.html')
     evenement = formulaire.evenement
     logo0, logo, url = evenement.infos_comm()
-    logofilename0, logofilename = afflogo_filter(logo0), ""
+    logofilename0, logofilename = afflogo(logo0), ""
     form = IntervenantForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,

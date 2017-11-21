@@ -22,32 +22,38 @@
 import datetime, string, random
 from jinja2 import contextfilter
 from PIL import Image
-from flask_babel import gettext, format_date, format_datetime
+from flask_babel import format_date, format_datetime
 from soco import app
 
 
-@app.template_filter('datefr')
-def datefr_filter(d, fmt=None):
+@app.template_filter('localedate')
+def localedate_filter(d, fmt=None):
     if fmt:
         return format_date(d, fmt)
     return format_date(d, "medium")
 
-@app.template_filter('datetimefr')
-def datetimefr_filter(d, fmt=None):
+@app.template_filter('localedatetime')
+def localedatetime_filter(d, fmt=None):
     if fmt:
         return format_datetime(d, fmt)
     return format_datetime(d, "dd/MM H:mm")
+
+@app.template_filter('datedebutcompl')
+def datedebutcompl_filter(d, date_fin, fmt=None):
+    if (date_fin - d).days==1:
+        return "les " + datedebut_filter(d, date_fin, fmt) + " et"
+    return "du " + datedebut_filter(d, date_fin, fmt) + " au"
 
 @app.template_filter('datedebut')
 def datedebut_filter(d, date_fin, fmt=None):
     # Tester si même mois et année, ou si même année
     if d.year == date_fin.year and d.month == date_fin.month:
-        return datefr_filter(d, "d")
+        return format_date(d, "d")
     elif d.year == date_fin.year:
-        return datefr_filter(d, "d MMMM")
+        return format_date(d, "d MMMM")
     if fmt:
-        return datefr_filter(d, fmt)
-    return datefr_filter(d, "medium")
+        return localedate_filter(d, fmt)
+    return localedate_filter(d, "medium")
 
 @app.template_filter('ouinon')
 def ouinon_filter(b, non="non"):
@@ -55,23 +61,6 @@ def ouinon_filter(b, non="non"):
         return "oui"
     else:
         return non
-
-@app.template_filter('afflogo')
-def afflogo_filter(f, size=(64,64)):
-    infile = app.config['LOGO_FOLDER'] + f
-    thumbnail = "petit-" + f
-    outfile = app.config['LOGO_FOLDER'] + thumbnail
-    try:
-        im = Image.open(outfile)
-    except IOError:
-        try:
-            im = Image.open(infile)
-            im.thumbnail(size)
-            im.save(outfile, "PNG")
-        except IOError:
-            print("cannot create thumbnail for", f)
-    finally:
-        return app.config['LOGO_URL_REL'] + thumbnail
 
 @app.template_filter('generate_default_password')
 @contextfilter

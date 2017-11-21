@@ -4,7 +4,7 @@
 
    {{ evenement.titre }}
 
-{{ gettext('qui aura lieu le') }} {{ evenement.date | datefr("d MMMM YYYY") }}
+{{ gettext('qui aura lieu le') }} {{ evenement.date | localedate("d MMMM YYYY") }}
 
 {% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}
 
