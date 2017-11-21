@@ -120,3 +120,9 @@ UL.checkbox {
 /* Ajouts 2012+2017 */
 H3 {color: #696968; }
 A, LEGEND, .h2g A, .h2g A:visited, A:link, A:hover, H1 { color: #003A64; }
+
+/* Page de vérification */
+P.good, P.bad {font-size:300%;}
+P.good {color: green; }
+P.bad {color: red; }
+SPAN.smilie {font-size:300%; font-weight:bold;}

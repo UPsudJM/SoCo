@@ -177,6 +177,13 @@ def end():
     evenement = Evenement.query.filter_by(id=id_evenement).first()
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
+@app.route('/verif/<token>')
+def verif(token):
+    inscription = Inscription.query.filter_by(token=token).first()
+    if not inscription:
+        return render_template('verif.html', ok=False)
+    return render_template('verif.html', ok=True, personne=inscription.personne, evenement=inscription.evenement)
+
 @app.route('/planning/<token>')
 @app.route('/cal/<token>')
 def planning(token):
