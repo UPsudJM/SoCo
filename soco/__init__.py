@@ -56,7 +56,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from config import DB_ENGINE
-if DB_ENGINE == 'pgsql':
+if DB_ENGINE == 'psql':
     from config import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD, PGSQL_DATABASE_DB, PGSQL_DATABASE_HOST
     SQLALCHEMY_DATABASE_URI = 'postgresql://' + PGSQL_DATABASE_USER + ":" + PGSQL_DATABASE_PASSWORD + "@" + PGSQL_DATABASE_HOST + "/" + PGSQL_DATABASE_DB
 elif DB_ENGINE == 'mysql':

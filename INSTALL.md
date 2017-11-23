@@ -2,7 +2,7 @@ Requirements
 ============
 Debian packages
 ---------------
-* `python3` `python3-pil` `python3-flask` `python3-pip`
+* `python3` `python3-pip`
 * `python3-venv` if you wish to use python virtual environment (recommended)
 * + you will need a web server
 
@@ -15,8 +15,8 @@ Database
 Python packages
 ---------------
 * if you use virtualenv: `$ pyvenv venv` then `source venv/bin/activate`
+* `$ pip3 install wheel SQLAlchemy sqlalchemy-migrate psycopg2 (or flask-mysqldb)`
 * `$ pip3 install Flask-Admin Flask-Babel Flask-Login Flask-Mail Flask-RESTful Flask-WTF Pillow Flask-Babelex`
-* `$ pip3 install SQLAlchemy sqlalchemy-migrate psycopg2 (or flask-mysqldb)`
 * `$ pip3 install ldap3` (if you want to use LDAP for user identification) or `$ pip3 install passlib` (otherwise)
 * `$ pip3 install scipy zbar-py Flask-QRCode` (only if you want ticketing)
 
@@ -34,7 +34,7 @@ Files
 -----
 * clone or download SoCo code into your working directory
 * create a sub-directory for compiling LaTeX files
-  * permissions: SoCo needs to write in it
+  * permissions: SoCo needs to write into it
   * paths: look at the paths in the LaTeX templates, esp [./soco/templates/etiquettes.tex] in order to make your static files accessible from the LaTeX files that will be compiled there
 * if you wish, create another subdir for PDF files (you may use /tmp)
 * feed the corresponding variables FABDIR and TMPDIR in [./config.py]
@@ -44,7 +44,8 @@ Javascript modules
 ------------------
 SoCo's interactions are based on angular.js. Corresponding modules are packaged with the software.
 
-Warning: If you are not in France, you might want to adapt the locale and maybe some of the code.
+Warning: If you are not in France, you might want to adapt the locale and maybe some
+of the SoCo templates and/or JS files.
 
 Database configuration
 ----------------------

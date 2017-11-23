@@ -25,27 +25,18 @@ ADMINS = []         # your email here
 # User authentication
 USE_PWHASH = True
 USE_LDAP = False
-#LDAP_PROVIDER_URL = 'ldap://ldaps.u-psud.fr:636'
-LDAP_PROVIDER_URL = 'ldaps.u-psud.fr'
-#LDAP_PROTOCOL_VERSION = 3
-LDAP_SEARCH_BASE = 'dc=u-psud, dc=fr'
-LDAP_USER_PATT = 'uid=%s,ou=people,dc=u-psud,dc=fr'
+#LDAP_PROVIDER_URL = 'your.ldap.server'
+#LDAP_SEARCH_BASE = 'dc=xyz, dc=tuv'
+#LDAP_USER_PATT = 'uid=%s,ou=people,dc=xuz,dc=tuv'
 
 # Database and other secrets
 PGSQL_DATABASE_DB = 'soco'
 PGSQL_DATABASE_HOST = 'localhost'
-#PGSQL_DATABASE_USER = 'myuser'
-#PGSQL_DATABASE_PASSWORD = 'mypass'
+PGSQL_DATABASE_USER = 'myuser'
+PGSQL_DATABASE_PASSWORD = 'mypass'
 #from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
-# Same, with MySQL
-MYSQL_DATABASE_DB = 'soco'
-MYSQL_DATABASE_HOST = 'localhost'
-MYSQL_DATABASE_USER = 'myuser'
-MYSQL_DATABASE_PASSWORD = 'mypass'
-#from secret import MYSQL_DATABASE_USER, MYSQL_DATABASE_PASSWORD
-
-DB_ENGINE = 'mysql'
+DB_ENGINE = 'psql'
 
 # Same, with MySQL
 MYSQL_DATABASE_DB = 'soco'
@@ -54,7 +45,7 @@ MYSQL_DATABASE_USER = 'myuser'
 MYSQL_DATABASE_PASSWORD = 'mypass'
 #from secret import MYSQL_DATABASE_USER, MYSQL_DATABASE_PASSWORD
 
-DB_ENGINE = 'mysql'
+#DB_ENGINE = 'mysql'
 
 # available languages
 LANGUAGES = {
@@ -80,9 +71,9 @@ SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Par
 NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
 
 # Optional features
-AVEC_ETIQUETTES=True
+AVEC_ETIQUETTES=False
 AVEC_QRCODE=True
-AVEC_RECURRENCE=True
+AVEC_RECURRENCE=False
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30

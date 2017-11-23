@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-20 10:36+0100\n"
+"POT-Creation-Date: 2017-11-23 09:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: soco/forms.py:123
+#: soco/forms.py:122 soco/views.py:516
 msgid "Titre"
 msgstr ""
 
-#: soco/forms.py:124
+#: soco/forms.py:123 soco/views.py:496 soco/views.py:517
 msgid "Sous-titre"
 msgstr ""
 
-#: soco/forms.py:125
+#: soco/forms.py:124 soco/views.py:496 soco/views.py:518
 msgid "Date"
 msgstr ""
 
-#: soco/forms.py:126
+#: soco/forms.py:125
 msgid "Date de fin"
 msgstr ""
 
-#: soco/forms.py:127
+#: soco/forms.py:126
 msgid "Seulement dans le cas où l'événement dure plusieurs jours"
 msgstr ""
 
-#: soco/forms.py:129 soco/forms.py:131
+#: soco/forms.py:128 soco/forms.py:130 soco/views.py:497
 msgid "Récurrence"
 msgstr ""
 
-#: soco/forms.py:129
+#: soco/forms.py:128
 msgid "Aucune"
 msgstr ""
 
@@ -70,7 +70,8 @@ msgstr ""
 #: soco/forms.py:140
 msgid ""
 "Organisez-vous un repas/cocktail auquel vous voulez inviter les "
-"participants ? Si oui, cochez la case :"
+"participants, ou encore, avez-vous une autre question à leur poser ? Si "
+"oui, cochez la case :"
 msgstr ""
 
 #: soco/forms.py:141
@@ -111,11 +112,11 @@ msgstr ""
 msgid "La date de clôture ne peut pas être postérieure à la date de l'événement"
 msgstr ""
 
-#: soco/forms.py:176
+#: soco/forms.py:176 soco/templates/flform.html:34
 msgid "Nom"
 msgstr ""
 
-#: soco/forms.py:178
+#: soco/forms.py:178 soco/templates/flform.html:38 soco/views.py:586
 msgid "Prénom"
 msgstr ""
 
@@ -127,11 +128,11 @@ msgstr ""
 msgid "Adresse électronique"
 msgstr ""
 
-#: soco/forms.py:183
+#: soco/forms.py:183 soco/templates/flform.html:51 soco/views.py:597
 msgid "Téléphone"
 msgstr ""
 
-#: soco/forms.py:185
+#: soco/forms.py:185 soco/templates/flform.html:55
 msgid "Organisation"
 msgstr ""
 
@@ -139,7 +140,7 @@ msgstr ""
 msgid "Attention, pour le badge : fonction + organisation = 32 caractères max."
 msgstr ""
 
-#: soco/forms.py:189
+#: soco/forms.py:189 soco/templates/flform.html:59
 msgid "Fonction"
 msgstr ""
 
@@ -185,7 +186,7 @@ msgstr ""
 msgid "Matériel à prévoir"
 msgstr ""
 
-#: soco/forms.py:248 soco/forms.py:250 soco/forms.py:255 soco/views.py:250
+#: soco/forms.py:248 soco/forms.py:250 soco/forms.py:255
 msgid "Aucun"
 msgstr ""
 
@@ -229,34 +230,175 @@ msgstr ""
 msgid "Vous n'avez pas les droits d'accès à cette page"
 msgstr ""
 
-#: soco/views.py:99
+#: soco/views.py:123
 msgid "Les inscriptions pour cet événement ne sont pas encore ouvertes !"
 msgstr ""
 
-#: soco/views.py:101
+#: soco/views.py:125
 msgid "Les inscriptions pour cet événement sont closes !"
 msgstr ""
 
-#: soco/views.py:150
+#: soco/views.py:175
 msgid "Votre inscription a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:152
+#: soco/views.py:178
 msgid ""
 "SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro "
-"{num}."
+"{num}.\n"
+"{url}"
 msgstr ""
 
-#: soco/views.py:238
+#: soco/views.py:274
 msgid "Votre inscription comme intervenant-e a bien été effectuée."
 msgstr ""
 
-#: soco/views.py:282
+#: soco/views.py:319
 msgid "Votre formulaire a bien été créé."
 msgstr ""
 
-#: soco/views.py:283
+#: soco/views.py:320
 msgid "Voici son URL : <a href=\"\"></a>"
+msgstr ""
+
+#: soco/views.py:496
+msgid "Organisateur/trice"
+msgstr ""
+
+#: soco/views.py:497 soco/views.py:523
+msgid "Résumé"
+msgstr ""
+
+#: soco/views.py:497 soco/views.py:524
+msgid "Gratuité"
+msgstr ""
+
+#: soco/views.py:498
+msgid "Entité organisatrice"
+msgstr ""
+
+#: soco/views.py:498
+msgid "Mis à jour le"
+msgstr ""
+
+#: soco/views.py:505
+msgid "Titre de l'événement"
+msgstr ""
+
+#: soco/views.py:506
+msgid "Sous-titre de l'événement"
+msgstr ""
+
+#: soco/views.py:507
+msgid ""
+"Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la "
+"{salle_ppale})</em>"
+msgstr ""
+
+#: soco/views.py:509
+msgid "L'identifiant Paris Sud <code>prenom.nom</code> de l'organisateur/trice"
+msgstr ""
+
+#: soco/views.py:510
+msgid "L'entrée est-elle libre ?"
+msgstr ""
+
+#: soco/views.py:519
+msgid "Date de fin (si nécessaire)"
+msgstr ""
+
+#: soco/views.py:520
+msgid "Récurrence (s'il y a lieu)"
+msgstr ""
+
+#: soco/views.py:521
+msgid "Logo (s'il est différent de celui de l'entité organisatrice)"
+msgstr ""
+
+#: soco/views.py:522
+msgid "Lien vers la page de l'événement"
+msgstr ""
+
+#: soco/views.py:525
+msgid "Personnes inscrites"
+msgstr ""
+
+#: soco/views.py:537
+msgid ""
+"Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque "
+"inscription ?"
+msgstr ""
+
+#: soco/views.py:538
+msgid ""
+"Les personnes qui s'inscrivent peuvent demander une attestation de "
+"présence"
+msgstr ""
+
+#: soco/views.py:539
+msgid "Pour pouvoir s'inscrire à un repas"
+msgstr ""
+
+#: soco/views.py:540 soco/views.py:542
+msgid "Le texte de la question correspondante"
+msgstr ""
+
+#: soco/views.py:541
+msgid "2ème possibilité pour pouvoir s'inscrire à un repas"
+msgstr ""
+
+#: soco/views.py:543
+msgid "Présence d'une question libre"
+msgstr ""
+
+#: soco/views.py:544
+msgid "Le texte de la cette question"
+msgstr ""
+
+#: soco/views.py:545
+msgid "Présence d'une 2ème question libre"
+msgstr ""
+
+#: soco/views.py:546
+msgid "Le texte de cette 2ème question"
+msgstr ""
+
+#: soco/views.py:558
+msgid "Nom de l'organisation"
+msgstr ""
+
+#: soco/views.py:559
+msgid "Est-ce une organisation interne, susceptible d'organiser des événements ?"
+msgstr ""
+
+#: soco/views.py:560
+msgid "Adresse mail de contact"
+msgstr ""
+
+#: soco/views.py:561
+msgid "Lieux utilisés"
+msgstr ""
+
+#: soco/views.py:562
+msgid "Événements programmés"
+msgstr ""
+
+#: soco/views.py:576
+msgid "Nom de la salle ou du lieu"
+msgstr ""
+
+#: soco/views.py:577
+msgid "Pour éviter toute ambiguïté, vous pouvez préciser l'adresse"
+msgstr ""
+
+#: soco/views.py:578
+msgid ""
+"Capacité de la salle ou du lieu (en nombre de places) ; sert à vous "
+"prévenir en cas de dépassement de capacité"
+msgstr ""
+
+#: soco/views.py:579
+msgid "Événements programmés dans ce lieu"
 msgstr ""
 
 #: soco/auth/models.py:147 soco/auth/models.py:154
@@ -292,7 +434,8 @@ msgid "Page non trouvée"
 msgstr ""
 
 #: soco/templates/404.html:6 soco/templates/end.html:32
-#: soco/templates/erreur.html:7
+#: soco/templates/erreur.html:7 soco/templates/flform.html:73
+#: soco/templates/verif.html:34
 msgid "Retour"
 msgstr ""
 
@@ -342,8 +485,8 @@ msgstr ""
 msgid "Nouvel utilisateur"
 msgstr ""
 
-#: soco/templates/createuser.html:16 soco/templates/login.html:20
-#: soco/templates/new.html:70
+#: soco/templates/createuser.html:16 soco/templates/flform.html:87
+#: soco/templates/login.html:20 soco/templates/new.html:70
 msgid "Envoyer"
 msgstr ""
 
@@ -387,6 +530,128 @@ msgstr ""
 msgid "Merci de votre visite"
 msgstr ""
 
+#: soco/templates/flform.html:13
+msgid "Inscription à :"
+msgstr ""
+
+#: soco/templates/flform.html:23
+msgid "Ce formulaire est ouvert du"
+msgstr ""
+
+#: soco/templates/flform.html:23 soco/templates/index.html:19
+#: soco/templates/suivi_index.html:26
+msgid "au"
+msgstr ""
+
+#: soco/templates/flform.html:27
+msgid "Modifier ce formulaire"
+msgstr ""
+
+#: soco/templates/flform.html:33
+msgid "Vos coordonnées"
+msgstr ""
+
+#: soco/templates/flform.html:36
+msgid "Merci d'indiquer votre nom"
+msgstr ""
+
+#: soco/templates/flform.html:39
+msgid "Attention, pour le badge, prénom + nom = 26 caractères max."
+msgstr ""
+
+#: soco/templates/flform.html:40 soco/templates/flform.html:64
+msgid "Sur votre badge :"
+msgstr ""
+
+#: soco/templates/flform.html:41
+msgid "Email"
+msgstr ""
+
+#: soco/templates/flform.html:43
+msgid "Merci d'indiquer votre adresse électronique"
+msgstr ""
+
+#: soco/templates/flform.html:44
+msgid "Cette adresse n'est pas valide"
+msgstr ""
+
+#: soco/templates/flform.html:46
+msgid ""
+"Cette adresse est déjà utilisée par une autre personne. Est-ce vous "
+"malgré tout ? Dans ce cas, nous allons vous envoyer un mail pour "
+"vérifier. Veuillez cliquer sur ce bouton :"
+msgstr ""
+
+#: soco/templates/flform.html:46
+msgid "Envoyez-moi un email pour vérifier mon adresse, merci !"
+msgstr ""
+
+#: soco/templates/flform.html:47
+msgid ""
+"Veuillez fournir ici le code que vous venez de recevoir par mail (4 "
+"chiffres) :"
+msgstr ""
+
+#: soco/templates/flform.html:48
+msgid "Merci !"
+msgstr ""
+
+#: soco/templates/flform.html:49
+msgid ""
+"Nous sommes désolé-e-s, le code ne correspond pas. Veuillez utiliser une "
+"autre adresse email."
+msgstr ""
+
+#: soco/templates/flform.html:54
+msgid "Votre entreprise / Institution"
+msgstr ""
+
+#: soco/templates/flform.html:57
+msgid "Merci d'indiquer votre organisation"
+msgstr ""
+
+#: soco/templates/flform.html:61
+msgid "Merci d'indiquer votre fonction"
+msgstr ""
+
+#: soco/templates/flform.html:63
+msgid "Attention, pour le badge, fonction + organisation = 32 caractères max."
+msgstr ""
+
+#: soco/templates/flform.html:69
+msgid "Votre intervention"
+msgstr ""
+
+#: soco/templates/flform.html:71
+msgid "Votre voyage"
+msgstr ""
+
+#: soco/templates/flform.html:72
+msgid "Aller"
+msgstr ""
+
+#: soco/templates/flform.html:74
+msgid "Votre séjour"
+msgstr ""
+
+#: soco/templates/flform.html:78
+msgid "Votre participation"
+msgstr ""
+
+#: soco/templates/flform.html:86 soco/templates/new.html:69
+msgid "Réinitialiser"
+msgstr ""
+
+#: soco/templates/flform.html:94 soco/templates/new.html:77
+#: soco/templates/suivi_index.html:42
+msgid "Contact pour l'inscription&nbsp;:"
+msgstr ""
+
+#: soco/templates/flform.html:95 soco/templates/new.html:78
+#: soco/templates/suivi_index.html:43
+msgid "Contact pour ce site&nbsp;:"
+msgstr ""
+
 #: soco/templates/index.html:10
 msgid "Logo SoCo"
 msgstr ""
@@ -401,10 +666,6 @@ msgstr ""
 
 #: soco/templates/index.html:19 soco/templates/suivi_index.html:26
 msgid "ouvert du"
-msgstr ""
-
-#: soco/templates/index.html:19 soco/templates/suivi_index.html:26
-msgid "au"
 msgstr ""
 
 #: soco/templates/index.html:19
@@ -450,23 +711,11 @@ msgstr ""
 #: soco/templates/new.html:65
 msgid ""
 "N.B.: Pour plus d'options de configuration de votre page d'inscription, "
-"veuillez vous adresser aux gestionnaires du système"
-msgstr ""
-
-#: soco/templates/new.html:69
-msgid "Réinitialiser"
+"veuillez vous adresser aux gestionnaires du système."
 msgstr ""
 
 #: soco/templates/new.html:76
 msgid "Champ obligatoire"
-msgstr ""
-
-#: soco/templates/new.html:77 soco/templates/suivi_index.html:42
-msgid "Contact pour l'inscription&nbsp;:"
-msgstr ""
-
-#: soco/templates/new.html:78 soco/templates/suivi_index.html:43
-msgid "Contact pour ce site&nbsp;:"
 msgstr ""
 
 #: soco/templates/suivi_index.html:18
@@ -519,5 +768,17 @@ msgstr ""
 
 #: soco/templates/suivi_index.html:38
 msgid "Créer un formulaire d'inscription"
+msgstr ""
+
+#: soco/templates/verif.html:8
+msgid "Vérification d'une inscription"
+msgstr ""
+
+#: soco/templates/verif.html:20
+msgid "La personne"
+msgstr ""
+
+#: soco/templates/verif.html:22
+msgid "Aucune inscription ne correspond."
 msgstr ""
 
