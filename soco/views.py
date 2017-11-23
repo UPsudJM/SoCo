@@ -20,6 +20,7 @@
 # coding: utf-8
 
 import datetime
+from PIL import Image
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
 from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file

@@ -36,7 +36,7 @@ PGSQL_DATABASE_USER = 'myuser'
 PGSQL_DATABASE_PASSWORD = 'mypass'
 #from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
-DB_ENGINE = 'psql'
+DB_ENGINE = 'postgresql'
 
 # Same, with MySQL
 MYSQL_DATABASE_DB = 'soco'
