@@ -66,6 +66,9 @@ class User(Base):
     def hash_pwd(p):
         return pbkdf2_sha256.hash(p)
 
+    def set_password(self, s):
+        self.password = s
+
     def set_role(self, role):
         self.role = role
 

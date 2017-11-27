@@ -68,7 +68,7 @@ SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
 EMAIL_ORGA="Secrétariat du Département de la Recherche <colloques.jean-monnet@u-psud.fr>"
 EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
 SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Sud"
-NOM_INTERFACE_ADMIN="Colloques Jean Monnet"
+NOM_INTERFACE_ADMIN="Administration de SoCo"
 
 # Optional features
 AVEC_ETIQUETTES=False

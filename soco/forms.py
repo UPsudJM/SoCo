@@ -129,7 +129,7 @@ class NcollForm(SocoForm):
     else:
         recurrence = HiddenField(gettext('Récurrence'))
     lieu = SelectField(
-        gettext('Lieu'), coerce=int, choices = [(0, ' -- ')] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all()],
+        gettext('Lieu'), coerce=int, #choices = [(0, ' -- ')] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all()],
         description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])

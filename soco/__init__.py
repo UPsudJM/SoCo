@@ -77,12 +77,14 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
 def test_data():
+    from sqlalchemy.exc import IntegrityError
     from soco.auth.models import User
     adminuser = User('admin', gecos='Admin User')
-    adminuser.password = User.hash_pwd('admin')
+    adminuser.set_password(User.hash_pwd('admin'))
+    adminuser.set_role('admin')
     db_session.add(adminuser)
     testuser = User('demo', gecos='Test User')
-    testuser.password = User.hash_pwd('demo')
+    testuser.set_password(User.hash_pwd('demo'))
     db_session.add(testuser)
     try:
         db_session.commit()
