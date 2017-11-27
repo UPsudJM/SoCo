@@ -56,7 +56,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from config import DB_ENGINE
-if DB_ENGINE == 'psql':
+if DB_ENGINE == 'postgresql':
     from config import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD, PGSQL_DATABASE_DB, PGSQL_DATABASE_HOST
     SQLALCHEMY_DATABASE_URI = 'postgresql://' + PGSQL_DATABASE_USER + ":" + PGSQL_DATABASE_PASSWORD + "@" + PGSQL_DATABASE_HOST + "/" + PGSQL_DATABASE_DB
 elif DB_ENGINE == 'mysql':
@@ -76,6 +76,22 @@ def init_db():
     import soco.auth.models
     Base.metadata.create_all(bind=engine)
 
+def test_data():
+    from soco.auth.models import User
+    adminuser = User('admin', gecos='Admin User')
+    adminuser.password = User.hash_pwd('admin')
+    db_session.add(adminuser)
+    testuser = User('demo', gecos='Test User')
+    testuser.password = User.hash_pwd('demo')
+    db_session.add(testuser)
+    try:
+        db_session.commit()
+    except IntegrityError as err:
+        db_session.rollback()
+        print("Erreur d'intégrité")
+        if 'uc_usn' in str(err.orig):
+            print("Ce nom d'utilisateur existe déjà dans la base")
+
 """
 def clear_db():
     # import all modules here that might define models so that
@@ -85,9 +101,12 @@ def clear_db():
     Base.metadata.drop_all(bind=engine)
 """
 
-from soco import views, models
-from soco.auth.views import auth
-app.register_blueprint(auth)
+if 'db' in __file__:
+    from soco import models
+else:
+    from soco import views, models
+    from soco.auth.views import auth
+    app.register_blueprint(auth)
 
 if "test" not in __file__ and not app.debug:
     import logging
