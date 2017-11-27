@@ -21,7 +21,6 @@
 
 import datetime, string, random
 from jinja2 import contextfilter
-from PIL import Image
 from flask_babel import format_date, format_datetime
 from soco import app
 
