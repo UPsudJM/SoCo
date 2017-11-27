@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ gettext('Une erreur s'est produite :-(') }}</h1>
+<h1>{{ gettext('Une erreur s\'est produite :-(') }}</h1>
 <p>{{ gettext('Les administrateurs de l\'application ont été prévenu-e-s. Toutes nos excuses pour la gêne occasionnée !') }}</p>
 <p><a href="{{ url_for('index') }}">{{ gettext('Retour') }}</a></p>
 {% endblock %}
