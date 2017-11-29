@@ -25,6 +25,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
 from soco import Base, api, db_session, LOGO_DEFAULT, URL_DEFAULT
+from .auth.models import User
 from .texenv import escape_tex, TPL_ETIQUETTE, TPL_ETIQUETTE_DOUBLELOGO
 
 
@@ -148,9 +149,10 @@ class Recurrent(Base):
     def __repr__(self):
         return "%s (%s)" % (self.evenement.titre, self.date)
 
+
 class Evenement(Base):
     __tablename__ = 'evenement'
-    __table_args__ = (UniqueConstraint('uid_organisateur', 'date', 'titre', name='uc_even'),)
+    __table_args__ = (UniqueConstraint('id_organisateur', 'date', 'titre', name='uc_even'),)
     id = Column(Integer, primary_key = True)
     titre = Column(String(200))
     sstitre = Column(String(200))
@@ -160,13 +162,14 @@ class Evenement(Base):
     recurrence = Column('recurrence', Enum(RecurrenceEnum))
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
-    uid_organisateur = Column(String(100))
+    id_organisateur = Column(Integer, ForeignKey('utilisateur.id'), nullable=True)
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
     logo = Column(String(200))
     url = Column(String(200))
     upd = Column(DateTime, default=func.now(), server_default=func.now())
     #upd = Column(DateTime)
 
+    organisateur = relationship("User", back_populates="evenement")
     entite_organisatrice = relationship("Organisation", back_populates="evenement")
     lieu = relationship("Lieu", back_populates="evenement")
     recurrent = relationship("Recurrent", back_populates="evenement")
@@ -174,7 +177,7 @@ class Evenement(Base):
     def __init__(self, **kwargs):
         Base.__init__(self)
         for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'lieu', 'resume', 'gratuite',
-                             'uid_organisateur', 'id_entite_organisatrice']:
+                             'id_organisateur', 'id_entite_organisatrice']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
@@ -238,6 +241,7 @@ class Evenement(Base):
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 Lieu.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="lieu")
+User.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="organisateur")
 
 
 class Formulaire(Base):
@@ -289,7 +293,7 @@ class Formulaire(Base):
     @classmethod
     def get_uid_organisateur(self, form):
         f = self.query.get(form)
-        return f.evenement.uid_organisateur
+        return f.evenement.organisateur.username
 
 
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
@@ -472,7 +476,7 @@ class ModifFormulaire(Resource):
             db_session.commit()
         except:
             raise IntegrityError("Unknown error")
-        uid_organisateur = f.evenement.uid_organisateur
+        uid_organisateur = f.evenement.organisateur.get_username()
         envoyer_mail_modification_formulaire(uid_organisateur,
                                                  f.evenement,
                                                  date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))

@@ -8,15 +8,17 @@ ok installation en production
   ok configuration PostGreSQL
   ok intégrer avec Apache
   ok intégrer TLS et tester
-* jeux de données d'initialisation
+ok jeux de données d'initialisation
 
 ok essayer avec Postgresql
-* nouveau script de migration
+ec nouveau script de migration
   ec toujours avec SQLAlchemy-Migrate
   ** mais comment exporter les migrations en SQL ?
+  ec essayer avec Flask-Migrate -> il faut utiliser Flask-SQLAlchemy
 
 ok modèle de données
   ok revoir la relation entre Inscription et Personne
+  at modification relation entre Evenement et Utilisateur (attribut organisateur)
 
 ok amélioration formulaires CRUD (Admin)
   ok traitement du logo de l'événément
@@ -137,7 +139,7 @@ ec ajout nb d'inscrits max avec envoi de mails
 ec ajouts pour élargir l'utilisation
   ok renommage de colloque en event
   at paramétrisation des titres et autres dans les templates
-  ec ajout récurrence d'un événement
+  -> ec ajout récurrence d'un événement
   ec ajout vue planning : pour une personne, avec un token envoyé par mail
 
 ec ajout possibilité d'autoriser une personne à voir les inscrits

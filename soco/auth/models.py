@@ -72,6 +72,17 @@ class User(Base):
     def set_role(self, role):
         self.role = role
 
+    def get_id(self):
+        return str(self.id)
+
+    def get_username(self):
+        return self.username
+
+    def get_gecos(self):
+        if self.gecos:
+            return self.gecos
+        return self.username
+
     @classmethod
     def get_user(self, username):
         user = self.query.filter_by(username=username).first()
@@ -123,9 +134,6 @@ class User(Base):
 
     def deactive(self):
         self.is_active = False
-
-    def get_id(self):
-        return str(self.id)
 
     @staticmethod
     def get_gecos_and_email(username, connection):
