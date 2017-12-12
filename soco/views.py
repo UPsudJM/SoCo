@@ -284,16 +284,16 @@ def speaker(flform):
 @login_required
 def new():
     form = NcollForm()
-    if form.organisateur.data:
-        organisateur = User.query.get(form.organisateur.data)
+    if form.organisateurs.data:
+        organisateurs = User.query.get(form.organisateurs.data)
     else:
-        organisateur = current_user
+        organisateurs = [ current_user ]
     if form.validate_on_submit():
         if form.lieu.data:
             lieu = Lieu.query.get(form.lieu.data)
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
-                                  date=form.date.data, date_fin=form.date_fin.data,
-                                  lieu = lieu, organisateur = organisateur)
+                                  date=form.date.data, date_fin=form.date_fin.data, lieu = lieu)
+        evenement.organisateurs = organisateurs
         formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
         if form.champ_restauration_1:
@@ -329,8 +329,8 @@ def new():
 def suivi_index():
     if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
-    else:
-        evenements = Evenement.query.join("formulaire").filter(Evenement.organisateur == current_user).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+    else: # FIXME construire la requête directement
+        evenements = Evenement.query.join("formulaire").filter(current_user in Evenement.organisateurs).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     nb_inscrits = {}
     for e in evenements:
         nb_inscrits[e.id] = len(e.inscription)
@@ -345,7 +345,7 @@ def suivi(evt, action=None):
     if evenement == None:
         flash('Événement %d non trouvé' % evt)
         return internal_error('Evenement %d non trouvé' % evt)
-    if current_user.role != 'admin' and evenement.organisateur != current_user:
+    if current_user.role != 'admin' and not current_user in evenement.organisateurs:
         flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
@@ -494,20 +494,20 @@ class EvenementView(SocoModelView):
     action_disallowed_list = ['delete']
     can_export = True
     can_view_details = True
-    column_labels = dict(sstitre = gettext('Sous-titre'), date = gettext('Date'), organisateur = gettext('Organisé par'),
+    column_labels = dict(sstitre = gettext('Sous-titre'), date = gettext('Date'), organisateurs = gettext('Organisé par'),
                              resume = gettext('Résumé'), gratuite = gettext('Gratuité'), recurrence = gettext('Récurrence'),
                              entite_organisatrice = gettext('Entité organisatrice'), upd = gettext('Mis à jour le'))
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
     column_exclude_list = ['upd', 'resume' ]
-    column_sortable_list = ['titre', 'date', 'organisateur']
-    column_filters = ['titre', 'lieu', 'organisateur', 'gratuite']
+    column_sortable_list = ['titre', 'date', 'organisateurs']
+    column_filters = ['titre', 'lieu', 'organisateurs', 'gratuite']
     column_default_sort = 'date'
     column_descriptions = dict(
         titre = gettext('Titre de l\'événement'),
         sstitre = gettext('Sous-titre de l\'événement'),
         lieu = gettext("Lieu de l'événement <em>(vous pouvez laisser vide s'il s'agit de la {salle_ppale})</em>").format(
             salle_ppale = app.config['SALLE_PPALE']),
-        organisateur = gettext('L\'organisateur/trice'),
+        organisateurs = gettext('Les organisateurs'),
         gratuite = gettext('L\'entrée est-elle libre ?')
         )
     #column_formatters = dict(date=lambda v, c, m, p: m.date.date(),
@@ -535,7 +535,7 @@ class EvenementView(SocoModelView):
 class FormulaireView(SocoModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2', 'texte_libre_1' , 'texte_libre_2']
     column_descriptions = dict(
-        organisateur_en_copie = gettext("Souhaitez-vous que l'organisateur/trice reçoive un mail à chaque inscription ?"),
+        organisateurs_en_copie = gettext("Souhaitez-vous que les organisateurs reçoivent un mail à chaque inscription ?"),
         champ_attestation = gettext("Les personnes qui s'inscrivent peuvent demander une attestation de présence"),
         champ_restauration_1 = gettext("Pour pouvoir s'inscrire à un repas"),
         texte_restauration_1 = gettext("Le texte de la question correspondante"),

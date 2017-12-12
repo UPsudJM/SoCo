@@ -22,7 +22,7 @@
 from flask_wtf import FlaskForm
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, HiddenField
+from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription, Lieu
@@ -118,7 +118,7 @@ class SocoForm(FlaskForm):
 
 class NcollForm(SocoForm):
     objname = 'evenement'
-    organisateur = SelectField(gettext('Organisé par'), coerce=int, choices = [])
+    organisateurs = SelectMultipleField(gettext('Organisé par'), coerce=int, choices = [])
     titre = StringField(gettext('Titre'), validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField(gettext('Sous-titre'))
     date = PickaDateField(gettext('Date'), objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
@@ -152,7 +152,7 @@ class NcollForm(SocoForm):
 
     def __init__(self, **kwargs):
         SocoForm.__init__(self, **kwargs)
-        self.organisateur.choices += [ (u.id, u.get_gecos()) for u in User.query.order_by(User.username).all() ]
+        self.organisateurs.choices += [ (u.id, u.get_gecos()) for u in User.query.order_by(User.username).all() ]
         self.lieu.choices += [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
 
     def validate(self):
