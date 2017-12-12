@@ -343,8 +343,11 @@ def new():
 def suivi_index():
     if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
-    else: # FIXME construire la requête directement
-        evenements = Evenement.query.join("formulaire").filter(current_user in Evenement.organisateurs).filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+    else:
+        ids_evenements_autorises = db_session.execute(
+            "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=" + current_user.get_id())
+        evenements_en_cours = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
+        evenements = [ e for e in evenements_en_cours if e.id in ids_evenements_autorises ]
     nb_inscrits = {}
     for e in evenements:
         nb_inscrits[e.id] = len(e.inscription)
