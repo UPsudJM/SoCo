@@ -18,7 +18,7 @@ ec nouveau script de migration
 
 ok modèle de données
   ok revoir la relation entre Inscription et Personne
-  at modification relation entre Evenement et Utilisateur (attribut organisateur)
+  at modification relation entre Evenement et Utilisateur (attribut organisateurs)
 
 ok amélioration formulaires CRUD (Admin)
   ok traitement du logo de l'événément

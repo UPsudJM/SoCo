@@ -27,7 +27,7 @@
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-    <fieldset>{{ render_field(form.organisateur, size=60, maxlength=200, value=current_user.username) }} </fieldset>
+    <fieldset>{{ render_field(form.organisateurs, maxlength=20, value=current_user.username) }} </fieldset>
     <fieldset><legend accesskey="c">{{ gettext('Votre événement') }}</legend>
     {{ render_field(form.titre, size=80, maxlength=120) }}
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">

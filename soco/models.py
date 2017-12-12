@@ -37,6 +37,10 @@ lieu_organisation = Table('lieu_organisation', Base.metadata,
                                   Column('id_lieu', Integer, ForeignKey('lieu.id')),
                                   Column('id_organisation', Integer, ForeignKey('organisation.id'))
                                   )
+evenement_organisateur = Table('evenement_organisateur', Base.metadata,
+                                  Column('id_evenement', Integer, ForeignKey('evenement.id')),
+                                  Column('id_organisateur', Integer, ForeignKey('utilisateur.id'))
+                                  )
 
 class Personne(Base):
     __tablename__ = 'personne'
@@ -152,7 +156,7 @@ class Recurrent(Base):
 
 class Evenement(Base):
     __tablename__ = 'evenement'
-    __table_args__ = (UniqueConstraint('id_organisateur', 'date', 'titre', name='uc_even'),)
+    __table_args__ = (UniqueConstraint('id_entite_organisatrice', 'date', 'titre', name='uc_even'),)
     id = Column(Integer, primary_key = True)
     titre = Column(String(200))
     sstitre = Column(String(200))
@@ -162,22 +166,20 @@ class Evenement(Base):
     recurrence = Column('recurrence', Enum(RecurrenceEnum))
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
-    id_organisateur = Column(Integer, ForeignKey('utilisateur.id'), nullable=True)
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
     logo = Column(String(200))
     url = Column(String(200))
     upd = Column(DateTime, default=func.now(), server_default=func.now())
     #upd = Column(DateTime)
 
-    organisateur = relationship("User", back_populates="evenement")
+    organisateurs = relationship("User", secondary=evenement_organisateur)
     entite_organisatrice = relationship("Organisation", back_populates="evenement")
     lieu = relationship("Lieu", back_populates="evenement")
     recurrent = relationship("Recurrent", back_populates="evenement")
 
     def __init__(self, **kwargs):
         Base.__init__(self)
-        for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'lieu', 'resume', 'gratuite',
-                             'id_organisateur', 'id_entite_organisatrice']:
+        for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'lieu', 'resume', 'gratuite', 'id_entite_organisatrice']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 
@@ -241,7 +243,7 @@ class Evenement(Base):
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 Lieu.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="lieu")
-User.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="organisateur")
+#User.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="organisateur")
 
 
 class Formulaire(Base):
@@ -251,7 +253,7 @@ class Formulaire(Base):
     id_evenement = Column(Integer, ForeignKey('evenement.id'), nullable=False)
     date_ouverture_inscriptions = Column(Date, nullable=False)
     date_cloture_inscriptions = Column(Date, nullable=False)
-    organisateur_en_copie = Column(Boolean)
+    organisateurs_en_copie = Column(Boolean)
     champ_attestation = Column(Boolean, default=True)
     champ_type_inscription = Column(Boolean)
     jour_par_jour = Column(Boolean)
@@ -271,7 +273,7 @@ class Formulaire(Base):
     def __init__(self, **kwargs):
         Base.__init__(self)
         for attrname in ['id_evenement', 'evenement', 'date_ouverture_inscriptions', 'date_cloture_inscriptions',
-                             'organisateur_en_copie', 'champ_attestation', 'champ_type_inscription',
+                             'organisateurs_en_copie', 'champ_attestation', 'champ_type_inscription',
                              'champ_restauration_1', 'texte_restauration_1', 'champ_restauration_2', 'texte_restauration_2',
                              'champ_libre_1', 'texte_libre_1', 'champ_libre_2', 'texte_libre_2',]:
             if attrname in kwargs.keys():
@@ -291,9 +293,9 @@ class Formulaire(Base):
             raise IntegrityError("Unknown error")
 
     @classmethod
-    def get_uid_organisateur(self, form):
+    def get_uid_organisateurs(self, form):
         f = self.query.get(form)
-        return f.evenement.organisateur.username
+        return [ o.username for o in f.evenement.organisateurs ]
 
 
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
@@ -476,8 +478,8 @@ class ModifFormulaire(Resource):
             db_session.commit()
         except:
             raise IntegrityError("Unknown error")
-        uid_organisateur = f.evenement.organisateur.get_username()
-        envoyer_mail_modification_formulaire(uid_organisateur,
+        uid_organisateurs = Evenement.get_uid_organisateurs(f)
+        envoyer_mail_modification_formulaire(uid_organisateurs,
                                                  f.evenement,
                                                  date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))
         return f.date_cloture_inscriptions.strftime("%d/%m/%Y")
@@ -497,5 +499,5 @@ class ModifEvenement(Resource):
             raise ValueError("'%s' is not a valid form id" % args['id'])
         from .emails import envoyer_mail_modification_formulaire
         Evenement.modif_attributs(id_evenement, args)
-        uid_organisateur = Evenement.get_uid_organisateur(id_evenement)
-        envoyer_mail_modification_formulaire(uid_organisateur, **kwargs)
+        uid_organisateurs = Evenement.get_uid_organisateurs(id_evenement)
+        envoyer_mail_modification_formulaire(uid_organisateurs, **kwargs)
