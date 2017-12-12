@@ -1,0 +1,12 @@
+<p>{{ gettext('Madame/Monsieur,') }}</p>
+
+<p>{{ gettext('Pour information, le nombre des inscrits à l\événement') }}</p>
+
+           <p><a href="{{ url_for('suivi', evt=evenement.id) }}">{{ evenement.titre }}</a></p>
+
+<p>{{ gettext('est de') }} {{ nb_inscrits }} {{ gettext('pour une capacité de') }} {{ capacite_lieu }}.</p>
+
+<p>{{ gettext('Cordialement,') }}</p>
+<p>{{ gettext('PS : ceci est un mail automatique, généré par le logiciel') }} <em>SoCo</em></p>
+<pre>--
+{{ signature_emails }}</pre>

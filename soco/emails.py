@@ -26,7 +26,10 @@ from flask import render_template
 
 
 def envoyer_message(subj, src, dest, text_body, html_body):
-    msg = Message(subj, sender=src, recipients=dest)
+    def complete_mail(adresse):
+        if not '@' in adresse:
+            adresse = adresse + '@' + MAIL_DOMAIN
+    msg = Message(subj, sender=src, recipients=[ complete_mail(a) for a in dest ])
     msg.bcc = ADMINS
     msg.body = text_body
     msg.html = html_body
@@ -74,3 +77,14 @@ def envoyer_mail_modification_formulaire(email, evenement, **kwargs):
                                             evenement = evenement, lignes_info=lignes_info),
                         render_template("envoi_mail_modification_formulaire.html",
                                             evenement = evenement, lignes_info=lignes_info))
+
+def envoyer_mail_capacite_salle(evenement, nb_inscrits, capacite_lieu, **kwargs):
+    capacite_lieu = evenement.lieu.capacite
+    email_organisateur = evenement.organisateur.email
+    envoyer_message('SoCo : Information sur les inscriptions à %s' % evenement.titre,
+                        ADMINS[0],
+                        [email],
+                        render_template("envoi_mail_capacite_salle.txt",
+                                            evenement = evenement, nb_inscrits=nb_inscrits, capacite_lieu=capacite_lieu),
+                        render_template("envoi_mail_capacite_salle.html",
+                                            evenement = evenement, nb_inscrits=nb_inscrits, capacite_lieu=capacite_lieu))
