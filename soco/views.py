@@ -36,7 +36,7 @@ from functools import wraps
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
-from .emails import confirmer_inscription, envoi_mail_capacite_salle
+from .emails import confirmer_inscription, envoyer_mail_capacite_salle
 from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
 
 
@@ -186,7 +186,7 @@ def soco(flform):
                or (pourcentage_anterieur < 120 and pourcentage >= 120) \
                or (pourcentage_anterieur < 150 and pourcentage >= 150) \
                or (pourcentage_anterieur < 200 and pourcentage >= 200):
-                envoi_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
+                envoyer_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
             flash(gettext("Votre inscription a bien été effectuée."))
             if app.config['AVEC_QRCODE']:
                 url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
