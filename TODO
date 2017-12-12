@@ -131,10 +131,10 @@ at ajout interface pour les intervenants
   ** ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
   ** déj pour les intervenants : tous les repas
 
-ec ajout nb d'inscrits max avec envoi de mails
+at ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu
   at relations avec objets Organisation et Evenement
-  * envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
+  at envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
 ec ajouts pour élargir l'utilisation
   ok renommage de colloque en event
@@ -143,6 +143,8 @@ ec ajouts pour élargir l'utilisation
   ec ajout vue planning : pour une personne, avec un token envoyé par mail
 
 ec ajout possibilité d'autoriser une personne à voir les inscrits
+  at initialement
+  ** ultérieurement
 
 ok ajout billetterie/QR-Code
   ok QR Code avec token dedans
