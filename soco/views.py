@@ -36,7 +36,7 @@ from functools import wraps
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
-from .emails import confirmer_inscription
+from .emails import confirmer_inscription, envoi_mail_capacite_salle
 from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
 
 
@@ -173,6 +173,20 @@ def soco(flform):
                 flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
+            nb_inscrits = len(evenement.inscriptions)
+            capacite_lieu = evenement.lieu.capacite
+            pourcentage = 0
+            if capacite_lieu:
+                pourcentage_anterieur = ( nb_inscrits - 1 )* 100 / capacite_lieu
+                pourcentage = nb_inscrits * 100 / capacite_lieu
+            if (pourcentage_anterieur < 80 and pourcentage >= 80) \
+               or (pourcentage_anterieur < 90 and pourcentage >= 90) \
+               or (pourcentage_anterieur < 100 and pourcentage >= 100) \
+               or (pourcentage_anterieur < 110 and pourcentage >= 110) \
+               or (pourcentage_anterieur < 120 and pourcentage >= 120) \
+               or (pourcentage_anterieur < 150 and pourcentage >= 150) \
+               or (pourcentage_anterieur < 200 and pourcentage >= 200):
+                envoi_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
             flash(gettext("Votre inscription a bien été effectuée."))
             if app.config['AVEC_QRCODE']:
                 url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
