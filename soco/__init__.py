@@ -81,7 +81,7 @@ def test_data():
     from soco.auth.models import User
     adminuser = User('admin', gecos='Admin User')
     adminuser.set_password(User.hash_pwd('admin'))
-    adminuser.set_role('admin')
+    adminuser.set_role('superadmin')
     db_session.add(adminuser)
     testuser = User('demo', gecos='Test User')
     testuser.set_password(User.hash_pwd('demo'))
