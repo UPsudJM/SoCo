@@ -18,7 +18,7 @@ ec nouveau script de migration
 
 ok modèle de données
   ok revoir la relation entre Inscription et Personne
-  at modification relation entre Evenement et Utilisateur (attribut organisateurs)
+  ok modification relation entre Evenement et Utilisateur (attribut organisateurs)
 
 ok amélioration formulaires CRUD (Admin)
   ok traitement du logo de l'événément
@@ -143,7 +143,7 @@ ec ajouts pour élargir l'utilisation
   ec ajout vue planning : pour une personne, avec un token envoyé par mail
 
 ec ajout possibilité d'autoriser une personne à voir les inscrits
-  at initialement
+  ok initialement
   ** ultérieurement
 
 ok ajout billetterie/QR-Code

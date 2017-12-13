@@ -33,6 +33,7 @@ from flask_babelex import gettext, lazy_gettext
 from soco import app, babel, db_session, lm, LOGO_DEFAULT, URL_DEFAULT
 from wtforms.validators import DataRequired
 from functools import wraps
+from .auth.models import User
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
 from .forms import InscriptionForm, NcollForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
@@ -299,10 +300,10 @@ def speaker(flform):
 def new():
     form = NcollForm()
     if form.organisateurs.data:
-        organisateurs = User.query.get(form.organisateurs.data)
+        organisateurs = [ User.query.get(ident) for ident in form.organisateurs.data ]
     else:
-        organisateurs = [ current_user ]
         form.organisateurs.data = [ current_user.id ]
+        organisateurs = [ current_user ]
     if form.validate_on_submit():
         if form.lieu.data:
             lieu = Lieu.query.get(form.lieu.data)
