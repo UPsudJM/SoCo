@@ -302,6 +302,7 @@ def new():
         organisateurs = User.query.get(form.organisateurs.data)
     else:
         organisateurs = [ current_user ]
+        form.organisateurs.data = [ current_user.id ]
     if form.validate_on_submit():
         if form.lieu.data:
             lieu = Lieu.query.get(form.lieu.data)

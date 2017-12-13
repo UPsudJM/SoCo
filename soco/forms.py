@@ -152,7 +152,7 @@ class NcollForm(SocoForm):
 
     def __init__(self, **kwargs):
         SocoForm.__init__(self, **kwargs)
-        self.organisateurs.choices += [ (u.id, u.get_gecos()) for u in User.query.order_by(User.username).all() ]
+        self.organisateurs.choices = [ (u.id, u.get_gecos()) for u in User.query.order_by(User.username).all() ]
         self.lieu.choices += [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
 
     def validate(self):
