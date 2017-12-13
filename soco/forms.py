@@ -129,7 +129,7 @@ class NcollForm(SocoForm):
     else:
         recurrence = HiddenField(gettext('Récurrence'))
     lieu = SelectField(
-        gettext('Lieu'), coerce=int, choices = [ (0, ' -- ') ],
+        gettext('Lieu'), coerce=int, choices = [],
         description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
@@ -153,7 +153,7 @@ class NcollForm(SocoForm):
     def __init__(self, **kwargs):
         SocoForm.__init__(self, **kwargs)
         self.organisateurs.choices = [ (u.id, u.get_gecos()) for u in User.query.filter(User.role!='superadmin').order_by(User.username).all() ]
-        self.lieu.choices += [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
+        self.lieu.choices = [ (0, ' -- ') ] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
 
     def validate(self):
         if not FlaskForm.validate(self):
