@@ -34,7 +34,7 @@ from soco import app, babel, db_session, lm, LOGO_DEFAULT, URL_DEFAULT
 from wtforms.validators import DataRequired
 from functools import wraps
 from .auth.models import User
-from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription
+from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription, Intervenant
 from .forms import InscriptionForm, NcollForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
 from .emails import confirmer_inscription, envoyer_mail_capacite_salle
@@ -105,7 +105,7 @@ def index():
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 @app.route('/event/<int:flform>', methods=['GET', 'POST'])
 @app.route('/speaker/<int:flform>/<token>', methods=['GET', 'POST'])
-def soco(flform):
+def soco(flform, token=None):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     if not formulaire:
         return render_template('404.html')
@@ -128,8 +128,10 @@ def soco(flform):
         return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
     # Vérification pour le cas 'Intervenant'
     speaker = False
-    if 'token' in vars():
-        speaker = Intervenant.check_token(token)
+    if token:
+        intervenant = Intervenant.check_token(evenement.id, token)
+        if intervenant:
+            speaker = True
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
@@ -234,7 +236,7 @@ def planning(token):
     inscriptions = Personne.inscription
     return render_template('planning.html', personne=personne, inscriptions=inscriptions)
 
-@app.route('/speaker/<int:flform>', methods=['GET', 'POST'])
+"""@app.route('/speaker/<int:flform>', methods=['GET', 'POST'])
 def speaker(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     if not formulaire or not formulaire.formulaire_intervenant:
@@ -296,7 +298,7 @@ def speaker(flform):
             return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=True,
                                logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
-                               current_user=current_user)
+                               current_user=current_user)"""
 
 
 @app.route('/suivi/new', methods=['GET', 'POST'])
