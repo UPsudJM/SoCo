@@ -104,6 +104,7 @@ def index():
 
 @app.route('/colloque/<int:flform>', methods=['GET', 'POST'])
 @app.route('/event/<int:flform>', methods=['GET', 'POST'])
+@app.route('/speaker/<int:flform>/<token>', methods=['GET', 'POST'])
 def soco(flform):
     formulaire = Formulaire.query.filter_by(id=flform).first()
     if not formulaire:
@@ -125,6 +126,10 @@ def soco(flform):
         return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
     elif formulaire.date_cloture_inscriptions < datetime.date.today():
         return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
+    # Vérification pour le cas 'Intervenant'
+    speaker = False
+    if 'token' in vars():
+        speaker = Intervenant.check_token(token)
     form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
@@ -198,7 +203,7 @@ def soco(flform):
                 qrstring = ''
             return render_template('end.html', evenement = evenement, qrstring=qrstring,
                                        logofilename = logofilename, lienevt = url)
-    return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=False,
+    return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=speaker,
                                logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
                                current_user=current_user)
 
