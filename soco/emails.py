@@ -19,7 +19,7 @@
 """
 # coding: utf-8
 
-from config import ADMINS, MAIL_DOMAIN
+from config import ADMINS, MAIL_DOMAIN, EMAIL_SITE
 from soco import mail
 from flask_mail import Message
 from flask import render_template
