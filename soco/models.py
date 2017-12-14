@@ -376,6 +376,10 @@ class Inscription(Base):
             tok += c
         self.token = tok
 
+    @classmethod
+    def check_token(self, evt, token_a_verifier):
+        return self.query.filter_by(id_evenement=evt, token=token_a_verifier).first()
+
 Evenement.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="evenement")
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
@@ -423,6 +427,13 @@ class Intervenant(Base):
 
     def __str__(self):
         return "%s %s (%s)" % (self.inscription.personne.prenom, self.inscription.personne.nom, self.ville_depart_aller)
+
+    @classmethod
+    def check_token(self, evt, token_a_verifier):
+        inscription = Inscription.check_token(evt, token_a_verifier)
+        if not inscription:
+            return
+        return self.query.filter_by(id_inscription=inscription.id).first()
 
 Inscription.intervenant = relationship("Intervenant", order_by=Inscription.id, back_populates="inscription")
 

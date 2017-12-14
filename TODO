@@ -122,14 +122,19 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-at ajout interface pour les intervenants
-  ** transports : horaires de trains ou avions (arrivée et départ et gare ou
+ec ajout interface pour les intervenants
+  at transports : horaires de trains ou avions (arrivée et départ et gare ou
    aéroport)
-  ** prise de billets à la fac (pas le choix) -> configuration logicielle pour
+  at prise de billets à la fac (pas le choix) -> configuration logicielle pour
    option remboursement
-  ** nuitées sur place ? nombre seulement et de telle date à telle date
-  ** ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
-  ** déj pour les intervenants : tous les repas
+  at nuitées sur place ? nombre seulement et de telle date à telle date
+  at ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
+  at déj pour les intervenants : tous les repas
+  ec vérification du token dans l'URL appelée par l'intervenant
+  ec affichage formulaire supplémentaire, en bas du formulaire normal
+  ** envoi d'une invitation à s'inscrire, quand on est intervenant (avec token
+   dedans) ; ce qui suppose aussi de l'inscrire dans la table Inscription
+   (ainsi que le nom) et aussi dans la table Intervenant
 
 at ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu
