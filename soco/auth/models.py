@@ -62,6 +62,9 @@ class User(Base):
         self.email = email
         self.is_authenticated = False
 
+    def __str__(self):
+        return self.gecos or self.username
+
     @staticmethod
     def hash_pwd(p):
         return pbkdf2_sha256.hash(p)
