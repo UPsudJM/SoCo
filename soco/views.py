@@ -493,6 +493,7 @@ def suivi(evt, action=None):
 
 
 class SocoModelView(ModelView):
+    __abstract__ = True
     form_excluded_columns = ['upd']
 
     def is_accessible(self):
@@ -556,7 +557,6 @@ class EvenementView(SocoModelView):
         'gratuite' : {'label': gettext('Gratuité')},
         'inscription' : {'label': gettext('Personnes inscrites')}
         }
-    form_excluded_columns = ['upd']
     form_overrides = dict(logo=LogoField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
     if app.config['AVEC_RECURRENCE']:
@@ -577,7 +577,6 @@ class FormulaireView(SocoModelView):
         champ_libre_2 = gettext("Présence d'une 2ème question libre"),
         texte_libre_2 = gettext("Le texte de cette 2ème question")
         )
-    form_excluded_columns = ['upd']
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10)
         }
@@ -625,10 +624,10 @@ class PersonneView(SocoModelView):
 
 class InscriptionView(SocoModelView):
     can_export = True
+    column_exclude_list = ['upd', 'date_inscription', 'token', 'type_inscription']
     form_args = {
         'telephone' : {'label': gettext('Téléphone')}
     }
-    form_excluded_columns = ['date_inscription']
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10),
         'personne': QueryAjaxModelLoader('personne', db_session, Personne, fields=['nom', 'prenom'], page_size=10)
