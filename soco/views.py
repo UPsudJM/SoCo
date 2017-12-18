@@ -353,8 +353,13 @@ def suivi_index():
     if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
-        ids_evenements_autorises = db_session.execute(
-            "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=" + current_user.get_id())
+        try:
+            ids_evenements_autorises_tuples = db_session.execute(
+            "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=" + current_user.get_id()).fetchall()
+            ids_evenements_autorises = [ e[0] for e in ids_evenements_autorises_tuples ]
+        except:
+            ids_evenements_autorises = []
+            flash(gettext('Une erreur est survenue dans l\'accès à la liste des événements'),'error')
         evenements_en_cours = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
         evenements = [ e for e in evenements_en_cours if e.id in ids_evenements_autorises ]
     nb_inscrits = {}
