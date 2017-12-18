@@ -26,6 +26,7 @@ ok amélioration formulaires CRUD (Admin)
   ** prévoir un petit éditeur de texte, pour le résumé (?)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
+ok affichage des organisateurs
 * BUG dans la page /evenement/edit (EvenementView), la récurrence n'apparaît pas
 
 at page publique d'inscription à un colloque (sans JS)

@@ -10,6 +10,7 @@
     {% else %}
     <title>{{ nom_institution }} - {{ gettext('Inscription à un événement') }}</title>
     {% endif %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
     {% block CSS %}{% endblock %}
     <link href="{{ url_for('static', filename='css/soco.css') }}" rel="stylesheet"/>
