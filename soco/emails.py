@@ -20,6 +20,8 @@
 # coding: utf-8
 
 from config import ADMINS, MAIL_DOMAIN, EMAIL_SITE
+if not ADMINS:
+    ADMINS = [ EMAIL_SITE ]
 from soco import mail
 from flask_mail import Message
 from flask import render_template
@@ -59,9 +61,9 @@ def envoyer_code_verification(email):
                         render_template("envoi_code_verification.html", codeverif=codeverif))
     return codeverif
 
-def envoyer_mail_modification_formulaire(email, evenement, **kwargs):
-    if not '@' in email:
-        email = email + '@' + MAIL_DOMAIN
+def envoyer_mail_modification_formulaire(emails, evenement, **kwargs):
+    emails_formattes = [ e for e in emails if '@' in e ]
+    emails_formattes += [ e + '@' + MAIL_DOMAIN for e in emails if not '@' in e ]
     lignes_info = []
     from .forms import NcollForm
     for k, v in kwargs.items():
@@ -72,7 +74,7 @@ def envoyer_mail_modification_formulaire(email, evenement, **kwargs):
         lignes_info.append("Nouvelle valeur de %s : %s" % (libelle, v))
     envoyer_message('SoCo : Votre formulaire a été modifié',
                         ADMINS[0],
-                        [email],
+                        emails_formattes,
                         render_template("envoi_mail_modification_formulaire.txt",
                                             evenement = evenement, lignes_info=lignes_info),
                         render_template("envoi_mail_modification_formulaire.html",

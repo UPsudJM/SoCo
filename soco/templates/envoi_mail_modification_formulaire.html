@@ -1,10 +1,10 @@
 <p>{{ gettext('Madame/Monsieur,') }}</p>
 
-<p>{{ gettext('Quelqu'un, probablement vous, a demandé la modification de la page d\'inscription à l\'événement&nbsp;:') }}</p>
+<p>{{ gettext("Quelqu'un, probablement vous, a demandé la modification de la page d'inscription à l'événement&nbsp;:") }}</p>
 
            <p><a href="{{ url_for('suivi', evt=evenement.id) }}">{{ evenement.titre }}</a></p>
 
-<p><em>{{ gettext('Si ce n\'est pas vous, il s\'agirait d'une anomalie, veuillez nous en avertir par retour de mail.') }}</em></p>
+<p><em>{{ gettext("Si ce n'est pas vous, il peut s'agir d'une anomalie. Veuillez nous en avertir par retour de mail.") }}</em></p>
 
 <p>{{ gettext('Voici les modifications effectuées :') }}</p>
 
