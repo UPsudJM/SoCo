@@ -494,7 +494,7 @@ def suivi(evt, action=None):
         'suivi.html',
         evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
         texte_repas_1=texte_repas_1, repas_2_existant=repas_2_existant, texte_repas_2=texte_repas_2,
-        avec_etiquettes=app.config['AVEC_ETIQUETTES'])
+        avec_etiquettes=app.config['AVEC_ETIQUETTES'], today=datetime.date.today())
 
 
 class SocoModelView(ModelView):

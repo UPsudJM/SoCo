@@ -101,6 +101,7 @@ ok affichage de la page de suivi (complète pour le secrétariat)
   ec améliorer la gestion des erreurs d'encodage (texenv genere_pdf)
 
 ec interface de gestion (du formulaire) plus diversifiée
+  ok ce qui amène à revoir l'accès à l'issue du login
   ok page unique pour les organisateurs
     ok inclure les événements sans inscriptions
   ok changement de la date de clôture
@@ -109,7 +110,8 @@ ec interface de gestion (du formulaire) plus diversifiée
     at le champ pickadate devrait être positionné sur la date de clôture actuelle
     ** essayer angular-datepicker ? angular-bootstrap-datetimepicker-directive ?
   ec changement titre, sous-titre, lieu, date de fin
-  ok ce qui amène à revoir l'accès à l'issue du login
+  ec inviter un intervenant
+  * prolonger les inscriptions (après la clôture)
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login

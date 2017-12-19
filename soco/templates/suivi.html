@@ -41,6 +41,8 @@
 
 <hr/>
 
+{% if today < evenement.date or today < evenement.datefin %}<p><form name="im"><label>{{ gettext('Inscriptions en masse') }}</label><input type="file" /></form></p>{% endif %}
+
 <!-- section ng-controller="suiviCtrl"><a name="modifs" />
   <h3>Modifications</h3>
   <p>Date de clôture <input type="date" name="date_cloture_inscriptions" /> <input type="button" value="Modifier" /></p>
