@@ -66,3 +66,7 @@ def ouinon_filter(b, non="non"):
 def generate_default_password_filter(context, s):
     char_set = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.ascii_lowercase
     return ''.join(random.sample(char_set*7, 7))
+
+@app.template_filter('tohtml')
+def tohtml_filter(s):
+    return s.replace("\n", "<br/><br/>")

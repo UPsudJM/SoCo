@@ -24,6 +24,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boo
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_restful import Resource, Api, reqparse
+from flask_babelex import gettext, lazy_gettext
 from soco import Base, api, db_session, LOGO_DEFAULT, URL_DEFAULT
 from .auth.models import User
 from .texenv import escape_tex, TPL_ETIQUETTE, TPL_ETIQUETTE_DOUBLELOGO
@@ -523,3 +524,25 @@ class ModifEvenement(Resource):
         Evenement.modif_attributs(id_evenement, args)
         uid_organisateurs = Evenement.get_uid_organisateurs(id_evenement)
         envoyer_mail_modification_formulaire(uid_organisateurs, **kwargs)
+
+@api.resource('/api/invitintervenant/')
+class InviteIntervenant(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', required=True, help=lazy_gettext("L'événement concerné doit être spécifié"))
+        parser.add_argument('nom', required=True, help=lazy_gettext("Nom de l'interven. à inviter ?"))
+        parser.add_argument('prenom', required=False, help=lazy_gettext("Prénom de l'interven. à inviter"))
+        parser.add_argument('email', required=True, help=lazy_gettext("Adresse électronique de l'interven. à inviter ?"))
+        parser.add_argument('msg', required=False, help=lazy_gettext("Message d'invitation"))
+        args = parser.parse_args()
+        # FIXME ajouter une inscription et un intervenant, puis générer le code
+        code = "123456"
+        from .emails import envoyer_invitation_intervenant
+        try:
+            id_evenement = int(args['id'])
+        except:
+            raise ValueError("'%s' is not a valid event id" % args['id'])
+        e = Evenement.query.get(id_evenement)
+        emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(args['id'])
+        envoyer_invitation_intervenant(e, emails_or_uids_organisateurs, args['email'], code, args['msg'])
+        return True

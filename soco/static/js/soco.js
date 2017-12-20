@@ -89,6 +89,39 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log('$scope.' + $v + ' = ' + '0');
             eval('$scope. ' + $v + ' = ' + '0');
         };
+        $scope.showinvitintervenant = function(id) {
+            $log.log("in showinvitintervenant");
+            var $v = "invit_interv_" + id;
+            $log.log('$scope.' + $v + ' = ' + '1');
+            eval('$scope. ' + $v + ' = ' + '1');
+        };
+        $scope.invitintervenant = function(id) {
+            $log.log("in showinvitintervenant");
+            var $nom = eval('$scope.evenements.nom_intervenant_' + id);
+            var $prenom = eval('$scope.evenements.prenom_intervenant_' + id);
+            var $email = eval('$scope.evenements.email_intervenant_' + id);
+            var $msg = eval('$scope.evenements.msg_' + id);
+            if (typeof $nom === 'undefined' || typeof $email === 'undefined') {
+                alert("Vous devez renseigner au moins nom et email !");
+            }
+            if (typeof $prenom === 'undefined') $prenom = '';
+            if (typeof $msg === 'undefined') $msg = '';
+            $log.log('nom=' + $nom);
+            //$log.log('$scope.evenements.' + $n);
+            $log.log($scope.evenements.nom_intervenant_1);
+            var $params = {"id" : id, "nom" : $nom, "prenom" : $prenom, email : $email, "message" : $msg};
+            $log.log($params);
+            $http.get('/api/invitintervenant', {'params': $params}).then(function(resp) {
+                $log.log(resp.data);
+                //var $w = "maj_date_cloture_" + id;
+                //$log.log(typeof resp.data);
+                //$log.log('$scope.evenements.' + $w + '="' + resp.data + '"');
+                //eval('$scope.evenements.' + $w + '="' + resp.data + '"');
+            });
+            var $v = "invit_interv_" + id;
+            $log.log('$scope.' + $v + ' = ' + '0');
+            eval('$scope. ' + $v + ' = ' + '0');
+        };
     }]);
 
 var newevt = angular.module('newevt',['pickadate', '720kb.tooltips'])
