@@ -101,22 +101,26 @@ var suivi = angular.module('suivi',['pickadate'])
             var $prenom = eval('$scope.evenements.prenom_intervenant_' + id);
             var $email = eval('$scope.evenements.email_intervenant_' + id);
             var $msg = eval('$scope.evenements.msg_' + id);
-            if (typeof $nom === 'undefined' || typeof $email === 'undefined') {
-                alert("Vous devez renseigner au moins nom et email !");
+            if (typeof $nom === 'undefined' || typeof $email === 'undefined' || !$nom || !$nom.length || !$email || !$email.length) {
+                alert("Vous devez renseigner au moins nom et email !"); return;
             }
             if (typeof $prenom === 'undefined') $prenom = '';
             if (typeof $msg === 'undefined') $msg = '';
+            $nom = $nom.replace(/(^\s+|\s+$)/g, '');
+            $prenom = $prenom.replace(/(^\s+|\s+$)/g, '');
+            $email = $email.replace(/(^\s+|\s+$)/g, '');
+            $msg = $msg.replace(/(^\s+|\s+$)/g, '');
+            if (!$nom.length || !$email.length) {
+                alert("Vous devez renseigner au moins nom et email !"); return;
+            }
             $log.log('nom=' + $nom);
-            //$log.log('$scope.evenements.' + $n);
             $log.log($scope.evenements.nom_intervenant_1);
             var $params = {"id" : id, "nom" : $nom, "prenom" : $prenom, email : $email, "message" : $msg};
             $log.log($params);
             $http.get('/api/invitintervenant', {'params': $params}).then(function(resp) {
-                $log.log(resp.data);
-                //var $w = "maj_date_cloture_" + id;
-                //$log.log(typeof resp.data);
-                //$log.log('$scope.evenements.' + $w + '="' + resp.data + '"');
-                //eval('$scope.evenements.' + $w + '="' + resp.data + '"');
+                if (resp.data == true) { alert("La personne a bien été invitée"); return; }
+                else if (resp.data == false) { alert("La personne a bien reçu un mail, mais elle était déjà invitée..."); return; }
+                else { $log.log(resp.data); $log.log(typeof resp.data); }
             });
             var $v = "invit_interv_" + id;
             $log.log('$scope.' + $v + ' = ' + '0');

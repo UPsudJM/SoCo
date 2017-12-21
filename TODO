@@ -110,8 +110,8 @@ ec interface de gestion (du formulaire) plus diversifiée
     at le champ pickadate devrait être positionné sur la date de clôture actuelle
     ** essayer angular-datepicker ? angular-bootstrap-datetimepicker-directive ?
   ec changement titre, sous-titre, lieu, date de fin
-  ec inviter un intervenant
-  * prolonger les inscriptions (après la clôture)
+  ok inviter un intervenant
+  ec prolonger les inscriptions (après la clôture)
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
 ok revenir à LDAP/login

@@ -381,11 +381,15 @@ class Inscription(Base):
 
     def genere_token(self):
         chaine = string.ascii_uppercase + string.digits
-        tok = ""
-        for i in range(12):
-            c = random.choice(chaine)
-            chaine = chaine.replace(c, '')
-            tok += c
+        while 1:
+            tok = ""
+            for i in range(12):
+                c = random.choice(chaine)
+                chaine = chaine.replace(c, '')
+                tok += c
+            deja_tok = self.query.filter_by(token=tok).first()
+            if not deja_tok:
+                break
         self.token = tok
 
     @classmethod
@@ -535,8 +539,29 @@ class InviteIntervenant(Resource):
         parser.add_argument('email', required=True, help=lazy_gettext("Adresse électronique de l'interven. à inviter ?"))
         parser.add_argument('msg', required=False, help=lazy_gettext("Message d'invitation"))
         args = parser.parse_args()
-        # FIXME ajouter une inscription et un intervenant, puis générer le code
-        code = "123456"
+        # ajouter une inscription et un intervenant, puis générer le code personnel
+        personne = Personne.query.filter_by(email = args['email']).first()
+        if personne and args['prenom'] and not personne.prenom:
+            personne.prenom = args['prenom']
+        if not personne and args['prenom']:
+            personne = Personne.query.filter_by(nom = args['nom'], prenom = args['prenom']).first()
+        if not personne:
+            personne = Personne(nom = args['nom'], email = args['email'])
+            if args['prenom']:
+                personne.prenom = args['prenom']
+        inscription = Inscription.query.filter_by(id_personne = personne.id, id_evenement = args['id']).first()
+        if not inscription:
+            inscription = Inscription(id_evenement = args['id'], personne = personne)
+            inscription.genere_token()
+        token = inscription.token
+        deja_intervenant = False
+        intervenant = Intervenant.query.filter_by(id_inscription = inscription.id).first()
+        if intervenant:
+            deja_intervenant = True
+        else:
+            intervenant = Intervenant(inscription = inscription)
+        db_session.add(intervenant)
+        db_session.commit()
         from .emails import envoyer_invitation_intervenant
         try:
             id_evenement = int(args['id'])
@@ -544,5 +569,7 @@ class InviteIntervenant(Resource):
             raise ValueError("'%s' is not a valid event id" % args['id'])
         e = Evenement.query.get(id_evenement)
         emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(args['id'])
-        envoyer_invitation_intervenant(e, emails_or_uids_organisateurs, args['email'], code, args['msg'])
+        envoyer_invitation_intervenant(e, emails_or_uids_organisateurs, args['email'], token, args['msg'])
+        if deja_intervenant:
+            return False
         return True
