@@ -138,9 +138,6 @@ ec ajout interface pour les intervenants
   ec vérification du token dans l'URL appelée par l'intervenant
   ec affichage formulaire supplémentaire, en bas du formulaire normal
   ** mention spéciale, dans la page de fin du processus d'inscription
-  ** envoi d'une invitation à s'inscrire, quand on est intervenant (avec token
-   dedans) ; ce qui suppose aussi de l'inscrire dans la table Inscription
-   (ainsi que le nom) et aussi dans la table Intervenant
 
 at ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu

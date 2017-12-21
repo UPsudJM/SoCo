@@ -256,18 +256,19 @@ class IntervenantForm(InscriptionForm):
                                       choices = [e.value for e in TransportEnum],
                                       description = gettext("Devons-nous prévoir votre transport aller ?"))
     ville_depart_aller = StringField(gettext('Votre ville de départ (trajet aller)'))
-    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), objname=objname, format='%d/%m/%Y %H:%M')
+    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), format='%d/%m/%Y %H:%M')
     transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'), default = gettext('Aucun'),
                                       choices = [e.value for e in TransportEnum],
                                       description = gettext("Devons-nous prévoir votre transport retour ?"))
     ville_arrivee_retour = StringField(gettext('Votre ville de destination (trajet retour)'))
     horaire_arrivee_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
-    nuits = []
-    repas = []
+    #nuits = []
+    #repas = []
 
     def __init__(self, formulaire, *args, **kwargs):
-        InscriptionForm.__init__(self, *args, **kwargs)
+        InscriptionForm.__init__(self, formulaire, *args, **kwargs)
+        self.nuits, self.repas = [], []
         for n in formulaire.evenement.calcule_nuits():
-            nuits.append(BooleanField(n))
+            self.nuits.append(BooleanField(n))
         for r in formulaire.evenement.calcule_repas():
-            repas.append(BooleanField(n))
+            self.repas.append(BooleanField(n))

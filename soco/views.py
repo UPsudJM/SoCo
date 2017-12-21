@@ -35,7 +35,7 @@ from wtforms.validators import DataRequired
 from functools import wraps
 from .auth.models import User
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription, Intervenant
-from .forms import InscriptionForm, NcollForm
+from .forms import InscriptionForm, NcollForm, IntervenantForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
 from .emails import confirmer_inscription, envoyer_mail_capacite_salle
 from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
@@ -115,6 +115,13 @@ def soco(flform, token=None):
     if not formulaire:
         return render_template('404.html')
     evenement = formulaire.evenement
+    # Vérification pour le cas 'Intervenant'
+    speaker = False
+    if token:
+        intervenant = Intervenant.check_token(evenement.id, token)
+        if intervenant:
+            speaker = True
+    # Choix des logos
     logo, url = evenement.infos_comm()
     if evenement.entite_organisatrice:
         logo0, url0 = evenement.entite_organisatrice.infos_comm()
@@ -127,17 +134,15 @@ def soco(flform, token=None):
     logofilename0, logofilename = afflogo(logo0), ""
     if logo:
         logofilename = afflogo(logo)
-    if formulaire.date_ouverture_inscriptions > datetime.date.today():
-        return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
-    elif formulaire.date_cloture_inscriptions < datetime.date.today():
-        return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
-    # Vérification pour le cas 'Intervenant'
-    speaker = False
-    if token:
-        intervenant = Intervenant.check_token(evenement.id, token)
-        if intervenant:
-            speaker = True
-    form = InscriptionForm(formulaire)
+    if not speaker:
+        if formulaire.date_ouverture_inscriptions > datetime.date.today():
+            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
+        elif formulaire.date_cloture_inscriptions < datetime.date.today():
+            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
+    if speaker:
+        form = IntervenantForm(formulaire)
+    else:
+        form = InscriptionForm(formulaire)
     if form.validate_on_submit():
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()

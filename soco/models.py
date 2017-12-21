@@ -237,20 +237,24 @@ class Evenement(Base):
 
     def calcule_nuits(self):
         """ Retourne une liste des nuits"""
-        d = self.date
+        d0 = self.date
         delta = self.date_fin - self.date
-        ret = [d]
-        for i in range(delta.days):
-            ret.append(d + i + 1)
+        ret = [ d0 ]
+        d = d0
+        for i in range(delta.days -1):
+            d = d + datetime.timedelta(days=1)
+            ret.append(d)
         return ret
 
     def calcule_repas(self):
         """ Retourne une liste des repas"""
-        d = self.date
+        d0 = self.date
         delta = self.date_fin - self.date
-        ret = [d]
+        ret = [ d0 ]
+        d = d0
         for i in range(delta.days):
-            ret.append(d + i + 1)
+            d = d + datetime.timedelta(days=1)
+            ret.append(d)
         return ret
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
