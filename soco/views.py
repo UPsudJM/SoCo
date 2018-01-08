@@ -118,10 +118,12 @@ def soco(flform, token=None):
     evenement = formulaire.evenement
     # Vérification pour le cas 'Intervenant'
     speaker = False
+    deja_personne = None
     if token:
         intervenant = Intervenant.check_token(evenement.id, token)
         if intervenant:
             speaker = True
+            deja_personne = intervenant.inscription.personne
     # Choix des logos
     logo, url = evenement.infos_comm()
     if evenement.entite_organisatrice:
@@ -217,6 +219,7 @@ def soco(flform, token=None):
             return render_template('end.html', evenement = evenement, qrstring=qrstring,
                                        logofilename = logofilename, lienevt = url)
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=speaker,
+                               intervenant=deja_personne,
                                logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
                                current_user=current_user)
 

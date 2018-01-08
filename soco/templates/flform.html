@@ -31,14 +31,15 @@
   <form action="" method="post" id="flform" name="flform">
     {{ form.csrf_token }}
   <fieldset><legend accesskey="c">{{ gettext('Vos coordonnées') }}</legend>
-  {{ gettext('Nom') }} <input type="text" name="nom" data-ng-model="personne.nom" required="" data-ng-change="cbadge1()" data-ng-blur="chkemail()" /><br />
+  {{ gettext('Nom') }} <input type="text" name="nom" data-ng-model="personne.nom" required="" data-ng-change="cbadge1()" data-ng-blur="chkemail()" {% if speaker %}value="{{ intervenant.nom }}"{% endif %} /><br />
   <div data-ng-show="flform.$submitted || flform.nom.$touched">
     <span data-ng-show="flform.nom.$error.required">{{ gettext('Merci d\'indiquer votre nom') }}</span>
   </div>
-  {{ gettext('Prénom') }} <input type="text" name="prenom" data-ng-model="personne.prenom" data-ng-change="cbadge1()" data-ng-blur="chkemail()" /><br /><br />
+  {{ gettext('Prénom') }} <input type="text" name="prenom" data-ng-model="personne.prenom" data-ng-change="cbadge1()" data-ng-blur="chkemail()" {% if speaker %}value="{{ intervenant.prenom }}"{% endif %}/><br /><br />
   <span data-ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">{{ gettext('Attention, pour le badge, prénom + nom = 26 caractères max.') }}</span>
   <pre><em>{{ gettext('Sur votre badge :') }}</em> <input type="text" size="27" maxlength="27" name="badge1" data-ng-model="badge1" /></pre>
-    {{ gettext('Email') }} <input type="email" name="email" data-ng-model="personne.email" required="" data-ng-blur="chkemail()" /><br />
+  {{ gettext('Email') }} <input {% if speaker %}value="{{ intervenant.email }}"{% endif %} type="email" name="email" data-ng-model="personne.email" required="" data-ng-blur="chkemail()" /><br />
+
     <div data-ng-show="flform.$submitted || flform.email.$touched">
       <span data-ng-show="flform.email.$error.required">{{ gettext('Merci d\'indiquer votre adresse électronique') }}</span>
       <span data-ng-show="flform.email.$error.email">{{ gettext('Cette adresse n\'est pas valide') }}</span>
