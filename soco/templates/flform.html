@@ -64,16 +64,17 @@
   <pre><em>{{ gettext('Sur votre badge :') }}</em> <input type="text" size="33" maxlength="33" name="badge2" data-ng-model="badge2" /></pre>
   </fieldset>
 
-  {% from "_formhelpers.html" import render_field with context %}
+  {% from "_formhelpers.html" import render_field, render_checkbox with context %}
 
   {% if speaker %}<fieldset><legend accesskey="m">{{ gettext('Votre intervention') }}</legend>
   {{ render_field(form.besoin_materiel) }}</fieldset>
   <fieldset><legend accesskey="v">{{ gettext('Votre voyage') }}</legend>
-  {{ gettext('Aller') }} : {{ render_field(form.transport_aller) }} {{ render_field(form.ville_depart_aller) }} {{ render_field(form.horaire_depart_aller) }}
-  <br/>{{ gettext('Retour') }} : {{ render_field(form.transport_retour) }} {{ render_field(form.ville_arrivee_retour) }} {{ render_field(form.horaire_depart_retour) }}</fieldset>
+  <h4>{{ gettext('Aller') }}</h4> {{ render_field(form.transport_aller) }} {{ render_field(form.ville_depart_aller) }} {{ render_field(form.horaire_depart_aller) }}
+  <br/><h4>{{ gettext('Retour') }}</h4> {{ render_field(form.transport_retour) }} {{ render_field(form.ville_arrivee_retour) }} {{ render_field(form.horaire_depart_retour) }}</fieldset>
   <fieldset><legend accesskey="v">{{ gettext('Votre séjour') }}</legend>
-  {{ render_field(form.nuits) }}
-  {{ render_field(form.repas) }}</fieldset>
+  {% if evenement.nuits %}<p>{{ gettext('Nuits à réserver :') }} {% for n in evenement.nuits %}{{ render_checkbox(gettext("nuit du") + ' {day} ({weekday} {soir})'.format(day=n.day, weekday=gettext(n.strftime("%A")), soir=gettext("soir"))) }}{% endfor %}</p>{% endif %}
+  {% if evenement.jours %}<p>{{ gettext('Repas à réserver :') }}{% for j in evenement.jours %}{{ render_checkbox("%s" % j.day + ' ' + gettext('midi')) }} {{ render_checkbox("%s" % j.day + ' ' + gettext('soir')) }}{% endfor %}</p>{% endif %}
+  </fieldset>
 
   {% else %}<fieldset><legend accesskey="p">{{ gettext('Votre participation') }}</legend>
   {% if formulaire.champ_attestation %}{{ render_field(form.attestation_demandee) }}{% endif %}

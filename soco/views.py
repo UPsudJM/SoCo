@@ -14,12 +14,12 @@
 § You should have received a copy of the GNU General Public License     §
 § along with SoCo.  If not, see <http://www.gnu.org/licenses/>.         §
 §                                                                       §
-§ © 2016-2017 Odile Bénassy, Université Paris Sud                       §
+§ © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
 # coding: utf-8
 
-import datetime
+import datetime, locale
 from PIL import Image
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
@@ -43,6 +43,7 @@ from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etique
 
 @babel.localeselector
 def get_locale():
+    locale.setlocale(locale.LC_ALL, 'fr_FR.utf8')
     return "fr"
     #return request.accept_languages.best_match(LANGUAGES.keys())
 

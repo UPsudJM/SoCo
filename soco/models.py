@@ -228,35 +228,18 @@ class Evenement(Base):
         return logo, url
 
     def calcule_jours(self):
-        """ Retourne une liste des jours de colloque"""
-        d = self.date
-        delta = self.date_fin - self.date
-        ret = [d]
-        for i in range(delta.days):
-            ret.append(d + i + 1)
-        return ret
-
-    def calcule_nuits(self):
-        """ Retourne une liste des nuits"""
+        """ Inscrit la liste des jours et des nuits"""
         d0 = self.date
-        delta = self.date_fin - self.date
-        ret = [ d0 ]
-        d = d0
-        for i in range(delta.days -1):
-            d = d + datetime.timedelta(days=1)
-            ret.append(d)
-        return ret
-
-    def calcule_repas(self):
-        """ Retourne une liste des repas"""
-        d0 = self.date
-        delta = self.date_fin - self.date
-        ret = [ d0 ]
-        d = d0
-        for i in range(delta.days):
-            d = d + datetime.timedelta(days=1)
-            ret.append(d)
-        return ret
+        unjour = datetime.timedelta(days=1)
+        self.jours = [ d0 ]
+        self.nuits = [ d0 - unjour ]
+        if self.date_fin and self.date_fin != self.date:
+            delta = self.date_fin - self.date
+            d = d0
+            for i in range(delta.days):
+                self.nuits.append(d)
+                d = d + unjour
+                self.jours.append(d)
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 Lieu.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="lieu")
@@ -452,7 +435,6 @@ class Intervenant(Base):
     repas = Column(String(20))
 
     inscription = relationship("Inscription", back_populates="intervenant")
-
 
     def __init__(self, **kwargs):
         Base.__init__(self)

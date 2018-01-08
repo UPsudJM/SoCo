@@ -22,7 +22,7 @@
 from flask_wtf import FlaskForm
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField
+from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField, Flags
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import Evenement, Formulaire, Personne, Inscription, Lieu, Intervenant
@@ -264,10 +264,6 @@ class IntervenantForm(InscriptionForm):
     ville_arrivee_retour = StringField(gettext('Ville de destination (trajet retour)'))
     horaire_depart_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
 
-    """def __init__(self, formulaire, *args, **kwargs):
+    def __init__(self, formulaire, *args, **kwargs):
         InscriptionForm.__init__(self, formulaire, *args, **kwargs)
-        self.nuits, self.repas = [], []
-        for n in formulaire.evenement.calcule_nuits():
-            self.nuits.append(BooleanField(n))
-        for r in formulaire.evenement.calcule_repas():
-            self.repas.append(BooleanField(n))"""
+        formulaire.evenement.calcule_jours()

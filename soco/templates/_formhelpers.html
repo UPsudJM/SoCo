@@ -1,6 +1,6 @@
 {% macro render_field(field) %}
 <p>{{ field.label }}{% if field.flags.required %}<span class="mandatory">*</span>{% endif %}
-{% if field.description %}<span class="descriptionchamp"><!-- {{ field.description }} --><a href="#" tooltips tooltip-template="{{ field.description }}">?</a></span>{% endif %} 
+{% if field.description %}<span class="descriptionchamp"><!-- {{ field.description }} --><a href="#" tooltips tooltip-template="{{ field.description }}">?</a></span>{% endif %}
 {{ field(**kwargs)|safe }}
 {% if field.errors %}
 <ul class=errors>
@@ -10,4 +10,7 @@
 </ul>
 {% endif %}
 </p>
+{% endmacro %}
+{% macro render_checkbox(s) %}
+<span><label for="{{ s }}">{{ s }}</label> <input type="checkbox" name="{{ s }}" /></span>
 {% endmacro %}
