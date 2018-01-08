@@ -15,6 +15,13 @@ var flform = angular.module('flform',[])
         var $coll = $location.path().split("/").pop();
         $log.log($coll);
         /* $scope.master = {}; */
+        $scope.setspeaker = function(personne) {
+            $log.log("in setspeaker");
+            $scope.flform.nom.$setViewValue();
+            $scope.flform.prenom.$setViewValue();
+            $scope.flform.email.$setViewValue();
+            //$scope.cbadge1();
+        }
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
             var $max1 = 27;
