@@ -14,7 +14,7 @@
 § You should have received a copy of the GNU General Public License     §
 § along with SoCo.  If not, see <http://www.gnu.org/licenses/>.         §
 §                                                                       §
-§ © 2016-2017 Odile Bénassy, Université Paris Sud                       §
+§ © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
 # coding: utf-8
@@ -25,7 +25,7 @@ from flask_babelex import gettext
 from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
-from soco.models import RecurrenceEnum, MaterielEnum, TransportEnum, Evenement, Formulaire, Personne, Inscription, Lieu
+from soco.models import Evenement, Formulaire, Personne, Inscription, Lieu, Intervenant
 from soco.auth.models import User
 from soco import app
 import datetime
@@ -125,7 +125,7 @@ class NcollForm(SocoForm):
     date_fin = PickaDateField(gettext('Date de fin'), objname=objname, format='%d/%m/%Y',
                                   description = gettext("Seulement dans le cas où l'événement dure plusieurs jours"))
     if app.config['AVEC_RECURRENCE']:
-        recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = [e.value for e in RecurrenceEnum])
+        recurrence = RadioField(gettext('Récurrence'), default = gettext('Aucune'), choices = Evenement.RECURRENCE.items())
     else:
         recurrence = HiddenField(gettext('Récurrence'))
     lieu = SelectField(
@@ -250,25 +250,24 @@ class InscriptionForm(SocoForm):
 
 class IntervenantForm(InscriptionForm):
     objname = 'intervenant'
-    besoin_materiel = SelectField(gettext('Matériel à prévoir'), default = gettext('Aucun'), choices = [e.value for e in MaterielEnum],
+    besoin_materiel = SelectField(gettext('Matériel à prévoir'),
+                                      choices = Intervenant.MATERIEL.items(),
                                       description = gettext("Éventuellement, matériel que nous devons prévoir pour votre intervention"))
-    transport_aller = SelectField(gettext('Moyen de transport (trajet aller)'), default = gettext('Aucun'),
-                                      choices = [e.value for e in TransportEnum],
+    transport_aller = SelectField(gettext('Moyen de transport (trajet aller)'),
+                                      choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport aller ?"))
-    ville_depart_aller = StringField(gettext('Votre ville de départ (trajet aller)'))
+    ville_depart_aller = StringField(gettext('Ville de départ (trajet aller)'))
     horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), format='%d/%m/%Y %H:%M')
-    transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'), default = gettext('Aucun'),
-                                      choices = [e.value for e in TransportEnum],
+    transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'),
+                                      choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport retour ?"))
-    ville_arrivee_retour = StringField(gettext('Votre ville de destination (trajet retour)'))
-    horaire_arrivee_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
-    #nuits = []
-    #repas = []
+    ville_arrivee_retour = StringField(gettext('Ville de destination (trajet retour)'))
+    horaire_depart_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
 
-    def __init__(self, formulaire, *args, **kwargs):
+    """def __init__(self, formulaire, *args, **kwargs):
         InscriptionForm.__init__(self, formulaire, *args, **kwargs)
         self.nuits, self.repas = [], []
         for n in formulaire.evenement.calcule_nuits():
             self.nuits.append(BooleanField(n))
         for r in formulaire.evenement.calcule_repas():
-            self.repas.append(BooleanField(n))
+            self.repas.append(BooleanField(n))"""

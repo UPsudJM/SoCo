@@ -14,12 +14,13 @@
 § You should have received a copy of the GNU General Public License     §
 § along with SoCo.  If not, see <http://www.gnu.org/licenses/>.         §
 §                                                                       §
-§ © 2016-2017 Odile Bénassy, Université Paris Sud                       §
+§ © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
 # coding: utf-8
 
-import datetime, enum, string, random
+import datetime, string, random, enum
+from collections import OrderedDict
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, Enum, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -128,12 +129,6 @@ class Lieu(Base):
         return self.nom
 
 
-class RecurrenceEnum(enum.Enum):
-    quotidien = "quotidien"
-    hebdomadaire = "hebdomadaire"
-    mensuel = "mensuel"
-    annuel = "annuel"
-
 class Recurrent(Base):
     __tablename__ = 'recurrent'
     __table_args__ = (UniqueConstraint('id_evenement', 'date', name='uc_recur'),)
@@ -156,6 +151,12 @@ class Recurrent(Base):
 
 
 class Evenement(Base):
+    RECURRENCE = OrderedDict([
+        ('quotidien', gettext('quotidien')),
+        ('hebdomadaire', gettext('hebdomadaire')),
+        ('mensuel', gettext('mensuel')),
+        ('annuel', gettext('annuel'))
+        ])
     __tablename__ = 'evenement'
     __table_args__ = (UniqueConstraint('id_entite_organisatrice', 'date', 'titre', name='uc_even'),)
     id = Column(Integer, primary_key = True)
@@ -164,7 +165,7 @@ class Evenement(Base):
     date = Column(Date)
     date_fin = Column(Date)
     id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
-    recurrence = Column('recurrence', Enum(RecurrenceEnum))
+    recurrence = Column('recurrence', Enum(*RECURRENCE))
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
@@ -404,6 +405,7 @@ Evenement.inscription = relationship("Inscription", order_by=Inscription.id, bac
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
 
+""""
 class MaterielEnum(enum.Enum):
     ordinateur = "ordi"
     videoprojvga = "videoprojVGA"
@@ -416,19 +418,34 @@ class TransportEnum(enum.Enum):
     train = "train"
     autocar = "autocar"
     voiture = "voiture"
-    covoiturage = "covoiturage"
+    covoiturage = "covoiturage"""""
 
 
 class Intervenant(Base):
+    MATERIEL = OrderedDict([
+        ('', gettext('Aucun besoin spécifique')),
+        ('ordi', gettext('Ordinateur')),
+        ('videoprojVGA', gettext('Vidéoprojecteur avec prise VGA')),
+        ('videoprojHDMI', gettext('Vidéoprojecteur avec prise HDMI')),
+        ('internet', gettext('Connexion au réseau'))
+        ])
+    TRANSPORT = OrderedDict([
+        ('', gettext('pas de transport')),
+        ('avion', gettext('avion')),
+        ('train', gettext('train')),
+        ('autocar', gettext('autocar')),
+        ('voiture', gettext('voiture')),
+        ('covoiturage', gettext('covoiturage'))
+        ])
     __tablename__ = 'intervenant'
     __table_args__ = (UniqueConstraint('id_inscription', name='uc_intv'),)
     id = Column(Integer, primary_key = True)
     id_inscription = Column(Integer, ForeignKey('inscription.id'), nullable=False)
-    besoin_materiel = Column('besoin_materiel', Enum(MaterielEnum))
-    transport_aller = Column('transport_aller', Enum(TransportEnum))
+    besoin_materiel = Column('besoin_materiel', Enum(*MATERIEL))
+    transport_aller = Column('transport_aller', Enum(*TRANSPORT))
     ville_depart_aller = Column(String(200)) # ville ou aéroport
     horaire_depart_aller = Column(DateTime)
-    transport_retour = Column('transport_retour', Enum(TransportEnum))
+    transport_retour = Column('transport_retour', Enum(*TRANSPORT))
     ville_arrivee_retour = Column(String(200))
     horaire_depart_retour = Column(DateTime)
     nuits = Column(String(20))
