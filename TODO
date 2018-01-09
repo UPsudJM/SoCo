@@ -135,8 +135,10 @@ ec ajout interface pour les intervenants
   at nuitées sur place ? nombre seulement et de telle date à telle date
   at ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
   at déj pour les intervenants : tous les repas
-  ec vérification du token dans l'URL appelée par l'intervenant
-  ec affichage formulaire supplémentaire, en bas du formulaire normal
+  at vérification du token dans l'URL appelée par l'intervenant
+  at affichage formulaire supplémentaire, en bas du formulaire normal
+  ok prise en compte des valeurs connues (nom, prénom, email)
+  ** validation du formulaire
   ** mention spéciale, dans la page de fin du processus d'inscription
 
 at ajout nb d'inscrits max avec envoi de mails

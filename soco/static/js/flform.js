@@ -17,25 +17,13 @@ var flform = angular.module('flform',[])
         if ($coll.length > 8) { var $tok = $coll; $coll = $ppath.pop(); }
         $log.log($coll);
         /* $scope.master = {}; */
-        $scope.setspeaker = function(personne) {
-            $log.log("in setspeaker");
-            var $params = {"evt" : $coll, "token" : $tok};
-            $http.get('/api/infoinscription', {'params': $params}).then(function(resp) {
-                $log.log(resp.data);
-                if (resp.data) {
-                    $scope.personne = resp.data;
-                    $scope.badge1 = resp.data['prenom'] + ' ' + resp.data['nom'];
-                }
-            });
-        }
-        $scope.cbadge1 = function(personne) {
-            $log.log("in cbadge1");
+        function calcule_badge1($prenom, $nom) {
+            if ($prenom == undefined) $prenom = "";
+            if ($nom == undefined) $nom = "";
             var $max1 = 27;
-            var $p = ($scope.personne.prenom || "");
-            $p = $p.charAt(0).toUpperCase() + $p.toLowerCase().slice(1);
+            var $p = $prenom.charAt(0).toUpperCase() + $prenom.toLowerCase().slice(1);
 	    // FIXME faire une boucle pour repérer les ' ' et les '-'
-            var $n = ($scope.personne.nom || "");
-            $n = $n.toUpperCase();
+            var $n = $nom.toUpperCase();
             var $badge1 = "";
             if ($p && $n) $badge1 = $p + " " + $n;
             else $badge1 = $p + $n;
@@ -46,7 +34,22 @@ var flform = angular.module('flform',[])
                 if ($p && $n) $badge1 = $p + " " + $n;
                 else $badge1 = $p + $n;
             }
-            $scope.badge1 = $badge1;
+            return $badge1;
+        }
+        $scope.setspeaker = function(personne) {
+            $log.log("in setspeaker");
+            var $params = {"evt" : $coll, "token" : $tok};
+            $http.get('/api/infoinscription', {'params': $params}).then(function(resp) {
+                //$log.log(resp.data);
+                if (resp.data) {
+                    $scope.personne = resp.data;
+                    $scope.badge1 = calcule_badge1(resp.data['prenom'] + ' ' + resp.data['nom']);
+                }
+            });
+        }
+        $scope.cbadge1 = function(personne) {
+            $log.log("in cbadge1");
+            $scope.badge1 = calcule_badge1(personne.prenom, personne.nom);
         };
         $scope.cbadge2 = function(personne) {
             $log.log("in cbadge2");
