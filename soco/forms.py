@@ -257,12 +257,12 @@ class IntervenantForm(InscriptionForm):
                                       choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport aller ?"))
     ville_depart_aller = StringField(gettext('Ville de départ (trajet aller)'))
-    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), format='%d/%m/%Y %H:%M')
+    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), format='%d/%m/%Y %H:%M', validators=[Optional()])
     transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'),
                                       choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport retour ?"))
     ville_arrivee_retour = StringField(gettext('Ville de destination (trajet retour)'))
-    horaire_depart_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M')
+    horaire_depart_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M', validators=[Optional()])
 
     def __init__(self, formulaire, *args, **kwargs):
         InscriptionForm.__init__(self, formulaire, *args, **kwargs)

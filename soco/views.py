@@ -118,12 +118,10 @@ def soco(flform, token=None):
     evenement = formulaire.evenement
     # Vérification pour le cas 'Intervenant'
     speaker = False
-    deja_personne = None
     if token:
         intervenant = Intervenant.check_token(evenement.id, token)
         if intervenant:
             speaker = True
-            deja_personne = intervenant.inscription.personne
     # Choix des logos
     logo, url = evenement.infos_comm()
     if evenement.entite_organisatrice:
@@ -144,20 +142,24 @@ def soco(flform, token=None):
             return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
     if speaker:
         form = IntervenantForm(formulaire)
+        deja_personne = intervenant.inscription.personne
+        inscription = intervenant.inscription
     else:
         form = InscriptionForm(formulaire)
+        deja_personne = None
+        inscription = None
     if form.validate_on_submit():
+        # FIXME gérer le cas où la personne (intervenant) a modifié ces infos
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()
-        #personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
-        #                                        organisation=form.organisation.data).first()
         if personne == None:
             personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
                                 email=form.email.data)
-        inscription = Inscription(evenement=evenement, personne=personne)
+        if inscription == None:
+            inscription = Inscription(evenement=evenement, personne=personne)
+            inscription.genere_token()
         inscription.badge1 = form.badge1.data
         inscription.badge2 = form.badge2.data
-        inscription.genere_token()
         if form.telephone.data:
             inscription.telephone = form.telephone.data
         if form.fonction.data:
@@ -181,17 +183,31 @@ def soco(flform, token=None):
         if formulaire.champ_libre_2 and form.reponse_question_2.data:
             inscription.reponse_question_2 = form.reponse_question_2.data
         db_session.add(inscription)
+        if speaker:
+            intervenant = Intervenant(inscription = inscription)
+            for attrname in ['besoin_materiel', 'transport_aller', 'ville_depart_aller', 'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour']: #, 'nuits', 'repas', '', '', '']:
+                field = getattr(form, attrname)
+                if field.data:
+                    setattr(intervenant, attrname, field.data)
+            db_session.add(intervenant)
+            print("intervenant=", intervenant)
         try:
             db_session.commit()
         except IntegrityError as err:
             db_session.rollback()
-            flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
-            if "uc_porg" in str(err.orig):
-                flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"), 'erreur')
-            if "uc_pers" in str(err.orig):
-                flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !"), 'erreur')
-            if "uc_insc" in str(err.orig):
-                flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
+            if speaker:
+                # on pourra peut-être accepter les corrections par la suite
+                flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
+                if "uc_intv" in str(err.orig):
+                    flash(lazy_gettext("Vous avez déjà fourni vos informations !"), 'erreur')
+            else:
+                flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
+                if "uc_porg" in str(err.orig):
+                    flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et organisation !"), 'erreur')
+                if "uc_pers" in str(err.orig):
+                    flash(lazy_gettext("Vous vous êtes déjà inscrit-e avec ces mêmes nom, prénom et adresse électronique !"), 'erreur')
+                if "uc_insc" in str(err.orig):
+                    flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
             nb_inscrits = len(evenement.inscriptions)
