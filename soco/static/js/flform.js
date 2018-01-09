@@ -49,7 +49,7 @@ var flform = angular.module('flform',[])
         }
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
-            $scope.badge1 = calcule_badge1(personne.prenom, personne.nom);
+            $scope.badge1 = calcule_badge1($scope.personne.prenom, $scope.personne.nom);
         };
         $scope.cbadge2 = function(personne) {
             $log.log("in cbadge2");
