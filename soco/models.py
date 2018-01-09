@@ -454,7 +454,7 @@ class Intervenant(Base):
             return
         return self.query.filter_by(id_inscription=inscription.id).first()
 
-Inscription.intervenant = relationship("Intervenant", order_by=Inscription.id, back_populates="inscription")
+Inscription.intervenant = relationship("Intervenant", back_populates="inscription")
 
 
 # API RESTful
