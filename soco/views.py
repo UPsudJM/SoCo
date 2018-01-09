@@ -19,11 +19,11 @@
 """
 # coding: utf-8
 
-import datetime, locale
+import datetime, locale, os
 from PIL import Image
 from sqlalchemy.exc import IntegrityError
 #from config import LANGUAGES
-from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file
+from flask import render_template, flash, redirect, make_response, session, url_for, request, g, send_file, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -664,6 +664,21 @@ class InscriptionView(SocoModelView):
         }
 
 
+class IntervenantView(SocoModelView):
+    can_export = True
+    form_args = {
+        'besoin_materiel' : {'label': gettext('Besoin matériel')},
+        'transport_aller' : {'label': gettext('Transport aller')},
+        'ville_depart_aller' : {'label': gettext('Ville de départ (aller)')},
+        'horaire_depart_aller' : {'label': gettext('Horaire de départ (aller)')},
+        'transport_retour' : {'label': gettext('Transport retour')},
+        'ville_arrivee_retour' : {'label': gettext('Ville de destination (retour)')},
+        'horaire_depart_retour' : {'label': gettext('Horaire de départ (retour)')},
+        'nuits' : {'label': gettext('Nuits à réserver')},
+        'repas' : {'label': gettext('Repas à réserver')},
+  }
+
+
 admin = Admin(app, name=app.config['NOM_INTERFACE_ADMIN'], template_mode='bootstrap3')
 admin.add_view(OrganisationView(Organisation, db_session))
 admin.add_view(LieuView(Lieu, db_session))
@@ -671,3 +686,4 @@ admin.add_view(EvenementView(Evenement, db_session))
 admin.add_view(FormulaireView(Formulaire, db_session))
 admin.add_view(PersonneView(Personne, db_session))
 admin.add_view(InscriptionView(Inscription, db_session))
+admin.add_view(IntervenantView(Intervenant, db_session))
