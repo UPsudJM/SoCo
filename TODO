@@ -62,7 +62,7 @@ ok page publique d'inscription à un colloque (partie AngularJS)
     ok sortie du formulaire
   * ajouter l'inscription multiple cas récurrence
   * ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
-  * vérifier le viewport et autres (smartphones)
+  -> * vérifier le viewport et autres (smartphones)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?

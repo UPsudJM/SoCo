@@ -30,10 +30,10 @@ USE_LDAP = False
 #LDAP_USER_PATT = 'uid=%s,ou=people,dc=xuz,dc=tuv'
 
 # Database and other secrets
-PGSQL_DATABASE_DB = 'soco'
+PGSQL_DATABASE_DB = 'socodev'
 PGSQL_DATABASE_HOST = 'localhost'
-PGSQL_DATABASE_USER = 'myuser'
-PGSQL_DATABASE_PASSWORD = 'mypass'
+PGSQL_DATABASE_USER = 'socodevuser'
+PGSQL_DATABASE_PASSWORD = 'socodevpass'
 #from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
 DB_ENGINE = 'postgresql'
