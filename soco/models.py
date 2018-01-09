@@ -576,3 +576,21 @@ class InviteIntervenant(Resource):
         if deja_intervenant:
             return False
         return True
+
+@api.resource('/api/infoinscription/')
+class InfoInscription(Resource):
+    """Vérifie d'abord le token. Retourne nom, prénom + email si intervenant"""
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('evt', required=True, help=lazy_gettext("L'événement concerné doit être spécifié"))
+        parser.add_argument('token', required=True, help=lazy_gettext("Token ?"))
+        args = parser.parse_args()
+        inscription = Inscription.query.filter_by(token=args['token']).first()
+        evt = int(args['evt'])
+        if not inscription or inscription.evenement.id!=evt:
+            print('ici')
+            return False
+        intervenant = Intervenant.query.filter_by(id_inscription=inscription.id).first()
+        if not intervenant:
+            return {'nom' : inscription.personne.nom, 'prenom' : inscription.personne.prenom }
+        return {'nom' : inscription.personne.nom, 'prenom' : inscription.personne.prenom, 'email' : inscription.personne.email }

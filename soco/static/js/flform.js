@@ -11,16 +11,22 @@ var flform = angular.module('flform',[])
              }])
     .controller('flformCtrl', ['$scope', '$log', '$http', '$location', function ($scope, $log, $http, $location) {
         $log.log("in flform");
-        $log.log($location.path());
-        var $coll = $location.path().split("/").pop();
+        //$log.log($location.path());
+        var $ppath = $location.path().split("/");
+        var $coll = $ppath.pop();
+        if ($coll.length > 8) { var $tok = $coll; $coll = $ppath.pop(); }
         $log.log($coll);
         /* $scope.master = {}; */
         $scope.setspeaker = function(personne) {
             $log.log("in setspeaker");
-            $scope.flform.nom.$setViewValue();
-            $scope.flform.prenom.$setViewValue();
-            $scope.flform.email.$setViewValue();
-            //$scope.cbadge1();
+            var $params = {"evt" : $coll, "token" : $tok};
+            $http.get('/api/infoinscription', {'params': $params}).then(function(resp) {
+                $log.log(resp.data);
+                if (resp.data) {
+                    $scope.personne = resp.data;
+                    $scope.badge1 = resp.data['prenom'] + ' ' + resp.data['nom'];
+                }
+            });
         }
         $scope.cbadge1 = function(personne) {
             $log.log("in cbadge1");
@@ -71,7 +77,6 @@ var flform = angular.module('flform',[])
                 $http.get('/api/chkemail', {'params': $params}).then(function(resp) {
                     $log.log(resp.data);
                     if (resp.data) {
-                        $log.log(resp.data);
                         if (resp.data[0] && resp.data[0] != -1) {
                             $scope.personne.id = resp.data[0];
                             if (resp.data[1] && resp.data[1] == "oui") $scope.deja_inscrit = 1;
