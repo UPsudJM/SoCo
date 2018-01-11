@@ -228,7 +228,11 @@ def soco(flform, token=None):
                or (pourcentage_anterieur < 150 and pourcentage >= 150) \
                or (pourcentage_anterieur < 200 and pourcentage >= 200):
                 envoyer_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
-            flash(gettext("Votre inscription a bien été effectuée."))
+            if speaker:
+                flash(gettext("Vos informations ont bien été enregistrées."))
+            else:
+                flash(gettext("Votre inscription a bien été effectuée."))
+            flash(gettext("Ce code graphique vous permettra d'entrer sur les lieux de l'événement, conservez-le !"))
             if app.config['AVEC_QRCODE']:
                 url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
                 qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.\n{url}").format(
