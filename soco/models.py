@@ -427,10 +427,10 @@ class Intervenant(Base):
     besoin_materiel = Column('besoin_materiel', Enum(*MATERIEL))
     transport_aller = Column('transport_aller', Enum(*TRANSPORT))
     ville_depart_aller = Column(String(200)) # ville ou aéroport
-    horaire_depart_aller = Column(DateTime)
+    horaire_depart_aller = Column(String(20))
     transport_retour = Column('transport_retour', Enum(*TRANSPORT))
     ville_arrivee_retour = Column(String(200))
-    horaire_depart_retour = Column(DateTime)
+    horaire_depart_retour = Column(String(20))
     hebergements = Column(String(200))
 
     inscription = relationship("Inscription", back_populates="intervenant")

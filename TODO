@@ -127,23 +127,16 @@ ok revenir à LDAP/login
 
 * tests unitaires
 
-at ajout interface pour les intervenants
-  at transports : horaires de trains ou avions (arrivée et départ et gare ou
-   aéroport)
-  at prise de billets à la fac (pas le choix) -> configuration logicielle pour
-   option remboursement
-  at nuitées sur place ? nombre seulement et de telle date à telle date
-  at ordi, vidéoproj (est-ce que vous en voulez ? VGA ou HDMI)
-  at déj pour les intervenants : tous les repas
+ok ajout interface pour les intervenants
   ok vérification du token dans l'URL appelée par l'intervenant
   ok affichage formulaire supplémentaire, en bas du formulaire normal
   ok prise en compte des valeurs connues (nom, prénom, email)
-  ec validation du formulaire
+  ok validation du formulaire
    ok nuits et repas
-   *** pb des horaires
-   *** prise en compte des modifications des données (nom, prénom, email)
-   *** prise en compte des modifications des données (autres)
-  ** mention spéciale, dans la page de fin du processus d'inscription
+   ok pb des horaires (pour le moment, on a simplifié)
+   ? prise en compte des modifications des données (nom, prénom, email)
+   ok prise en compte des modifications des données (autres)
+  ok mention spéciale, dans la page de fin du processus d'inscription
 
 at ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu

@@ -149,7 +149,7 @@ def soco(flform, token=None):
         deja_personne = None
         inscription = None
     if form.validate_on_submit():
-         # FIXME gérer le cas où la personne (intervenant) a modifié les infos ci-dessous
+         # mieux gérer le cas où la personne (intervenant) a modifié les infos ci-dessous
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()
         if personne == None:
@@ -200,7 +200,6 @@ def soco(flform, token=None):
         except IntegrityError as err:
             db_session.rollback()
             if speaker:
-                # on pourra peut-être accepter les corrections par la suite
                 flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
                 if "uc_intv" in str(err.orig):
                     flash(lazy_gettext("Vous avez déjà fourni vos informations !"), 'erreur')
