@@ -22,7 +22,7 @@
 from flask_wtf import FlaskForm
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField, Flags
+from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField, FieldList
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import Evenement, Formulaire, Personne, Inscription, Lieu, Intervenant
@@ -256,14 +256,30 @@ class IntervenantForm(InscriptionForm):
     transport_aller = SelectField(gettext('Moyen de transport (trajet aller)'),
                                       choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport aller ?"))
-    ville_depart_aller = StringField(gettext('Ville de départ (trajet aller)'))
-    horaire_depart_aller = DateTimeField(gettext('Horaire de départ (trajet aller)'), format='%d/%m/%Y %H:%M', validators=[Optional()])
+    ville_depart_aller = StringField(gettext('Gare, aéroport, ou ville de départ (trajet aller)'))
+    horaire_depart_aller = StringField(gettext('Horaire de départ (trajet aller)'))
     transport_retour = SelectField(gettext('Moyen de transport (trajet retour)'),
                                       choices = Intervenant.TRANSPORT.items(),
                                       description = gettext("Devons-nous prévoir votre transport retour ?"))
-    ville_arrivee_retour = StringField(gettext('Ville de destination (trajet retour)'))
-    horaire_depart_retour = PickaDateField(gettext('Horaire de départ (trajet retour)'), objname=objname, format='%d/%m/%Y %H:%M', validators=[Optional()])
+    ville_arrivee_retour = StringField(gettext('Gare, aéroport, ou ville de destination (trajet retour)'))
+    horaire_depart_retour = StringField(gettext('Horaire de départ (trajet retour)'))
+    nuits = FieldList(BooleanField('nuit'), min_entries=0, max_entries=10)
+    repas = FieldList(BooleanField('repas'), min_entries=0, max_entries=20)
 
     def __init__(self, formulaire, *args, **kwargs):
         InscriptionForm.__init__(self, formulaire, *args, **kwargs)
         formulaire.evenement.calcule_jours()
+        for i in range(len(formulaire.evenement.nuits)):
+            n = formulaire.evenement.nuits[i]
+            self.nuits.append_entry()
+            self.nuits.entries[i].value = "nuit-" + n.strftime("%y-%m-%d")
+            self.nuits.entries[i].label = gettext("nuit du") + ' {day} ({weekday} {soir})' . format(
+                day=n.day, weekday=gettext(n.strftime("%A")), soir=gettext("soir"))
+        for i in range(len(formulaire.evenement.jours)):
+            j = formulaire.evenement.jours[i]
+            self.repas.append_entry()
+            self.repas.entries[2 * i].value = "midi-" + j.strftime("%y-%m-%d")
+            self.repas.entries[2 * i].label = '{day} ' . format(day=j.day) + ' ' + gettext('midi')
+            self.repas.append_entry()
+            self.repas.entries[2 * i + 1].value = "soir-" + j.strftime("%y-%m-%d")
+            self.repas.entries[2 * i + 1].label = '{day} ' . format(day=j.day) + ' ' + gettext('soir')

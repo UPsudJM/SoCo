@@ -427,12 +427,11 @@ class Intervenant(Base):
     besoin_materiel = Column('besoin_materiel', Enum(*MATERIEL))
     transport_aller = Column('transport_aller', Enum(*TRANSPORT))
     ville_depart_aller = Column(String(200)) # ville ou aéroport
-    horaire_depart_aller = Column(DateTime)
+    horaire_depart_aller = Column(String(20))
     transport_retour = Column('transport_retour', Enum(*TRANSPORT))
     ville_arrivee_retour = Column(String(200))
-    horaire_depart_retour = Column(DateTime)
-    nuits = Column(String(20))
-    repas = Column(String(20))
+    horaire_depart_retour = Column(String(20))
+    hebergements = Column(String(200))
 
     inscription = relationship("Inscription", back_populates="intervenant")
 
@@ -440,7 +439,7 @@ class Intervenant(Base):
         Base.__init__(self)
         for attrname in ['id_inscription', 'inscription', 'besoin_materiel', 'transport_aller', 'ville_depart_aller',
                              'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour',
-                             'nuits', 'repas']:
+                             'hebergements']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 

@@ -11,6 +11,9 @@
 {% endif %}
 </p>
 {% endmacro %}
-{% macro render_checkbox(s) %}
-<span><label for="{{ s }}">{{ s }}</label> <input type="checkbox" name="{{ s }}" /></span>
+{% macro render_cblist(title, fieldlist, vals) %}
+<h4>{{ title }}</h4>
+{% for field in fieldlist.entries %}
+<span><label for="{{ field.value }}">{{ field.label }}</label> <input type="checkbox" name="{{ field.value }}" /></span>
+{% endfor %}
 {% endmacro %}

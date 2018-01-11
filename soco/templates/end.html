@@ -12,8 +12,7 @@
     <td><h1>{{ gettext('Inscription à ') }} : {{ evenement.titre }}</h1></td>
   </tr></table>
   {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
-  <h3 class="date">{{ evenement.date | localedate("d MMMM YYYY") }}
-  {% if evenement.date_fin %} au {{ evenement.date_fin }}{% endif %}</h3>
+    <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | localedate("d MMMM YYYY") }}{% else %}{{ evenement.date | localedate("d MMMM YYYY") }}{% endif %}</h3>
   <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}<br/>{{ nom_institution }}{% endif %}</p>
   <br/>
   {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}

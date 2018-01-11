@@ -149,7 +149,7 @@ def soco(flform, token=None):
         deja_personne = None
         inscription = None
     if form.validate_on_submit():
-        # FIXME gérer le cas où la personne (intervenant) a modifié ces infos
+         # mieux gérer le cas où la personne (intervenant) a modifié les infos ci-dessous
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()
         if personne == None:
@@ -184,11 +184,15 @@ def soco(flform, token=None):
             inscription.reponse_question_2 = form.reponse_question_2.data
         db_session.add(inscription)
         if speaker:
-            intervenant = Intervenant(inscription = inscription)
-            for attrname in ['besoin_materiel', 'transport_aller', 'ville_depart_aller', 'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour']: #, 'nuits', 'repas', '', '', '']:
+            for attrname in ['besoin_materiel', 'transport_aller', 'ville_depart_aller', 'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour']:
                 field = getattr(form, attrname)
                 if field.data:
                     setattr(intervenant, attrname, field.data)
+            hebergements = []
+            for k, v in request.values.items():
+                if k[:4] in ['nuit', 'midi', 'soir'] and v == 'on':
+                    hebergements.append(k)
+            intervenant.hebergements = ' '. join(hebergements)
             db_session.add(intervenant)
             print("intervenant=", intervenant)
         try:
@@ -196,7 +200,6 @@ def soco(flform, token=None):
         except IntegrityError as err:
             db_session.rollback()
             if speaker:
-                # on pourra peut-être accepter les corrections par la suite
                 flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
                 if "uc_intv" in str(err.orig):
                     flash(lazy_gettext("Vous avez déjà fourni vos informations !"), 'erreur')
@@ -210,7 +213,7 @@ def soco(flform, token=None):
                     flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
-            nb_inscrits = len(evenement.inscriptions)
+            nb_inscrits = len(evenement.inscription)
             capacite_lieu = evenement.lieu.capacite
             pourcentage = 0
             if capacite_lieu:
@@ -224,7 +227,11 @@ def soco(flform, token=None):
                or (pourcentage_anterieur < 150 and pourcentage >= 150) \
                or (pourcentage_anterieur < 200 and pourcentage >= 200):
                 envoyer_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
-            flash(gettext("Votre inscription a bien été effectuée."))
+            if speaker:
+                flash(gettext("Vos informations ont bien été enregistrées."))
+            else:
+                flash(gettext("Votre inscription a bien été effectuée."))
+            flash(gettext("Ce code graphique vous permettra d'entrer sur les lieux de l'événement, conservez-le !"))
             if app.config['AVEC_QRCODE']:
                 url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
                 qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.\n{url}").format(
@@ -265,70 +272,6 @@ def planning(token):
         return render_template('404.html')
     inscriptions = Personne.inscription
     return render_template('planning.html', personne=personne, inscriptions=inscriptions)
-
-"""@app.route('/speaker/<int:flform>', methods=['GET', 'POST'])
-def speaker(flform):
-    formulaire = Formulaire.query.filter_by(id=flform).first()
-    if not formulaire or not formulaire.formulaire_intervenant:
-        return render_template('404.html')
-    evenement = formulaire.evenement
-    logo0, logo, url = evenement.infos_comm()
-    logofilename0, logofilename = afflogo(logo0), ""
-    form = IntervenantForm(formulaire)
-    if form.validate_on_submit():
-        personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
-                                                    email=form.email.data).first()
-        if personne == None:
-            personne = Personne(nom=form.nom.data, prenom=form.prenom.data,
-                                email=form.email.data)
-        inscription = Inscription.query.filter_by(personne=personne, evenement=evenement)
-        if inscription == None:
-            inscription = Inscription(evenement=evenement, personne=personne)
-        inscription.badge1 = form.badge1.data
-        inscription.badge2 = form.badge2.data
-        if form.telephone.data:
-            inscription.telephone = form.telephone.data
-        if form.fonction.data:
-            inscription.fonction = form.fonction.data
-        if form.organisation.data:
-            inscription.organisation = form.organisation.data
-        inscription.date_inscription = datetime.datetime.now()
-        # Champs spéciaux intervenant
-        intervenant = Intervenant(inscription=inscription)
-        if form.besoin_materiel.data:
-            intervenant.besoin_materiel = form.besoin_materiel.data
-        if form.transport_aller.data:
-            intervenant.transport_aller = form.transport_aller.data
-        if form.ville_depart_aller.data:
-            intervenant.ville_depart_aller = form.ville_depart_aller.data
-        if form.horaire_depart_aller.data:
-            intervenant.horaire_depart_aller = form.horaire_depart_aller.data
-        if form.transport_retour.data:
-            intervenant.transport_retour = form.transport_retour.data
-        if form.ville_arrivee_retour.data:
-            intervenant.ville_arrivee_retour = form.ville_arrivee_retour.data
-        if form.horaire_depart_retour.data:
-            intervenant.horaire_depart_retour = form.horaire_depart_retour.data
-        if form.nuits.data: # booléens à attraper
-            intervenant.nuits = form.nuits.data
-        if form.repas.data:
-            intervenant.repas = form.repas.data
-        db_session.add(inscription)
-        try:
-            db_session.commit()
-        except IntegrityError as err:
-            db_session.rollback()
-            flash(lazy_gettext("Erreur d'intégrité"), 'erreur')
-            if "uc_intv" in str(err.orig):
-                flash(lazy_gettext("Vous êtes déjà inscrit-e, comme intervenant-e, à cet événement !"), 'erreur')
-        else:
-            confirmer_inscription(personne.email, formulaire.evenement)
-            confirmer_intervenant(personne.email, intervenant)
-            flash(gettext("Votre inscription comme intervenant-e a bien été effectuée."))
-            return render_template('end.html', evenement = evenement, logofilename = logofilename, lienevt = url)
-    return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=True,
-                               logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
-                               current_user=current_user)"""
 
 
 @app.route('/suivi/new', methods=['GET', 'POST'])
@@ -674,8 +617,7 @@ class IntervenantView(SocoModelView):
         'transport_retour' : {'label': gettext('Transport retour')},
         'ville_arrivee_retour' : {'label': gettext('Ville de destination (retour)')},
         'horaire_depart_retour' : {'label': gettext('Horaire de départ (retour)')},
-        'nuits' : {'label': gettext('Nuits à réserver')},
-        'repas' : {'label': gettext('Repas à réserver')},
+        'hebergements' : {'label': gettext('Hébergements à prévoir')}
   }
 
 
