@@ -165,7 +165,7 @@ class Evenement(Base):
     date = Column(Date)
     date_fin = Column(Date)
     id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
-    recurrence = Column('recurrence', Enum(*RECURRENCE))
+    recurrence = Column('recurrence', Enum(*RECURRENCE, name="recurrence_enum"))
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
@@ -388,22 +388,6 @@ Evenement.inscription = relationship("Inscription", order_by=Inscription.id, bac
 Personne.inscription = relationship("Inscription", order_by=Inscription.id, back_populates="personne")
 
 
-""""
-class MaterielEnum(enum.Enum):
-    ordinateur = "ordi"
-    videoprojvga = "videoprojVGA"
-    videoprojhdmi = "videoprojHDMI"
-    internet = "internet"
-
-
-class TransportEnum(enum.Enum):
-    avion = "avion"
-    train = "train"
-    autocar = "autocar"
-    voiture = "voiture"
-    covoiturage = "covoiturage"""""
-
-
 class Intervenant(Base):
     MATERIEL = OrderedDict([
         ('', gettext('Aucun besoin spécifique')),
@@ -424,11 +408,11 @@ class Intervenant(Base):
     __table_args__ = (UniqueConstraint('id_inscription', name='uc_intv'),)
     id = Column(Integer, primary_key = True)
     id_inscription = Column(Integer, ForeignKey('inscription.id'), nullable=False)
-    besoin_materiel = Column('besoin_materiel', Enum(*MATERIEL))
-    transport_aller = Column('transport_aller', Enum(*TRANSPORT))
+    besoin_materiel = Column('besoin_materiel', Enum(*MATERIEL, name="materiel_enum"))
+    transport_aller = Column('transport_aller', Enum(*TRANSPORT, name="transport_enum"))
     ville_depart_aller = Column(String(200)) # ville ou aéroport
     horaire_depart_aller = Column(String(20))
-    transport_retour = Column('transport_retour', Enum(*TRANSPORT))
+    transport_retour = Column('transport_retour', Enum(*TRANSPORT, name="transport_enum"))
     ville_arrivee_retour = Column(String(200))
     horaire_depart_retour = Column(String(20))
     hebergements = Column(String(200))
