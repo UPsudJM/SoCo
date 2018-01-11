@@ -184,7 +184,6 @@ def soco(flform, token=None):
             inscription.reponse_question_2 = form.reponse_question_2.data
         db_session.add(inscription)
         if speaker:
-            intervenant = Intervenant(inscription = inscription)
             for attrname in ['besoin_materiel', 'transport_aller', 'ville_depart_aller', 'horaire_depart_aller', 'transport_retour', 'ville_arrivee_retour', 'horaire_depart_retour']:
                 field = getattr(form, attrname)
                 if field.data:
@@ -215,7 +214,7 @@ def soco(flform, token=None):
                     flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
             confirmer_inscription(personne.email, formulaire.evenement)
-            nb_inscrits = len(evenement.inscriptions)
+            nb_inscrits = len(evenement.inscription)
             capacite_lieu = evenement.lieu.capacite
             pourcentage = 0
             if capacite_lieu:

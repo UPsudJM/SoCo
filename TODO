@@ -139,7 +139,8 @@ at ajout interface pour les intervenants
   ok affichage formulaire supplémentaire, en bas du formulaire normal
   ok prise en compte des valeurs connues (nom, prénom, email)
   ec validation du formulaire
-   *** nuits et repas
+   ok nuits et repas
+   *** pb des horaires
    *** prise en compte des modifications des données (nom, prénom, email)
    *** prise en compte des modifications des données (autres)
   ** mention spéciale, dans la page de fin du processus d'inscription
