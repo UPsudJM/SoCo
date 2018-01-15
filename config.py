@@ -66,9 +66,9 @@ URL_APPLICATION = 'http://129.175.169.237:5000'
 URL_DEFAULT='http://129.175.169.237:5000'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
-EMAIL_ORGA="Secrétariat du Département de la Recherche <colloques.jean-monnet@u-psud.fr>"
+EMAIL_ORGA="Odile Bénassy <odile.benassy@u-psud.fr>"
 EMAIL_SITE="Odile Bénassy <informatique-recherche.droit-eco-gestion@u-psud.fr>"
-SIGNATURE_EMAILS="Service de la recherche\nFaculté Jean Monnet\nUniversité Paris Sud"
+SIGNATURE_EMAILS="Équipe de développement de l'application SoCo\nFaculté Jean Monnet\nUniversité Paris Sud"
 NOM_INTERFACE_ADMIN="Administration de SoCo"
 
 # Optional features
