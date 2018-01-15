@@ -14,7 +14,7 @@
 § You should have received a copy of the GNU General Public License     §
 § along with SoCo.  If not, see <http://www.gnu.org/licenses/>.         §
 §                                                                       §
-§ © 2016-2017 Odile Bénassy, Université Paris Sud                       §
+§ © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
 # coding: utf-8
@@ -39,6 +39,7 @@ def formatte_emails(emails_possiblement_incomplets):
             if not MAIL_DOMAIN:
                 continue
             ret.append(e + '@' + MAIL_DOMAIN)
+    return ret
 
 def envoyer_message(subj, src, dest, text_body, html_body):
     def complete_mail(adresse):
@@ -90,12 +91,15 @@ def envoyer_mail_modification_formulaire(emails, evenement, **kwargs):
                         render_template("envoi_mail_modification_formulaire.html",
                                             evenement = evenement, lignes_info=lignes_info))
 
-def envoyer_mail_capacite_salle(emails_or_uids_organisateurs, evenement, nb_inscrits, capacite_lieu=None, **kwargs):
+def envoyer_mail_capacite_salle(evenement, nb_inscrits, capacite_lieu=None, **kwargs):
     if not capacite_lieu:
         capacite_lieu = evenement.lieu.capacite
-    emails_organisateurs = formatte_emails(emails_or_uids_organisateurs)
-    envoyer_message(lazy_gettext('SoCo : Information sur les inscriptions à "{titre}"').format(titre=evenement.titre),
-                        ADMINS[0],
+    emails_organisateurs = formatte_emails(Evenement.get_emails_or_uids_organisateurs(evenement.id))
+    if not emails_organisateurs:
+        print("emails_organisateurs is None")
+        return
+    return envoyer_message(lazy_gettext('SoCo : Information sur les inscriptions à "{titre}"').format(titre=evenement.titre),
+                        ADMINS,
                         emails_organisateurs,
                         render_template("envoi_mail_capacite_salle.txt",
                                             evenement = evenement, nb_inscrits=nb_inscrits, capacite_lieu=capacite_lieu),
