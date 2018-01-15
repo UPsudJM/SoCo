@@ -12,8 +12,9 @@ Caractéristiques
 
 Remerciements
 =============
-Ce logiciel a été enrichi par la discussion avec mes collègues de Paris Sud,
-notamment Catherine Delplanque et Lise Durou. Qu'elles soient ici remerciées.
+Ce logiciel a été enrichi par la discussion avec mes collègues de l'Université
+Paris Sud, notamment Catherine Delplanque, Lise Durou et Yoann Gonthier Le Guen.
+Qu'illes en soient ici remercié⋅e⋅s.
 
 La petite photo du Soco Boi (Tigrisoma lineatum ou Onoré rayé) est de Bernard Dupont, France
 [CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0)], via Wikimedia Commons

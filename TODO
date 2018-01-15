@@ -111,6 +111,8 @@ ec interface de gestion (du formulaire) plus diversifiée
     ** essayer angular-datepicker ? angular-bootstrap-datetimepicker-directive ?
   ec changement titre, sous-titre, lieu, date de fin
   ok inviter un intervenant
+    at prévenir l'utilisateur en cas d'échec de l'envoi du mail
+    ok faire passer le message
   ec prolonger les inscriptions (après la clôture)
   * ajout inscriptions en masse (CSV ou lignes multiples)
 
