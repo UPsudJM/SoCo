@@ -1,6 +1,6 @@
 {{ gettext('Madame/Monsieur,') }}
 
-{{ gettext('Pour information, le nombre des inscrits à l\événement') }}
+{{ gettext('Pour information, le nombre des inscrits à l\'événement') }}
 
            {{ evenement.titre }}
 
