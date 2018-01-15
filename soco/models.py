@@ -523,7 +523,7 @@ class InviteIntervenant(Resource):
         parser.add_argument('nom', required=True, help=lazy_gettext("Nom de l'interven. à inviter ?"))
         parser.add_argument('prenom', required=False, help=lazy_gettext("Prénom de l'interven. à inviter"))
         parser.add_argument('email', required=True, help=lazy_gettext("Adresse électronique de l'interven. à inviter ?"))
-        parser.add_argument('msg', required=False, help=lazy_gettext("Message d'invitation"))
+        parser.add_argument('message', required=False, help=lazy_gettext("Message d'invitation"))
         args = parser.parse_args()
         formulaire = Formulaire.query.get(args['id'])
         id_evenement = formulaire.evenement.id
@@ -556,7 +556,7 @@ class InviteIntervenant(Resource):
         except:
             raise ValueError("'%s' is not a valid formulaire id" % args['id'])
         emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(id_evenement)
-        ret = envoyer_invitation_intervenant(formulaire, emails_or_uids_organisateurs, args['email'], token, args['msg'])
+        ret = envoyer_invitation_intervenant(formulaire, emails_or_uids_organisateurs, args['email'], token, args['message'])
         if deja_intervenant:
             return False, ret
         return True, ret
