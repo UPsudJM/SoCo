@@ -140,9 +140,9 @@ ok ajout interface pour les intervenants
    ok prise en compte des modifications des données (autres)
   ok mention spéciale, dans la page de fin du processus d'inscription
 
-at ajout nb d'inscrits max avec envoi de mails
+ok ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu
-  at relations avec objets Organisation et Evenement
+  ok relations avec objets Organisation et Evenement
   at envoi de mail (aux organisateurs) si 80%, 90%, 100%, 110%, 120%
 
 ec ajouts pour élargir l'utilisation
