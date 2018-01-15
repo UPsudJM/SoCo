@@ -1,7 +1,7 @@
 {% if msg %}{{ msg | tohtml }}{% else %}
 <p>{{ gettext('Madame/Monsieur,') }}</p>
 
-<p>{{ gettext('Vous êtes invité⋅e à intervenir lors de l\événement') }}</p>
+<p>{{ gettext('Vous êtes invité⋅e à intervenir lors de l\'événement') }}</p>
 
 <p><a href="{{ evenement.url }}">{{ evenement.titre }}</a></p>{% endif %}
 

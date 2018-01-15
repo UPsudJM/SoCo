@@ -118,6 +118,7 @@ var suivi = angular.module('suivi',['pickadate'])
             var $params = {"id" : id, "nom" : $nom, "prenom" : $prenom, email : $email, "message" : $msg};
             $log.log($params);
             $http.get('/api/invitintervenant', {'params': $params}).then(function(resp) {
+                if (resp.data[1]) alert("Erreur dans l'envoi du mail : " + resp.data[1]);
                 if (resp.data == true) { alert("La personne a bien été invitée"); return; }
                 else if (resp.data == false) { alert("La personne a bien reçu un mail, mais elle était déjà invitée..."); return; }
                 else { $log.log(resp.data); $log.log(typeof resp.data); }

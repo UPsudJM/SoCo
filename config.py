@@ -17,10 +17,11 @@ MAIL_PORT = 25
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DOMAIN = 'u-psud.fr'
+DEFAULT_MAIL_SENDER = None
 
 # administrator list
 ADMINS = []         # your email here
-from secret import ADMINS
+from secret import ADMINS, DEFAULT_MAIL_SENDER
 
 # User authentication
 USE_PWHASH = True
@@ -61,8 +62,8 @@ LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='soco-boi.png'
 
 # various default values
-URL_APPLICATION = 'https://soco.jm.u-psud.fr'
-URL_DEFAULT='https://soco.jm.u-psud.fr'
+URL_APPLICATION = 'http://129.175.169.237:5000'
+URL_DEFAULT='http://129.175.169.237:5000'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
 EMAIL_ORGA="Secrétariat du Département de la Recherche <colloques.jean-monnet@u-psud.fr>"

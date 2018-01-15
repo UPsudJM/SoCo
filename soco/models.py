@@ -519,12 +519,14 @@ class ModifEvenement(Resource):
 class InviteIntervenant(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id', required=True, help=lazy_gettext("L'événement concerné doit être spécifié"))
+        parser.add_argument('id', required=True, help=lazy_gettext("Le formulaire concerné doit être spécifié"))
         parser.add_argument('nom', required=True, help=lazy_gettext("Nom de l'interven. à inviter ?"))
         parser.add_argument('prenom', required=False, help=lazy_gettext("Prénom de l'interven. à inviter"))
         parser.add_argument('email', required=True, help=lazy_gettext("Adresse électronique de l'interven. à inviter ?"))
         parser.add_argument('msg', required=False, help=lazy_gettext("Message d'invitation"))
         args = parser.parse_args()
+        formulaire = Formulaire.query.get(args['id'])
+        id_evenement = formulaire.evenement.id
         # ajouter une inscription et un intervenant, puis générer le code personnel
         personne = Personne.query.filter_by(email = args['email']).first()
         if personne and args['prenom'] and not personne.prenom:
@@ -535,9 +537,9 @@ class InviteIntervenant(Resource):
             personne = Personne(nom = args['nom'], email = args['email'])
             if args['prenom']:
                 personne.prenom = args['prenom']
-        inscription = Inscription.query.filter_by(id_personne = personne.id, id_evenement = args['id']).first()
+        inscription = Inscription.query.filter_by(id_personne = personne.id, id_evenement = id_evenement).first()
         if not inscription:
-            inscription = Inscription(id_evenement = args['id'], personne = personne)
+            inscription = Inscription(id_evenement = id_evenement, personne = personne)
             inscription.genere_token()
         token = inscription.token
         deja_intervenant = False
@@ -550,15 +552,14 @@ class InviteIntervenant(Resource):
         db_session.commit()
         from .emails import envoyer_invitation_intervenant
         try:
-            id_evenement = int(args['id'])
+            id_formulaire = int(args['id'])
         except:
-            raise ValueError("'%s' is not a valid event id" % args['id'])
-        e = Evenement.query.get(id_evenement)
-        emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(args['id'])
-        envoyer_invitation_intervenant(e, emails_or_uids_organisateurs, args['email'], token, args['msg'])
+            raise ValueError("'%s' is not a valid formulaire id" % args['id'])
+        emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(id_evenement)
+        ret = envoyer_invitation_intervenant(formulaire, emails_or_uids_organisateurs, args['email'], token, args['msg'])
         if deja_intervenant:
-            return False
-        return True
+            return False, ret
+        return True, ret
 
 @api.resource('/api/infoinscription/')
 class InfoInscription(Resource):
