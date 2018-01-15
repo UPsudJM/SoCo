@@ -18,15 +18,15 @@ var flform = angular.module('flform',[])
         $log.log($coll);
         /* $scope.master = {}; */
         function calcule_badge1($prenom, $nom) {
+            $log.log("in calcule_badge1");
             if ($prenom == undefined) $prenom = "";
             if ($nom == undefined) $nom = "";
             var $max1 = 27;
             var $p = $prenom.charAt(0).toUpperCase() + $prenom.toLowerCase().slice(1);
 	    // FIXME faire une boucle pour repérer les ' ' et les '-'
             var $n = $nom.toUpperCase();
-            var $badge1 = "";
-            if ($p && $n) $badge1 = $p + " " + $n;
-            else $badge1 = $p + $n;
+            if ($p && $n) var $badge1 = $p + " " + $n;
+            else var $badge1 = $p + $n;
             if ($badge1.length > $max1) {
                 var $l1 = $badge1.length;
                 if ($p) $p = $p.substr(0, $p.length - $l1 + $max1);
@@ -43,7 +43,7 @@ var flform = angular.module('flform',[])
                 //$log.log(resp.data);
                 if (resp.data) {
                     $scope.personne = resp.data;
-                    $scope.badge1 = calcule_badge1(resp.data['prenom'] + ' ' + resp.data['nom']);
+                    $scope.badge1 = calcule_badge1(resp.data['prenom'], resp.data['nom']);
                 }
             });
         }

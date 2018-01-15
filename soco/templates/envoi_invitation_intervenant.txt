@@ -3,7 +3,7 @@
 
 {{ gettext('Vous êtes invité⋅e à intervenir lors de l\'événement') }}
 
-           {{ evenement.titre }}{% endif %}
+           *{{ evenement.titre }}*{% endif %}
 
 {{ gettext('Voici un lien qui va vous permettre de vous inscrire. Merci de le visiter dès que possible') }}
 

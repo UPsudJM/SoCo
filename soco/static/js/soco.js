@@ -100,7 +100,7 @@ var suivi = angular.module('suivi',['pickadate'])
             var $nom = eval('$scope.evenements.nom_intervenant_' + id);
             var $prenom = eval('$scope.evenements.prenom_intervenant_' + id);
             var $email = eval('$scope.evenements.email_intervenant_' + id);
-            var $msg = eval('$scope.evenements.msg_' + id);
+            var $msg = eval('$scope.evenements.msg_intervenant_' + id);
             if (typeof $nom === 'undefined' || typeof $email === 'undefined' || !$nom || !$nom.length || !$email || !$email.length) {
                 alert("Vous devez renseigner au moins nom et email !"); return;
             }
