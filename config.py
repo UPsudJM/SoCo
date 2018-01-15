@@ -20,7 +20,7 @@ MAIL_DOMAIN = 'u-psud.fr'
 
 # administrator list
 ADMINS = []         # your email here
-#from secret import ADMINS
+#from secret import ADMINS, DEFAULT_MAIL_SENDER
 
 # User authentication
 USE_PWHASH = True
