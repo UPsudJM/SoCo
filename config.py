@@ -8,8 +8,8 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'psql', 'migrate_repo')
 
 WTF_CSRF_ENABLED = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SECRET_KEY = 'my secret key'
-#from secret import SECRET_KEY
+#SECRET_KEY = 'my secret key'
+from secret import SECRET_KEY
 
 # mail server settings
 MAIL_SERVER = 'localhost'
@@ -20,7 +20,7 @@ MAIL_DOMAIN = 'u-psud.fr'
 
 # administrator list
 ADMINS = []         # your email here
-#from secret import ADMINS
+from secret import ADMINS
 
 # User authentication
 USE_PWHASH = True
@@ -34,7 +34,7 @@ PGSQL_DATABASE_DB = 'socodev'
 PGSQL_DATABASE_HOST = 'localhost'
 PGSQL_DATABASE_USER = 'socodevuser'
 PGSQL_DATABASE_PASSWORD = 'socodevpass'
-#from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
+from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
 DB_ENGINE = 'postgresql'
 
