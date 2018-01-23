@@ -288,7 +288,7 @@ def new():
         if form.lieu.data:
             lieu = Lieu.query.get(form.lieu.data)
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
-                                  date=form.date.data, date_fin=form.date_fin.data, lieu = lieu)
+                              date=form.date.data, date_fin=form.date_fin.data, recurrence=form.recurrence.data, lieu = lieu)
         evenement.organisateurs = organisateurs
         formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
@@ -523,7 +523,7 @@ class EvenementView(SocoModelView):
         'sstitre': {'label': gettext('Sous-titre')},
         'date': {'label': gettext('Date'), 'validators': [DataRequired()]},
         'date_fin': {'label': gettext('Date de fin (si nécessaire)')},
-        'recurrence': {'label': gettext('Récurrence (s\'il y a lieu)')},
+        'recurrence': {'label': gettext('Récurrence')},
         'logo' : {'label': gettext('Logo (s\'il est différent de celui de l\'entité organisatrice)')},
         'url' : {'label': gettext('Lien vers la page de l\'événement')},
         'resume' : {'label': gettext('Résumé')},
