@@ -288,7 +288,7 @@ def new():
         if form.lieu.data:
             lieu = Lieu.query.get(form.lieu.data)
         evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
-                              date=form.date.data, date_fin=form.date_fin.data, recurrence=form.recurrence.data, lieu = lieu)
+                              date=form.date.data, date_fin=form.date_fin.data, recurrence=form.recurrence.data, lieu=lieu)
         evenement.organisateurs = organisateurs
         formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
@@ -298,6 +298,9 @@ def new():
         if form.champ_libre_1:
             formulaire.champ_libre_1 = True
             formulaire.texte_libre_1 = form.texte_libre_1.data
+        if evenement.recurrence:
+            evenement.calcule_recurrence()
+            formulaire.jour_par_jour = True
         db_session.add(evenement)
         db_session.add(formulaire)
         try:
