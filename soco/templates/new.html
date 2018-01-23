@@ -41,6 +41,8 @@
     </div><br/>
     {{ render_field(form.date_fin) }}
     <br />
+    {% if avec_recurrence %}{{ render_field(form.recurrence) }}
+    <br/>{% endif %}
     {{ render_field(form.lieu) }}
     <br/>
     </fieldset>

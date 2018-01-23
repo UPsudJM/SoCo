@@ -316,7 +316,7 @@ def new():
             flash(gettext("Votre formulaire a bien été créé."), 'info')
             flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>"), 'url')
             return redirect('/suivi')
-    return render_template('new.html', form=form, current_user=current_user)
+    return render_template('new.html', form=form, avec_recurrence=app.config['AVEC_RECURRENCE'], current_user=current_user)
 
 @app.route('/suivi')
 @app.route('/suivi/index')
