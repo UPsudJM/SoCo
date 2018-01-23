@@ -73,7 +73,7 @@ NOM_INTERFACE_ADMIN="Administration de SoCo"
 # Optional features
 AVEC_ETIQUETTES=False
 AVEC_QRCODE=True
-AVEC_RECURRENCE=False
+AVEC_RECURRENCE=True
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30
