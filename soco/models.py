@@ -227,19 +227,44 @@ class Evenement(Base):
             url = url0
         return logo, url
 
+    def calcule_recurrence(self):
+        if not self.recurrence:
+            return
+        if self.recurrence == "quotidien":
+            delta = datetime.timedelta(days=1)
+        elif self.recurrence == "hebdomadaire":
+            delta = datetime.timedelta(weeks=1)
+        elif self.recurrence == "mensuel":
+            delta = datetime.timedelta(weeks=4)
+        elif self.recurrence == "annuel":
+            delta = datetime.timedelta(years=1)
+        self.recurrent = []
+        date_r = self.date
+        while 1:
+            date_r = date_r + delta
+            if date_r > self.date_fin:
+                break
+            self.recurrent.append(Recurrent(id_evenement = self.id, date = date_r))
+
     def calcule_jours(self):
         """ Inscrit la liste des jours et des nuits"""
         d0 = self.date
         unjour = datetime.timedelta(days=1)
         self.jours = [ d0 ]
         self.nuits = [ d0 - unjour ]
-        if self.date_fin and self.date_fin != self.date:
-            delta = self.date_fin - self.date
-            d = d0
-            for i in range(delta.days):
-                self.nuits.append(d)
-                d = d + unjour
-                self.jours.append(d)
+        if self.recurrence:
+            self.nuits = None
+            for r in self.recurrent:
+                self.jours.append(r.date)
+                self.nuits.append(r.date - unjour)
+        else:
+            if self.date_fin and self.date_fin != self.date:
+                delta = self.date_fin - self.date
+                d = d0
+                for i in range(delta.days):
+                    self.nuits.append(d)
+                    d = d + unjour
+                    self.jours.append(d)
 
 Organisation.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="entite_organisatrice")
 Lieu.evenement = relationship("Evenement", order_by=Evenement.date, back_populates="lieu")
