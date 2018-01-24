@@ -163,7 +163,7 @@ class NcollForm(SocoForm):
         print(dir(self.date_ouverture_inscriptions))
         if self.date_ouverture_inscriptions.data > self.date_cloture_inscriptions.data:
             self.date_ouverture_inscriptions.errors.append(
-                gettext("La date d'ouverture ne peut pas être antérieur à la date de clôture")
+                gettext("La date d'ouverture ne peut pas être antérieure à la date de clôture")
                 )
             return False
         if (self.date_fin.data and self.date_cloture_inscriptions.data > self.date_fin.data) \
@@ -200,7 +200,7 @@ class InscriptionForm(SocoForm):
         badge1 = StringField(gettext('Badge1'), validators=[])
         badge2 = StringField(gettext('Badge2'), validators=[])
     attestation_demandee = BooleanField(gettext('Cochez cette case si vous désirez une attestation de présence&nbsp;:'))
-    jours_de_presence =  [] #StringField('Jours de présence', validators=[DataRequired()],
+    jours_de_presence = FieldList(BooleanField('jour'), min_entries=0, max_entries=100)
     type_inscription = RadioField(
         'Type d\'inscription',
         choices=[
@@ -217,12 +217,17 @@ class InscriptionForm(SocoForm):
         self.formulaire = formulaire
         if not formulaire.champ_attestation:
             self.__delitem__('attestation_demandee')
-        if formulaire.jour_par_jour:
+        if formulaire.jour_par_jour or formulaire.evenement.recurrence:
             if formulaire.evenement.date_fin == formulaire.evenement.date:
                 self.__delitem__('jours_de_presence')
             else:
-                for j in formulaire.evenement.calcule_jours():
-                    jours_de_presence.append(BooleanField(j))
+                formulaire.evenement.calcule_jours()
+                for i in range(len(formulaire.evenement.jours)):
+                    j = formulaire.evenement.jours[i]
+                    self.jours_de_presence.append_entry()
+                    self.jours_de_presence.entries[i].value = "jour-" + j.strftime("%y-%m-%d")
+                    self.jours_de_presence.entries[i].label = j.strftime("%A %d %b") #'{weekday} {day}/{month}' . format(
+                        #weekday=gettext(j.strftime("%A")), day=j.day, month=j.month)
         if not formulaire.champ_type_inscription:
             self.__delitem__('type_inscription')
         if formulaire.champ_restauration_1:

@@ -253,7 +253,7 @@ class Evenement(Base):
         self.jours = [ d0 ]
         self.nuits = [ d0 - unjour ]
         if self.recurrence:
-            self.nuits = None
+            self.nuits = []
             for r in self.recurrent:
                 self.jours.append(r.date)
                 self.nuits.append(r.date - unjour)
