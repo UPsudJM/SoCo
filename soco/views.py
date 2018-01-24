@@ -172,8 +172,12 @@ def soco(flform, token=None):
             inscription.attestation_demandee = form.attestation_demandee.data
         if formulaire.champ_type_inscription and form.type_inscription.data:
             inscription.type_inscription = form.type_inscription.data
-        if formulaire.jour_par_jour and form.jours_de_presence.data: # booléens à attraper
-            inscription.jours_de_presence = form.jours_de_presence.data
+        if form.jours_de_presence.data:
+            jours_de_presence = []
+            for k, v in request.values.items():
+                if k[:4] == "jour":
+                    jours_de_presence.append(k[5:])
+            inscription.jours_de_presence = ' '. join(jours_de_presence)
         if formulaire.champ_restauration_1 and form.inscription_repas_1.data:
             inscription.inscription_repas_1 = form.inscription_repas_1.data
         if formulaire.champ_restauration_2 and form.inscription_repas_2.data:
