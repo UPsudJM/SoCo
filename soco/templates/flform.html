@@ -77,6 +77,9 @@
   </fieldset>
 
   {% else %}<fieldset><legend accesskey="p">{{ gettext('Votre participation') }}</legend>
+    {% if formulaire.jour_par_jour or evenement.recurrence %}
+    {{ render_cblist(gettext('Vos jours de présence'), form.jours_de_presence, evenement.jours) }}
+    {% endif %}
   {% if formulaire.champ_attestation %}{{ render_field(form.attestation_demandee) }}{% endif %}
   {% if formulaire.champ_type_inscription %}{{ render_field(form.type_inscription) }}{% endif %}
   {% if formulaire.champ_restauration_1 %}{{ render_field(form.inscription_repas_1) }}{% endif %}

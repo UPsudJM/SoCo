@@ -14,7 +14,7 @@
 § You should have received a copy of the GNU General Public License     §
 § along with SoCo.  If not, see <http://www.gnu.org/licenses/>.         §
 §                                                                       §
-§ © 2016-2017 Odile Bénassy, Université Paris Sud                       §
+§ © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
 # coding: utf-8

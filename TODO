@@ -29,7 +29,6 @@ ok amélioration formulaires CRUD (Admin)
 ok visualiser les inscrits
 ok pouvoir ajouter une inscription de l'intérieur de l'appli
 ok affichage des organisateurs
-* BUG dans la page /evenement/edit (EvenementView), la récurrence n'apparaît pas
 
 at page publique d'inscription à un colloque (sans JS)
   ok champs -> pb des libellés variables, avec le style
@@ -60,9 +59,10 @@ ok page publique d'inscription à un colloque (partie AngularJS)
     ok interdire la soumission si erreur détectée par le JS : doublon email
     ok enregistrer les réponses aux questions supplémentaires
     ok sortie du formulaire
-  * ajouter l'inscription multiple cas récurrence
-  * ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
-  -> * vérifier le viewport et autres (smartphones)
+  ec régler l'affichage des champs supplémentaires
+  ec ajouter l'inscription multiple cas récurrence
+  ec ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
+  ** vérifier le viewport et autres (smartphones)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -137,6 +137,7 @@ ok ajout interface pour les intervenants
    ? prise en compte des modifications des données (nom, prénom, email)
    ok prise en compte des modifications des données (autres)
   ok mention spéciale, dans la page de fin du processus d'inscription
+  ** champ multiple pour le besoin en matériel ?
 
 at ajout nb d'inscrits max avec envoi de mails
   ok ajout classe Lieu
