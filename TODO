@@ -60,8 +60,8 @@ ok page publique d'inscription à un colloque (partie AngularJS)
     ok enregistrer les réponses aux questions supplémentaires
     ok sortie du formulaire
   ec régler l'affichage des champs supplémentaires
-  ec ajouter l'inscription multiple cas récurrence
-  ec ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
+  ok ajouter l'inscription multiple cas récurrence
+  ok ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
   ** vérifier le viewport et autres (smartphones)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
