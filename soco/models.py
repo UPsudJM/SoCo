@@ -340,7 +340,7 @@ class Inscription(Base):
     badge1 = Column(String(70))
     badge2 = Column(String(70))
     attestation_demandee = Column(Boolean)
-    jours_de_presence = Column(String(20))
+    jours_de_presence = Column(String(200))
     commentaire = Column(String(200))
     inscription_repas_1 = Column(Boolean)
     inscription_repas_2 = Column(Boolean)
