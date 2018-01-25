@@ -45,6 +45,7 @@ def envoyer_message(subj, src, dest, text_body, html_body):
     def complete_mail(adresse):
         if not '@' in adresse:
             adresse = adresse + '@' + MAIL_DOMAIN
+        return adresse
     msg = Message(subj, sender=src, recipients=[ complete_mail(a) for a in dest ])
     msg.bcc = ADMINS
     msg.body = text_body
@@ -55,12 +56,18 @@ def envoyer_message(subj, src, dest, text_body, html_body):
         print("Erreur: impossible d'envoyer le mail")
 
 
-def confirmer_inscription(email, evenement):
-    envoyer_message(gettext('SoCo : Confirmation d\'inscription à "{titre}"').format(titre=evenement.titre.replace("'", "\\\'")),
-        EMAIL_SITE,
-        [email],
-        render_template("confirmation_inscription.txt", evenement=evenement),
-        render_template("confirmation_inscription.html", evenement=evenement))
+def confirmer_inscription(email, evenement, jours=None):
+    if jours:
+        txt = render_template("confirmation_inscription_jour_par_jour.txt", evenement=evenement, jours=jours)
+        html = render_template("confirmation_inscription_jour_par_jour.html", evenement=evenement, jours=jours)
+    else:
+        txt = render_template("confirmation_inscription.txt", evenement=evenement)
+        html = render_template("confirmation_inscription.html", evenement=evenement)
+    return envoyer_message(gettext('SoCo : Confirmation d\'inscription à "{titre}"').format(titre=evenement.titre.replace("'", "\\\'")),
+                           EMAIL_SITE,
+                           [email],
+                           txt,
+                           html)
 
 def envoyer_code_verification(email):
     from random import shuffle

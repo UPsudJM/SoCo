@@ -1,0 +1,17 @@
+<p>{{ gettext('Madame/Monsieur,') }}</p>
+
+<p>{{ gettext('Nous vous confirmons votre inscription à') }}</p>
+
+<p><strong>{{ evenement.titre }}</strong></p>
+
+<p>{{ gettext('qui aura lieu le') }} <em>{{ evenement.date | localedate("d MMMM YYYY") }}</em></p>
+
+<p><em>{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}</em></p>
+
+<p>{{ gettext('Vous êtes inscrit⋅e pour :') }}</p>
+
+<ul>{% for j in jours %}<li>{{ j }}</li>{% endfor %}</ul>
+
+<p>{{ gettext('Cordialement,') }}</p>
+<pre>--
+{{ signature_emails }}</pre>
