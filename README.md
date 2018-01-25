@@ -6,9 +6,13 @@ Caractéristiques
 ================
 * création facile d'un formulaire
 * le formulaire, réactif, tient en une page
+* contrôle des inscriptions à l'aide de QR-Code
+* inscription jour par jour
+* événements récurrents
 * suivi des inscriptions
 * impression de listes
 * fabrication de badges
+* invitation des intervenants
 
 Remerciements
 =============
