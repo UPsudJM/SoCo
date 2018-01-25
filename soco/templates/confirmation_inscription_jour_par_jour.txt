@@ -8,7 +8,7 @@
 
 {% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}
 
-{{ gettext('Vous êtes inscrit⋅e pour :') }}
+{{ gettext('Vous êtes inscrit⋅e pour les jours suivants :') }}
 
 {% for j in jours %} {{ j }} {% endfor %}
 
