@@ -225,9 +225,8 @@ class InscriptionForm(SocoForm):
                 for i in range(len(formulaire.evenement.jours)):
                     j = formulaire.evenement.jours[i]
                     self.jours_de_presence.append_entry()
-                    self.jours_de_presence.entries[i].value = "jour-" + j.strftime("%y-%m-%d")
-                    self.jours_de_presence.entries[i].label = j.strftime("%A %d %b") #'{weekday} {day}/{month}' . format(
-                        #weekday=gettext(j.strftime("%A")), day=j.day, month=j.month)
+                    self.jours_de_presence.entries[i].value = "jour-" + j.strftime("%x")
+                    self.jours_de_presence.entries[i].label = j.strftime("%A %d %b")
         if not formulaire.champ_type_inscription:
             self.__delitem__('type_inscription')
         if formulaire.champ_restauration_1:
