@@ -182,7 +182,7 @@ class InscriptionForm(SocoForm):
     nom = StringField(gettext('Nom'), validators=[DataRequired(), Length(min=2, max=30)])
     prenom = StringField(
         gettext('Prénom'),
-        validators=[Optional(), Length(min=2, max=30)],
+        validators=[Optional(), Length(min=0, max=30)],
         description=gettext("Attention, pour le badge : prénom + nom = 26 caractères max.")
         )
     email = StringField(gettext('Adresse électronique'), validators=[DataRequired(), Email(), Length(min=0, max=70)])

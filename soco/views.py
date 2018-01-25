@@ -172,6 +172,7 @@ def soco(flform, token=None):
             inscription.attestation_demandee = form.attestation_demandee.data
         if formulaire.champ_type_inscription and form.type_inscription.data:
             inscription.type_inscription = form.type_inscription.data
+        jours_de_presence = None
         if form.jours_de_presence.data:
             jours_de_presence = []
             for k, v in request.values.items():
@@ -216,7 +217,7 @@ def soco(flform, token=None):
                 if "uc_insc" in str(err.orig):
                     flash(lazy_gettext("Vous êtes déjà inscrit-e à cet événement !"), 'erreur')
         else:
-            confirmer_inscription(personne.email, formulaire.evenement)
+            confirmer_inscription(personne.email, formulaire.evenement, jours=jours_de_presence)
             nb_inscrits = len(evenement.inscription)
             capacite_lieu = evenement.lieu.capacite
             pourcentage = 0
