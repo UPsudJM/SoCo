@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 § This file is part of SoCo.                                            §
 §                                                                       §
@@ -17,7 +18,6 @@
 § © 2016-2018 Odile Bénassy, Université Paris Sud                       §
 §                                                                       §
 """
-# coding: utf-8
 
 import datetime, locale, os
 from PIL import Image
