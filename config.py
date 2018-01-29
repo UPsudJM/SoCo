@@ -8,8 +8,8 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'psql', 'migrate_repo')
 
 WTF_CSRF_ENABLED = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-#SECRET_KEY = 'my secret key'
-from secret import SECRET_KEY
+SECRET_KEY = 'my secret key'
+#from secret import SECRET_KEY
 
 # mail server settings
 MAIL_SERVER = 'localhost'
@@ -21,7 +21,7 @@ DEFAULT_MAIL_SENDER = None
 
 # administrator list
 ADMINS = []         # your email here
-from secret import ADMINS, DEFAULT_MAIL_SENDER
+#from secret import ADMINS, DEFAULT_MAIL_SENDER
 
 # User authentication
 USE_PWHASH = True
@@ -31,11 +31,11 @@ USE_LDAP = False
 #LDAP_USER_PATT = 'uid=%s,ou=people,dc=xuz,dc=tuv'
 
 # Database and other secrets
-PGSQL_DATABASE_DB = 'socodev'
+PGSQL_DATABASE_DB = 'soco'
 PGSQL_DATABASE_HOST = 'localhost'
-PGSQL_DATABASE_USER = 'socodevuser'
-PGSQL_DATABASE_PASSWORD = 'socodevpass'
-from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
+PGSQL_DATABASE_USER = 'myuser'
+PGSQL_DATABASE_PASSWORD = 'mypass'
+#from secret import PGSQL_DATABASE_USER, PGSQL_DATABASE_PASSWORD
 
 DB_ENGINE = 'postgresql'
 
@@ -62,8 +62,8 @@ LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='soco-boi.png'
 
 # various default values
-URL_APPLICATION = 'http://129.175.169.237:5000'
-URL_DEFAULT='http://129.175.169.237:5000'
+URL_APPLICATION = 'https://soco.jm.u-psud.fr'
+URL_DEFAULT='https://soco.jm.u-psud.fr'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
 EMAIL_ORGA="Odile Bénassy <odile.benassy@u-psud.fr>"
@@ -74,7 +74,7 @@ NOM_INTERFACE_ADMIN="Administration de SoCo"
 # Optional features
 AVEC_ETIQUETTES=False
 AVEC_QRCODE=True
-AVEC_RECURRENCE=True
+AVEC_RECURRENCE=False
 
 # Flask_login
 COOKIE_DURATION_DAYS = 30

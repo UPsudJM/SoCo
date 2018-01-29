@@ -62,7 +62,7 @@ ok page publique d'inscription à un colloque (partie AngularJS)
   ec régler l'affichage des champs supplémentaires
   ok ajouter l'inscription multiple cas récurrence
   ok ajouter l'inscription jour par jour (cas colloque sur plusieurs jours)
-  ** vérifier le viewport et autres (smartphones)
+  ec vérifier le viewport et autres (smartphones)
 
 ok envois de mail -> evt ajouter threading (mega tutorial miguel)
   at encoding latin-1 pour + de sûreté ?
@@ -82,7 +82,7 @@ ok page de formulaire nouveau colloque
   ok lien depuis la page suivi_index
   ok intégration du code des champs pickadate
   ok dynamisation du champ texte_restauration_1
-  ec inscription jour par jour
+  ok inscription jour par jour
   at nouvelles questions libres
   ec URL et logo du colloque
   ** calcul de l'entité organisatrice (à partir de l'uid de la personne)
