@@ -16,7 +16,7 @@ MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
-MAIL_DOMAIN = 'u-psud.fr'
+MAIL_DOMAIN = 'my.domain.org'
 DEFAULT_MAIL_SENDER = None
 
 # administrator list
@@ -73,7 +73,7 @@ NOM_INTERFACE_ADMIN="Administration de SoCo"
 
 # Optional features
 AVEC_ETIQUETTES=False
-AVEC_QRCODE=True
+AVEC_QRCODE=False
 AVEC_RECURRENCE=False
 
 # Flask_login
