@@ -238,7 +238,7 @@ def soco(flform, token=None):
                 flash(gettext("Votre inscription a bien été effectuée."))
             flash(gettext("Ce code graphique vous permettra d'entrer sur les lieux de l'événement, conservez-le !"))
             if app.config['AVEC_QRCODE']:
-                url_verif = app.config['URL_APPLICATION'] + '/verif/' + inscription.token
+                url_verif = app.config['URL_APPLICATION'] + '/verif/%s/%s' % (evenement.id, inscription.token)
                 qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.\n{url}").format(
                     evt = evenement.titre, prenom = personne.prenom, nom = personne.nom, num = inscription.id, url=url_verif)
                 print(qrstring)
@@ -258,12 +258,14 @@ def end():
     evenement = Evenement.query.filter_by(id=id_evenement).first()
     return render_template('end.html', evenement=evenement, logofilename=session.logofilename)
 
-@app.route('/verif/<token>')
+@app.route('/verif/<evt>/<token>')
 @login_required
 @required_roles('admin', 'user')
-def verif(token):
+def verif(evt, token):
     inscription = Inscription.query.filter_by(token=token).first()
     if not inscription:
+        return render_template('verif.html', ok=False)
+    if inscription.evenement.id != int(evt):
         return render_template('verif.html', ok=False)
     return render_template('verif.html', ok=True, personne=inscription.personne, evenement=inscription.evenement)
 
