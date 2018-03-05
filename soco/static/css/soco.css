@@ -17,6 +17,7 @@ TABLE.titre, H3.date, H3.sstitre, P.lieu { display: table; margin: auto; }
 TABLE.titre { margin-bottom: 20px; }
 TABLE.titre TD { padding: 20px; }
 TABLE.titre TD.logo { padding: 0 ; vertical-align: middle; }
+TABLE.titre H1, H3.sstitre { font-variant: small-caps; }
 TABLE#onglets { margin: 20px; border-spacing: 15px; border-collapse: separate; }
 TABLE#onglets TD { border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px; padding: 8px 16px; }
 TABLE#onglets A { text-decoration: none; }
