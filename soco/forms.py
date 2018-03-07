@@ -22,7 +22,7 @@
 from flask_wtf import FlaskForm
 from flask import flash
 from flask_babelex import gettext
-from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField, FieldList
+from wtforms import StringField, BooleanField, RadioField, DateField, DateTimeField, SelectField, SelectMultipleField, HiddenField, FieldList, FormField
 from wtforms.fields import Label
 from wtforms.validators import DataRequired, Optional, Length, Email
 from soco.models import Evenement, Formulaire, Personne, Inscription, Lieu, Intervenant
@@ -116,7 +116,7 @@ class SocoForm(FlaskForm):
                 flash(u"Error in the %s field - %s" % (getattr(self, field).label.text, error))
 
 
-class NcollForm(SocoForm):
+class EvenementForm(SocoForm):
     objname = 'evenement'
     organisateurs = SelectMultipleField(gettext('Organisé par'), coerce=int, choices = [])
     titre = StringField(gettext('Titre'), validators=[DataRequired(), Length(min=3, max=300)])
@@ -132,6 +132,16 @@ class NcollForm(SocoForm):
     lieu = SelectField(
         gettext('Lieu'), coerce=int, choices = [],
         description=gettext('Choisissez la salle, ou le lieu, dans la liste. S\'il ne figure pas, laissez vide'))
+
+    def __init__(self, **kwargs):
+        SocoForm.__init__(self, **kwargs)
+        self.organisateurs.choices = [ (u.id, u.get_gecos()) for u in User.query.filter(User.role!='superadmin').order_by(User.username).all() ]
+        self.lieu.choices = [ (0, ' -- ') ] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
+
+
+class FormulaireForm(SocoForm):
+    objname = 'formulaire'
+    evenement = FormField(EvenementForm)
     date_ouverture_inscriptions = PickaDateField(gettext("Date d'ouverture des inscriptions"), objname=objname,
                                                  format='%d/%m/%Y', validators=[DataRequired()])
     date_cloture_inscriptions = PickaDateField(gettext("Date de clôture des inscriptions"), objname=objname,
@@ -151,23 +161,17 @@ class NcollForm(SocoForm):
         gettext("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :"))
     texte_libre_1 = StringField(gettext("et précisez le texte de la question :"))
 
-    def __init__(self, **kwargs):
-        SocoForm.__init__(self, **kwargs)
-        self.organisateurs.choices = [ (u.id, u.get_gecos()) for u in User.query.filter(User.role!='superadmin').order_by(User.username).all() ]
-        self.lieu.choices = [ (0, ' -- ') ] + [ (l.id, l.nom) for l in Lieu.query.order_by(Lieu.nom).all() ]
 
     def validate(self):
         if not FlaskForm.validate(self):
             return False
-        print(self.date_ouverture_inscriptions)
-        print(dir(self.date_ouverture_inscriptions))
         if self.date_ouverture_inscriptions.data > self.date_cloture_inscriptions.data:
             self.date_ouverture_inscriptions.errors.append(
                 gettext("La date d'ouverture ne peut pas être antérieure à la date de clôture")
                 )
             return False
-        if (self.date_fin.data and self.date_cloture_inscriptions.data > self.date_fin.data) \
-          or (not self.date_fin.data and self.date_cloture_inscriptions.data > self.date.data):
+        if (self.evenement.date_fin.data and self.date_cloture_inscriptions.data > self.evenement.date_fin.data) \
+          or (not self.evenement.date_fin.data and self.date_cloture_inscriptions.data > self.evenement.date.data):
             self.date_ouverture_inscriptions.errors.append(
                 gettext("La date de clôture ne peut pas être postérieure à la date de l'événement")
                 )
@@ -254,7 +258,6 @@ class InscriptionForm(SocoForm):
 
 
 class IntervenantForm(InscriptionForm):
-    objname = 'intervenant'
     besoin_materiel = SelectField(gettext('Matériel à prévoir'),
                                       choices = Intervenant.MATERIEL.items(),
                                       description = gettext("Éventuellement, matériel que nous devons prévoir pour votre intervention"))

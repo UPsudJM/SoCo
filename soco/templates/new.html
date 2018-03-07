@@ -27,23 +27,24 @@
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
-    <fieldset>{{ render_field(form.organisateurs, maxlength=20) }} </fieldset>
+  <input type="hidden" name="formulaire_id" value="{{ formulaire_id }}" />
+    <fieldset>{{ render_field(form.evenement.organisateurs, maxlength=20) }} </fieldset>
     <fieldset><legend accesskey="c">{{ gettext('Votre événement') }}</legend>
-    {{ render_field(form.titre, size=80, maxlength=120) }}
+    {{ render_field(form.evenement.titre, size=80, maxlength=120) }}
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">
       <span ng-show="ncollform.titre.$error.required">{{ gettext('Merci d\'indiquer le titre de l\'événement') }}</span>
     </div>
-    {{ render_field(form.sstitre, size=80, maxlength=120) }}
+    {{ render_field(form.evenement.sstitre, size=80, maxlength=120) }}
     <br/>
-    {{ render_field(form.date) }}
+    {{ render_field(form.evenement.date) }}
     <div ng-show="ncollform.$submitted || ncollform.date.$touched">
       <span ng-show="ncollform.date.$error.required">{{ gettext('Merci d\'indiquer la date de l\'événement') }}</span>
     </div><br/>
-    {{ render_field(form.date_fin) }}
+    {{ render_field(form.evenement.date_fin) }}
     <br />
-    {% if avec_recurrence %}{{ render_field(form.recurrence) }}
+    {% if avec_recurrence %}{{ render_field(form.evenement.recurrence) }}
     <br/>{% endif %}
-    {{ render_field(form.lieu) }}
+    {{ render_field(form.evenement.lieu) }}
     <br/>
     </fieldset>
 

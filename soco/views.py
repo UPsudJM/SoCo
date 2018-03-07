@@ -35,7 +35,7 @@ from wtforms.validators import DataRequired
 from functools import wraps
 from .auth.models import User
 from .models import Organisation, Lieu, Evenement, Recurrent, Formulaire, Personne, Inscription, Intervenant
-from .forms import InscriptionForm, NcollForm, IntervenantForm
+from .forms import InscriptionForm, FormulaireForm, IntervenantForm
 from .filters import localedate_filter, localedatetime_filter, datedebut_filter, datedebutcompl_filter
 from .emails import confirmer_inscription, envoyer_mail_capacite_salle
 from .texenv import texenv, genere_pdf, TPL_ETIQUETTE_VIDE, fabrique_page_etiquettes
@@ -283,13 +283,25 @@ def planning(token):
 
 @app.route('/suivi/new', methods=['GET', 'POST'])
 @app.route('/suivi/new/', methods=['GET', 'POST'])
+@app.route('/suivi/edit/<formulaire_id>', methods=['GET', 'POST'])
 @login_required
-def new():
-    form = NcollForm()
-    if form.organisateurs.data:
-        organisateurs = [ User.query.get(ident) for ident in form.organisateurs.data ]
+def new(formulaire_id=None):
+    if formulaire_id:
+        # Édition d'un formulaire déjà créé
+        formulaire = Formulaire.query.get(formulaire_id)
+        # Vérifier qu'on a bien les droits
+        if current_user in formulaire.evenement.organisateurs:
+            form = FormulaireForm(obj=formulaire)
+        else:
+            flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
+            form = FormulaireForm()
     else:
-        form.organisateurs.data = [ current_user.id ]
+        # Formulaire tout neuf
+        form = FormulaireForm()
+    if form.evenement.organisateurs.data:
+        organisateurs = [ User.query.get(ident) for ident in form.evenement.organisateurs.data ]
+    else:
+        form.evenement.organisateurs.data = [ current_user.id ]
         organisateurs = [ current_user ]
     if form.validate_on_submit():
         if form.lieu.data:
@@ -326,7 +338,8 @@ def new():
             flash(gettext("Votre formulaire a bien été créé."), 'info')
             flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>"), 'url')
             return redirect(url_for('suivi_index'))
-    return render_template('new.html', form=form, avec_recurrence=app.config['AVEC_RECURRENCE'], current_user=current_user)
+    return render_template('new.html', form=form, avec_recurrence=app.config['AVEC_RECURRENCE'], formulaire_id=formulaire_id,
+                               current_user=current_user)
 
 @app.route('/suivi')
 @app.route('/suivi/index')
