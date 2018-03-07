@@ -75,19 +75,22 @@ class ClickStringField(StringField):
 
 class PickaDateField(DateField):
     def __init__(self, *args, **kwargs):
-        objname = None
+        objname, name = None, None
         if 'objname' in kwargs.keys():
             objname = kwargs['objname']
             del kwargs['objname']
+        if 'name' in kwargs.keys():
+            name = kwargs['name'].replace("-", ".") # pour le sous-formulaire
+            #del kwargs['name']
         changefunc = None
         if 'changefunc' in kwargs.keys():
             changefunc = args['changefunc']
             del args['changefunc']
         super(PickaDateField, self).__init__(*args, **kwargs)
-        if objname:
-            self.ng_model = objname + '.' + self.name
-        elif self.name:
-            self.ng_model = self.name
+        if objname and name:
+            self.ng_model = objname + '.' + name
+        elif name:
+            self.ng_model = name
         else:
             self.ng_model = None
         if changefunc:
