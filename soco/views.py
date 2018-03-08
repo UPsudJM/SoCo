@@ -292,18 +292,23 @@ def new(formulaire_id=None):
         # Vérifier qu'on a bien les droits
         if current_user in formulaire.evenement.organisateurs:
             form = FormulaireForm(obj=formulaire)
+            if formulaire.evenement.lieu:
+                form.evenement.lieu.data = formulaire.evenement.id_lieu
+            if formulaire.evenement.organisateurs:
+                form.evenement.organisateurs.data = [ u.id for u in formulaire.evenement.organisateurs ]
+            print(form.data)
         else:
             flash(gettext('Vous n\'avez pas les droits d\'accès à cette page'),'error')
             form = FormulaireForm()
     else:
         # Formulaire tout neuf
         form = FormulaireForm()
-    if form.evenement.organisateurs.data:
-        organisateurs = [ User.query.get(ident) for ident in form.evenement.organisateurs.data ]
-    else:
-        form.evenement.organisateurs.data = [ current_user.id ]
-        organisateurs = [ current_user ]
     if form.validate_on_submit():
+        if form.evenement.organisateurs.data:
+            organisateurs = [ User.query.get(ident) for ident in form.evenement.organisateurs.data ]
+        else:
+            form.evenement.organisateurs.data = [ current_user.id ]
+            organisateurs = [ current_user ]
         if form.evenement.lieu.data:
             lieu = Lieu.query.get(form.evenement.lieu.data)
         else:
