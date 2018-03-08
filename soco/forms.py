@@ -79,9 +79,8 @@ class PickaDateField(DateField):
         if 'objname' in kwargs.keys():
             objname = kwargs['objname']
             del kwargs['objname']
-        if 'name' in kwargs.keys():
-            name = kwargs['name'].replace("-", ".") # pour le sous-formulaire
-            #del kwargs['name']
+        if '_name' in kwargs.keys():
+            name = kwargs['_name'].replace("-", ".") # pour le sous-formulaire
         changefunc = None
         if 'changefunc' in kwargs.keys():
             changefunc = args['changefunc']
@@ -96,7 +95,7 @@ class PickaDateField(DateField):
         if changefunc:
             self.ng_change = changefunc
         elif self.name:
-            self.ng_change = "calc_" + self.name
+            self.ng_change = "calc_" + self.name.replace("evenement-", "")
         else:
             self.ng_change = None
 

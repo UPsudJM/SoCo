@@ -22,11 +22,16 @@
 
 <hr/>
 
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+
 <section ng-controller="newevtCtrl">
 
 {% from "_formhelpers.html" import render_field with context %}
 <form id="ncollform" name="ncollform" method="post" action="">
   {{form.hidden_tag()}}
+  {{form.evenement.hidden_tag()}}
   <input type="hidden" name="formulaire_id" value="{{ formulaire_id }}" />
     <fieldset>{{ render_field(form.evenement.organisateurs, maxlength=20) }} </fieldset>
     <fieldset><legend accesskey="c">{{ gettext('Votre événement') }}</legend>

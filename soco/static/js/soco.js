@@ -144,17 +144,17 @@ var newevt = angular.module('newevt',['pickadate', '720kb.tooltips'])
         return new Date(tab[2],tab[1],tab[0]);
     }
     $scope.master = {};
-    $scope.update = function(evenement) {
+    /*$scope.update = function(formulaire) {
         $log.log("in update");
-        $scope.master = angular.copy(evenement);
-    };
+        $scope.master = angular.copy(formulaire);
+    };*/
     $scope.reset = function() {
         $log.log("in reset");
         ncollform.reset();
-        $scope.evenement = angular.copy($scope.master);
-        $scope.evenement.texte_restauration_1 = ncollform.texte_restauration_1.defaultValue;
+        $scope.formulaire = angular.copy($scope.master);
+        $scope.formulaire.texte_restauration_1 = ncollform.texte_restauration_1.defaultValue;
     };
-    $scope.reset();
+    //$scope.reset();
     $scope.today = function() {
         $scope.auj = new Date();
     };
@@ -174,38 +174,38 @@ var newevt = angular.module('newevt',['pickadate', '720kb.tooltips'])
             $scope.evenement.date_fin = $scope.evenement.date;
         }
         $scope.date_fin = $scope.evenement.date_fin;
-        if ($scope.evenement.date_fin != $scope.evenement.date) {
+        if ($scope.date_fin != $scope.date) {
             $log.log("2 dates différentes");
             $scope.sur_plusieurs_jours = 1;
         }
         else $scope.sur_plusieurs_jours = 0;
-        ncollform.lieu.focus();
+        //document.forms[0]["evenement-lieu"].focus();
     };
     $scope.calc_date_ouverture_inscriptions = function() {
         $log.log("in calc_ouverture_inscriptions");
-        /* $log.log("date_ouverture_inscriptions = " + $scope.evenement.date_ouverture_inscriptions); */
-        if (calcule_date($scope.evenement.date_ouverture_inscriptions) > calcule_date($scope.evenement.date)) {
+        $log.log("date_ouverture_inscriptions = " + $scope.formulaire.date_ouverture_inscriptions);
+        if ($scope.ncollform.date && (calcule_date($scope.formulaire.date_ouverture_inscriptions) > calcule_date($scope.ncollform.date))) {
             alert("La date d'ouverture des inscriptions est postérieure à la date de l'évenement !");
         }
-        $scope.date_ouverture_inscriptions = $scope.evenement.date_ouverture_inscriptions;
-        //ncollform.date_cloture_inscriptions.focus();
+        $scope.date_ouverture_inscriptions = $scope.formulaire.date_ouverture_inscriptions;
+        //document.forms[0]["date_cloture_inscriptions"].focus();
     };
     $scope.calc_date_cloture_inscriptions = function() {
         $log.log("in calc_date_cloture_inscriptions");
-        if ($scope.evenement.date_ouverture_inscriptions && $scope.evenement.date_cloture_inscriptions && calcule_date($scope.evenement.date_cloture_inscriptions) < calcule_date($scope.evenement.date_ouverture_inscriptions)) {
+        if ($scope.formulaire.date_ouverture_inscriptions && $scope.formulaire.date_cloture_inscriptions && calcule_date($scope.formulaire.date_cloture_inscriptions) < calcule_date($scope.formulaire.date_ouverture_inscriptions)) {
             alert("La date de clôture ne peut pas être antérieure à la date d'ouverture !");
-            $scope.evenement.date_cloture_inscriptions = $scope.evenement.date_ouverture_inscriptions;
+            $scope.date_cloture_inscriptions = $scope.formulaire.date_ouverture_inscriptions;
         }
-        if ($scope.evenement.date_fin && $scope.evenement.date_cloture_inscriptions && calcule_date($scope.evenement.date_cloture_inscriptions) > calcule_date($scope.evenement.date_fin)) {
+        if ($scope.date_fin && $scope.formulaire.date_cloture_inscriptions && calcule_date($scope.formulaire.date_cloture_inscriptions) > calcule_date($scope.evenement.date_fin)) {
             alert("La date de clôture des inscriptions ne peut pas être postérieure à la date de fin de l'événement !");
-            $scope.evenement.date_cloture_inscriptions = $scope.evenement.date_fin;
+            $scope.date_cloture_inscriptions = $scope.evenement.date_fin;
         }
-        $scope.date_cloture_inscriptions = $scope.evenement.date_cloture_inscriptions;
+        $scope.formulaire.date_cloture_inscriptions = $scope.formulaire.date_cloture_inscriptions;
     };
     $scope.click_texte_restauration_1 = function() {
         $log.log("in click_texte_restauration_1");
-        if ($scope.evenement.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
-            $scope.evenement.texte_restauration_1 = "";
+        if ($scope.formulaire.texte_restauration_1 == ncollform.texte_restauration_1.defaultValue) {
+            $scope.formulaire.texte_restauration_1 = "";
         }
     };
     /* $log.log("tout lu"); */

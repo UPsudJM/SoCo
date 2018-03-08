@@ -304,23 +304,41 @@ def new(formulaire_id=None):
         form.evenement.organisateurs.data = [ current_user.id ]
         organisateurs = [ current_user ]
     if form.validate_on_submit():
-        if form.lieu.data:
-            lieu = Lieu.query.get(form.lieu.data)
-        evenement = Evenement(titre=form.titre.data, sstitre=form.sstitre.data,
-                              date=form.date.data, date_fin=form.date_fin.data, recurrence=form.recurrence.data, lieu=lieu)
-        evenement.organisateurs = organisateurs
-        formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
+        if form.evenement.lieu.data:
+            lieu = Lieu.query.get(form.evenement.lieu.data)
+        else:
+            lieu = None
+        if formulaire_id:
+            formulaire.evenement.titre = form.evenement.titre.data
+            formulaire.evenement.sstitre = form.evenement.sstitre.data
+            formulaire.evenement.date = form.evenement.date.data
+            formulaire.evenement.date_fin = form.evenement.date_fin.data
+            formulaire.evenement.recurrence = form.evenement.recurrence.data
+            formulaire.evenement.lieu = lieu
+            formulaire.evenement.organisateurs = organisateurs
+            formulaire.date_ouverture_inscriptions = form.date_ouverture_inscriptions.data
+            formulaire.date_cloture_inscriptions = form.date_cloture_inscriptions.data
+        else:
+            evenement = Evenement(titre=form.evenement.titre.data, sstitre=form.evenement.sstitre.data, date=form.evenement.date.data,
+                                    date_fin=form.evenement.date_fin.data, recurrence=form.evenement.recurrence.data, lieu=lieu)
+            evenement.organisateurs = organisateurs
+            formulaire = Formulaire(evenement=evenement, date_ouverture_inscriptions = form.date_ouverture_inscriptions.data,
                                     date_cloture_inscriptions = form.date_cloture_inscriptions.data)
-        if form.champ_restauration_1:
+        if form.champ_restauration_1.data:
             formulaire.champ_restauration_1 = True
             formulaire.texte_restauration_1 = form.texte_restauration_1.data
-        if form.champ_libre_1:
+        else:
+            formulaire.champ_restauration_1 = False
+            formulaire.texte_restauration_1 = None
+        if form.champ_libre_1.data:
             formulaire.champ_libre_1 = True
             formulaire.texte_libre_1 = form.texte_libre_1.data
-        if evenement.recurrence:
-            evenement.calcule_recurrence()
+        else:
+            formulaire.champ_libre_1 = False
+            formulaire.texte_libre_1 = None
+        if formulaire.evenement.recurrence:
+            formulaire.evenement.calcule_recurrence()
             formulaire.jour_par_jour = True
-        db_session.add(evenement)
         db_session.add(formulaire)
         try:
             db_session.commit()
