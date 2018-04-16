@@ -127,8 +127,7 @@ class EvenementForm(SocoForm):
     date_fin = PickaDateField(gettext('Date de fin'), objname=objname, format='%d/%m/%Y',
                                   description = gettext("Seulement dans le cas où l'événement dure plusieurs jours"))
     if app.config['AVEC_RECURRENCE']:
-        recurrence = RadioField(gettext('Récurrence :'), default = '', choices = [
-            ('', gettext('aucune')) ] + list(Evenement.RECURRENCE.items()))
+        recurrence = RadioField(gettext('Récurrence :'), default = '', choices = list(Evenement.RECURRENCE.items()))
     else:
         recurrence = HiddenField(gettext('Récurrence'))
     lieu = SelectField(

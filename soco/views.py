@@ -504,6 +504,7 @@ def suivi(evt, action=None):
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
         response.headers['Content-Type'] = 'application/pdf'
         return response
+    print(app.config)
     return render_template(
         'suivi.html',
         evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,

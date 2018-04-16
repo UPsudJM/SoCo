@@ -2,7 +2,7 @@
 
 {{ gettext('Nous vous confirmons votre inscription à') }}
 
-   {{ evenement.titre }}
+   *{{ evenement.titre }}*
 
 {{ gettext('qui aura lieu le') }} {{ evenement.date | localedate("d MMMM YYYY") }}
 

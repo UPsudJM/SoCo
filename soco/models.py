@@ -152,6 +152,7 @@ class Recurrent(Base):
 
 class Evenement(Base):
     RECURRENCE = OrderedDict([
+        ('', gettext('aucune')),
         ('quotidien', gettext('quotidien')),
         ('hebdomadaire', gettext('hebdomadaire')),
         ('mensuel', gettext('mensuel')),
@@ -165,7 +166,7 @@ class Evenement(Base):
     date = Column(Date)
     date_fin = Column(Date)
     id_lieu = Column(Integer, ForeignKey('lieu.id'), nullable=True)
-    recurrence = Column('recurrence', Enum(*RECURRENCE, name="recurrence_enum"))
+    recurrence = Column('recurrence', Enum(*RECURRENCE, name="recurrence_enum"), nullable=True)
     resume = Column(Text)
     gratuite = Column(Boolean, default=True)
     id_entite_organisatrice = Column(Integer, ForeignKey('organisation.id'), nullable=True)
