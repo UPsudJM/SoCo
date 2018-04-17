@@ -541,6 +541,55 @@ class ModifEvenement(Resource):
         uid_organisateurs = Evenement.get_uid_organisateurs(id_evenement)
         envoyer_mail_modification_formulaire(uid_organisateurs, **kwargs)
 
+@api.resource('/api/inscrenmasse')
+class InscritEnMasse(Resource):
+    def post(self):
+        from werkzeug.datastructures import FileStorage
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', required=True, help=lazy_gettext("L'événement concerné doit être spécifié"))
+        parser.add_argument('csvfile', type=FileStorage, location='files')
+        args = parser.parse_args()
+        try:
+            id_evenement = int(args['id'])
+        except:
+            raise ValueError("'%s' is not a valid form id" % args['id'])
+        # le CSV contient nom;prenom;institution;fonction
+        rows = []
+        try:
+            lines = args['csvfile'].readlines()
+            for l in lines[1:]:
+                l = l.strip().decode('utf-8')
+                if not l:
+                    continue
+                r = [ x.strip() for x in l.split('\t') ]
+                if len(r) < 4:
+                    r = l.split(';')
+                if len(r) < 4:
+                    r = l.split(',')
+                if len(r) > 3:
+                    rows.append(r)
+        except:
+            raise ValueError("'%s' is not a valid CSV file" % args['csvfile'])
+        # ajouter les personnes et les inscriptions, puis générer les codes personnels
+        num_inscriptions_ajoutees = 0
+        for r in rows:
+            personne, inscription = None, None
+            personne = Personne.query.filter_by(nom = r[0], prenom = r[1]).first()
+            if personne:
+                inscription = Inscription.query.filter_by(id_personne = personne.id, id_evenement = args['id']).first()
+            else:
+                personne = Personne(nom = r[0], prenom = r[1])
+            if not inscription:
+                num_inscriptions_ajoutees += 1
+                inscription = Inscription(id_evenement = args['id'], personne = personne, institution = r[2])
+            inscription.institution = r[2]
+            inscription.fonction = r[3]
+            if not inscription.token:
+                inscription.genere_token()
+            db_session.add(inscription)
+        db_session.commit()
+        return "Nombre de lignes traitées : %d\nNombre d'inscriptions ajoutées : %d" % (len(rows), num_inscriptions_ajoutees)
+
 @api.resource('/api/invitintervenant/')
 class InviteIntervenant(Resource):
     def get(self):

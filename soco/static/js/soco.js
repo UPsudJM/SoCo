@@ -107,6 +107,22 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log('$scope.' + $v + ' = ' + '1');
             eval('$scope. ' + $v + ' = ' + '1');
         };
+        $scope.inscrenmasse = function(id) {
+            $log.log("in inscrenmasse");
+	    var $v = "inscr_csv_" + id;
+            $log.log('v=' + $v);
+            $log.log('$scope.evenements.' + $v + '.files');
+            try {
+                var $file = eval($v + '.files')[0];
+                $log.log('$file=' + $file);
+            } catch(e) {
+                alert("erreur fichier:" + e.name + "\nmessage:" + e.message);
+            }
+	    var formdata = new FormData();
+	    formdata.append('csvfile', $file);
+	    var request = {method:'POST', url:'/api/inscrenmasse', params:{"id":id}, data:formdata, headers:{'Content-Type': undefined}};
+	    $http(request).success(function (d) { alert(d); }).error(function () { alert("error") });
+        };
         $scope.showinvitintervenant = function(id) {
             $log.log("in showinvitintervenant");
             var $v = "invit_interv_" + id;
