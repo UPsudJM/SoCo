@@ -64,6 +64,12 @@ var suivi = angular.module('suivi',['pickadate'])
             $log.log('$scope.' + $v + ' = ' + '1');
             eval('$scope. ' + $v + ' = ' + '1');
         };
+        $scope.hidemodifdatecloture = function(id) {
+            $log.log("in hidemodifdatecloture");
+            var $v = "date_modif_" + id;
+            $log.log('$scope.' + $v + ' = ' + '0');
+            eval('$scope. ' + $v + ' = ' + '0');
+        };
         $scope.modifdatecloture = function(id) {
             $log.log("in modifdatecloture");
             var $v = "date_cloture_inscriptions_" + id;
@@ -88,6 +94,18 @@ var suivi = angular.module('suivi',['pickadate'])
             var $v = "date_modif_" + id;
             $log.log('$scope.' + $v + ' = ' + '0');
             eval('$scope. ' + $v + ' = ' + '0');
+        };
+        $scope.showinscrenmasse = function(id) {
+            $log.log("in showinscrenmasse");
+            var $v = "inscr_enmasse_" + id;
+            $log.log('$scope.' + $v + ' = ' + '1');
+            eval('$scope. ' + $v + ' = ' + '1');
+        };
+        $scope.hideinscrenmasse = function(id) {
+            $log.log("in showinscrenmasse");
+            var $v = "inscr_enmasse_" + id;
+            $log.log('$scope.' + $v + ' = ' + '1');
+            eval('$scope. ' + $v + ' = ' + '1');
         };
         $scope.showinvitintervenant = function(id) {
             $log.log("in showinvitintervenant");
