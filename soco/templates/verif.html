@@ -5,19 +5,18 @@
 <div class="entete">
   <table class="titre"><tr>
     <td><img src="{{ url_for('static', filename=logofilename) }}" /></td>
-    <td><h1>{{ gettext('Vérification d\'une inscription') }}</h1></td>
+    <td><h1>{{ evenement.titre }}</h1></td>
   </tr></table>
 
-  {% if ok %}
-  <h3 class="date">{% if evenement.date_fin %}
+  <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}
   {{ evenement.date | datedebutcompl(evenement.date_fin) }} {{ evenement.date_fin | localedate("d MMMM YYYY")}}
   {% else %}{{ evenement.date | localedate("d MMMM YYYY") }}{% endif %}</h3>
   <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}<br/>{{ nom_institution }}{% endif %}</p>
   <br/>
 
-  <p class="good">
+  {% if ok %}<p class="good">
     <span class="smilie">:-)</span>
-    <br/>{{ gettext('La personne') }} <strong>{{ personne.prenom }} {{ personne.nom }}</strong> est bien sur la liste</p>
+    <br/><strong>{{ personne.prenom }} {{ personne.nom }}</strong> est bien sur la liste</p>
   {% else %}<p class="bad"><span class="smilie">:-(</span>
     <br/>{{ gettext('Aucune inscription ne correspond.') }}</p>
   {% endif %}

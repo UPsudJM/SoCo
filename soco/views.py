@@ -262,12 +262,19 @@ def end():
 @login_required
 @required_roles('admin', 'user')
 def verif(evt, token):
+    evenement = Evenement.query.get(evt)
+    logo, url = evenement.infos_comm()
+    if not logo:
+        logo = app.config['LOGO_DEFAULT']
+    logofilename = afflogo(logo)
     inscription = Inscription.query.filter_by(token=token).first()
     if not inscription:
-        return render_template('verif.html', ok=False)
+        return render_template('verif.html', ok=False, title=gettext("Vérification d'une inscription"), logofilename=logofilename,
+                               evenement=evenement)
     if inscription.evenement.id != int(evt):
-        return render_template('verif.html', ok=False)
-    return render_template('verif.html', ok=True, personne=inscription.personne, evenement=inscription.evenement)
+        return render_template('verif.html', ok=False, logofilename=logofilename)
+    return render_template('verif.html', ok=True, title=gettext("Vérification d'une inscription"), logofilename=logofilename,
+                           personne=inscription.personne, evenement=inscription.evenement)
 
 @app.route('/planning/<token>')
 @app.route('/cal/<token>')
@@ -504,7 +511,6 @@ def suivi(evt, action=None):
             evt, datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M")), mimetype="application/pdf"))
         response.headers['Content-Type'] = 'application/pdf'
         return response
-    print(app.config)
     return render_template(
         'suivi.html',
         evenement=evenement, inscrits=inscrits, repas_1_existant=repas_1_existant,
