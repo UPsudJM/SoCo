@@ -561,15 +561,15 @@ class InscritEnMasse(Resource):
                 l = l.strip().decode('utf-8')
                 if not l:
                     continue
-                r = [ x.strip() for x in l.split('\t') ]
+                r = [ x.strip()[:70] for x in l.split('\t') ]
                 if len(r) < 4:
-                    r = l.split(';')
+                    r = [ x.strip()[:70] for x in l.split(';') ]
                 if len(r) < 4:
-                    r = l.split(',')
+                    r = [ x.strip()[:70] for x in l.split(',') ]
                 if len(r) > 3:
                     rows.append(r)
         except:
-            raise ValueError("'%s' is not a valid CSV file" % args['csvfile'])
+            return gettext("'%s' is not a valid CSV file" % args['csvfile'])
         # ajouter les personnes et les inscriptions, puis générer les codes personnels
         num_inscriptions_ajoutees = 0
         for r in rows:
