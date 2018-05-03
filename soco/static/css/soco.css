@@ -147,9 +147,13 @@ cf https://www.alsacreations.com/astuce/lire/1177-une-feuille-de-styles-de-base-
     hyphens: auto;
     word-wrap: break-word; /* passage à la ligne forcé */
   }
+  h1, h2 { font-size: 100% }
   code, pre, samp { white-space: pre-wrap; /* passage à la ligne spécifique pour les éléments à châsse fixe */ }
   /* Passer à une seule colonne (à appliquer aux éléments multi-colonnes) */
   /* .element1, .element2 { float: none; width: auto; } */
   /* masquer les éléments superflus */
   /* .hide_mobile { display: none !important; } */
+
+  /* Un message personnalisé */
+  body:before { content: "Version « mobile »"; display: block; text-align: center; font-style: italic; color: #777; }
 }

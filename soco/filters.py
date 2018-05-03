@@ -20,6 +20,7 @@
 """
 
 import datetime, string, random
+from PIL import Image
 from jinja2 import contextfilter
 from flask_babel import format_date, format_datetime
 from soco import app
@@ -60,6 +61,23 @@ def ouinon_filter(b, non="non"):
         return "oui"
     else:
         return non
+
+@app.template_filter('afflogo')
+def afflogo_filter(f, size=(128,64)):
+    infile = app.config['LOGO_FOLDER'] + f
+    thumbnail = "petit-" + f
+    outfile = app.config['LOGO_FOLDER'] + thumbnail
+    try:
+        im = Image.open(outfile)
+    except IOError:
+        try:
+            im = Image.open(infile)
+            im.thumbnail(size)
+            im.save(outfile, "PNG")
+        except IOError:
+            print("cannot create thumbnail for", f)
+    finally:
+        return app.config['LOGO_URL_REL'] + thumbnail
 
 @app.template_filter('generate_default_password')
 @contextfilter
