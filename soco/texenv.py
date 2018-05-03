@@ -78,6 +78,8 @@ TPL_PAGE_ETIQUETTES="\
 "
 
 def escape_tex(value):
+    if not value:
+        return ''
     newval = value
     for pattern, replacement in LATEX_SUBS:
         newval = pattern.sub(replacement, newval)
