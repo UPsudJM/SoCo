@@ -48,9 +48,9 @@ def datedebutcompl_filter(d, date_fin, fmt=None):
 def datedebut_filter(d, date_fin, fmt=None):
     # Tester si même mois et année, ou si même année
     if d.year == date_fin.year and d.month == date_fin.month:
-        return format_date(d, "d")
+        return localedate_filter(d, "d")
     elif d.year == date_fin.year:
-        return format_date(d, "d MMMM")
+        return localedate_filter(d, "d MMMM")
     if fmt:
         return localedate_filter(d, fmt)
     return localedate_filter(d, "medium")

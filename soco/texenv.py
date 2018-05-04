@@ -83,7 +83,6 @@ def escape_tex(value):
     newval = value
     for pattern, replacement in LATEX_SUBS:
         newval = pattern.sub(replacement, newval)
-        #print(pattern, newval)
     return newval
 
 def genere_pdf(texcode, prefix="", timeout=10, check=True):
