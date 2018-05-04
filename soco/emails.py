@@ -55,7 +55,6 @@ def envoyer_message(subj, src, dest, text_body, html_body):
     except:
         print("Erreur: impossible d'envoyer le mail")
 
-
 def confirmer_inscription(email, evenement, jours=None):
     if jours:
         txt = render_template("confirmation_inscription_jour_par_jour.txt", evenement=evenement, jours=jours)
@@ -75,7 +74,7 @@ def envoyer_code_verification(email):
     shuffle(l)
     codeverif = "".join(l[:4])
     envoyer_message('SoCo : Votre code de vérification',
-                        ADMINS[0],
+                        EMAIL_SITE,
                         [email],
                         render_template("envoi_code_verification.txt", codeverif=codeverif),
                         render_template("envoi_code_verification.html", codeverif=codeverif))
@@ -91,7 +90,7 @@ def envoyer_mail_modification_formulaire(emails, evenement, **kwargs):
             libelle = k
         lignes_info.append(lazy_gettext("Nouvelle valeur de {libelle} : {val}").format(libelle=libelle, val=v))
     envoyer_message(lazy_gettext('SoCo : Votre formulaire a été modifié'),
-                        ADMINS[0],
+                        EMAIL_SITE,
                         formatte_emails(emails),
                         render_template("envoi_mail_modification_formulaire.txt",
                                             evenement = evenement, lignes_info=lignes_info),
@@ -106,7 +105,7 @@ def envoyer_mail_capacite_salle(evenement, nb_inscrits, capacite_lieu=None, **kw
         print("emails_organisateurs is None")
         return
     return envoyer_message(lazy_gettext('SoCo : Information sur les inscriptions à "{titre}"').format(titre=evenement.titre),
-                        ADMINS,
+                        EMAIL_SITE,
                         emails_organisateurs,
                         render_template("envoi_mail_capacite_salle.txt",
                                             evenement = evenement, nb_inscrits=nb_inscrits, capacite_lieu=capacite_lieu),
@@ -118,7 +117,7 @@ def envoyer_invitation_intervenant(evenement, emails_or_uids_organisateurs, emai
     emails_organisateurs = formatte_emails(emails_or_uids_organisateurs)
     lien = "{url_app}/speaker/{evt}/{code}".format(url_app=URL_APPLICATION, evt=evenement.id, code=code_interv)
     envoyer_message(lazy_gettext('SoCo : Invitation à intervenir à "{titre}"').format(titre=evenement.titre),
-                        ADMINS[0],
+                        EMAIL_SITE,
                         email_interv,
                         # FIXME positionner Cc: et Reply-to:
                         render_template("envoi_invitation_intervenant.txt", evenement=evenement, msg=msg, lien=lien),
