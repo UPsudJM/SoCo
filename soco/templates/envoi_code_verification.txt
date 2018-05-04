@@ -4,9 +4,9 @@
 
 {{ gettext('Cette demande provient-elle bien de vous ?') }}
 
-{{ gettext('Si ce n\'est pas le cas, NE RÉPONDEZ PAS À CE MESSAGE') }}
+{{ gettext('Si ce n\'est pas le cas,') }} {{ gettext('NE RÉPONDEZ PAS À CE MESSAGE') }}
 
-{{ gettext('Mais s'il s\'agit bien de vous, voici le code de vérification qui va vous permettre de terminer votre inscription :') }}
+{{ gettext('Mais s\'il s\'agit bien de vous, voici le code de vérification qui va vous permettre de terminer votre inscription :') }}
 
           {{ codeverif }}
 

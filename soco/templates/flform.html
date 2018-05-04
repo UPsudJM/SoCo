@@ -10,7 +10,7 @@
 <div class="entete">
   <table class="titre"><tr>
     <td class="logo"><a name="URL institution" href="{{ url0 }}"><img alt="logo institution" src="{{ url_for('static', filename=logofilename0) }}" /></a></td>
-    <td><h1>{{ gettext('Inscription à :') }} <a href="{{ lienevt }}">{{ evenement.titre }}</a></h1></td>
+    <td><h1>{{ gettext('Inscription à&nbsp;:') }} <a href="{{ lienevt }}">{{ evenement.titre }}</a></h1></td>
     {% if logofilename %}<td class="logo"><a name="URL événement" href="{{ lienevt }}"><img alt="logo événement" src="{{ url_for('static', filename=logofilename) }}" /></a></td>{% endif %}
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
@@ -36,19 +36,19 @@
   </div>
   {{ gettext('Prénom') }} <input type="text" name="prenom" data-ng-model="personne.prenom" data-ng-change="cbadge1()" data-ng-blur="chkemail()" {% if speaker %} value="{{ intervenant.prenom }}" {% endif %}/><br /><br />
   <span data-ng-show="(personne.nom && personne.nom.length > 26) || (personne.nom && personne.prenom && ((personne.prenom + personne.nom).length > 26))" class="descriptionchamp">{{ gettext('Attention, pour le badge, prénom + nom = 26 caractères max.') }}</span>
-  <pre><em>{{ gettext('Sur votre badge :') }}</em> <input type="text" size="27" maxlength="27" name="badge1" data-ng-model="badge1" /></pre>
+  <pre><em>{{ gettext('Sur votre badge&nbsp;:') }}</em> <input type="text" size="27" maxlength="27" name="badge1" data-ng-model="badge1" /></pre>
   {{ gettext('Email') }} <input type="email" name="email" data-ng-model="personne.email" required="" data-ng-blur="chkemail()" {% if speaker %} value="{{ intervenant.email }}" {% endif %} /><br />
 
     <div data-ng-show="flform.$submitted || flform.email.$touched">
       <span data-ng-show="flform.email.$error.required">{{ gettext('Merci d\'indiquer votre adresse électronique') }}</span>
       <span data-ng-show="flform.email.$error.email">{{ gettext('Cette adresse n\'est pas valide') }}</span>
       <span data-ng-show="msg_dejainscrit">[[ msg_dejainscrit ]]</span>
-      <span data-ng-show="duplicateemail">{{ gettext('Cette adresse est déjà utilisée par une autre personne. Est-ce vous malgré tout ? Dans ce cas, nous allons vous envoyer un mail pour vérifier. Veuillez cliquer sur ce bouton :') }}<input type="button" data-ng-click="envoi_email_verification()" value="{{ gettext('Envoyez-moi un email pour vérifier mon adresse, merci !') }}" /></span>
-      <span data-ng-show="personne.emailsent"><em>{{ gettext('Veuillez fournir ici le code que vous venez de recevoir par mail (4 chiffres) :') }}</em> <input type="text" data-ng-model="personne.codeverif" /> <input type="button" data-ng-click="verifier_code()" value="Vérifier le code"/></span>
+      <span data-ng-show="duplicateemail">{{ gettext('Cette adresse est déjà utilisée par une autre personne. Est-ce vous malgré tout ? Dans ce cas, nous allons vous envoyer un mail pour vérifier. Veuillez cliquer sur ce bouton&nbsp;:') }}<input type="button" data-ng-click="envoi_email_verification()" value="{{ gettext('Envoyez-moi un email pour vérifier mon adresse, merci !') }}" /></span>
+      <span data-ng-show="personne.emailsent"><em>{{ gettext('Veuillez fournir ici le code que vous venez de recevoir par mail (4 chiffres)&nbsp;:') }}</em> <input type="text" data-ng-model="personne.codeverif" /> <input type="button" data-ng-click="verifier_code()" value="{{ gettext('Vérifier le code') }}"/></span>
       <span data-ng-show="personne.codeok">{{ gettext('Merci !') }}</span>
-      <span data-ng-show="personne.codeko">{{ gettext('Nous sommes désolé-e-s, le code ne correspond pas. Veuillez utiliser une autre adresse email.') }}</span>
+      <span data-ng-show="personne.codeko">{{ gettext('Nous sommes désolé⋅e⋅s, le code ne correspond pas. Veuillez utiliser une autre adresse email.') }}</span>
     </div>
-    {{ gettext('Téléphone') }} <input type="text" name="telephone" data-ng-model="personne.telephone" {% if speaker %} data-ng-init="setspeaker()" {% endif %}/><br />
+  {{ gettext('Téléphone') }} <input type="text" name="telephone" data-ng-model="personne.telephone" {% if speaker %} data-ng-init="setspeaker()" {% endif %}/><br />
   </fieldset>
 
   <fieldset><legend accesskey="e">{{ gettext('Votre entreprise / Institution') }}</legend>
@@ -61,7 +61,7 @@
     <span data-ng-show="flform.fonction.$error.required">{{ gettext('Merci d\'indiquer votre fonction') }}</span>
   </div>
   <span data-ng-show="(personne.fonction && personne.fonction.length > 32) || (personne.organisation && personne.organisation.length > 32) ||(personne.fonction && personne.organisation && ((personne.fonction + personne.organisation).length > 32))" class="descriptionchamp">{{ gettext('Attention, pour le badge, fonction + organisation = 32 caractères max.') }}</span>
-  <pre><em>{{ gettext('Sur votre badge :') }}</em> <input type="text" size="33" maxlength="33" name="badge2" data-ng-model="badge2" /></pre>
+  <pre><em>{{ gettext('Sur votre badge&nbsp;:') }}</em> <input type="text" size="33" maxlength="33" name="badge2" data-ng-model="badge2" /></pre>
   </fieldset>
 
   {% from "_formhelpers.html" import render_field, render_cblist with context %}
