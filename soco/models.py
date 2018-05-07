@@ -19,7 +19,7 @@
 §                                                                       §
 """
 
-import datetime, string, random, enum
+import datetime
 from collections import OrderedDict
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Date, Boolean, ForeignKey, Binary, Enum, UniqueConstraint
 from sqlalchemy.orm import relationship
@@ -394,11 +394,13 @@ class Inscription(Base):
                                     base_x, base_y, logo, police1, escape_tex(self.badge1), police2, escape_tex(self.badge2))
 
     def genere_token(self):
-        chaine = string.ascii_uppercase + string.digits
+        from random import choice
+        from string import ascii_uppercase, digits
+        chaine = ascii_uppercase + digits
         while 1:
             tok = ""
             for i in range(12):
-                c = random.choice(chaine)
+                c = choice(chaine)
                 chaine = chaine.replace(c, '')
                 tok += c
             deja_tok = self.query.filter_by(token=tok).first()

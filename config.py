@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# available languages
-LANGUAGES = {'en': 'English', 'fr': 'Français'}
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -31,7 +29,7 @@ USE_LDAP = False
 #LDAP_USER_PATT = 'uid=%s,ou=people,dc=xuz,dc=tuv'
 
 # Database and other secrets
-PGSQL_DATABASE_DB = 'socodev'
+PGSQL_DATABASE_DB = 'soco'
 PGSQL_DATABASE_HOST = 'localhost'
 PGSQL_DATABASE_USER = 'myuser'
 PGSQL_DATABASE_PASSWORD = 'mypass'
@@ -62,8 +60,8 @@ LOGO_EXTENSIONS=['png', 'jpeg', 'jpg', 'gif']
 LOGO_DEFAULT='soco-boi.png'
 
 # various default values
-URL_APPLICATION = 'http://socodev.jm.u-psud.fr'
-URL_DEFAULT='http://socodev.jm.u-psud.fr'
+URL_APPLICATION = 'http://soco.jm.u-psud.fr'
+URL_DEFAULT='http://www.jm.u-psud.fr'
 INSTITUTION_PPALE="Université Paris Sud - Faculté Jean Monnet"
 SALLE_PPALE="Salle G.Vedel, Faculté Jean Monnet"
 EMAIL_ORGA="Odile Bénassy <odile.benassy@u-psud.fr>"

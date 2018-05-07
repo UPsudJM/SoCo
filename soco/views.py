@@ -220,35 +220,34 @@ def soco(flform, token=None):
             confirmer_inscription(personne.email, formulaire.evenement, jours=jours_de_presence)
             nb_inscrits = len(evenement.inscription)
             capacite_lieu = evenement.lieu.capacite
-            pourcentage = 0
-            if capacite_lieu:
+            if capacite_lieu and capacite_lieu > 0:
                 pourcentage_anterieur = ( nb_inscrits - 1 )* 100 / capacite_lieu
                 pourcentage = nb_inscrits * 100 / capacite_lieu
-            if (pourcentage_anterieur < 80 and pourcentage >= 80) \
-               or (pourcentage_anterieur < 90 and pourcentage >= 90) \
-               or (pourcentage_anterieur < 100 and pourcentage >= 100) \
-               or (pourcentage_anterieur < 110 and pourcentage >= 110) \
-               or (pourcentage_anterieur < 120 and pourcentage >= 120) \
-               or (pourcentage_anterieur < 150 and pourcentage >= 150) \
-               or (pourcentage_anterieur < 200 and pourcentage >= 200):
-                envoyer_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
+                if (pourcentage_anterieur < 80 and pourcentage >= 80) \
+                  or (pourcentage_anterieur < 90 and pourcentage >= 90) \
+                  or (pourcentage_anterieur < 100 and pourcentage >= 100) \
+                  or (pourcentage_anterieur < 110 and pourcentage >= 110) \
+                  or (pourcentage_anterieur < 120 and pourcentage >= 120) \
+                  or (pourcentage_anterieur < 150 and pourcentage >= 150) \
+                  or (pourcentage_anterieur < 200 and pourcentage >= 200):
+                    envoyer_mail_capacite_salle(formulaire.evenement, nb_inscrits, capacite_lieu)
             if speaker:
                 flash(gettext("Vos informations ont bien été enregistrées."))
             else:
                 flash(gettext("Votre inscription a bien été effectuée."))
-            flash(gettext("Ce code graphique vous permettra d'entrer sur les lieux de l'événement, conservez-le !"))
             if app.config['AVEC_QRCODE']:
+                flash(gettext("Ce code graphique vous permettra d'entrer sur les lieux de l'événement, conservez-le !"))
                 url_verif = app.config['URL_APPLICATION'] + '/verif/%s/%s' % (evenement.id, inscription.token)
                 qrstring = gettext("SoCo - Événement {evt} : {prenom} {nom} est inscrit-e sous le numéro {num}.\n{url}").format(
                     evt = evenement.titre, prenom = personne.prenom, nom = personne.nom, num = inscription.id, url=url_verif)
                 print(qrstring)
             else:
                 qrstring = ''
-            return render_template('end.html', evenement = evenement, qrstring=qrstring,
-                                       logofilename = logofilename, lienevt = url)
+            return render_template('end.html', evenement=evenement, qrstring=qrstring,
+                                       logofilename=logofilename, lienevt=url)
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=speaker,
                                intervenant=deja_personne,
-                               logofilename0=logofilename0, logofilename=logofilename, url0 = url0, lienevt = url,
+                               logofilename0=logofilename0, logofilename=logofilename, url0=url0, lienevt=url,
                                current_user=current_user)
 
 
