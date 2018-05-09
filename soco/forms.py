@@ -162,7 +162,6 @@ class FormulaireForm(SocoForm):
         gettext("Souhaitez-vous poser une question supplémentaire aux participant-e-s ? Si oui, cochez la case :"))
     texte_libre_1 = StringField(gettext("et précisez le texte de la question :"))
 
-
     def validate(self):
         if not FlaskForm.validate(self):
             return False

@@ -149,7 +149,7 @@ def soco(flform, token=None):
         deja_personne = None
         inscription = None
     if form.validate_on_submit():
-         # mieux gérer le cas où la personne (intervenant) a modifié les infos ci-dessous
+         # FIXME mieux gérer le cas où la personne (intervenant) a modifié les infos ci-dessous
         personne = Personne.query.filter_by(nom=form.nom.data, prenom=form.prenom.data,
                                                     email=form.email.data).first()
         if personne == None:
@@ -401,7 +401,7 @@ def suivi(evt, action=None):
     if evenement == None:
         flash('Événement %d non trouvé' % evt)
         return internal_error('Evenement %d non trouvé' % evt)
-    if current_user.role != 'admin' and not current_user in evenement.organisateurs:
+    if not current_user.is_admin and not current_user in evenement.organisateurs:
         flash('Vous n\'avez pas les droits d\'accès à cette page', 'danger')
         return redirect(url_for('index'))
     formulaires = Formulaire.query.filter_by(id_evenement=evt).all()
@@ -555,7 +555,7 @@ class EvenementView(SocoModelView):
                              resume = gettext('Résumé'), gratuite = gettext('Gratuité'), recurrence = gettext('Récurrence'),
                              entite_organisatrice = gettext('Entité organisatrice'), upd = gettext('Mis à jour le'))
     column_choices = {'gratuite': [ (True, 'oui'), (False, 'non') ] }
-    column_exclude_list = ['upd', 'resume' ]
+    column_exclude_list = ['upd', 'resume']
     column_sortable_list = ['titre', 'date', 'organisateurs']
     column_filters = ['titre', 'lieu', 'organisateurs', 'gratuite']
     column_default_sort = 'date'
@@ -580,16 +580,21 @@ class EvenementView(SocoModelView):
         'url' : {'label': gettext('Lien vers la page de l\'événement')},
         'resume' : {'label': gettext('Résumé')},
         'gratuite' : {'label': gettext('Gratuité')},
-        'inscription' : {'label': gettext('Personnes inscrites')}
+        'inscription' : {'label': gettext('Personnes inscrites')},
+        'recurrent' : {'label': gettext('Date supplémentaire (cas évt récurrent)')}
         }
     form_overrides = dict(logo=LogoField)
     inline_models = [(Formulaire, dict(form_columns=['id', 'date_ouverture_inscriptions', 'date_cloture_inscriptions']))]
-    if app.config['AVEC_RECURRENCE']:
-        inline_models.append((Recurrent, dict(form_columns=['id', 'date'])))
+    #if app.config['AVEC_RECURRENCE']:
+    inline_models.append((Recurrent, dict(form_columns=['id', 'date'])))
 
 
 class FormulaireView(SocoModelView):
     column_exclude_list = ['upd', 'texte_restauration_1' , 'texte_restauration_2', 'texte_libre_1' , 'texte_libre_2']
+    column_labels = dict(
+        date_ouverture_inscriptions = gettext("Ouverture inscript."),
+        date_cloture_inscriptions = gettext("Clôture inscript.")
+        )
     column_descriptions = dict(
         organisateurs_en_copie = gettext("Souhaitez-vous que les organisateurs reçoivent un mail à chaque inscription ?"),
         champ_attestation = gettext("Les personnes qui s'inscrivent peuvent demander une attestation de présence"),
@@ -604,6 +609,11 @@ class FormulaireView(SocoModelView):
         )
     form_ajax_refs = {
         'evenement': QueryAjaxModelLoader('evenement', db_session, Evenement, fields=['titre'], page_size=10)
+        }
+    form_args = {
+        'date_ouverture_inscriptions': {'label': gettext('Date d\'ouverture des inscriptions'), 'validators': [DataRequired()]},
+        'date_cloture_inscriptions': {'label': gettext('Date de clôture des inscriptions'), 'validators': [DataRequired()]},
+        'organisateurs_en_copie' : {'label': gettext('Organisateurs en copie ?')}
         }
     #ajax_update = ['date_ouverture_inscriptions']
 
@@ -638,6 +648,7 @@ class LieuView(SocoModelView):
 
 class PersonneView(SocoModelView):
     can_export = True
+    column_exclude_list = ['token']
     form_args = {
         'prenom' : {'label': gettext('Prénom')}
     }
@@ -649,7 +660,7 @@ class PersonneView(SocoModelView):
 
 class InscriptionView(SocoModelView):
     can_export = True
-    column_exclude_list = ['upd', 'date_inscription', 'token', 'type_inscription']
+    column_exclude_list = ['upd', 'token', 'type_inscription', 'telephone', 'commentaire', 'badge1', 'badge2']
     form_args = {
         'telephone' : {'label': gettext('Téléphone')}
     }
