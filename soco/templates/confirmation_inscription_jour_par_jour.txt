@@ -6,7 +6,7 @@
 
 {{ gettext('qui aura lieu le') }} {{ evenement.date | localedate("d MMMM YYYY") }}
 
-{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}
+{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ lieu_par_defaut }}{% endif %}
 
 {{ gettext('Vous êtes inscrit⋅e pour les jours suivants :') }}
 

@@ -11,7 +11,7 @@
   <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}
   {{ evenement.date | datedebutcompl(evenement.date_fin) }} {{ evenement.date_fin | localedate("d MMMM YYYY")}}
   {% else %}{{ evenement.date | localedate("d MMMM YYYY") }}{% endif %}</h3>
-  <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}<br/>{{ nom_institution }}{% endif %}</p>
+  <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ lieu_par_defaut }}<br/>{{ nom_institution }}{% endif %}</p>
   <br/>
 
   {% if ok %}<p class="good">

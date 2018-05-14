@@ -15,7 +15,7 @@
   </tr></table>
       {% if evenement.sstitre %}<h3 class="sstitre">{{ evenement.sstitre }}</h3>{% endif %}
       <h3 class="date">{% if evenement.date_fin and evenement.date_fin != evenement.date %}{{ evenement.date | datedebut(evenement.date_fin, "d MMMM YYYY") }} au {{ evenement.date_fin | localedate("d MMMM YYYY") }}{% else %}{{ evenement.date | localedate("d MMMM YYYY") }}{% endif %}</h3>
-      <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ salle_par_defaut }}{% endif %}</p>
+      <p class="lieu">{% if evenement.lieu %}{{ evenement.lieu }}{% else %}{{ lieu_par_defaut }}{% endif %}</p>
       <br/>
       {% if evenement.resume %}<p class="resume">{{ evenement.resume }}</p>{% endif %}
       <p class="dateinscr">{{ gettext('Ce formulaire est ouvert du') }} {{ formulaire.date_ouverture_inscriptions | localedate("d MMMM") }} {{ gettext('au') }} {{ formulaire.date_cloture_inscriptions | localedate("d MMMM") }}</p>
