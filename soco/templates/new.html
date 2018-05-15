@@ -33,7 +33,7 @@
   {{form.hidden_tag()}}
   {{form.evenement.hidden_tag()}}
   <input type="hidden" name="formulaire_id" value="{{ formulaire_id }}" />
-    <fieldset>{{ render_field(form.evenement.organisateurs, maxlength=20) }} </fieldset>
+    <fieldset>{{ render_field(form.evenement.organisateurs) }} </fieldset>
     <fieldset><legend accesskey="c">{{ gettext('Votre événement') }}</legend>
     {{ render_field(form.evenement.titre, size=80, maxlength=120) }}
     <div ng-show="ncollform.$submitted || ncollform.titre.$touched">

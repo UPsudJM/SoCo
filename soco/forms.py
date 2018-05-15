@@ -120,7 +120,8 @@ class SocoForm(FlaskForm):
 
 class EvenementForm(SocoForm):
     objname = 'evenement'
-    organisateurs = SelectMultipleField(gettext('Organisé par'), coerce=int, choices = [])
+    organisateurs = SelectMultipleField(gettext('Organisé par'), coerce=int, choices = [],
+                                            description = gettext("Plusieurs choix possibles"))
     titre = StringField(gettext('Titre'), validators=[DataRequired(), Length(min=3, max=300)])
     sstitre = StringField(gettext('Sous-titre'))
     date = PickaDateField(gettext('Date'), objname=objname, format='%d/%m/%Y', validators=[DataRequired()])
@@ -183,13 +184,15 @@ class FormulaireForm(SocoForm):
 
 
 class InscriptionForm(SocoForm):
-    nom = StringField(gettext('Nom'), validators=[DataRequired(), Length(min=2, max=30)])
+    nom = StringField(gettext('Nom'), validators=[DataRequired(), Length(min=2, max=30)], render_kw={'autocomplete':'family-name'})
     prenom = StringField(
         gettext('Prénom'),
         validators=[Optional(), Length(min=0, max=30)],
-        description=gettext("Attention, pour le badge : prénom + nom = 26 caractères max.")
+        description=gettext("Attention, pour le badge : prénom + nom = 26 caractères max."),
+        render_kw={'autocomplete':'given-name'}
         )
-    email = StringField(gettext('Adresse électronique'), validators=[DataRequired(), Email(), Length(min=0, max=70)])
+    email = StringField(gettext('Adresse électronique'), validators=[DataRequired(), Email(), Length(min=0, max=70)],
+                            render_kw={'autocomplete':'email'})
     telephone = StringField(gettext('Téléphone'), validators=[Optional(), Length(min=0, max=20)])
     organisation = StringField(
         gettext('Organisation'),
@@ -198,11 +201,11 @@ class InscriptionForm(SocoForm):
         )
     fonction = StringField(gettext('Fonction'), validators=[Optional(), Length(min=0, max=40)])
     if app.config['AVEC_ETIQUETTES']:
-        badge1 = StringField(gettext('Badge1'), validators=[DataRequired(), Length(min=1, max=27)])
-        badge2 = StringField(gettext('Badge2'), validators=[DataRequired(), Length(min=1, max=33)])
+        badge1 = StringField(gettext('Badge1'), validators=[DataRequired(), Length(min=1, max=27)], render_kw={'autocomplete':'off'})
+        badge2 = StringField(gettext('Badge2'), validators=[DataRequired(), Length(min=1, max=33)], render_kw={'autocomplete':'off'})
     else:
-        badge1 = StringField(gettext('Badge1'), validators=[])
-        badge2 = StringField(gettext('Badge2'), validators=[])
+        badge1 = StringField(gettext('Badge1'), validators=[], render_kw={'autocomplete':'off'})
+        badge2 = StringField(gettext('Badge2'), validators=[], render_kw={'autocomplete':'off'})
     attestation_demandee = BooleanField(gettext('Cochez cette case si vous désirez une attestation de présence&nbsp;:'))
     jours_de_presence = FieldList(BooleanField('jour'), min_entries=0, max_entries=100)
     type_inscription = RadioField(

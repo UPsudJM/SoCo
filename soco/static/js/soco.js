@@ -102,10 +102,10 @@ var suivi = angular.module('suivi',['pickadate'])
             eval('$scope. ' + $v + ' = ' + '1');
         };
         $scope.hideinscrenmasse = function(id) {
-            $log.log("in showinscrenmasse");
+            $log.log("in hideinscrenmasse");
             var $v = "inscr_enmasse_" + id;
-            $log.log('$scope.' + $v + ' = ' + '1');
-            eval('$scope. ' + $v + ' = ' + '1');
+            $log.log('$scope.' + $v + ' = ' + '0');
+            eval('$scope. ' + $v + ' = ' + '0');
         };
         $scope.inscrenmasse = function(id) {
             $log.log("in inscrenmasse");
@@ -128,6 +128,12 @@ var suivi = angular.module('suivi',['pickadate'])
             var $v = "invit_interv_" + id;
             $log.log('$scope.' + $v + ' = ' + '1');
             eval('$scope. ' + $v + ' = ' + '1');
+        };
+        $scope.hideinvitintervenant = function(id) {
+            $log.log("in hideinvitintervenant");
+            var $v = "invit_interv_" + id;
+            $log.log('$scope.' + $v + ' = ' + '0');
+            eval('$scope. ' + $v + ' = ' + '0');
         };
         $scope.invitintervenant = function(id) {
             $log.log("in showinvitintervenant");
