@@ -197,7 +197,8 @@ class InscriptionForm(SocoForm):
     organisation = StringField(
         gettext('Organisation'),
         validators=[DataRequired(), Length(min=0, max=40)],
-        description=gettext("Attention, pour le badge : fonction + organisation = 32 caractères max.")
+        description=gettext("Attention, pour le badge : fonction + organisation = 32 caractères max."),
+        render_kw={'autocomplete':'organization'}
         )
     fonction = StringField(gettext('Fonction'), validators=[Optional(), Length(min=0, max=40)])
     if app.config['AVEC_ETIQUETTES']:
