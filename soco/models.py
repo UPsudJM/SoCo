@@ -192,13 +192,7 @@ class Evenement(Base):
     @classmethod
     def get_emails_or_uids_organisateurs(self, id_evt):
         evenement = self.query.get(id_evt)
-        ret = []
-        for o in evenement.organisateurs:
-            if o.email:
-                ret.append(o.email)
-            else:
-                ret.append(o.username)
-        return ret
+        return [ o.get_email_or_username() for o in evenements.organisateurs ]
 
     @classmethod
     def modif_attributs(self, evt, **kwargs):
@@ -317,12 +311,6 @@ class Formulaire(Base):
             db_session.commit()
         except:
             raise IntegrityError("Unknown error")
-
-    """@classmethod
-    def get_uid_organisateurs(self, form):
-        f = self.query.get(form)
-        return [ o.username for o in f.evenement.organisateurs ]"""
-
 
 Evenement.formulaire = relationship("Formulaire", order_by=Formulaire.id, back_populates="evenement")
 
@@ -521,8 +509,8 @@ class ModifFormulaire(Resource):
             raise IntegrityError("Unknown error")
         emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(f.evenement.id)
         envoyer_mail_modification_formulaire(emails_or_uids_organisateurs,
-                                                 f.evenement,
-                                                 date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))
+                                             f.evenement,
+                                             date_cloture_inscriptions = f.date_cloture_inscriptions.strftime('%d/%m/%Y'))
         return f.date_cloture_inscriptions.strftime("%d/%m/%Y")
 
 @api.resource('/api/modifevenement/')
@@ -540,8 +528,8 @@ class ModifEvenement(Resource):
             raise ValueError("'%s' is not a valid form id" % args['id'])
         from .emails import envoyer_mail_modification_formulaire
         Evenement.modif_attributs(id_evenement, args)
-        uid_organisateurs = Evenement.get_uid_organisateurs(id_evenement)
-        envoyer_mail_modification_formulaire(uid_organisateurs, **kwargs)
+        emails_or_uids_organisateurs = Evenement.get_emails_or_uids_organisateurs(id_evenement)
+        envoyer_mail_modification_formulaire(emails_or_uids_organisateurs, **kwargs)
 
 @api.resource('/api/inscrenmasse')
 class InscritEnMasse(Resource):

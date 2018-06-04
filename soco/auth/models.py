@@ -81,6 +81,11 @@ class User(Base):
     def get_username(self):
         return self.username
 
+    def get_email_or_username(self):
+        if self.email:
+            return self.email
+        return self.username
+
     def get_gecos(self):
         if self.gecos:
             return self.gecos
