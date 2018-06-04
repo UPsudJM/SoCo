@@ -92,7 +92,7 @@ class User(Base):
         return self.username
 
     def is_ldap_user(self):
-                return self.password == 'ldap'
+        return self.password == 'ldap'
 
     @classmethod
     def get_user(self, username):

@@ -243,12 +243,12 @@ def soco(flform, token=None):
                 print(qrstring)
             else:
                 qrstring = ''
-            return render_template('end.html', evenement=evenement, qrstring=qrstring,
-                                       logofilename=logofilename, lienevt=url)
+            return render_template('end.html', evenement=evenement, logofilename=logofilename,
+                                   qrstring=qrstring, lienevt=url)
     return render_template('flform.html', form=form, formulaire=formulaire, evenement=evenement, speaker=speaker,
-                               intervenant=deja_personne,
-                               logofilename0=logofilename0, logofilename=logofilename, url0=url0, lienevt=url,
-                               current_user=current_user)
+                           intervenant=deja_personne,
+                           logofilename0=logofilename0, logofilename=logofilename, url0=url0, lienevt=url,
+                           current_user=current_user)
 
 
 @app.route('/end')
