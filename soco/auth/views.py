@@ -35,7 +35,6 @@ def load_user(user_id):
         if user:
             user.authenticate()
             g.gecos = user.get_gecos()
-            #print('gecos=', g.gecos)
             return user
     g.gecos = None
     return None
@@ -67,7 +66,8 @@ def login():
         user = User.get_user(username)
 
         auth_ok, auth_db_ok, auth_ldap_ok = False, False, False
-        if user:
+        if user and not user.is_ldap_user():
+            # Avoid database request if not useful
             try:
                 auth_db_ok = User.try_db_login(username, password)
             except:
@@ -91,9 +91,9 @@ def login():
             user_email = None
 
         if not user and auth_ldap_ok:
-           user = User(username, password='ldap', email=user_email)
-           db_session.add(user)
-           db_session.commit()
+            user = User(username, password='ldap', email=user_email)
+            db_session.add(user)
+            db_session.commit()
         user.authenticate()
         login_user(user, remember = rememberme)
         flash(gettext('Identification réussie.'), 'auth success')
