@@ -182,7 +182,8 @@ class Evenement(Base):
 
     def __init__(self, **kwargs):
         Base.__init__(self)
-        for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'recurrence', 'lieu', 'resume', 'gratuite', 'id_entite_organisatrice']:
+        for attrname in ['titre', 'sstitre', 'date', 'date_fin', 'recurrence', 'lieu', 'resume', 'gratuite',
+                         'id_entite_organisatrice', 'organisateurs']:
             if attrname in kwargs.keys():
                 setattr(self, attrname, kwargs[attrname])
 

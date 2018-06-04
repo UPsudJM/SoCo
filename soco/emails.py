@@ -54,6 +54,7 @@ def envoyer_message(subj, src, dest, text_body, html_body):
         mail.send(msg)
     except:
         print("Erreur: impossible d'envoyer le mail")
+        raise(BaseException("Impossible envoyer mail" + str(msg)))
 
 def confirmer_inscription(email, evenement, jours=None):
     if jours:
@@ -82,10 +83,10 @@ def envoyer_code_verification(email):
 
 def envoyer_mail_modification_formulaire(emails, evenement, **kwargs):
     lignes_info = []
-    from .forms import NcollForm
+    from .forms import FormulaireForm
     for k, v in kwargs.items():
         try:
-            libelle = getattr(NcollForm, k).args[0]
+            libelle = getattr(FormulaireForm, k).args[0]
         except:
             libelle = k
         lignes_info.append(lazy_gettext("Nouvelle valeur de {libelle} : {val}").format(libelle=libelle, val=v))
