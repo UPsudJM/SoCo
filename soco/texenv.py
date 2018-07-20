@@ -41,6 +41,7 @@ LATEX_SUBS = (
     (rcompile(r'"'), r"''"),
     (rcompile(r'\.\.\.+'), r'\\ldots'),
     (rcompile(r'³'), r'\\up{3}'),
+    (rcompile(r'É'), r"\'E"),
     )
 
 TPL_ETIQUETTE="\
