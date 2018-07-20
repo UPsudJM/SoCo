@@ -115,7 +115,7 @@ class Lieu(Base):
     __tablename__ = 'lieu'
     __table_args__ = (UniqueConstraint('nom', 'adresse', name='uc_lieu'),)
     id = Column(Integer, primary_key = True)
-    nom = Column(String(20))
+    nom = Column(String(100))
     adresse = Column(String(200))
     capacite = Column(Integer)
 
