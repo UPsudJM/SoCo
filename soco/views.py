@@ -50,6 +50,18 @@ def get_locale():
 def get_current_user_role():
     return current_user.role.name
 
+def get_user_events():
+    try:
+        ids_evenements_autorises_tuples = db_session.execute(
+            "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=id\
+            and id_organisateur=" + current_user.get_id()
+        ).fetchall()
+        ids_evenements_autorises = [ e[0] for e in ids_evenements_autorises_tuples ]
+    except:
+        ids_evenements_autorises = []
+        flash(gettext('Une erreur est survenue dans l\'accès à la liste des événements'),'error')
+    return ids_evenements_autorises
+
 def required_roles(*roles):
     def wrapper(f):
         @wraps(f)
@@ -135,16 +147,16 @@ def soco(flform, token=None):
     logofilename0, logofilename = afflogo(logo0), ""
     if logo:
         logofilename = afflogo(logo)
-    if not speaker:
-        if formulaire.date_ouverture_inscriptions > datetime.date.today():
-            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
-        elif formulaire.date_cloture_inscriptions < datetime.date.today():
-            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
     if speaker:
         form = IntervenantForm(formulaire)
         deja_personne = intervenant.inscription.personne
         inscription = intervenant.inscription
     else:
+        # avant ou après l'heure, ce n'est pas l'heure de s'inscrire. Sauf pour les responsables d'événements
+        if formulaire.date_cloture_inscriptions < datetime.date.today():
+            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
+        elif formulaire.date_ouverture_inscriptions > datetime.date.today()  and not evenement.id in get_user_events():
+            return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
         form = InscriptionForm(formulaire)
         deja_personne = None
         inscription = None
@@ -378,13 +390,7 @@ def suivi_index():
     if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
-        try:
-            ids_evenements_autorises_tuples = db_session.execute(
-            "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=" + current_user.get_id()).fetchall()
-            ids_evenements_autorises = [ e[0] for e in ids_evenements_autorises_tuples ]
-        except:
-            ids_evenements_autorises = []
-            flash(gettext('Une erreur est survenue dans l\'accès à la liste des événements'),'error')
+        ids_evenements_autorises = get_user_events()
         evenements_en_cours = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
         evenements = [ e for e in evenements_en_cours if e.id in ids_evenements_autorises ]
     nb_inscrits = {}
