@@ -22,7 +22,8 @@
       {% if current_user in evenement.organisateurs %}<p>
       {% if current_user.role == 'admin' %}<a href="/admin/formulaire/edit/?url=%2Fadmin%2Fformulaire%2F&amp;id={{ formulaire.id }}">
       {% else %}<a href="{{ url_for('suivi', evt=evenement.id)}}">{% endif %}
-      {{ gettext('Modifier ce formulaire') }}</a></p>{% endif %}
+	{{ gettext('Modifier ce formulaire') }}</a></p>{% endif %}
+      <p class="rgpd">{{ gettext('Protection de vos données à caractère personnel&nbsp;: seules les données strictement nécessaires au service d\'inscription vous sont demandées. Vous pouvez exercer votre droit de communication, de rectification, de restitution, de retrait par simple message électronique à une des adresses mentionnées au bas de cette page. Vos données ne font en aucun cas l\'objet d\'un traitement extérieur au service d\'inscription à des événements de l\'institution. Elles ne sont bien évidemment pas transmises à des tiers. Leur conservation est soigneusement sécurisée, conformément à l\'état de l\'art. Elles sont effacées quelques semaines après l\'événement concerné.') }}</p>
 </div>
 
 <section data-ng-controller="flformCtrl">

@@ -26,6 +26,7 @@ TABLE CAPTION { margin-bottom: 20px; padding: 15px; text-align: center; width: 8
 
 P.lieu, P.dateinscr { font-size: 150%; }
 P.dateinscr { font-style: italic; }
+P.rgpd { font-size: 80%; font-style: italic; }
 FIELDSET {
     margin-left: 20px;
     margin-bottom: 20px;
