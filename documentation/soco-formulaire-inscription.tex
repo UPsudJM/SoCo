@@ -45,7 +45,7 @@ L'utilisateur est invité à remplir un petit nombre de champs : nom, prénom, 
 
 Seuls sont obligatoires : \emph{nom, prénom, organisation.}
 
-En plus de cela, l'organisatrice peut demander d'autres informations, sous la forme de questions supplémentaires auxquelles l'utilisateur est alors invité à répondre (voir plus bas).
+En plus de cela, l'organisateu.rice peut demander d'autres informations, sous la forme de questions supplémentaires auxquelles l'utilisateur est alors invité à répondre (voir plus bas).
 
 \section*{\bleupale{\emph{Composition du badge}}}
 
@@ -62,14 +62,14 @@ Dans l'intérêt d'une visibilité correcte des informations présentes sur le b
 
 L'adresse électronique est vérifiée :
 \begin{itemize}
-  \item Si l'adresse existe déjà dans la base, ce n'est pas forcément un problème. Un message le signale sur la page.
+  \item Si l'adresse existe déjà dans la base (rare), ce n'est pas forcément un problème. Un message le signale sur la page.
   \item S'il s'agit de la même personne, alors le nom et le prénom fournis sur le formulaire doivent a priori correspondre à ce qui se trouve dans la base. Si ce n'est pas le cas, on envoie un message vers l'adresse mail en question, avec un code que l'utilisateur doit reporter dans une case du formulaire afin de se valider comme possesseur de cette adresse.
   \item Si le code fourni est le bon, on continue normalement le processus d'inscription mais le logiciel crée une nouvelle entrée, comme s'il s'agissait d'une nouvelle personne : puisque le nom ou le prénom sont modifiés, et pour éviter tout conflit avec d'éventuelles inscriptions antérieures, sur d'autres manifestations. Ce dispositif peut aussi permettre l'emploi de pseudonymes ou d'une autre présentation du nom ou du prénom, pour les cas de personnes mariées, ou tous autres cas que nous ne prévoyons pas forcément.
   \end{itemize}
 
 \section*{\bleupale{\emph{Champs configurables}}}
 
-Des questions supplémentaires peuvent être posées par les organisatrices : pour distinguer tel ou tel type d'inscription, statut, participation à des cocktails, commande d'actes...
+Des questions supplémentaires peuvent être posées par les organisateu.rices : pour distinguer tel ou tel type d'inscription, statut, participation à des cocktails, commande d'actes...
 
 Ces questions sont alors affichées à la suite des champs précédents.
 
@@ -79,15 +79,16 @@ Le formulaire SoCo tient sur une page unique. La soumission se fait très simple
 
 Les champs sont vérifiés avant soumission définitive, et chaque champ obligatoire s'affiche bordé de rouge s'il n'est pas rempli.
 
-\section*{\bleupale{\emph{Améliorations prévues}}}
+%\section*{\bleupale{\emph{Améliorations prévues}}}
 
-Les améliorations suivantes sont en cours de développement :
+%Les améliorations suivantes sont en cours de développement :
 
-\begin{itemize}
-  \item Affichage d'un ``CAPTCHA'' pour décourager les robots
-  \item Solution d'affichage accessible aux malvoyants
-\end{itemize}
+%\begin{itemize}
+%  \item Affichage d'un ``CAPTCHA'' pour décourager les robots
+%  \item Solution d'affichage accessible aux malvoyants
+%\end{itemize}
 
+\vspace{1cm}
 \fcolorbox{Black}{LightGray}{%
   \minipage[t]{\dimexpr0.9\linewidth-2\fboxsep-2\fboxrule\relax}
   \emph{Le logiciel SoCo a été réalisé, à l'UFR Jean Monnet de l'Université Paris Sud, par Odile Bénassy, responsable du service des systèmes d'information, en collaboration avec les responsables du service de la recherche du service de la communication. Ce logiciel prend la suite d'un autre, réalisé en 2007 par la même personne.}
