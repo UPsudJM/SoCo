@@ -24,6 +24,7 @@ TABLE#onglets A { text-decoration: none; }
 TABLE#onglets A:hover { font-style: italic; background-color: aliceblue; }
 TABLE CAPTION { margin-bottom: 20px; padding: 15px; text-align: center; width: 80%; }
 
+SPAN.titre { font-size: 120%; }
 P.lieu, P.dateinscr { font-size: 150%; }
 P.dateinscr { font-style: italic; }
 P.rgpd { font-size: 80%; font-style: italic; }
@@ -62,6 +63,9 @@ INPUT.ng-valid.ng-touched { background-color: #78FA89; } */
 
 UL.index_events > LI {
     margin: 20px 10px;
+}
+UL.index_forms > LI{
+    margin-top: 5px;
 }
 
 DIV.buttonbar {

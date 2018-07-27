@@ -47,10 +47,13 @@ def get_locale():
     return "fr"
     #return request.accept_languages.best_match(LANGUAGES.keys())
 
+def get_current_user_id():
+    return current_user.id
+
 def get_current_user_role():
     return current_user.role.name
 
-def get_user_events():
+def get_current_user_events():
     try:
         ids_evenements_autorises_tuples = db_session.execute(
             "SELECT id_evenement FROM evenement_organisateur, utilisateur WHERE id_organisateur=id\
@@ -61,6 +64,19 @@ def get_user_events():
         ids_evenements_autorises = []
         flash(gettext('Une erreur est survenue dans l\'accès à la liste des événements'),'error')
     return ids_evenements_autorises
+
+def get_current_user_forms():
+    try:
+        ids_formulaires_autorises_tuples = db_session.execute(
+            "SELECT formulaire.id FROM formulaire, evenement_organisateur, utilisateur \
+            WHERE id_organisateur=utilisateur.id AND id_organisateur=%s \
+            AND formulaire.id_evenement=evenement_organisateur.id_evenement" % get_current_user_id()
+        ).fetchall()
+        ids_formulaires_autorises = [ f[0] for f in ids_formulaires_autorises_tuples ]
+    except:
+        ids_formulaires_autorises = []
+        flash(gettext('Une erreur est survenue dans l\'accès à la liste des formulaires'),'error')
+    return ids_formulaires_autorises
 
 def required_roles(*roles):
     def wrapper(f):
@@ -155,7 +171,7 @@ def soco(flform, token=None):
         # avant ou après l'heure, ce n'est pas l'heure de s'inscrire. Sauf pour les responsables d'événements
         if formulaire.date_cloture_inscriptions < datetime.date.today():
             return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement sont closes !'))
-        elif formulaire.date_ouverture_inscriptions > datetime.date.today()  and not evenement.id in get_user_events():
+        elif formulaire.date_ouverture_inscriptions > datetime.date.today()  and not formulaire.id in get_current_forms():
             return render_template('erreur.html', msg=gettext('Les inscriptions pour cet événement ne sont pas encore ouvertes !'))
         form = InscriptionForm(formulaire)
         deja_personne = None
@@ -308,7 +324,7 @@ def new(formulaire_id=None):
         # Édition d'un formulaire déjà créé
         formulaire = Formulaire.query.get(formulaire_id)
         # Vérifier qu'on a bien les droits
-        if current_user in formulaire.evenement.organisateurs:
+        if int(formulaire_id) in get_current_user_forms():
             form = FormulaireForm(obj=formulaire)
             if formulaire.evenement.lieu:
                 form.evenement.lieu.data = formulaire.evenement.id_lieu
@@ -376,7 +392,10 @@ def new(formulaire_id=None):
             url_formulaire = request.url_root + url_for('soco', flform=formulaire.id)
             url_parts = url_formulaire . split('//') # enlever les '//' internes
             url_formulaire = url_parts[0] + '//' + '/'. join(url_parts[1:])
-            flash(gettext("Votre formulaire a bien été créé."), 'info')
+            if formulaire_id:
+                flash(gettext("Votre formulaire a bien été modifié."), 'info')
+            else:
+                flash(gettext("Votre formulaire a bien été créé."), 'info')
             flash(gettext("Voici son URL : <a href=\"" + url_formulaire + "\">" + url_formulaire + "</a>"), 'url')
             return redirect(url_for('suivi_index'))
     return render_template('new.html', form=form, avec_recurrence=app.config['AVEC_RECURRENCE'], formulaire_id=formulaire_id,
@@ -390,7 +409,7 @@ def suivi_index():
     if current_user.is_admin:
         evenements = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
     else:
-        ids_evenements_autorises = get_user_events()
+        ids_evenements_autorises = get_current_user_events()
         evenements_en_cours = Evenement.query.join("formulaire").filter(Evenement.date > datetime.datetime.now() - datetime.timedelta(days=15))
         evenements = [ e for e in evenements_en_cours if e.id in ids_evenements_autorises ]
     nb_inscrits = {}

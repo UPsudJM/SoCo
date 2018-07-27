@@ -17,7 +17,7 @@
 <div class="entete">
 <table class="titre">
 <tr>{% if logo %}<td><img src="{{ logo }}" /></td>{% endif %}
-    <td><h1>{{ gettext('Créer une nouvelle page d\'inscription') }}</h1></td></tr></table>
+  <td><h1>{% if formulaire_id %}{{ gettext('Modifier une page d\'inscription') }}{% else %}{{ gettext('Créer une nouvelle page d\'inscription') }}{% endif %}</h1></td></tr></table>
 </div>
 
 <hr/>
